@@ -24,6 +24,9 @@
     <Filter Include="Components\Rendering">
       <UniqueIdentifier>{615cfa57-b7ea-49af-a363-9b49c0d83d32}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\HUD">
+      <UniqueIdentifier>{3e8cf7cb-d3d1-44e9-be6d-d755e1d503ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Font.h">
@@ -77,6 +80,9 @@
     <ClInclude Include="Time.h">
       <Filter>Engine Files</Filter>
     </ClInclude>
+    <ClInclude Include="FPSCounter.h">
+      <Filter>Components\HUD</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">
@@ -129,6 +135,9 @@
     </ClCompile>
     <ClCompile Include="Time.cpp">
       <Filter>Engine Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FPSCounter.cpp">
+      <Filter>Components\HUD</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
