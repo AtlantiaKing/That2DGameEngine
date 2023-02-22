@@ -1,6 +1,6 @@
 #include "Component.h"
 
-that::Component::Component(std::weak_ptr<GameObject> pParent)
-	: m_pParent{ pParent }
+void that::Component::SetParent(std::weak_ptr<GameObject> pParent)
 {
+	m_pParent = pParent;
 }

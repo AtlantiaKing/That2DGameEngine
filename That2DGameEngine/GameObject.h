@@ -26,6 +26,7 @@ namespace that
 		std::shared_ptr<T> AddComponent();
 		template <class T>
 		bool RemoveComponent();
+
 	private:
 		std::vector<std::shared_ptr<Component>> m_pComponents{};
 	};
@@ -46,7 +47,9 @@ namespace that
 	template<class T>
 	inline std::shared_ptr<T> GameObject::AddComponent()
 	{
-		auto pComponent{ std::make_shared<T>(shared_from_this()) };
+		auto pComponent{ std::make_shared<T>() };
+
+		pComponent->SetParent(shared_from_this());
 
 		m_pComponents.push_back(pComponent);
 

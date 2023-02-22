@@ -10,7 +10,7 @@ namespace that
 	class Component
 	{
 	public:
-		Component(std::weak_ptr<GameObject> pParent);
+		Component() = default;
 		virtual ~Component() = default;
 
 		Component(const Component& other) = delete;
@@ -21,6 +21,8 @@ namespace that
 		virtual void Update() {};
 		virtual void LateUpdate() {};
 		virtual void FixedUpdate() {};
+
+		void SetParent(std::weak_ptr<GameObject> pParent);
 
 		template <class T>
 		std::shared_ptr<T> GetComponent();

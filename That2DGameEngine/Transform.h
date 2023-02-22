@@ -8,7 +8,7 @@ namespace that
 	class Transform final : public Component
 	{
 	public:
-		Transform(std::weak_ptr<GameObject> pParent);
+		Transform() = default;
 		virtual ~Transform() = default;
 
 		Transform(const Transform& other) = delete;
