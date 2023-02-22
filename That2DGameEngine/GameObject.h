@@ -24,6 +24,8 @@ namespace that
 		std::shared_ptr<T> GetComponent();
 		template <class T>
 		std::shared_ptr<T> AddComponent();
+		template <class T>
+		bool RemoveComponent();
 	private:
 		std::vector<std::shared_ptr<Component>> m_pComponents{};
 	};
@@ -44,6 +46,27 @@ namespace that
 	template<class T>
 	inline std::shared_ptr<T> GameObject::AddComponent()
 	{
-		return std::make_shared<T>(shared_from_this());
+		auto pComponent{ std::make_shared<T>(shared_from_this()) };
+
+		m_pComponents.push_back(pComponent);
+
+		return pComponent;
+	}
+
+	template<class T>
+	inline bool GameObject::RemoveComponent()
+	{
+		for (auto it{ begin(m_pComponents) }; it < end(m_pComponents); ++it)
+		{
+			std::shared_ptr<T> derivedComponent{ std::dynamic_pointer_cast<T>(*it) };
+
+			if (derivedComponent)
+			{
+				m_pComponents.erase(it);
+				return true;
+			};
+		}
+
+		return false;
 	}
 }
