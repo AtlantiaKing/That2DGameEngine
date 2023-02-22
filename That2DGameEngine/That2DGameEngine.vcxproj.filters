@@ -53,6 +53,9 @@
     <ClInclude Include="Singleton.h">
       <Filter>Base Classes</Filter>
     </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Base Classes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">
@@ -90,6 +93,9 @@
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
       <Filter>Engine Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Base Classes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
