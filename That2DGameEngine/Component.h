@@ -25,13 +25,13 @@ namespace that
 		void SetParent(std::weak_ptr<GameObject> pParent);
 
 		template <class T>
-		std::shared_ptr<T> GetComponent();
+		std::shared_ptr<T> GetComponent() const;
 	protected:
 		std::weak_ptr<GameObject> m_pParent{};
 	};
 
 	template<class T>
-	inline std::shared_ptr<T> Component::GetComponent()
+	inline std::shared_ptr<T> Component::GetComponent() const
 	{
 		if (m_pParent.expired()) return nullptr;
 

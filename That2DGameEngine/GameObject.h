@@ -22,7 +22,7 @@ namespace that
 		GameObject& operator=(GameObject&& other) = delete;
 
 		template <class T>
-		std::shared_ptr<T> GetComponent();
+		std::shared_ptr<T> GetComponent() const;
 		template <class T>
 		std::shared_ptr<T> AddComponent();
 		template <class T>
@@ -34,7 +34,7 @@ namespace that
 	};
 
 	template<class T>
-	inline std::shared_ptr<T> GameObject::GetComponent()
+	inline std::shared_ptr<T> GameObject::GetComponent() const
 	{
 		for (const std::shared_ptr<Component>& pComponent : m_pComponents)
 		{
