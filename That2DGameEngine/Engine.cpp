@@ -9,6 +9,8 @@
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
+#include "Time.h"
+#include <iostream>
 
 SDL_Window* g_window{};
 
@@ -65,6 +67,8 @@ that::Engine::Engine(const std::string &dataPath)
 	Renderer::GetInstance().Init(g_window);
 
 	ResourceManager::GetInstance().Init(dataPath);
+
+	Time::GetInstance().Init();
 }
 
 that::Engine::~Engine()
@@ -82,11 +86,13 @@ void that::Engine::Run(const std::function<void()>& load)
 	auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
+	auto& time = Time::GetInstance();
 
 	// todo: this update loop could use some work.
 	bool doContinue = true;
 	while (doContinue)
 	{
+		time.Update();
 		doContinue = input.ProcessInput();
 		sceneManager.Update();
 		renderer.Render();
