@@ -10,7 +10,7 @@ namespace that
 	class TextureRenderer final : public Component
 	{
 	public:
-		TextureRenderer();
+		TextureRenderer() = default;
 		virtual ~TextureRenderer() = default;
 
 		TextureRenderer(const TextureRenderer& other) = delete;
@@ -23,7 +23,6 @@ namespace that
 		void Render() const;
 	private:
 		std::shared_ptr<Texture2D> m_pTexture{};
-		std::weak_ptr<Transform> m_pTransform{};
 	};
 }
 

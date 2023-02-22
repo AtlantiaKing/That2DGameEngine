@@ -71,6 +71,9 @@
     <ClInclude Include="TextureRenderer.h">
       <Filter>Components\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="TextComponent.h">
+      <Filter>Components\Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">
@@ -116,6 +119,9 @@
       <Filter>Components\General</Filter>
     </ClCompile>
     <ClCompile Include="TextureRenderer.cpp">
+      <Filter>Components\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="TextComponent.cpp">
       <Filter>Components\Rendering</Filter>
     </ClCompile>
   </ItemGroup>
