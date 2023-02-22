@@ -30,7 +30,7 @@ namespace that
 	private:
 		void ReloadTexture();
 
-		std::string m_Text{};
+		std::string m_Text{ " " };
 		SDL_Color m_Color{ 255,255,255 };
 		std::shared_ptr<Font> m_pFont{};
 
