@@ -1,8 +1,17 @@
 #include "Transform.h"
 
-void that::Transform::SetPosition(const float x, const float y, const float z)
+that::Transform::Transform(std::weak_ptr<GameObject> pParent)
+	: Component{ pParent }
 {
-	m_position.x = x;
-	m_position.y = y;
-	m_position.z = z;
+}
+
+void that::Transform::SetPosition(float x, float y)
+{
+	m_Position.x = x;
+	m_Position.y = y;
+}
+
+void that::Transform::SetPosition(const glm::vec2 position)
+{
+	m_Position = position;
 }

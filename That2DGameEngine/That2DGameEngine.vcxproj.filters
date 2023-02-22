@@ -15,6 +15,12 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Components">
+      <UniqueIdentifier>{db4903bb-ab26-43a5-9fa3-ed436fe7fb91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\General">
+      <UniqueIdentifier>{704201ec-9c14-46fa-a372-785837ae4459}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Font.h">
@@ -32,7 +38,7 @@
     <ClInclude Include="Texture2D.h">
       <Filter>Seperate Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Transform.h">
+    <ClInclude Include="TransformNoComponent.h">
       <Filter>Seperate Objects</Filter>
     </ClInclude>
     <ClInclude Include="Engine.h">
@@ -56,6 +62,9 @@
     <ClInclude Include="Component.h">
       <Filter>Base Classes</Filter>
     </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Components\General</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">
@@ -73,7 +82,7 @@
     <ClCompile Include="Texture2D.cpp">
       <Filter>Seperate Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Transform.cpp">
+    <ClCompile Include="TransformNoComponent.cpp">
       <Filter>Seperate Objects</Filter>
     </ClCompile>
     <ClCompile Include="Engine.cpp">
@@ -96,6 +105,9 @@
     </ClCompile>
     <ClCompile Include="Component.cpp">
       <Filter>Base Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Components\General</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
