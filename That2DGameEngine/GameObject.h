@@ -4,6 +4,7 @@
 
 namespace that
 {
+	class TextureRenderer;
 	class Component;
 
 	class GameObject final : public std::enable_shared_from_this<GameObject>
@@ -29,6 +30,7 @@ namespace that
 
 	private:
 		std::vector<std::shared_ptr<Component>> m_pComponents{};
+		std::vector<std::shared_ptr<TextureRenderer>> m_pRenderComponents{};
 	};
 
 	template<class T>
@@ -51,6 +53,13 @@ namespace that
 
 		pComponent->SetParent(shared_from_this());
 
+		std::shared_ptr<TextureRenderer> pAsRenderComponent{ std::dynamic_pointer_cast<TextureRenderer>(pComponent) };
+
+		if (pAsRenderComponent)
+		{
+			m_pRenderComponents.push_back(pAsRenderComponent);
+		}
+
 		m_pComponents.push_back(pComponent);
 
 		return pComponent;
@@ -65,6 +74,17 @@ namespace that
 
 			if (derivedComponent)
 			{
+				std::shared_ptr<TextureRenderer> pAsRenderComponent{ std::dynamic_pointer_cast<TextureRenderer>(derivedComponent) };
+
+				for (auto renderIt{ begin(m_pRenderComponents) }; renderIt < end(m_pRenderComponents); ++renderIt)
+				{
+					if (renderIt->get() == pAsRenderComponent.get())
+					{
+						m_pRenderComponents.erase(renderIt);
+						break;
+					}
+				}
+
 				m_pComponents.erase(it);
 				return true;
 			};
