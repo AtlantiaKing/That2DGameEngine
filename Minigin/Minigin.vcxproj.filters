@@ -1,93 +1,95 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
+    <Filter Include="Engine Files">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Managers">
+      <UniqueIdentifier>{2954f93b-7721-4109-9956-064d48611ec9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base Classes">
+      <UniqueIdentifier>{b27f3422-a2f2-4d61-bc58-f9ee3d4de78c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Seperate Objects">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Singleton.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture2D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InputManager.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Font.h">
+      <Filter>Seperate Objects</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>Header Files</Filter>
+      <Filter>Seperate Objects</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneManager.h">
-      <Filter>Header Files</Filter>
+      <Filter>Seperate Objects</Filter>
     </ClInclude>
     <ClInclude Include="TextObject.h">
-      <Filter>Header Files</Filter>
+      <Filter>Seperate Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Font.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Texture2D.h">
+      <Filter>Seperate Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Seperate Objects</Filter>
     </ClInclude>
     <ClInclude Include="Engine.h">
-      <Filter>Header Files</Filter>
+      <Filter>Engine Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Engine Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>Base Classes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ResourceManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture2D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="InputManager.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Font.cpp">
+      <Filter>Seperate Objects</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Transform.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Seperate Objects</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Seperate Objects</Filter>
     </ClCompile>
     <ClCompile Include="TextObject.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Seperate Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Font.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Texture2D.cpp">
+      <Filter>Seperate Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Seperate Objects</Filter>
     </ClCompile>
     <ClCompile Include="Engine.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Engine Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Engine Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Engine Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
