@@ -19,6 +19,7 @@ namespace that
 		const glm::vec2& GetPosition() const { return m_Position; }
 		void SetPosition(float x, float y);
 		void SetPosition(const glm::vec2 position);
+		void Translate(float x, float y);
 	private:
 		glm::vec2 m_Position{};
 	};
