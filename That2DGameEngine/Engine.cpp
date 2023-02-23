@@ -10,7 +10,6 @@
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include "Time.h"
-#include <iostream>
 
 SDL_Window* g_window{};
 

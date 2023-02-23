@@ -47,8 +47,13 @@ void that::TextComponent::SetColor(int r, int g, int b, int a)
 
 void that::TextComponent::ReloadTexture()
 {
+	// If no font has been assigned, do nothing
+	// TODO: Log a warning that no font is assigned to this TextComponent
 	if (!m_pFont) return;
 
+	// If no texture renderer is assigned, try getting a texture renderer from the parent
+	//	If no texture renderer is found on the parent, do nothing
+	// TODO: Log a warning that no TextureRenderer is assigned to this TextComponent
 	if (m_pTextureRenderer.expired())
 	{
 		m_pTextureRenderer = GetComponent<TextureRenderer>();
@@ -56,18 +61,19 @@ void that::TextComponent::ReloadTexture()
 		if (m_pTextureRenderer.expired()) return;
 	};
 
-	auto pTextureRenderer{ m_pTextureRenderer.lock() };
-
+	// Create a texture using the current font, text and color
 	const auto surf = TTF_RenderText_Blended(m_pFont->GetFont(), m_Text.c_str(), m_Color);
 	if (surf == nullptr)
 	{
 		throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
 	}
-	auto texture = SDL_CreateTextureFromSurface(Renderer::GetInstance().GetSDLRenderer(), surf);
+	const auto texture = SDL_CreateTextureFromSurface(Renderer::GetInstance().GetSDLRenderer(), surf);
 	if (texture == nullptr)
 	{
 		throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
 	}
 	SDL_FreeSurface(surf);
-	pTextureRenderer->SetTexture(std::make_shared<Texture2D>(texture));
+
+	// Set the new texture to the texture renderer
+	m_pTextureRenderer.lock()->SetTexture(std::make_shared<Texture2D>(texture));
 }

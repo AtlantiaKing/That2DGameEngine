@@ -38,13 +38,7 @@
     <ClInclude Include="Scene.h">
       <Filter>Seperate Objects</Filter>
     </ClInclude>
-    <ClInclude Include="TextObject.h">
-      <Filter>Seperate Objects</Filter>
-    </ClInclude>
     <ClInclude Include="Texture2D.h">
-      <Filter>Seperate Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="TransformNoComponent.h">
       <Filter>Seperate Objects</Filter>
     </ClInclude>
     <ClInclude Include="Engine.h">
@@ -94,13 +88,7 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Seperate Objects</Filter>
     </ClCompile>
-    <ClCompile Include="TextObject.cpp">
-      <Filter>Seperate Objects</Filter>
-    </ClCompile>
     <ClCompile Include="Texture2D.cpp">
-      <Filter>Seperate Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="TransformNoComponent.cpp">
       <Filter>Seperate Objects</Filter>
     </ClCompile>
     <ClCompile Include="Engine.cpp">

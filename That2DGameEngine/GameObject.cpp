@@ -6,6 +6,7 @@ that::GameObject::~GameObject() = default;
 
 void that::GameObject::Update()
 {
+	// Update every component
 	for (const auto& pComponent : m_pComponents)
 	{
 		pComponent->Update();
@@ -13,6 +14,7 @@ void that::GameObject::Update()
 
 	// TODO: call FixedUpdate
 
+	// LateUpdate every component
 	for (const auto& pComponent : m_pComponents)
 	{
 		pComponent->LateUpdate();
@@ -21,7 +23,8 @@ void that::GameObject::Update()
 
 void that::GameObject::Render() const 
 {
-	for(const auto & pRenderComponent : m_pRenderComponents)
+	// Render every render component
+	for(const auto& pRenderComponent : m_pRenderComponents)
 	{
 		pRenderComponent->Render();
 	}

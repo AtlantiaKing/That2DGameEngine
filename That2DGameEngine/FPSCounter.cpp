@@ -4,6 +4,9 @@
 
 void that::FPSCounter::Update()
 {
+	// If no text component is assigned, try getting a text component from the parent
+	//	If no text component is found on the parent, do nothing
+	// TODO: Log a warning that no TextComponent is assigned to this FPSCounter
 	if (m_pText.expired())
 	{
 		m_pText = GetComponent<TextComponent>();
@@ -11,10 +14,9 @@ void that::FPSCounter::Update()
 		if (m_pText.expired()) return;
 	};
 
-	auto pText{ m_pText.lock() };
-
 	const float elapsedTime{ Time::GetInstance().GetElapsed() };
 
+	// Every updateInterval, update the text to the FPS on this frame
 	m_AccuSec += elapsedTime;
 	if (m_AccuSec >= m_UpdateInverval)
 	{
@@ -25,6 +27,6 @@ void that::FPSCounter::Update()
 		fpsText << static_cast<int>(1.0f / Time::GetInstance().GetElapsed());
 		fpsText << " FPS";
 
-		pText->SetText(fpsText.str());
+		m_pText.lock()->SetText(fpsText.str());
 	}
 }
