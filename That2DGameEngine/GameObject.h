@@ -27,6 +27,8 @@ namespace that
 		std::shared_ptr<T> AddComponent();
 		template <class T>
 		bool RemoveComponent();
+		template <class T>
+		bool HasComponent() const;
 
 	private:
 		std::vector<std::shared_ptr<Component>> m_pComponents{};
@@ -102,6 +104,23 @@ namespace that
 		}
 
 		// Return that a component of type T has not been removed
+		return false;
+	}
+
+	template<class T>
+	inline bool GameObject::HasComponent() const
+	{
+		// For each component on this gameobject
+		for (const auto& pComponent : m_pComponents)
+		{
+			// Try casting the current component to T
+			std::shared_ptr<T> derivedComponent{ std::dynamic_pointer_cast<T>(pComponent) };
+
+			// If the cast succeeds, return true
+			if (derivedComponent) return true;
+		}
+
+		// Return that this gameobject does not have a component of type T
 		return false;
 	}
 }
