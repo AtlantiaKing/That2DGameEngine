@@ -8,6 +8,7 @@ namespace that
 	{
 		friend Scene& SceneManager::CreateScene(const std::string& name);
 	public:
+		std::shared_ptr<GameObject> CreateGameObject();
 		void Add(std::shared_ptr<GameObject> object);
 		void Remove(std::shared_ptr<GameObject> object);
 		void RemoveAll();
