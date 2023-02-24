@@ -20,6 +20,7 @@ namespace that
 		GameObject& operator=(GameObject&& other) = delete;
 
 		void Update();
+		void UpdateCleanup();
 		void Render() const;
 
 		template <class T>
@@ -34,6 +35,8 @@ namespace that
 	private:
 		std::vector<std::shared_ptr<Component>> m_pComponents{};
 		std::vector<std::shared_ptr<TextureRenderer>> m_pRenderComponents{};
+
+		void Destroy(std::shared_ptr<Component> pComponent);
 	};
 
 	template<class T>
@@ -84,26 +87,16 @@ namespace that
 		// For each component on this gameobject
 		for (auto it{ begin(m_pComponents) }; it < end(m_pComponents); ++it)
 		{
+			auto pComponent{ *it };
+
 			// Try casting the current component to T
-			std::shared_ptr<T> derivedComponent{ std::dynamic_pointer_cast<T>(*it) };
+			std::shared_ptr<T> derivedComponent{ std::dynamic_pointer_cast<T>(pComponent) };
 
 			// If this cast failed, continue to the next component
 			if (!derivedComponent) continue;
 			
-			// Try casting the component to a render component
-			//	If this succeeds, find this component in the container of render components and remove it from the container
-			std::shared_ptr<TextureRenderer> pAsRenderComponent{ std::dynamic_pointer_cast<TextureRenderer>(derivedComponent) };
-			for (auto renderIt{ begin(m_pRenderComponents) }; renderIt < end(m_pRenderComponents); ++renderIt)
-			{
-				if (renderIt->get() == pAsRenderComponent.get())
-				{
-					m_pRenderComponents.erase(renderIt);
-					break;
-				}
-			}
-
-			// Remove this component from the container
-			m_pComponents.erase(it);
+			// Mark the component as dead
+			Destroy(pComponent);
 
 			// Return that the component of type T has been removed
 			return true;

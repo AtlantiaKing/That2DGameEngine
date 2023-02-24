@@ -39,6 +39,11 @@ void Scene::Update()
 	{
 		object->Update();
 	}
+
+	for (auto& object : m_objects)
+	{
+		object->UpdateCleanup();
+	}
 }
 
 void Scene::Render() const

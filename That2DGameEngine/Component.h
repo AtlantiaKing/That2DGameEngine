@@ -20,15 +20,20 @@ namespace that
 		virtual void LateUpdate() {};
 		virtual void FixedUpdate() {};
 
+		void Destroy();
+
 		template <class T>
 		friend std::shared_ptr<T> GameObject::AddComponent();
 
 		template <class T>
 		std::shared_ptr<T> GetComponent() const;
+		bool IsMarkedAsDead() const { return m_IsMarkedDead; };
 	protected:
 		std::weak_ptr<GameObject> m_pParent{};
 	private:
 		void SetParent(std::weak_ptr<GameObject> pParent);
+
+		bool m_IsMarkedDead{};
 	};
 
 	template<class T>
