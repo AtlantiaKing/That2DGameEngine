@@ -40,6 +40,13 @@ void Scene::Update()
 		object->Update();
 	}
 
+	// TODO: Add FixedUpdate
+
+	for (auto& object : m_objects)
+	{
+		object->LateUpdate();
+	}
+
 	for (auto& object : m_objects)
 	{
 		object->UpdateCleanup();

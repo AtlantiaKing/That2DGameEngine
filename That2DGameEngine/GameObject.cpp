@@ -11,9 +11,10 @@ void that::GameObject::Update()
 	{
 		pComponent->Update();
 	}
+}
 
-	// TODO: call FixedUpdate
-
+void that::GameObject::LateUpdate()
+{
 	// LateUpdate every component
 	for (const auto& pComponent : m_pComponents)
 	{

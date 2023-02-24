@@ -20,6 +20,7 @@ namespace that
 		GameObject& operator=(GameObject&& other) = delete;
 
 		void Update();
+		void LateUpdate();
 		void UpdateCleanup();
 		void Render() const;
 
