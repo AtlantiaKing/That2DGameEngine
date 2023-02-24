@@ -39,6 +39,7 @@ namespace that
 	template<class T>
 	inline std::shared_ptr<T> GameObject::GetComponent() const
 	{
+		static_assert(std::is_base_of<Component, T>(), "T needs to be derived from the Component class");
 		
 		for (const std::shared_ptr<Component>& pComponent : m_pComponents)
 		{
@@ -53,11 +54,13 @@ namespace that
 	template<class T>
 	inline std::shared_ptr<T> GameObject::AddComponent()
 	{
+		static_assert(std::is_base_of<Component, T>(), "T needs to be derived from the Component class");
+
 		// Create a new component
 		auto pComponent{ std::make_shared<T>() };
 
 		// Set the current gameObject as its parent
-		pComponent->SetParent(shared_from_this());
+		pComponent->SetParent(weak_from_this());
 
 		// Try casting the new component to a RenderComponent, if this succeeds, add this component to the container of render components
 		std::shared_ptr<TextureRenderer> pAsRenderComponent{ std::dynamic_pointer_cast<TextureRenderer>(pComponent) };
@@ -76,6 +79,8 @@ namespace that
 	template<class T>
 	inline bool GameObject::RemoveComponent()
 	{
+		static_assert(std::is_base_of<Component, T>(), "T needs to be derived from the Component class");
+
 		// For each component on this gameobject
 		for (auto it{ begin(m_pComponents) }; it < end(m_pComponents); ++it)
 		{
@@ -111,6 +116,8 @@ namespace that
 	template<class T>
 	inline bool GameObject::HasComponent() const
 	{
+		static_assert(std::is_base_of<Component, T>(), "T needs to be derived from the Component class");
+
 		// For each component on this gameobject
 		for (const auto& pComponent : m_pComponents)
 		{

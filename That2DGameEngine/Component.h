@@ -34,6 +34,8 @@ namespace that
 	template<class T>
 	inline std::shared_ptr<T> Component::GetComponent() const
 	{
+		static_assert(std::is_base_of<Component, T>(), "T needs to be derived from the Component class");
+
 		if (m_pParent.expired()) return nullptr;
 
 		return m_pParent.lock()->GetComponent<T>();
