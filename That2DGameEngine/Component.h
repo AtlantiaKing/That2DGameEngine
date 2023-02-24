@@ -1,12 +1,10 @@
 #pragma once
 
-#include <memory>
 #include "GameObject.h"
+#include <memory>
 
 namespace that
 {
-	class GameObject;
-
 	class Component
 	{
 	public:
@@ -22,12 +20,15 @@ namespace that
 		virtual void LateUpdate() {};
 		virtual void FixedUpdate() {};
 
-		void SetParent(std::weak_ptr<GameObject> pParent);
+		template <class T>
+		friend std::shared_ptr<T> GameObject::AddComponent();
 
 		template <class T>
 		std::shared_ptr<T> GetComponent() const;
 	protected:
 		std::weak_ptr<GameObject> m_pParent{};
+	private:
+		void SetParent(std::weak_ptr<GameObject> pParent);
 	};
 
 	template<class T>
