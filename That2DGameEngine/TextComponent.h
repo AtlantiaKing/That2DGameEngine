@@ -27,12 +27,16 @@ namespace that
 		void SetColor(const SDL_Color& color);
 		void SetColor(int r, int g, int b);
 		void SetColor(int r, int g, int b, int a);
+
+		virtual void Update() override;
 	private:
-		void ReloadTexture();
+		bool ReloadTexture();
 
 		std::string m_Text{ " " };
 		SDL_Color m_Color{ 255,255,255 };
 		std::shared_ptr<Font> m_pFont{};
+
+		bool m_HasChanged{};
 
 		std::weak_ptr<TextureRenderer> m_pTextureRenderer{};
 	};

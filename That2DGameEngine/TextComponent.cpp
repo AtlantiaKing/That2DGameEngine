@@ -7,19 +7,19 @@
 void that::TextComponent::SetFont(std::shared_ptr<Font> pFont)
 {
 	m_pFont = pFont;
-	ReloadTexture();
+	m_HasChanged = true;
 }
 
 void that::TextComponent::SetText(const std::string& text)
 {
 	m_Text = text;
-	ReloadTexture();
+	m_HasChanged = true;
 }
 
 void that::TextComponent::SetColor(const SDL_Color& color)
 {
 	m_Color = color;
-	ReloadTexture();
+	m_HasChanged = true;
 }
 
 void that::TextComponent::SetColor(int r, int g, int b)
@@ -30,7 +30,7 @@ void that::TextComponent::SetColor(int r, int g, int b)
 		static_cast<unsigned char>(g),
 		static_cast<unsigned char>(b) 
 	};
-	ReloadTexture();
+	m_HasChanged = true;
 }
 
 void that::TextComponent::SetColor(int r, int g, int b, int a)
@@ -42,14 +42,27 @@ void that::TextComponent::SetColor(int r, int g, int b, int a)
 		static_cast<unsigned char>(b),
 		static_cast<unsigned char>(a) 
 	};
-	ReloadTexture();
+	m_HasChanged = true;
 }
 
-void that::TextComponent::ReloadTexture()
+void that::TextComponent::Update()
+{
+	// If the texture should not be reloaded, do nothing
+	if (!m_HasChanged) return;
+
+	// Try to reload the texture and get the result of the function
+	bool reloadSucces{ ReloadTexture() };
+
+	// If the reload was not a succes, try again next frame
+	// If the reload succeeded, set hasChanged to false
+	m_HasChanged = !reloadSucces;
+}
+
+bool that::TextComponent::ReloadTexture()
 {
 	// If no font has been assigned, do nothing
 	// TODO: Log a warning that no font is assigned to this TextComponent
-	if (!m_pFont) return;
+	if (!m_pFont) return true;
 
 	// If no texture renderer is assigned, try getting a texture renderer from the parent
 	//	If no texture renderer is found on the parent, do nothing
@@ -58,7 +71,7 @@ void that::TextComponent::ReloadTexture()
 	{
 		m_pTextureRenderer = GetComponent<TextureRenderer>();
 
-		if (m_pTextureRenderer.expired()) return;
+		if (m_pTextureRenderer.expired()) return false;
 	};
 
 	// Create a texture using the current font, text and color
@@ -76,4 +89,7 @@ void that::TextComponent::ReloadTexture()
 
 	// Set the new texture to the texture renderer
 	m_pTextureRenderer.lock()->SetTexture(std::make_shared<Texture2D>(texture));
+
+	// Return ReloadTexture succeeded
+	return true;
 }
