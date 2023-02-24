@@ -44,6 +44,11 @@ void that::GameObject::Render() const
 	}
 }
 
+void that::GameObject::Destroy()
+{
+	m_IsMarkedDead = true;
+}
+
 void that::GameObject::Destroy(std::shared_ptr<Component> pComponent)
 {
 	// Mark the component as dead

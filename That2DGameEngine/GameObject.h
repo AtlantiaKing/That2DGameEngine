@@ -24,6 +24,9 @@ namespace that
 		void UpdateCleanup();
 		void Render() const;
 
+		void Destroy();
+		bool IsMarkedAsDead() const { return m_IsMarkedDead; };
+
 		template <class T>
 		std::shared_ptr<T> GetComponent() const;
 		template <class T>
@@ -38,6 +41,8 @@ namespace that
 		std::vector<std::shared_ptr<TextureRenderer>> m_pRenderComponents{};
 
 		void Destroy(std::shared_ptr<Component> pComponent);
+
+		bool m_IsMarkedDead{};
 	};
 
 	template<class T>

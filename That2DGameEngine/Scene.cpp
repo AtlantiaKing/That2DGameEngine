@@ -25,7 +25,7 @@ void Scene::Add(std::shared_ptr<GameObject> object)
 
 void Scene::Remove(std::shared_ptr<GameObject> object)
 {
-	m_objects.erase(std::remove(m_objects.begin(), m_objects.end(), object), m_objects.end());
+	object->Destroy();
 }
 
 void Scene::RemoveAll()
@@ -47,10 +47,17 @@ void Scene::Update()
 		object->LateUpdate();
 	}
 
+	// Remove all components that are marked as dead
 	for (auto& object : m_objects)
 	{
 		object->UpdateCleanup();
 	}
+
+	// Remove gameobjects from their container if they are marked as dead
+	m_objects.erase(std::remove_if(begin(m_objects), end(m_objects), [](auto pGameObject)
+		{
+			return pGameObject->IsMarkedAsDead();
+		}), end(m_objects));
 }
 
 void Scene::Render() const
