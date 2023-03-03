@@ -13,6 +13,6 @@ void that::TextureRenderer::Render() const
 	if (!m_pTexture) return;
 
 	// Render the current texture at the position defined by the transform
-	const glm::vec2& pos = GetTransform()->GetPosition();
+	const glm::vec2& pos = GetTransform()->GetWorldPosition();
 	Renderer::GetInstance().RenderTexture(*m_pTexture, pos.x, pos.y);
 }
