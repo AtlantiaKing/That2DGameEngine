@@ -24,6 +24,8 @@ namespace that
 		void UpdateCleanup();
 		void Render() const;
 
+		void SetParent(std::shared_ptr<GameObject> pParent);
+
 		void Destroy();
 		bool IsMarkedAsDead() const { return m_IsMarkedDead; };
 
@@ -37,6 +39,9 @@ namespace that
 		bool HasComponent() const;
 
 	private:
+		std::weak_ptr<GameObject> m_pParent{};
+		std::vector<std::weak_ptr<GameObject>> m_pChildren{};
+
 		std::vector<std::shared_ptr<Component>> m_pComponents{};
 		std::vector<std::shared_ptr<TextureRenderer>> m_pRenderComponents{};
 
