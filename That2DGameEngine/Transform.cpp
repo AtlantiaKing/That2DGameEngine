@@ -16,7 +16,7 @@ const glm::vec2& that::Transform::GetWorldPosition()
 
 void that::Transform::UpdateWorldPosition()
 {
-	const auto pParent{ GetParent() };
+	const auto pParent{ GetParent()->GetParent() };
 
 	// If no parent exist, use the local position as world position
 	if (!pParent)
