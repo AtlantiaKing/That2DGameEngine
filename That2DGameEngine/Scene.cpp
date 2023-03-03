@@ -11,7 +11,7 @@ Scene::~Scene() = default;
 
 std::shared_ptr<GameObject> that::Scene::CreateGameObject()
 {
-	auto pGameObject{ std::make_shared<GameObject>() };
+	const auto pGameObject{ std::make_shared<GameObject>() };
 	pGameObject->Init();
 
 	m_objects.push_back(pGameObject);

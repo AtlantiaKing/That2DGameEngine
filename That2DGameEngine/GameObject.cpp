@@ -54,7 +54,7 @@ void that::GameObject::SetParent(std::shared_ptr<GameObject> pParent)
 	// If this GO has a parent
 	if (!m_pParent.expired())
 	{
-		auto pOldParent{ m_pParent.lock() };
+		const auto pOldParent{ m_pParent.lock() };
 
 		// If the newly assigned parent is the same as the current parent, do nothing
 		if (pOldParent == pParent) return;

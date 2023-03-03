@@ -78,7 +78,7 @@ namespace that
 		static_assert(std::is_base_of<Component, T>(), "T needs to be derived from the Component class");
 
 		// Create a new component
-		auto pComponent{ std::make_shared<T>() };
+		const auto pComponent{ std::make_shared<T>() };
 
 		// Set the current gameObject as its parent
 		pComponent->SetParent(weak_from_this());
@@ -105,7 +105,7 @@ namespace that
 		// For each component on this gameobject
 		for (auto it{ begin(m_pComponents) }; it < end(m_pComponents); ++it)
 		{
-			auto pComponent{ *it };
+			const auto pComponent{ *it };
 
 			// Try casting the current component to T
 			std::shared_ptr<T> derivedComponent{ std::dynamic_pointer_cast<T>(pComponent) };
