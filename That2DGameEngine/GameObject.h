@@ -81,7 +81,7 @@ namespace that
 		const auto pComponent{ std::make_shared<T>() };
 
 		// Set the current gameObject as its parent
-		pComponent->SetParent(weak_from_this());
+		pComponent->SetOwner(weak_from_this());
 
 		// Try casting the new component to a RenderComponent, if this succeeds, add this component to the container of render components
 		std::shared_ptr<TextureRenderer> pAsRenderComponent{ std::dynamic_pointer_cast<TextureRenderer>(pComponent) };

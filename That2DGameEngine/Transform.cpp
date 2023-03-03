@@ -16,7 +16,7 @@ const glm::vec2& that::Transform::GetWorldPosition()
 
 void that::Transform::UpdateWorldPosition()
 {
-	const auto pParent{ GetParent()->GetParent() };
+	const auto pParent{ GetOwner()->GetParent() };
 
 	// If no parent exist, use the local position as world position
 	if (!pParent)
@@ -78,7 +78,7 @@ void that::Transform::EnableChangedFlag()
 	m_HasChanged = true;
 
 	// If no parent exists, stop here
-	const auto pParent{ GetParent() };
+	const auto pParent{ GetOwner() };
 	if (!pParent) return;
 
 	// Change the HasChanged flag of every child

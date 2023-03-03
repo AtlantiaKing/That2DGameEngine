@@ -30,13 +30,13 @@ namespace that
 		template <class T>
 		std::shared_ptr<T> GetComponent() const;
 		std::shared_ptr<Transform> GetTransform() const;
-		std::shared_ptr<GameObject> GetParent() const;
+		std::shared_ptr<GameObject> GetOwner() const;
 
 		bool IsMarkedAsDead() const { return m_IsMarkedDead; };
 	private:
-		void SetParent(std::weak_ptr<GameObject> pParent);
+		void SetOwner(std::weak_ptr<GameObject> pParent);
 
-		std::weak_ptr<GameObject> m_pParent{};
+		std::weak_ptr<GameObject> m_pOwner{};
 		bool m_IsMarkedDead{};
 	};
 
@@ -45,9 +45,9 @@ namespace that
 	{
 		static_assert(std::is_base_of<Component, T>(), "T needs to be derived from the Component class");
 
-		if (m_pParent.expired()) return nullptr;
+		if (m_pOwner.expired()) return nullptr;
 
-		return m_pParent.lock()->GetComponent<T>();
+		return m_pOwner.lock()->GetComponent<T>();
 	}
 }
 
