@@ -27,6 +27,9 @@ namespace that
 		void Render() const;
 
 		void SetParent(std::shared_ptr<GameObject> pParent);
+		std::shared_ptr<GameObject> GetParent() const;
+		std::shared_ptr<GameObject> GetChild(int index) const;
+		const std::vector<std::weak_ptr<GameObject>>& GetChildren() const { return m_pChildren; };
 
 		void Destroy();
 		bool IsMarkedAsDead() const { return m_IsMarkedDead; };

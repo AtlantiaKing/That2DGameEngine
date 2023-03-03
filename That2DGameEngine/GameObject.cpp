@@ -82,6 +82,24 @@ void that::GameObject::SetParent(std::shared_ptr<GameObject> pParent)
 	// TODO: Update transform
 }
 
+std::shared_ptr<that::GameObject> that::GameObject::GetParent() const
+{
+	if (m_pParent.expired()) return nullptr;
+
+	return m_pParent.lock();
+}
+
+std::shared_ptr<that::GameObject> that::GameObject::GetChild(int index) const
+{
+	if (index >= m_pChildren.size()) return nullptr;
+
+	const auto pChild{ m_pChildren[index] };
+
+	if (pChild.expired()) return nullptr;
+
+	return pChild.lock();
+}
+
 void that::GameObject::Destroy()
 {
 	m_IsMarkedDead = true;
