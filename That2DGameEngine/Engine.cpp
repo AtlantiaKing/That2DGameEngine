@@ -87,13 +87,21 @@ void that::Engine::Run(const std::function<void()>& load)
 	auto& input = InputManager::GetInstance();
 	auto& time = Time::GetInstance();
 
-	// todo: this update loop could use some work.
+	constexpr int desiredFPS{ 60 };
+	constexpr float desiredFrameTime{ 1000.0f / desiredFPS };
+
 	bool doContinue = true;
 	while (doContinue)
 	{
+		const auto frameStart{ std::chrono::high_resolution_clock::now() };
+
 		time.Update();
 		doContinue = input.ProcessInput();
 		sceneManager.Update();
 		renderer.Render();
+
+		const auto frameTime{ std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - frameStart).count() };
+		const auto sleepTime{ desiredFrameTime - frameTime };
+		std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(sleepTime)));
 	}
 }
