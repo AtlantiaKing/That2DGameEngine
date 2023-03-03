@@ -7,6 +7,7 @@ namespace that
 {
 	class TextureRenderer;
 	class Component;
+	class Transform;
 
 	class GameObject final : public std::enable_shared_from_this<GameObject>
 	{
@@ -19,6 +20,7 @@ namespace that
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
 
+		void Init();
 		void Update();
 		void LateUpdate();
 		void UpdateCleanup();
@@ -37,11 +39,13 @@ namespace that
 		bool RemoveComponent();
 		template <class T>
 		bool HasComponent() const;
+		std::shared_ptr<Transform> GetTransform() const { return m_pTransform; };
 
 	private:
 		std::weak_ptr<GameObject> m_pParent{};
 		std::vector<std::weak_ptr<GameObject>> m_pChildren{};
 
+		std::shared_ptr<Transform> m_pTransform{};
 		std::vector<std::shared_ptr<Component>> m_pComponents{};
 		std::vector<std::shared_ptr<TextureRenderer>> m_pRenderComponents{};
 

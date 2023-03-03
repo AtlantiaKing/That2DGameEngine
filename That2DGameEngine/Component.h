@@ -5,6 +5,8 @@
 
 namespace that
 {
+	class Transform;
+
 	class Component
 	{
 	public:
@@ -27,6 +29,8 @@ namespace that
 
 		template <class T>
 		std::shared_ptr<T> GetComponent() const;
+		std::shared_ptr<Transform> GetTransform() const;
+
 		bool IsMarkedAsDead() const { return m_IsMarkedDead; };
 	protected:
 		std::weak_ptr<GameObject> m_pParent{};

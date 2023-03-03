@@ -1,8 +1,14 @@
 #include <string>
 #include "GameObject.h"
+#include "Transform.h"
 #include "TextureRenderer.h"
 
 that::GameObject::~GameObject() = default;
+
+void that::GameObject::Init()
+{
+	m_pTransform = AddComponent<Transform>();
+}
 
 void that::GameObject::Update()
 {
