@@ -60,14 +60,14 @@ void that::GameObject::SetParent(std::shared_ptr<GameObject> pParent)
 		if (pOldParent == pParent) return;
 
 		// Remove itself from the children list of the previous parent
-		for (int i{ static_cast<int>(pParent->m_pChildren.size() - 1) }; i >= 0; --i)
+		for (int i{ static_cast<int>(pOldParent->m_pChildren.size() - 1) }; i >= 0; --i)
 		{
-			auto pChild{ pParent->m_pChildren[i].lock() };
+			const auto pChild{ pOldParent->m_pChildren[i].lock() };
 
 			if (pChild.get() == this)
 			{
-				pParent->m_pChildren[i] = pParent->m_pChildren[pParent->m_pChildren.size() - 1];
-				pParent->m_pChildren.pop_back();
+				pOldParent->m_pChildren[i] = pOldParent->m_pChildren[pOldParent->m_pChildren.size() - 1];
+				pOldParent->m_pChildren.pop_back();
 				break;
 			}
 		}
