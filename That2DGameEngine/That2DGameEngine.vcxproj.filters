@@ -27,6 +27,9 @@
     <Filter Include="Components\HUD">
       <UniqueIdentifier>{3e8cf7cb-d3d1-44e9-be6d-d755e1d503ad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\Other">
+      <UniqueIdentifier>{2c4a94d6-bb3e-4a1c-b9e7-31d0d4dc0e09}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Font.h">
@@ -77,6 +80,9 @@
     <ClInclude Include="FPSCounter.h">
       <Filter>Components\HUD</Filter>
     </ClInclude>
+    <ClInclude Include="RotatorComponent.h">
+      <Filter>Components\Other</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">
@@ -126,6 +132,9 @@
     </ClCompile>
     <ClCompile Include="FPSCounter.cpp">
       <Filter>Components\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="RotatorComponent.cpp">
+      <Filter>Components\Other</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
