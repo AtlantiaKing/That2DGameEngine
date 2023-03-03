@@ -16,12 +16,21 @@ namespace that
 		Transform& operator=(const Transform& other) = delete;
 		Transform& operator=(Transform&& other) = delete;
 
-		const glm::vec2& GetPosition() const { return m_Position; }
-		void SetPosition(float x, float y);
-		void SetPosition(const glm::vec2& position);
+		const glm::vec2& GetLocalPosition() const { return m_LocalPosition; }
+		const glm::vec2& GetWorldPosition();
+		void SetLocalPosition(float x, float y);
+		void SetLocalPosition(const glm::vec2& position);
+		void SetWorldPosition(float x, float y);
+		void SetWorldPosition(const glm::vec2& position);
 		void Translate(float x, float y);
 	private:
-		glm::vec2 m_Position{};
+		void EnableChangedFlag();
+		void UpdateWorldPosition();
+
+		glm::vec2 m_LocalPosition{};
+		glm::vec2 m_WorldPosition{};
+
+		bool m_HasChanged{};
 	};
 }
 
