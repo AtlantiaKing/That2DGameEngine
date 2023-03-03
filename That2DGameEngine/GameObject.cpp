@@ -91,7 +91,7 @@ std::shared_ptr<that::GameObject> that::GameObject::GetParent() const
 
 std::shared_ptr<that::GameObject> that::GameObject::GetChild(int index) const
 {
-	if (index >= m_pChildren.size()) return nullptr;
+	if (index >= static_cast<int>(m_pChildren.size())) return nullptr;
 
 	const auto pChild{ m_pChildren[index] };
 
