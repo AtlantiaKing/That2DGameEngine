@@ -30,13 +30,13 @@ namespace that
 		template <class T>
 		std::shared_ptr<T> GetComponent() const;
 		std::shared_ptr<Transform> GetTransform() const;
+		std::shared_ptr<GameObject> GetParent() const;
 
 		bool IsMarkedAsDead() const { return m_IsMarkedDead; };
-	protected:
-		std::weak_ptr<GameObject> m_pParent{};
 	private:
 		void SetParent(std::weak_ptr<GameObject> pParent);
 
+		std::weak_ptr<GameObject> m_pParent{};
 		bool m_IsMarkedDead{};
 	};
 
