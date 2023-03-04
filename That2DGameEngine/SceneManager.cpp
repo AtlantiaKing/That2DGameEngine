@@ -9,6 +9,15 @@ void that::SceneManager::Update()
 	}
 }
 
+void that::SceneManager::LateUpdate()
+{
+	for (auto& scene : m_scenes)
+	{
+		scene->LateUpdate();
+		scene->UpdateCleanup();
+	}
+}
+
 void that::SceneManager::Render()
 {
 	for (const auto& scene : m_scenes)

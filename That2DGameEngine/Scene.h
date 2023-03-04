@@ -14,6 +14,8 @@ namespace that
 		void RemoveAll();
 
 		void Update();
+		void LateUpdate();
+		void UpdateCleanup();
 		void Render() const;
 
 		~Scene();

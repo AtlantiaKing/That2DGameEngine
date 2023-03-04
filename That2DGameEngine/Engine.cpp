@@ -98,6 +98,7 @@ void that::Engine::Run(const std::function<void()>& load)
 		time.Update();
 		doContinue = input.ProcessInput();
 		sceneManager.Update();
+		sceneManager.LateUpdate();
 		renderer.Render();
 
 		const auto frameTime{ std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - frameStart).count() };

@@ -40,14 +40,18 @@ void Scene::Update()
 	{
 		object->Update();
 	}
+}
 
-	// TODO: Add FixedUpdate
-
+void that::Scene::LateUpdate()
+{
 	for (auto& object : m_objects)
 	{
 		object->LateUpdate();
 	}
+}
 
+void that::Scene::UpdateCleanup()
+{
 	// Remove all components that are marked as dead
 	for (auto& object : m_objects)
 	{
