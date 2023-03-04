@@ -124,6 +124,14 @@ std::shared_ptr<that::GameObject> that::GameObject::GetChild(int index) const
 void that::GameObject::Destroy()
 {
 	m_IsMarkedDead = true;
+
+	// Destroy all children
+	for (const auto& child : m_pChildren)
+	{
+		if (child.expired()) continue;
+
+		child.lock()->Destroy();
+	}
 }
 
 void that::GameObject::Destroy(std::shared_ptr<Component> pComponent)
