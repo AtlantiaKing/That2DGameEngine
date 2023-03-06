@@ -6,24 +6,36 @@
 
 void that::TextComponent::SetFont(std::shared_ptr<Font> pFont)
 {
+	// The font didn't change, so do nothing
+	if (m_pFont.get() == pFont.get()) return;
+
 	m_pFont = pFont;
 	m_HasChanged = true;
 }
 
 void that::TextComponent::SetText(const std::string& text)
 {
+	// The text didn't change, so do nothing
+	if (m_Text == text) return;
+
 	m_Text = text;
 	m_HasChanged = true;
 }
 
 void that::TextComponent::SetColor(const SDL_Color& color)
 {
+	// The color didn't change, so do nothing
+	if (m_Color.r == color.r && m_Color.g == color.g && m_Color.b == color.b && m_Color.a == color.a) return;
+
 	m_Color = color;
 	m_HasChanged = true;
 }
 
 void that::TextComponent::SetColor(int r, int g, int b)
 {
+	// The color didn't change, so do nothing
+	if (m_Color.r == r && m_Color.g == g && m_Color.b == b && m_Color.a == UINT8_MAX) return;
+
 	m_Color = SDL_Color
 	{ 
 		static_cast<unsigned char>(r),
@@ -35,6 +47,9 @@ void that::TextComponent::SetColor(int r, int g, int b)
 
 void that::TextComponent::SetColor(int r, int g, int b, int a)
 {
+	// The color didn't change, so do nothing
+	if (m_Color.r == r && m_Color.g == g && m_Color.b == b && m_Color.a == a) return;
+
 	m_Color = SDL_Color
 	{ 
 		static_cast<unsigned char>(r),
