@@ -112,6 +112,7 @@ std::shared_ptr<that::GameObject> that::GameObject::GetParent() const
 
 std::shared_ptr<that::GameObject> that::GameObject::GetChild(int index) const
 {
+	// TODO: Log a warning that the user tries to get a child out of bounds
 	if (index >= static_cast<int>(m_pChildren.size())) return nullptr;
 
 	const auto pChild{ m_pChildren[index] };
