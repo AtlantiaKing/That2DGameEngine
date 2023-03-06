@@ -51,8 +51,9 @@ void that::GameObject::Render() const
 
 void that::GameObject::SetParent(std::shared_ptr<GameObject> pParent)
 {
+	// Cache the previous parent
 	std::shared_ptr<GameObject> pOldParent{};
-	if (m_pParent.expired()) pOldParent = m_pParent.lock();
+	if (!m_pParent.expired()) pOldParent = m_pParent.lock();
 
 	// If this GO has a parent
 	if (pOldParent)
@@ -96,7 +97,7 @@ void that::GameObject::SetParent(std::shared_ptr<GameObject> pParent)
 		auto pParentTransform{ pParent->GetTransform() };
 		if (pParentTransform) pTransform->SetLocalPosition(pTransform->GetWorldPosition() - pParentTransform->GetWorldPosition());
 	}
-	else // We removed the parent
+	else // The parent got removed
 	{
 		// Set the local position to the world position
 		pTransform->SetLocalPosition(pTransform->GetWorldPosition());

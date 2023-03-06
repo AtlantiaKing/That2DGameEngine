@@ -77,7 +77,7 @@ void that::Transform::EnableChangedFlag()
 {
 	m_HasChanged = true;
 
-	// If no parent exists, stop here
+	// Get the owner of this transform
 	const auto pParent{ GetOwner() };
 	if (!pParent) return;
 

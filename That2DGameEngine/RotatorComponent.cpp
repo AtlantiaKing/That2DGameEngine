@@ -10,7 +10,9 @@ void that::RotatorComponent::Update()
 
 	if (!pTransform) return;
 
-	m_CurAngle += m_RotateSpeed * Time::GetInstance().GetElapsed() * static_cast<float>(M_PI) / 180.0f;
+	constexpr float toRadians{ static_cast<float>(M_PI) / 180.0f };
+
+	m_CurAngle += m_RotateSpeed * toRadians * Time::GetInstance().GetElapsed();
 
 	const float x{ cosf(m_CurAngle) * m_DistanceFromPivot };
 	const float y{ sinf(m_CurAngle) * m_DistanceFromPivot };
