@@ -37,6 +37,8 @@ namespace that
 		template <class T>
 		std::shared_ptr<T> GetComponent() const;
 		template <class T>
+		std::vector<std::shared_ptr<T>> GetComponents() const;
+		template <class T>
 		std::shared_ptr<T> AddComponent();
 		template <class T>
 		bool RemoveComponent();
@@ -70,6 +72,23 @@ namespace that
 		}
 
 		return nullptr;
+	}
+
+	template<class T>
+	inline std::vector<std::shared_ptr<T>> GameObject::GetComponents() const
+	{
+		static_assert(std::is_base_of<Component, T>(), "T needs to be derived from the Component class");
+
+		std::vector<std::shared_ptr<T>> pComponents{};
+
+		for (const std::shared_ptr<Component>& pComponent : m_pComponents)
+		{
+			std::shared_ptr<T> derivedComponent{ std::dynamic_pointer_cast<T>(pComponent) };
+
+			if (derivedComponent) pComponents.push_back(derivedComponent);
+		}
+
+		return pComponents;
 	}
 
 	template<class T>

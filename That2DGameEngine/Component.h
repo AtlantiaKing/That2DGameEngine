@@ -29,6 +29,8 @@ namespace that
 
 		template <class T>
 		std::shared_ptr<T> GetComponent() const;
+		template <class T>
+		std::vector<std::shared_ptr<T>> GetComponents() const;
 		std::shared_ptr<Transform> GetTransform() const;
 		std::shared_ptr<GameObject> GetOwner() const;
 
@@ -48,6 +50,16 @@ namespace that
 		if (m_pOwner.expired()) return nullptr;
 
 		return m_pOwner.lock()->GetComponent<T>();
+	}
+
+	template<class T>
+	inline std::vector<std::shared_ptr<T>> Component::GetComponents() const
+	{
+		static_assert(std::is_base_of<Component, T>(), "T needs to be derived from the Component class");
+
+		if (m_pOwner.expired()) return nullptr;
+
+		return m_pOwner.lock()->GetComponents<T>();
 	}
 }
 
