@@ -43,6 +43,8 @@ namespace that
 		template <class T>
 		bool RemoveComponent();
 		template <class T>
+		bool RemoveComponent(std::shared_ptr<T> pComponent);
+		template <class T>
 		bool HasComponent() const;
 		std::shared_ptr<Transform> GetTransform() const { return m_pTransform; };
 
@@ -54,7 +56,7 @@ namespace that
 		std::vector<std::shared_ptr<Component>> m_pComponents{};
 		std::vector<std::shared_ptr<TextureRenderer>> m_pRenderComponents{};
 
-		void Destroy(std::shared_ptr<Component> pComponent);
+		bool Destroy(std::shared_ptr<Component> pComponent);
 
 		bool m_IsMarkedDead{};
 	};
@@ -141,6 +143,14 @@ namespace that
 
 		// Return that a component of type T has not been removed
 		return false;
+	}
+
+	template<class T>
+	inline bool GameObject::RemoveComponent(std::shared_ptr<T> pComponent)
+	{
+		static_assert(std::is_base_of<Component, T>(), "T needs to be derived from the Component class");
+
+		return Destroy(pComponent);
 	}
 
 	template<class T>

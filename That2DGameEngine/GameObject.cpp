@@ -136,8 +136,14 @@ void that::GameObject::Destroy()
 	}
 }
 
-void that::GameObject::Destroy(std::shared_ptr<Component> pComponent)
+bool that::GameObject::Destroy(std::shared_ptr<Component> pComponent)
 {
+	// If the owner of this component is not this GO, do nothing
+	if (pComponent->GetOwner().get() != this) return false;
+	// TODO: log warning that the user is trying to remove a component that is not on this GO
+
 	// Mark the component as dead
 	pComponent->Destroy();
+
+	return true;
 }
