@@ -30,6 +30,7 @@ namespace that
 		std::shared_ptr<GameObject> GetParent() const;
 		std::shared_ptr<GameObject> GetChild(int index) const;
 		const std::vector<std::weak_ptr<GameObject>>& GetChildren() const { return m_pChildren; };
+		size_t GetChildCount() const { return m_pChildren.size(); };
 
 		void Destroy();
 		bool IsMarkedAsDead() const { return m_IsMarkedDead; };
@@ -98,6 +99,9 @@ namespace that
 	{
 		static_assert(std::is_base_of<Component, T>(), "T needs to be derived from the Component class");
 
+		// TODO: If the user adds a component of type Transform (not the gameobject making it automatically)
+		//			Log a warning that the user is adding a component that will do nothing and cannot be removed
+
 		// Create a new component
 		const auto pComponent{ std::make_shared<T>() };
 
@@ -121,6 +125,7 @@ namespace that
 	template<class T>
 	inline bool GameObject::RemoveComponent()
 	{
+		static_assert(!std::is_same<Transform, T>(), "Transform component cannot be removed");
 		static_assert(std::is_base_of<Component, T>(), "T needs to be derived from the Component class");
 
 		// For each component on this gameobject
@@ -148,6 +153,7 @@ namespace that
 	template<class T>
 	inline bool GameObject::RemoveComponent(std::shared_ptr<T> pComponent)
 	{
+		static_assert(!std::is_same<Transform, T>(), "Transform component cannot be removed");
 		static_assert(std::is_base_of<Component, T>(), "T needs to be derived from the Component class");
 
 		return Destroy(pComponent);
