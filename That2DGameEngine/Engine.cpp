@@ -102,8 +102,8 @@ void that::Engine::Run(const std::function<void()>& load)
 		renderer.Render();
 
 		// Sleep so that the total frame time becomes the desired frame time
-		const auto frameTime{ std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - frameStart).count() };
-		const float sleepTime{ desiredFrameTime - frameTime };
-		std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(sleepTime)));
+		const auto frameTime{ std::chrono::high_resolution_clock::now() - frameStart };
+		const auto sleepTime{ std::chrono::milliseconds(static_cast<int>(desiredFrameTime)) - frameTime };
+		std::this_thread::sleep_for(sleepTime);
 	}
 }
