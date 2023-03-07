@@ -53,9 +53,9 @@ namespace that
 		std::weak_ptr<GameObject> m_pParent{};
 		std::vector<std::weak_ptr<GameObject>> m_pChildren{};
 
-		std::shared_ptr<Transform> m_pTransform{};
 		std::vector<std::shared_ptr<Component>> m_pComponents{};
-		std::vector<std::shared_ptr<TextureRenderer>> m_pRenderComponents{};
+		std::shared_ptr<Transform> m_pTransform{};
+		std::shared_ptr<TextureRenderer> m_pRenderComponent{};
 
 		bool Destroy(std::shared_ptr<Component> pComponent);
 
@@ -108,11 +108,13 @@ namespace that
 		// Set the current gameObject as its parent
 		pComponent->SetOwner(weak_from_this());
 
-		// Try casting the new component to a RenderComponent, if this succeeds, add this component to the container of render components
-		std::shared_ptr<TextureRenderer> pAsRenderComponent{ std::dynamic_pointer_cast<TextureRenderer>(pComponent) };
-		if (pAsRenderComponent)
+		// If the new component is a RenderComponent, set this component as the render component
+		if constexpr (std::is_same<TextureRenderer, T>())
 		{
-			m_pRenderComponents.push_back(pAsRenderComponent);
+			// TODO: If the user adds a second texture renderer to a gameobject
+			//			Log a warning that the previous texture renderer has been discarded
+
+			m_pRenderComponent = std::dynamic_pointer_cast<TextureRenderer>(pComponent);
 		}
 
 		// Add this component to the container of components

@@ -34,19 +34,14 @@ void that::GameObject::UpdateCleanup()
 		{
 			return pComponent->IsMarkedAsDead();
 		}), end(m_pComponents));
-	m_pRenderComponents.erase(std::remove_if(begin(m_pRenderComponents), end(m_pRenderComponents), [](auto pComponent)
-		{
-			return pComponent->IsMarkedAsDead();
-		}), end(m_pRenderComponents));
+
+	// Remove the render component if its marked as dead
+	if (m_pRenderComponent && m_pRenderComponent->IsMarkedAsDead()) m_pRenderComponent = nullptr;
 }
 
 void that::GameObject::Render() const 
 {
-	// Render every render component
-	for(const auto& pRenderComponent : m_pRenderComponents)
-	{
-		pRenderComponent->Render();
-	}
+	if(m_pRenderComponent) m_pRenderComponent->Render();
 }
 
 void that::GameObject::SetParent(std::shared_ptr<GameObject> pParent)
