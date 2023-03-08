@@ -1,8 +1,10 @@
 #include "TextComponent.h"
+#include "GameObject.h"
 #include "Font.h"
-#include <stdexcept>
 #include "Renderer.h"
 #include "TextureRenderer.h"
+
+#include <stdexcept>
 
 void that::TextComponent::SetFont(std::shared_ptr<Font> pFont)
 {
@@ -82,11 +84,11 @@ bool that::TextComponent::ReloadTexture()
 	// If no texture renderer is assigned, try getting a texture renderer from the parent
 	//	If no texture renderer is found on the parent, do nothing
 	// TODO: Log a warning that no TextureRenderer is assigned to this TextComponent
-	if (m_pTextureRenderer.expired())
+	if (!m_pTextureRenderer)
 	{
-		m_pTextureRenderer = GetComponent<TextureRenderer>();
+		m_pTextureRenderer = GetOwner()->GetComponent<TextureRenderer>();
 
-		if (m_pTextureRenderer.expired()) return false;
+		if (!m_pTextureRenderer) return false;
 	};
 
 	// Create a texture using the current font, text and color
@@ -103,7 +105,7 @@ bool that::TextComponent::ReloadTexture()
 	SDL_FreeSurface(surf);
 
 	// Set the new texture to the texture renderer
-	m_pTextureRenderer.lock()->SetTexture(std::make_shared<Texture2D>(texture));
+	m_pTextureRenderer->SetTexture(std::make_shared<Texture2D>(texture));
 
 	// Return ReloadTexture succeeded
 	return true;

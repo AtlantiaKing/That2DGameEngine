@@ -6,6 +6,7 @@
 
 namespace that
 {
+	class TextureRenderer;
 	class Font;
 
 	class TextComponent final : public Component
@@ -38,7 +39,7 @@ namespace that
 
 		bool m_HasChanged{};
 
-		std::weak_ptr<TextureRenderer> m_pTextureRenderer{};
+		TextureRenderer* m_pTextureRenderer{};
 	};
 }
 

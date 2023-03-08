@@ -19,7 +19,7 @@ namespace that
 
 		virtual void Update() override;
 	private:
-		std::weak_ptr<TextComponent> m_pText{};
+		TextComponent* m_pText{};
 		float m_AccuSec{};
 		const float m_UpdateInverval{ 0.5f };
 	};

@@ -1,11 +1,12 @@
 #include "Component.h"
+#include "GameObject.h"
 
 void that::Component::Destroy()
 {
 	m_IsMarkedDead = true;
 }
 
-std::shared_ptr<that::Transform> that::Component::GetTransform() const
+that::Transform* that::Component::GetTransform() const
 {
 	if (m_pOwner.expired()) return nullptr;
 

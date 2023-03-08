@@ -1,4 +1,5 @@
 #include "Transform.h"
+#include "GameObject.h"
 
 void that::Transform::SetWorldPosition(const glm::vec2& position)
 {

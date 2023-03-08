@@ -30,7 +30,7 @@ void that::GameObject::LateUpdate()
 void that::GameObject::UpdateCleanup()
 {
 	// Remove components from their containers if they are marked as dead
-	m_pComponents.erase(std::remove_if(begin(m_pComponents), end(m_pComponents), [](auto pComponent)
+	m_pComponents.erase(std::remove_if(begin(m_pComponents), end(m_pComponents), [](const auto& pComponent)
 		{
 			return pComponent->IsMarkedAsDead();
 		}), end(m_pComponents));
@@ -131,7 +131,7 @@ void that::GameObject::Destroy()
 	}
 }
 
-bool that::GameObject::Destroy(std::shared_ptr<Component> pComponent)
+bool that::GameObject::Destroy(Component* pComponent)
 {
 	// If the owner of this component is not this GO, do nothing
 	if (pComponent->GetOwner().get() != this) return false;
