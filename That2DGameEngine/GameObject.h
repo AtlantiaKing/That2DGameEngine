@@ -130,17 +130,12 @@ namespace that
 		static_assert(!std::is_same<Transform, T>(), "Transform component cannot be removed");
 		static_assert(std::is_base_of<Component, T>(), "T needs to be derived from the Component class");
 
-		// For each component on this gameobject
-		for (auto it{ begin(m_pComponents) }; it < end(m_pComponents); ++it)
+		// Try getting a component of type T
+		const auto pComponent{ GetComponent<T>() };
+
+		// If this component exists, destroy it
+		for (pComponent)
 		{
-			const auto pComponent{ *it };
-
-			// Try casting the current component to T
-			std::shared_ptr<T> derivedComponent{ std::dynamic_pointer_cast<T>(pComponent) };
-
-			// If this cast failed, continue to the next component
-			if (!derivedComponent) continue;
-			
 			// Mark the component as dead
 			Destroy(pComponent);
 
