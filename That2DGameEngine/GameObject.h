@@ -8,11 +8,12 @@ namespace that
 {
 	class TextureRenderer;
 	class Transform;
+	class Scene;
 
-	class GameObject final : public std::enable_shared_from_this<GameObject>
+	class GameObject final
 	{
 	public:
-		GameObject() = default;
+		GameObject(Scene* pScene) : m_pScene{ pScene } {};
 		virtual ~GameObject();
 
 		GameObject(const GameObject& other) = delete;
@@ -20,16 +21,18 @@ namespace that
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
 
+		GameObject* CreateGameObject();
+
 		void Init();
 		void Update();
 		void LateUpdate();
 		void UpdateCleanup();
 		void Render() const;
 
-		void SetParent(std::shared_ptr<GameObject> pParent);
-		std::shared_ptr<GameObject> GetParent() const;
-		std::shared_ptr<GameObject> GetChild(int index) const;
-		const std::vector<std::weak_ptr<GameObject>>& GetChildren() const { return m_pChildren; };
+		void SetParent(GameObject* pParent);
+		GameObject* GetParent() const { return m_pParent; };
+		GameObject* GetChild(int index) const;
+		std::vector<GameObject*> GetChildren() const;
 		size_t GetChildCount() const { return m_pChildren.size(); };
 
 		void Destroy();
@@ -52,12 +55,14 @@ namespace that
 	private:
 		bool Destroy(Component* pComponent);
 
-		std::weak_ptr<GameObject> m_pParent{};
-		std::vector<std::weak_ptr<GameObject>> m_pChildren{};
+		GameObject* m_pParent{};
+		std::vector<std::unique_ptr<GameObject>> m_pChildren{};
 
 		std::vector<std::unique_ptr<Component>> m_pComponents{};
 		Transform* m_pTransform{};
 		TextureRenderer* m_pRenderComponent{};
+
+		Scene* m_pScene{};
 
 		bool m_IsMarkedDead{};
 	};
@@ -106,7 +111,7 @@ namespace that
 		auto pComponent{ std::make_unique<T>() };
 
 		// Set the current gameObject as its parent
-		pComponent->SetOwner(weak_from_this());
+		pComponent->SetOwner(this);
 
 		// Get the actual pointer to the new component
 		T* pComponentPtr{ pComponent.get() };

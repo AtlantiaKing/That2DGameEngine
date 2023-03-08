@@ -8,19 +8,12 @@ void that::Component::Destroy()
 
 that::Transform* that::Component::GetTransform() const
 {
-	if (m_pOwner.expired()) return nullptr;
+	if (!m_pOwner) return nullptr;
 
-	return m_pOwner.lock()->GetTransform();
+	return m_pOwner->GetTransform();
 }
 
-std::shared_ptr<that::GameObject> that::Component::GetOwner() const
-{
-	if (m_pOwner.expired()) return nullptr;
-
-	return m_pOwner.lock();
-}
-
-void that::Component::SetOwner(std::weak_ptr<GameObject> pParent) 
+void that::Component::SetOwner(GameObject* pParent) 
 {
 	m_pOwner = pParent;
 }

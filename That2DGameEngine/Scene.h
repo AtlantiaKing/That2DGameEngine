@@ -1,17 +1,18 @@
 #pragma once
 #include "SceneManager.h"
+#include "GameObject.h"
 
 namespace that
 {
-	class GameObject;
 	class Scene final
 	{
 		friend Scene& SceneManager::CreateScene(const std::string& name);
 	public:
-		std::shared_ptr<GameObject> CreateGameObject();
-		void Add(std::shared_ptr<GameObject> object);
-		void Remove(std::shared_ptr<GameObject> object);
+		GameObject* CreateGameObject();
 		void RemoveAll();
+
+		void Add(std::unique_ptr<GameObject> pGameObject);
+		std::unique_ptr<GameObject> GetUnique(GameObject* pGameObject);
 
 		void Update();
 		void LateUpdate();
@@ -28,7 +29,7 @@ namespace that
 		explicit Scene(const std::string& name);
 
 		std::string m_name;
-		std::vector < std::shared_ptr<GameObject>> m_objects{};
+		std::vector<std::unique_ptr<GameObject>> m_objects{};
 
 		static unsigned int m_idCounter; 
 	};

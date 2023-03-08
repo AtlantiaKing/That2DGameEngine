@@ -79,17 +79,13 @@ void that::Transform::EnableChangedFlag()
 	m_HasChanged = true;
 
 	// Get the owner of this transform
-	const auto pParent{ GetOwner() };
-	if (!pParent) return;
+	const auto pOwner{ GetOwner() };
+	if (!pOwner) return;
 
 	// Change the HasChanged flag of every child
-	const auto& pChildren{ pParent->GetChildren() };
-	for (const auto& pWeakChild : pChildren)
+	const auto& pChildren{ pOwner->GetChildren() };
+	for (const auto& pChild : pChildren)
 	{
-		if (pWeakChild.expired()) continue;
-
-		const auto pChild{ pWeakChild.lock() };
-
 		const auto pTransform{ pChild->GetTransform() };
 		if (!pTransform) continue;
 

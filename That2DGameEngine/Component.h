@@ -27,13 +27,13 @@ namespace that
 		friend GameObject;
 
 		Transform* GetTransform() const;
-		std::shared_ptr<GameObject> GetOwner() const;
+		GameObject* GetOwner() const { return m_pOwner; };
 
 		bool IsMarkedAsDead() const { return m_IsMarkedDead; };
 	private:
-		void SetOwner(std::weak_ptr<GameObject> pParent);
+		void SetOwner(GameObject* pParent);
 
-		std::weak_ptr<GameObject> m_pOwner{};
+		GameObject* m_pOwner{};
 		bool m_IsMarkedDead{};
 	};
 }
