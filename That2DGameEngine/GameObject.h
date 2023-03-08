@@ -134,7 +134,7 @@ namespace that
 		const auto pComponent{ GetComponent<T>() };
 
 		// If this component exists, destroy it
-		for (pComponent)
+		if(pComponent)
 		{
 			// Mark the component as dead
 			Destroy(pComponent);
