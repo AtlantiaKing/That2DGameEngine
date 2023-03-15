@@ -3,6 +3,10 @@
 #include "SceneManager.h"
 #include "Texture2D.h"
 
+#include "imgui.h"
+#include <backends/imgui_impl_sdl2.h>
+#include <backends/imgui_impl_opengl2.h>
+
 int GetOpenGLDriverIndex()
 {
 	auto openglIndex = -1;
@@ -25,15 +29,31 @@ void that::Renderer::Init(SDL_Window* window)
 	{
 		throw std::runtime_error(std::string("SDL_CreateRenderer Error: ") + SDL_GetError());
 	}
+
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGui_ImplSDL2_InitForOpenGL(window, SDL_GL_GetCurrentContext());
+	ImGui_ImplOpenGL2_Init();
 }
 
-void that::Renderer::Render() const
+void that::Renderer::Render()
 {
 	const auto& color = GetBackgroundColor();
 	SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
 	SDL_RenderClear(m_renderer);
 
 	SceneManager::GetInstance().Render();
+
+	ImGui_ImplOpenGL2_NewFrame();
+	ImGui_ImplSDL2_NewFrame(m_window);
+	ImGui::NewFrame();
+
+	// hint: something should come here :)
+
+	if (m_showDemo)
+		ImGui::ShowDemoWindow(&m_showDemo);
+	ImGui::Render();
+	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 	
 	SDL_RenderPresent(m_renderer);
 }
@@ -42,6 +62,10 @@ void that::Renderer::Destroy()
 {
 	if (m_renderer != nullptr)
 	{
+		ImGui_ImplOpenGL2_Shutdown();
+		ImGui_ImplSDL2_Shutdown();
+		ImGui::DestroyContext();
+
 		SDL_DestroyRenderer(m_renderer);
 		m_renderer = nullptr;
 	}
