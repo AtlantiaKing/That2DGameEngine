@@ -113,6 +113,9 @@
     <ClInclude Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_sdl2.h">
       <Filter>ImGUI</Filter>
     </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\imgui_plot.h">
+      <Filter>ImGUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">
@@ -188,6 +191,9 @@
       <Filter>ImGUI</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_sdl2.cpp">
+      <Filter>ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_plot.cpp">
       <Filter>ImGUI</Filter>
     </ClCompile>
   </ItemGroup>

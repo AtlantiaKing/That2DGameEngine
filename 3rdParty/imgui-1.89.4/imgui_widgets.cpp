@@ -1389,6 +1389,7 @@ void ImGui::AlignTextToFramePadding()
 // FIXME: Surprisingly, this seemingly simple widget is adjacent to MANY different legacy/tricky layout issues.
 void ImGui::SeparatorEx(ImGuiSeparatorFlags flags)
 {
+#pragma warning (disable: 6326)
     ImGuiWindow* window = GetCurrentWindow();
     if (window->SkipItems)
         return;
@@ -3393,6 +3394,7 @@ static inline ImGuiInputTextFlags InputScalar_DefaultCharsFilter(ImGuiDataType d
 // However this may not be ideal for all uses, as some user code may break on out of bound values.
 bool ImGui::TempInputScalar(const ImRect& bb, ImGuiID id, const char* label, ImGuiDataType data_type, void* p_data, const char* format, const void* p_clamp_min, const void* p_clamp_max)
 {
+#pragma warning (disable: 5054)
     char fmt_buf[32];
     char data_buf[32];
     format = ImParseFormatTrimDecorations(format, fmt_buf, IM_ARRAYSIZE(fmt_buf));
@@ -3431,6 +3433,7 @@ bool ImGui::TempInputScalar(const ImRect& bb, ImGuiID id, const char* label, ImG
 // Read code of e.g. InputFloat(), InputInt() etc. or examples in 'Demo->Widgets->Data Types' to understand how to use this function directly.
 bool ImGui::InputScalar(const char* label, ImGuiDataType data_type, void* p_data, const void* p_step, const void* p_step_fast, const char* format, ImGuiInputTextFlags flags)
 {
+#pragma warning (disable: 5054)
     ImGuiWindow* window = GetCurrentWindow();
     if (window->SkipItems)
         return false;
@@ -4009,6 +4012,7 @@ static void InputTextReconcileUndoStateAfterUserCallback(ImGuiInputTextState* st
 //  doing UTF8 > U16 > UTF8 conversions on the go to easily interface with stb_textedit. Ideally should stay in UTF-8 all the time. See https://github.com/nothings/stb/issues/188)
 bool ImGui::InputTextEx(const char* label, const char* hint, char* buf, int buf_size, const ImVec2& size_arg, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback, void* callback_user_data)
 {
+#pragma warning (disable: 6011)
     ImGuiWindow* window = GetCurrentWindow();
     if (window->SkipItems)
         return false;
@@ -6301,6 +6305,7 @@ bool ImGui::CollapsingHeader(const char* label, ImGuiTreeNodeFlags flags)
 // Do not mistake this with the Open state of the header itself, which you can adjust with SetNextItemOpen() or ImGuiTreeNodeFlags_DefaultOpen.
 bool ImGui::CollapsingHeader(const char* label, bool* p_visible, ImGuiTreeNodeFlags flags)
 {
+#pragma warning (disable: 5054)
     ImGuiWindow* window = GetCurrentWindow();
     if (window->SkipItems)
         return false;

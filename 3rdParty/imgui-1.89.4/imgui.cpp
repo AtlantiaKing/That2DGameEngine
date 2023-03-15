@@ -6007,6 +6007,7 @@ void ImGui::RenderWindowTitleBarContents(ImGuiWindow* window, const ImRect& titl
 
 void ImGui::UpdateWindowParentAndRootLinks(ImGuiWindow* window, ImGuiWindowFlags flags, ImGuiWindow* parent_window)
 {
+#pragma warning (disable: 28182)
     window->ParentWindow = parent_window;
     window->RootWindow = window->RootWindowPopupTree = window->RootWindowForTitleBarHighlight = window->RootWindowForNav = window;
     if (parent_window && (flags & ImGuiWindowFlags_ChildWindow) && !(flags & ImGuiWindowFlags_Tooltip))
@@ -13321,6 +13322,7 @@ void ImGui::ShowFontAtlas(ImFontAtlas* atlas)
 
 void ImGui::ShowMetricsWindow(bool* p_open)
 {
+#pragma warning (disable: 33010)
     ImGuiContext& g = *GImGui;
     ImGuiIO& io = g.IO;
     ImGuiMetricsConfig* cfg = &g.DebugMetricsConfig;
