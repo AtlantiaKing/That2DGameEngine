@@ -50,8 +50,10 @@ void that::Renderer::Render()
 
 	// hint: something should come here :)
 
-	if (m_showDemo)
-		ImGui::ShowDemoWindow(&m_showDemo);
+	if (m_ShowDemo)
+		ImGui::ShowDemoWindow(&m_ShowDemo);
+	if (m_ShowTrashTheCache)
+		m_TrashTheCache.Render();
 	ImGui::Render();
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 	

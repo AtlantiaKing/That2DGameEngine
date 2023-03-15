@@ -1,6 +1,7 @@
 #pragma once
 #include <SDL.h>
 #include "Singleton.h"
+#include "TrashTheCache.h"
 
 namespace that
 {
@@ -12,8 +13,10 @@ namespace that
 	{
 		SDL_Renderer* m_renderer{};
 		SDL_Window* m_window{};
-		SDL_Color m_clearColor{};	
-		bool m_showDemo{ true };
+		SDL_Color m_clearColor{};
+		bool m_ShowDemo{ false };
+		bool m_ShowTrashTheCache{ true };
+		TrashTheCache m_TrashTheCache{};
 	public:
 		void Init(SDL_Window* window);
 		void Render();
