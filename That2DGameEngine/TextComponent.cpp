@@ -3,6 +3,7 @@
 #include "Font.h"
 #include "Renderer.h"
 #include "TextureRenderer.h"
+#include "Logger.h"
 
 #include <stdexcept>
 
@@ -78,17 +79,27 @@ void that::TextComponent::Update()
 bool that::TextComponent::ReloadTexture()
 {
 	// If no font has been assigned, do nothing
-	// TODO: Log a warning that no font is assigned to this TextComponent
-	if (!m_pFont) return true;
+	//		Log a warning that no font is assigned to this TextComponent
+	if (!m_pFont)
+	{
+		// TODO: Add a name to a gameobject, log the name of the gameobject when this warning is triggered
+		Logger::LogWarning("Trying to create a texture for this TextComponent but there is no font assigned");
+		return true;
+	}
 
 	// If no texture renderer is assigned, try getting a texture renderer from the parent
-	//	If no texture renderer is found on the parent, do nothing
-	// TODO: Log a warning that no TextureRenderer is assigned to this TextComponent
+	// If no texture renderer is found on the parent, do nothing
+	//		Log a warning that no TextureRenderer is assigned to this TextComponent
 	if (!m_pTextureRenderer)
 	{
 		m_pTextureRenderer = GetOwner()->GetComponent<TextureRenderer>();
 
-		if (!m_pTextureRenderer) return false;
+		if (!m_pTextureRenderer)
+		{
+			// TODO: Add a name to a gameobject, log the name of the gameobject when this warning is triggered
+			Logger::LogWarning("The owner of this TextComponent component has no TextureRenderer");
+			return false;
+		}
 	};
 
 	// Create a texture using the current font, text and color

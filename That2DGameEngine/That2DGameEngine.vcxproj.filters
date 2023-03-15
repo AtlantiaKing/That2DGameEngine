@@ -83,6 +83,9 @@
     <ClInclude Include="RotatorComponent.h">
       <Filter>Components\Other</Filter>
     </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Engine Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">
@@ -135,6 +138,9 @@
     </ClCompile>
     <ClCompile Include="RotatorComponent.cpp">
       <Filter>Components\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Engine Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

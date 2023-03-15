@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Component.h"
+#include "Logger.h"
+
 #include <vector>
 #include <memory>
 
@@ -104,8 +106,16 @@ namespace that
 	{
 		static_assert(std::is_base_of<Component, T>(), "T needs to be derived from the Component class");
 
-		// TODO: If the user adds a component of type Transform (not the gameobject making it automatically)
-		//			Log a warning that the user is adding a component that will do nothing and cannot be removed
+		// If the user adds a component of type Transform (not the gameobject making it automatically)
+		//		Log a warning that the user is adding a component that will do nothing and cannot be removed
+		if constexpr (std::is_same<Transform, T>())
+		{
+			if (GetComponent<Transform>())
+			{
+				// TODO: Add a name to a gameobject, log the name of the gameobject when this warning is triggered
+				Logger::LogWarning("A second Transform component is being added to this gameobject");
+			}
+		}
 
 		// Create a new component
 		auto pComponent{ std::make_unique<T>() };
@@ -119,8 +129,10 @@ namespace that
 		// If the new component is a RenderComponent, set this component as the render component
 		if constexpr (std::is_same<TextureRenderer, T>())
 		{
-			// TODO: If the user adds a second texture renderer to a gameobject
-			//			Log a warning that the previous texture renderer has been discarded
+			// If the user adds a second texture renderer to a gameobject
+			//		Log a warning that the previous texture renderer has been discarded
+			// TODO: Add a name to a gameobject, log the name of the gameobject when this warning is triggered
+			if(m_pRenderComponent) Logger::LogWarning("A second TextureRenderer component is being added to this gameobject, the previous TextureRenderer is discarded");
 
 			m_pRenderComponent = static_cast<TextureRenderer*>(pComponentPtr);
 		}

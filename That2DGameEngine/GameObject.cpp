@@ -2,6 +2,7 @@
 #include "Transform.h"
 #include "TextureRenderer.h"
 #include "Scene.h"
+#include "Logger.h"
 
 that::GameObject::~GameObject() = default;
 
@@ -148,8 +149,13 @@ void that::GameObject::SetParent(GameObject* pParent)
 
 that::GameObject* that::GameObject::GetChild(int index) const
 {
-	// TODO: Log a warning that the user tries to get a child out of bounds
-	if (index >= static_cast<int>(m_pChildren.size())) return nullptr;
+	// TODO: Add a name to a gameobject, log the name of the gameobject when this warning is triggered
+	// Log a warning if the child is out of bounds
+	if (index >= static_cast<int>(m_pChildren.size()))
+	{
+		Logger::LogWarning("Trying to get a child out of bounds");
+		return nullptr;
+	}
 
 	return m_pChildren[index].get();
 }
@@ -180,9 +186,13 @@ void that::GameObject::Destroy()
 
 bool that::GameObject::Destroy(Component* pComponent)
 {
-	// If the owner of this component is not this GO, do nothing
-	if (pComponent->GetOwner() != this) return false;
-	// TODO: log warning that the user is trying to remove a component that is not on this GO
+	// Log a warning if the owner of this component is not this GO
+	if (pComponent->GetOwner() != this)
+	{
+		// TODO: Add a name to a gameobject, log the name of the gameobject when this warning is triggered
+		Logger::LogWarning("Trying to destroy a component that is not part of this gameobject.");
+		return false;
+	}
 
 	// Mark the component as dead
 	pComponent->Destroy();
