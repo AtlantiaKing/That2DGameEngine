@@ -29,6 +29,9 @@ namespace that
 	private: 
 		explicit Scene(const std::string& name);
 
+		void RenderScenegraph();
+		void RenderScenegraphChildren(const std::vector<GameObject*>& pChildren);
+
 		std::string m_name;
 		std::vector<std::unique_ptr<GameObject>> m_objects{};
 

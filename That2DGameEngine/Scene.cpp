@@ -1,5 +1,6 @@
 #include "Scene.h"
 #include "GameObject.h"
+#include "imgui.h"
 
 using namespace that;
 
@@ -88,9 +89,64 @@ void Scene::Render() const
 
 void that::Scene::OnGUI()
 {
+	RenderScenegraph();
+
 	for (const auto& object : m_objects)
 	{
 		object->OnGUI();
 	}
 }
 
+void that::Scene::RenderScenegraph()
+{
+	const ImGuiViewport* main_viewport = ImGui::GetMainViewport();
+	ImGui::SetNextWindowPos(ImVec2(main_viewport->WorkPos.x + 20, main_viewport->WorkPos.y + 60));
+	ImGui::SetNextWindowSize(ImVec2(280, 400));
+
+	// Main body of the Demo window starts here.
+	if (!ImGui::Begin("Scenegraph"))
+	{
+		// Early out if the window is collapsed, as an optimization.
+		ImGui::End();
+		return;
+	}
+
+	for (const auto& go : m_objects)
+	{
+		const auto& children{ go->GetChildren() };
+
+		if (children.empty())
+		{
+			ImGui::Text("   Gameobject");
+		}
+		else
+		{
+			if (ImGui::TreeNode("Gameobject"))
+			{
+				RenderScenegraphChildren(children);
+			}
+		}
+	}
+
+	ImGui::End();
+}
+
+void that::Scene::RenderScenegraphChildren(const std::vector<GameObject*>& pChildren)
+{
+	for (const auto& go : pChildren)
+	{
+		const auto& children{ go->GetChildren() };
+
+		if (children.empty())
+		{
+			ImGui::Text("   Gameobject");
+		}
+		else
+		{
+			if (ImGui::TreeNode("Gameobject"))
+			{
+				RenderScenegraphChildren(children);
+			}
+		}
+	}
+}
