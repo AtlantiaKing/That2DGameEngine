@@ -1,6 +1,7 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include "imgui.h"
+#include <sstream>
 
 using namespace that;
 
@@ -113,40 +114,45 @@ void that::Scene::RenderScenegraph()
 
 	for (const auto& go : m_objects)
 	{
-		const auto& children{ go->GetChildren() };
+		RenderScenegraphGameObject(go.get());
 
-		if (children.empty())
-		{
-			ImGui::Text("   Gameobject");
-		}
-		else
-		{
-			if (ImGui::TreeNode("Gameobject"))
-			{
-				RenderScenegraphChildren(children);
-			}
-		}
+		ImGui::Spacing();
 	}
 
 	ImGui::End();
 }
 
-void that::Scene::RenderScenegraphChildren(const std::vector<GameObject*>& pChildren)
+void that::Scene::RenderScenegraphGameObject(GameObject* pGameObject)
 {
-	for (const auto& go : pChildren)
-	{
-		const auto& children{ go->GetChildren() };
+	const auto& pChildren{ pGameObject->GetChildren() };
 
-		if (children.empty())
+	if (ImGui::TreeNode(pGameObject->GetName().c_str()))
+	{
+		if (ImGui::TreeNode("Components:"))
 		{
-			ImGui::Text("   Gameobject");
+			RenderScenegraphComponents(pGameObject);
+
+			ImGui::TreePop();
 		}
-		else
+
+		if (!pChildren.empty())
 		{
-			if (ImGui::TreeNode("Gameobject"))
+			ImGui::Spacing();
+
+			for (const auto& go : pChildren)
 			{
-				RenderScenegraphChildren(children);
+				RenderScenegraphGameObject(go);
 			}
 		}
+
+		ImGui::TreePop();
+	}
+}
+
+void that::Scene::RenderScenegraphComponents(GameObject* pGameObject)
+{
+	for (const auto& pComponent : pGameObject->GetComponents())
+	{
+		ImGui::TextColored(ImVec4{ 0.0f, 1.0f, 0.0f, 1.0f }, typeid(*pComponent.get()).name());
 	}
 }
