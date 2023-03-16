@@ -48,12 +48,8 @@ void that::Renderer::Render()
 	ImGui_ImplSDL2_NewFrame(m_window);
 	ImGui::NewFrame();
 
-	// hint: something should come here :)
+	SceneManager::GetInstance().OnGUI();
 
-	if (m_ShowDemo)
-		ImGui::ShowDemoWindow(&m_ShowDemo);
-	if (m_ShowTrashTheCache)
-		m_TrashTheCache.Render();
 	ImGui::Render();
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 	

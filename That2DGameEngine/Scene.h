@@ -18,6 +18,7 @@ namespace that
 		void LateUpdate();
 		void UpdateCleanup();
 		void Render() const;
+		void OnGUI();
 
 		~Scene();
 		Scene(const Scene& other) = delete;

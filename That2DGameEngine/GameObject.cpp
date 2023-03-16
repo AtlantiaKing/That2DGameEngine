@@ -89,6 +89,21 @@ void that::GameObject::Render() const
 	}
 }
 
+void that::GameObject::OnGUI()
+{
+	// LateUpdate every component
+	for (const auto& pComponent : m_pComponents)
+	{
+		pComponent->OnGUI();
+	}
+
+	// Render GUI every child
+	for (const auto& pChild : m_pChildren)
+	{
+		pChild->OnGUI();
+	}
+}
+
 void that::GameObject::SetParent(GameObject* pParent)
 {
 	// Cache the previous parent

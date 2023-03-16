@@ -15,6 +15,7 @@ namespace that
 		void Update();
 		void LateUpdate();
 		void Render();
+		void OnGUI();
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;
