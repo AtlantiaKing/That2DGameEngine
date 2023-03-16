@@ -33,6 +33,12 @@
     <Filter Include="ImGUI">
       <UniqueIdentifier>{adaa0c60-de77-4c23-8bd9-f72dfba791f6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\Exercises">
+      <UniqueIdentifier>{57e42aaf-1290-4bfb-b47a-6048b824eadf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_DEPRECATED">
+      <UniqueIdentifier>{ec8bf8fd-17ff-4194-9af1-3c8cdb619f8c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Font.h">
@@ -116,8 +122,11 @@
     <ClInclude Include="..\3rdParty\imgui-1.89.4\imgui_plot.h">
       <Filter>ImGUI</Filter>
     </ClInclude>
+    <ClInclude Include="TrashTheCacheComponent.h">
+      <Filter>Components\Exercises</Filter>
+    </ClInclude>
     <ClInclude Include="TrashTheCache.h">
-      <Filter>Engine Files</Filter>
+      <Filter>_DEPRECATED</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -199,8 +208,11 @@
     <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_plot.cpp">
       <Filter>ImGUI</Filter>
     </ClCompile>
+    <ClCompile Include="TrashTheCacheComponent.cpp">
+      <Filter>Components\Exercises</Filter>
+    </ClCompile>
     <ClCompile Include="TrashTheCache.cpp">
-      <Filter>Seperate Objects</Filter>
+      <Filter>_DEPRECATED</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
