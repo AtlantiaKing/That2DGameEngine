@@ -10,9 +10,9 @@ Scene::Scene(const std::string& name) : m_name(name) {}
 
 Scene::~Scene() = default;
 
-GameObject* that::Scene::CreateGameObject()
+GameObject* that::Scene::CreateGameObject(const std::string& name)
 {
-	auto pGameObject{ std::make_unique<GameObject>(this) };
+	auto pGameObject{ std::make_unique<GameObject>(this, name) };
 	pGameObject->Init();
 
 	GameObject* pGameObjectPtr{ pGameObject.get() };

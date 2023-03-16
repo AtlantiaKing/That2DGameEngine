@@ -15,7 +15,7 @@ namespace that
 	class GameObject final
 	{
 	public:
-		GameObject(Scene* pScene) : m_pScene{ pScene } {};
+		GameObject(Scene* pScene, const std::string& name) : m_pScene{ pScene }, m_Name{ name } {};
 		virtual ~GameObject();
 
 		GameObject(const GameObject& other) = delete;
@@ -23,7 +23,7 @@ namespace that
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
 
-		GameObject* CreateGameObject();
+		GameObject* CreateGameObject(const std::string& name);
 
 		void Init();
 		void Update();
@@ -38,6 +38,8 @@ namespace that
 		std::vector<GameObject*> GetChildren() const;
 		size_t GetChildCount() const { return m_pChildren.size(); };
 
+		const std::string& GetName() const { return m_Name; };
+
 		void Destroy();
 		bool IsMarkedAsDead() const { return m_IsMarkedDead; };
 
@@ -45,6 +47,7 @@ namespace that
 		T* GetComponent() const;
 		template <class T>
 		std::vector<T*> GetComponents() const;
+		const std::vector<std::unique_ptr<Component>>& GetComponents() const { return m_pComponents; };
 		template <class T>
 		T* AddComponent();
 		template <class T>
@@ -57,6 +60,8 @@ namespace that
 
 	private:
 		bool Destroy(Component* pComponent);
+
+		std::string m_Name{};
 
 		GameObject* m_pParent{};
 		std::vector<std::unique_ptr<GameObject>> m_pChildren{};

@@ -8,7 +8,7 @@ namespace that
 	{
 		friend Scene& SceneManager::CreateScene(const std::string& name);
 	public:
-		GameObject* CreateGameObject();
+		GameObject* CreateGameObject(const std::string& name);
 		void RemoveAll();
 
 		void Add(std::unique_ptr<GameObject> pGameObject);

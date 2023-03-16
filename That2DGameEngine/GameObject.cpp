@@ -6,9 +6,9 @@
 
 that::GameObject::~GameObject() = default;
 
-that::GameObject* that::GameObject::CreateGameObject()
+that::GameObject* that::GameObject::CreateGameObject(const std::string& name)
 {
-	auto pGameObject{ std::make_unique<GameObject>(m_pScene) };
+	auto pGameObject{ std::make_unique<GameObject>(m_pScene, name) };
 	pGameObject->Init();
 
 	auto pGameObjectPtr{ pGameObject.get() };
