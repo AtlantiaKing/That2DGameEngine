@@ -14,9 +14,12 @@ namespace that
 		~Controller() = default;
 
 		void Update();
+		void SetDeadZone(float percentage) { m_DeadZone = percentage; }
+
 		bool OnButtonDown(unsigned int button) const;
 		bool OnButtonUp(unsigned int button) const;
 		bool OnButton(unsigned int button) const;
+		float GetAxis(bool left, bool x) const;
 	private:
 		unsigned int m_ControllerIdx{};
 
@@ -25,6 +28,8 @@ namespace that
 
 		unsigned int m_ButtonsDown{};
 		unsigned int m_ButtonsUp{};
+
+		float m_DeadZone{ 0.25f };
 	};
 }
 

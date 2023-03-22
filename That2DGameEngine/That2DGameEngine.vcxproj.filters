@@ -140,7 +140,10 @@
     <ClInclude Include="Controller.h">
       <Filter>Input</Filter>
     </ClInclude>
-    <ClInclude Include="DebugCommand.h">
+    <ClInclude Include="DebugButtonCommand.h">
+      <Filter>Input\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugAxisCommand.h">
       <Filter>Input\Commands</Filter>
     </ClInclude>
   </ItemGroup>
@@ -235,7 +238,10 @@
     <ClCompile Include="Controller.cpp">
       <Filter>Input</Filter>
     </ClCompile>
-    <ClCompile Include="DebugCommand.cpp">
+    <ClCompile Include="DebugButtonCommand.cpp">
+      <Filter>Input\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugAxisCommand.cpp">
       <Filter>Input\Commands</Filter>
     </ClCompile>
   </ItemGroup>
