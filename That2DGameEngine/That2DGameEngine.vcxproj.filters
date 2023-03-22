@@ -39,6 +39,12 @@
     <Filter Include="_DEPRECATED">
       <UniqueIdentifier>{ec8bf8fd-17ff-4194-9af1-3c8cdb619f8c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{cbf7b33b-0c7f-467e-b3bf-ac914ed1ea1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input\Commands">
+      <UniqueIdentifier>{1b74cc05-dc42-4f51-a2df-cc88a8a90336}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Font.h">
@@ -128,6 +134,15 @@
     <ClInclude Include="TrashTheCache.h">
       <Filter>_DEPRECATED</Filter>
     </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugCommand.h">
+      <Filter>Input\Commands</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">
@@ -213,6 +228,15 @@
     </ClCompile>
     <ClCompile Include="TrashTheCache.cpp">
       <Filter>_DEPRECATED</Filter>
+    </ClCompile>
+    <ClCompile Include="Command.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugCommand.cpp">
+      <Filter>Input\Commands</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
