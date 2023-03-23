@@ -65,6 +65,20 @@ void that::InputManager::BindButtonCommand(unsigned int controller, unsigned int
 	m_pBindedButtonCommands.push_back(std::make_pair(std::move(pCommand), std::vector<InputKey>{ InputKey{ controller, button, inputType } }));
 }
 
+void that::InputManager::BindButton2DAxisCommand(unsigned int controller, const std::vector<unsigned int>& buttons, std::unique_ptr<Command> pCommand)
+{
+	if (controller >= m_pControllers.size()) m_pControllers.push_back(std::make_unique<Controller>(controller));
+
+	std::vector<InputKey> inputKeys{};
+
+	for (unsigned int button : buttons)
+	{
+		inputKeys.push_back(InputKey{ controller, button, InputType::ONBUTTON });
+	}
+
+	m_pBindedButtonCommands.push_back(std::make_pair(std::move(pCommand), inputKeys));
+}
+
 void that::InputManager::BindAxisCommand(unsigned int controller, bool leftJoystick, bool x, std::unique_ptr<Command> pCommand)
 {
 	if (controller >= m_pControllers.size()) m_pControllers.push_back(std::make_unique<Controller>(controller));

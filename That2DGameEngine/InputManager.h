@@ -43,6 +43,11 @@ namespace that
 		void BindButtonCommand(unsigned int controller, unsigned int button, InputType inputType);
 		void BindButtonCommand(unsigned int controller, unsigned int button, InputType inputType, std::unique_ptr<Command> pCommand);
 
+		/*
+		 The order of buttons should be right, left, up, down
+		 */
+		void BindButton2DAxisCommand(unsigned int controller, const std::vector<unsigned int>& buttons, std::unique_ptr<Command> pCommand);
+
 		template <class T>
 		void BindAxisCommand(unsigned int controller, bool leftJoystick, bool x, GameObject* pGameObject);
 		template <class T>
