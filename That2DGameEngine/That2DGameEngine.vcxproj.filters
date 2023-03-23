@@ -146,6 +146,9 @@
     <ClInclude Include="DebugAxisCommand.h">
       <Filter>Input\Commands</Filter>
     </ClInclude>
+    <ClInclude Include="MoveCommand.h">
+      <Filter>Input\Commands</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">
@@ -242,6 +245,9 @@
       <Filter>Input\Commands</Filter>
     </ClCompile>
     <ClCompile Include="DebugAxisCommand.cpp">
+      <Filter>Input\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveCommand.cpp">
       <Filter>Input\Commands</Filter>
     </ClCompile>
   </ItemGroup>

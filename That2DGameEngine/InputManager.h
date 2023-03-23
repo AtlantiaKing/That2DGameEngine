@@ -6,6 +6,7 @@
 
 #include "Command.h"
 #include "Controller.h"
+#include <glm/glm.hpp>
 
 namespace that
 {
@@ -40,20 +41,18 @@ namespace that
 		void BindButtonCommand(unsigned int controller, unsigned int button, InputType inputType, GameObject* pGameObject);
 		template <class T>
 		void BindButtonCommand(unsigned int controller, unsigned int button, InputType inputType);
-
 		void BindButtonCommand(unsigned int controller, unsigned int button, InputType inputType, std::unique_ptr<Command> pCommand);
 
 		template <class T>
 		void BindAxisCommand(unsigned int controller, bool leftJoystick, bool x, GameObject* pGameObject);
 		template <class T>
 		void BindAxisCommand(unsigned int controller, bool leftJoystick, bool x);
-
 		void BindAxisCommand(unsigned int controller, bool leftJoystick, bool x, std::unique_ptr<Command> pCommand);
 
-		float GetAxis(Command* pCommand);
+		glm::vec2 GetTwoDirectionalAxis(Command* pCommand);
 	private:
-		std::vector<std::pair<InputAxis, std::unique_ptr<Command>>> m_pBindedAxisCommands{};
-		std::vector<std::pair<InputKey, std::unique_ptr<Command>>> m_pBindedButtonCommands{};
+		std::vector<std::pair<std::unique_ptr<Command>, std::vector<InputAxis>>> m_pBindedAxisCommands{};
+		std::vector<std::pair<std::unique_ptr<Command>, std::vector<InputKey>>> m_pBindedButtonCommands{};
 		std::vector<std::unique_ptr<Controller>> m_pControllers{};
 	};
 
@@ -64,7 +63,18 @@ namespace that
 
 		if (controller >= m_pControllers.size()) m_pControllers.push_back(std::make_unique<Controller>(controller));
 
-		m_pBindedButtonCommands.push_back(std::make_pair(InputKey{ controller, button, inputType }, std::make_unique<T>(pGameObject)));
+		const auto it{ std::find_if(begin(m_pBindedButtonCommands), end(m_pBindedButtonCommands), [](const auto& pBindedCommand)
+			{
+				return typeid(*pBindedCommand.first.get()) == typeid(T);
+			})};
+
+		if (it != m_pBindedButtonCommands.end())
+		{
+			it->second.push_back(InputKey{ controller, button, inputType });
+			return;
+		}
+
+		m_pBindedButtonCommands.push_back(std::make_pair(std::make_unique<T>(pGameObject), std::vector<InputKey>{ InputKey{ controller, button, inputType } }));
 	}
 
 	template<class T>
@@ -74,7 +84,18 @@ namespace that
 
 		if (controller >= m_pControllers.size()) m_pControllers.push_back(std::make_unique<Controller>(controller));
 
-		m_pBindedButtonCommands.push_back(std::make_pair(InputKey{ controller, button, inputType }, std::make_unique<T>()));
+		const auto it{ std::find_if(begin(m_pBindedButtonCommands), end(m_pBindedButtonCommands), [](const auto& pBindedCommand)
+			{
+				if (std::is_same<T*, decltype(pBindedCommand.first.get())>()) return true;
+			}) };
+
+		if (it != m_pBindedButtonCommands.end())
+		{
+			it->second.push_back(InputKey{ controller, button, inputType });
+			return;
+		}
+
+		m_pBindedButtonCommands.push_back(std::make_pair(std::make_unique<T>(), std::vector<InputKey>{ InputKey{ controller, button, inputType } }));
 	}
 
 	template<class T>
@@ -84,7 +105,18 @@ namespace that
 
 		if (controller >= m_pControllers.size()) m_pControllers.push_back(std::make_unique<Controller>(controller));
 
-		m_pBindedAxisCommands.push_back(std::make_pair(InputAxis{ controller, leftJoystick, x }, std::make_unique<T>(pGameObject)));
+		const auto it{ std::find_if(begin(m_pBindedButtonCommands), end(m_pBindedButtonCommands), [](const auto& pBindedCommand)
+			{
+				if (std::is_same<T*, decltype(pBindedCommand.first.get())>()) return true;
+			}) };
+
+		if (it != m_pBindedButtonCommands.end())
+		{
+			it->second.push_back(InputAxis{ controller, leftJoystick, x });
+			return;
+		}
+
+		m_pBindedAxisCommands.push_back(std::make_pair(std::make_unique<T>(pGameObject), std::vector<InputAxis>{ InputAxis{ controller, leftJoystick, x } }));
 	}
 
 	template<class T>
@@ -94,6 +126,17 @@ namespace that
 
 		if (controller >= m_pControllers.size()) m_pControllers.push_back(std::make_unique<Controller>(controller));
 
-		m_pBindedAxisCommands.push_back(std::make_pair(InputAxis{ controller, leftJoystick, x }, std::make_unique<T>()));
+		const auto it{ std::find_if(begin(m_pBindedButtonCommands), end(m_pBindedButtonCommands), [](const auto& pBindedCommand)
+			{
+				if (std::is_same<T*, decltype(pBindedCommand.first.get())>()) return true;
+			}) };
+
+		if (it != m_pBindedButtonCommands.end())
+		{
+			it->second.push_back(InputAxis{ controller, leftJoystick, x });
+			return;
+		}
+
+		m_pBindedAxisCommands.push_back(std::make_pair(std::make_unique<T>(), std::vector<InputAxis>{ InputAxis{ controller, leftJoystick, x } }));
 	}
 }

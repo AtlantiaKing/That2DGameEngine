@@ -4,5 +4,5 @@
 
 void that::DebugAxisCommand::Execute()
 {
-	std::cout << "Axis value detected " << InputManager::GetInstance().GetAxis(this) << "\n";
+	std::cout << "Axis value detected\n";
 }

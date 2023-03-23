@@ -4,7 +4,7 @@
 #include "InputManager.h"
 #include "Command.h"
 #include "Controller.h"
-
+#include "Logger.h"
 
 bool that::InputManager::ProcessInput()
 {
@@ -23,31 +23,36 @@ bool that::InputManager::ProcessInput()
 		pController->Update();
 	}
 
-	for (const auto& axisCommand : m_pBindedAxisCommands)
+	/*for (const auto& axisCommand : m_pBindedAxisCommands)
 	{
 		float percentage{ m_pControllers[axisCommand.first.controllerIdx]->GetAxis(axisCommand.first.left, axisCommand.first.x) };
 
 		if (abs(percentage) > 0.0f) axisCommand.second->Execute();
-	}
+	}*/
 
 	for (const auto& buttonCommand : m_pBindedButtonCommands)
 	{
 		bool shouldExecute{};
 
-		switch (buttonCommand.first.inputType)
+		for (const auto& inputKey : buttonCommand.second)
 		{
-		case InputType::ONBUTTONDOWN:
-			shouldExecute = m_pControllers[buttonCommand.first.controllerIdx]->OnButtonDown(buttonCommand.first.button);
-			break;
-		case InputType::ONBUTTONUP:
-			shouldExecute = m_pControllers[buttonCommand.first.controllerIdx]->OnButtonUp(buttonCommand.first.button);
-			break;
-		case InputType::ONBUTTON:
-			shouldExecute = m_pControllers[buttonCommand.first.controllerIdx]->OnButton(buttonCommand.first.button);
-			break;
+			switch (inputKey.inputType)
+			{
+			case InputType::ONBUTTONDOWN:
+				shouldExecute = m_pControllers[inputKey.controllerIdx]->OnButtonDown(inputKey.button);
+				break;
+			case InputType::ONBUTTONUP:
+				shouldExecute = m_pControllers[inputKey.controllerIdx]->OnButtonUp(inputKey.button);
+				break;
+			case InputType::ONBUTTON:
+				shouldExecute = m_pControllers[inputKey.controllerIdx]->OnButton(inputKey.button);
+				break;
+			}
+
+			if (shouldExecute) break;
 		}
 
-		if (shouldExecute) buttonCommand.second->Execute();
+		if (shouldExecute) buttonCommand.first->Execute();
 	}
 
 	return true;
@@ -57,24 +62,77 @@ void that::InputManager::BindButtonCommand(unsigned int controller, unsigned int
 {
 	if (controller >= m_pControllers.size()) m_pControllers.push_back(std::make_unique<Controller>(controller));
 
-	m_pBindedButtonCommands.push_back(std::make_pair(InputKey{ controller, button, inputType }, std::move(pCommand)));
+	m_pBindedButtonCommands.push_back(std::make_pair(std::move(pCommand), std::vector<InputKey>{ InputKey{ controller, button, inputType } }));
 }
 
 void that::InputManager::BindAxisCommand(unsigned int controller, bool leftJoystick, bool x, std::unique_ptr<Command> pCommand)
 {
 	if (controller >= m_pControllers.size()) m_pControllers.push_back(std::make_unique<Controller>(controller));
 
-	m_pBindedAxisCommands.push_back(std::make_pair(InputAxis{ controller, leftJoystick, x }, std::move(pCommand)));
+	m_pBindedAxisCommands.push_back(std::make_pair(std::move(pCommand), std::vector<InputAxis>{ InputAxis{ controller, leftJoystick, x } }));
 }
 
-float that::InputManager::GetAxis(Command* pCommand)
+glm::vec2 that::InputManager::GetTwoDirectionalAxis(Command* pCommand)
 {
-	for (const auto& axisCommand : m_pBindedAxisCommands)
-	{
-		if (axisCommand.second.get() != pCommand) continue;
+	const auto& pBindedCommand{ std::find_if(begin(m_pBindedButtonCommands), end(m_pBindedButtonCommands), [pCommand](const auto& command)
+		{
+			return command.first.get() == pCommand;
+		})};
 
-		return m_pControllers[axisCommand.first.controllerIdx]->GetAxis(axisCommand.first.left, axisCommand.first.x);
+	if (pBindedCommand != m_pBindedButtonCommands.end())
+	{
+		const auto pInputVector{ pBindedCommand->second };
+
+		if (pInputVector.size() != 4)
+		{
+			Logger::LogWarning("Trying to read a two directional axis from a command that doesn't have 4 inputs binded to it");
+			return glm::vec2{ 0.0f, 0.0f };
+		}
+
+		glm::vec2 input{};
+
+		for (int i{}; i < pInputVector.size(); ++i)
+		{
+			const auto& inputKey{ pBindedCommand->second[i] };
+
+			bool hasInput{};
+
+			switch (inputKey.inputType)
+			{
+			case InputType::ONBUTTONDOWN:
+				hasInput = m_pControllers[inputKey.controllerIdx]->OnButtonDown(inputKey.button);
+				break;
+			case InputType::ONBUTTONUP:
+				hasInput = m_pControllers[inputKey.controllerIdx]->OnButtonUp(inputKey.button);
+				break;
+			case InputType::ONBUTTON:
+				hasInput = m_pControllers[inputKey.controllerIdx]->OnButton(inputKey.button);
+				break;
+			}
+
+			if (!hasInput) continue;
+
+			switch (i)
+			{
+			case 0:
+				input.x += 1.0f;
+				break;
+			case 1:
+				input.x -= 1.0f;
+				break;
+			case 2:
+				input.y += 1.0f;
+				break;
+			case 3:
+				input.y -= 1.0f;
+				break;
+			}
+		}
+
+		return glm::normalize(input);
 	}
 
-	return 0.0f;
+	// TODO: Handle Axis Commands
+
+	return glm::vec2{ 0.0f, 0.0f };
 }
