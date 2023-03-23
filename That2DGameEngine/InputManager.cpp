@@ -18,24 +18,22 @@ bool that::InputManager::ProcessInput()
 		ImGui_ImplSDL2_ProcessEvent(&e);
 	}
 
+	// Update all the input states of the controllers
 	for (const auto& pController : m_pControllers)
 	{
 		pController->Update();
 	}
 
-	/*for (const auto& axisCommand : m_pBindedAxisCommands)
+	// TODO: Execute analog commands
+
+	// For each command that should be triggered by digital buttons
+	for (const auto& buttonCommand : m_pBindedDigitalCommands)
 	{
-		float percentage{ m_pControllers[axisCommand.first.controllerIdx]->GetAxis(axisCommand.first.left, axisCommand.first.x) };
-
-		if (abs(percentage) > 0.0f) axisCommand.second->Execute();
-	}*/
-
-	for (const auto& buttonCommand : m_pBindedButtonCommands)
-	{
-		bool shouldExecute{};
-
+		// For each button that is binded to this command
 		for (const auto& inputKey : buttonCommand.second)
 		{
+			// Check if input requirement is met
+			bool shouldExecute{};
 			switch (inputKey.inputType)
 			{
 			case InputType::ONBUTTONDOWN:
@@ -49,104 +47,142 @@ bool that::InputManager::ProcessInput()
 				break;
 			}
 
-			if (shouldExecute) break;
+			// Execute the command if one of its input requirements is met
+			if (shouldExecute)
+			{
+				buttonCommand.first->Execute();
+				break;
+			}
 		}
-
-		if (shouldExecute) buttonCommand.first->Execute();
 	}
 
 	return true;
 }
 
-void that::InputManager::BindButtonCommand(unsigned int controller, unsigned int button, InputType inputType, std::unique_ptr<Command> pCommand)
+void that::InputManager::BindDigitalCommand(unsigned int controller, unsigned int button, InputType inputType, std::unique_ptr<Command> pCommand)
 {
-	if (controller >= m_pControllers.size()) m_pControllers.push_back(std::make_unique<Controller>(controller));
+	// Add controllers if the controllerIdx is higher then the amount of controllers available
+	AddControllersIfNeeded(controller);
 
-	m_pBindedButtonCommands.push_back(std::make_pair(std::move(pCommand), std::vector<InputKey>{ InputKey{ controller, button, inputType } }));
+	// Create a new command
+	m_pBindedDigitalCommands.push_back(std::make_pair(std::move(pCommand), std::vector<InputDigital>{ InputDigital{ controller, button, inputType } }));
 }
 
-void that::InputManager::BindButton2DAxisCommand(unsigned int controller, const std::vector<unsigned int>& buttons, std::unique_ptr<Command> pCommand)
+void that::InputManager::BindDigital2DAxisCommand(unsigned int controller, const std::vector<unsigned int>& buttons, std::unique_ptr<Command> pCommand)
 {
-	if (controller >= m_pControllers.size()) m_pControllers.push_back(std::make_unique<Controller>(controller));
+	// Add controllers if the controllerIdx is higher then the amount of controllers available
+	AddControllersIfNeeded(controller);
 
-	std::vector<InputKey> inputKeys{};
-
+	// Create a vector of input keys with the given controller and buttons
+	std::vector<InputDigital> inputKeys{};
 	for (unsigned int button : buttons)
 	{
-		inputKeys.push_back(InputKey{ controller, button, InputType::ONBUTTON });
+		inputKeys.push_back(InputDigital{ controller, button, InputType::ONBUTTON });
 	}
 
-	m_pBindedButtonCommands.push_back(std::make_pair(std::move(pCommand), inputKeys));
+	// Create a new command
+	m_pBindedDigitalCommands.push_back(std::make_pair(std::move(pCommand), inputKeys));
 }
 
-void that::InputManager::BindAxisCommand(unsigned int controller, bool leftJoystick, bool x, std::unique_ptr<Command> pCommand)
+void that::InputManager::BindAnalogCommand(unsigned int controller, bool leftJoystick, bool x, std::unique_ptr<Command> pCommand)
 {
-	if (controller >= m_pControllers.size()) m_pControllers.push_back(std::make_unique<Controller>(controller));
+	// Add controllers if the controllerIdx is higher then the amount of controllers available
+	AddControllersIfNeeded(controller);
 
-	m_pBindedAxisCommands.push_back(std::make_pair(std::move(pCommand), std::vector<InputAxis>{ InputAxis{ controller, leftJoystick, x } }));
+	// Create a new command
+	m_pBindedAnalogCommands.push_back(std::make_pair(std::move(pCommand), std::vector<InputAnalog>{ InputAnalog{ controller, leftJoystick, x } }));
 }
 
-glm::vec2 that::InputManager::GetTwoDirectionalAxis(Command* pCommand)
+void that::InputManager::AddControllersIfNeeded(unsigned int controller)
 {
-	const auto& pBindedCommand{ std::find_if(begin(m_pBindedButtonCommands), end(m_pBindedButtonCommands), [pCommand](const auto& command)
+	// Add controllers until there is a controller with the id that is needed
+	if (controller >= m_pControllers.size())
+	{
+		const unsigned int nrControllersNeeded{ (controller + 1) - static_cast<unsigned int>(m_pControllers.size()) };
+		for (unsigned int i{}; i < nrControllersNeeded; ++i)
+		{
+			m_pControllers.push_back(std::make_unique<Controller>(static_cast<unsigned int>(m_pControllers.size())));
+		}
+	}
+}
+
+glm::vec2 that::InputManager::GetTwoDirectionalAxis(Command* pCommand) const
+{
+	// Get the command/digital input pair with the given command ptr
+	const auto& pBindedCommand{ std::find_if(begin(m_pBindedDigitalCommands), end(m_pBindedDigitalCommands), [pCommand](const auto& command)
 		{
 			return command.first.get() == pCommand;
 		})};
 
-	if (pBindedCommand != m_pBindedButtonCommands.end())
+	// If a digital command is found, return the 2D axis of the digital input
+	if (pBindedCommand != m_pBindedDigitalCommands.end())
 	{
-		const auto pInputVector{ pBindedCommand->second };
-
-		if (pInputVector.size() != 4)
-		{
-			Logger::LogWarning("Trying to read a two directional axis from a command that doesn't have 4 inputs binded to it");
-			return glm::vec2{ 0.0f, 0.0f };
-		}
-
-		glm::vec2 input{};
-
-		for (int i{}; i < pInputVector.size(); ++i)
-		{
-			const auto& inputKey{ pBindedCommand->second[i] };
-
-			bool hasInput{};
-
-			switch (inputKey.inputType)
-			{
-			case InputType::ONBUTTONDOWN:
-				hasInput = m_pControllers[inputKey.controllerIdx]->OnButtonDown(inputKey.button);
-				break;
-			case InputType::ONBUTTONUP:
-				hasInput = m_pControllers[inputKey.controllerIdx]->OnButtonUp(inputKey.button);
-				break;
-			case InputType::ONBUTTON:
-				hasInput = m_pControllers[inputKey.controllerIdx]->OnButton(inputKey.button);
-				break;
-			}
-
-			if (!hasInput) continue;
-
-			switch (i)
-			{
-			case 0:
-				input.x += 1.0f;
-				break;
-			case 1:
-				input.x -= 1.0f;
-				break;
-			case 2:
-				input.y += 1.0f;
-				break;
-			case 3:
-				input.y -= 1.0f;
-				break;
-			}
-		}
-
-		return glm::normalize(input);
+		return GetTwoDirectionalDigitalAxis(pBindedCommand->second);
 	}
 
-	// TODO: Handle Axis Commands
+	// Return the 2D axis of the analog input
+	return GetTwoDirectionalAnalogAxis(pBindedCommand->second);
+}
 
-	return glm::vec2{ 0.0f, 0.0f };
+glm::vec2 that::InputManager::GetTwoDirectionalDigitalAxis(const std::vector<InputDigital>& inputVector) const
+{
+	// If there are not exact 4 inputs binded to this command, log a warning and return nothing
+	if (inputVector.size() != 4)
+	{
+		Logger::LogWarning("Trying to read a two directional axis from a command that doesn't have 4 inputs binded to it");
+		return glm::vec2{ 0.0f, 0.0f };
+	}
+
+	glm::vec2 input{};
+
+	// For each button
+	for (int i{}; i < inputVector.size(); ++i)
+	{
+		const auto& inputKey{ inputVector[i] };
+
+		// Check if input requirement is met
+		bool hasInput{};
+		switch (inputKey.inputType)
+		{
+		case InputType::ONBUTTONDOWN:
+			hasInput = m_pControllers[inputKey.controllerIdx]->OnButtonDown(inputKey.button);
+			break;
+		case InputType::ONBUTTONUP:
+			hasInput = m_pControllers[inputKey.controllerIdx]->OnButtonUp(inputKey.button);
+			break;
+		case InputType::ONBUTTON:
+			hasInput = m_pControllers[inputKey.controllerIdx]->OnButton(inputKey.button);
+			break;
+		}
+
+		// If this button's input is not triggered, continue to the next button
+		if (!hasInput) continue;
+
+		// Calculate the input vector for this button
+		switch (i)
+		{
+		case 0:
+			input.x += 1.0f;
+			break;
+		case 1:
+			input.x -= 1.0f;
+			break;
+		case 2:
+			input.y += 1.0f;
+			break;
+		case 3:
+			input.y -= 1.0f;
+			break;
+		}
+	}
+
+	// Return the normalized 2D axis
+	return glm::normalize(input);
+}
+
+glm::vec2 that::InputManager::GetTwoDirectionalAnalogAxis(const std::vector<InputDigital>&) const
+{
+	// TODO: Parse 2 analog inputs to a 2D axis
+
+	return glm::vec2();
 }
