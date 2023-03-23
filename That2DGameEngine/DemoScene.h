@@ -58,11 +58,11 @@ namespace that
 		pEnemy->GetTransform()->SetWorldPosition(300, 300);
 
 		// Bind the move command to WASD
-		std::vector<unsigned int> character1Input{ SDLK_d,	SDLK_a,	SDLK_w,	SDLK_s };
+		const std::vector<unsigned int> character1Input{ SDLK_d, SDLK_a, SDLK_w, SDLK_s };
 		that::InputManager::GetInstance().BindDigital2DAxisCommand(character1Input, std::make_unique<that::MoveCommand>(pCharacter, 100.0f));
 
 		// Bind the move command to the DPAD of the gamepad
-		std::vector<that::InputManager::GamepadInput> character2Input
+		const std::vector<that::InputManager::GamepadInput> character2Input
 		{
 			that::InputManager::GamepadInput::DPAD_RIGHT,
 			that::InputManager::GamepadInput::DPAD_LEFT,
