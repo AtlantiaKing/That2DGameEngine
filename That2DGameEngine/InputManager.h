@@ -37,6 +37,8 @@ namespace that
 		void BindAnalogCommand(unsigned int controller, bool leftJoystick, bool x, GameObject* pGameObject);
 		void BindAnalogCommand(unsigned int controller, bool leftJoystick, bool x, std::unique_ptr<Command> pCommand);
 
+		void BindAnalog2DAxisCommand(unsigned int controller, bool left, std::unique_ptr<Command> pCommand);
+
 		glm::vec2 GetTwoDirectionalAxis(Command* pCommand) const;
 	private:
 		struct InputDigital
@@ -55,7 +57,7 @@ namespace that
 		void AddControllersIfNeeded(unsigned int controller);
 
 		glm::vec2 GetTwoDirectionalDigitalAxis(const std::vector<InputDigital>& inputVector) const;
-		glm::vec2 GetTwoDirectionalAnalogAxis(const std::vector<InputDigital>& inputVector) const;
+		glm::vec2 GetTwoDirectionalAnalogAxis(const std::vector<InputAnalog>& inputVector) const;
 
 		std::vector<std::pair<std::unique_ptr<Command>, std::vector<InputAnalog>>> m_pBindedAnalogCommands{};
 		std::vector<std::pair<std::unique_ptr<Command>, std::vector<InputDigital>>> m_pBindedDigitalCommands{};

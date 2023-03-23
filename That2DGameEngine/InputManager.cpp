@@ -6,7 +6,7 @@
 #include "Controller.h"
 #include "Logger.h"
 
-bool that::InputManager::ProcessInput()
+bool that::InputManager::ProcessInput() 
 {
 	// Check Alt+F4
 	SDL_Event e;
@@ -24,7 +24,21 @@ bool that::InputManager::ProcessInput()
 		pController->Update();
 	}
 
-	// TODO: Execute analog commands
+	// For each command that should be triggered by analog input
+	for (const auto& analogCommand : m_pBindedAnalogCommands)
+	{
+		// For each button that is binded to this command
+		for (const auto& inputAnalog : analogCommand.second)
+		{
+			// Execute the command if one of its input requirements is met
+			if (abs(m_pControllers[inputAnalog.controllerIdx]->GetAxis(inputAnalog.left, inputAnalog.x)) > 0.0f)
+			{
+				analogCommand.first->Execute();
+
+				break;
+			}
+		}
+	}
 
 	// For each command that should be triggered by digital buttons
 	for (const auto& buttonCommand : m_pBindedDigitalCommands)
@@ -106,6 +120,22 @@ void that::InputManager::AddControllersIfNeeded(unsigned int controller)
 	}
 }
 
+void that::InputManager::BindAnalog2DAxisCommand(unsigned int controller, bool left, std::unique_ptr<Command> pCommand)
+{
+	// Add controllers if the controllerIdx is higher then the amount of controllers available
+	AddControllersIfNeeded(controller);
+
+	// Create a vector of input keys with the given controller and buttons
+	std::vector<InputAnalog> inputKeys
+	{
+		InputAnalog{ controller, left, true },
+		InputAnalog{ controller, left, false }
+	};
+
+	// Create a new command
+	m_pBindedAnalogCommands.push_back(std::make_pair(std::move(pCommand), inputKeys));
+}
+
 glm::vec2 that::InputManager::GetTwoDirectionalAxis(Command* pCommand) const
 {
 	// Get the command/digital input pair with the given command ptr
@@ -120,8 +150,20 @@ glm::vec2 that::InputManager::GetTwoDirectionalAxis(Command* pCommand) const
 		return GetTwoDirectionalDigitalAxis(pBindedCommand->second);
 	}
 
-	// Return the 2D axis of the analog input
-	return GetTwoDirectionalAnalogAxis(pBindedCommand->second);
+	// Get the command/digital input pair with the given command ptr
+	const auto& pBindedAnalogCommand{ std::find_if(begin(m_pBindedAnalogCommands), end(m_pBindedAnalogCommands), [pCommand](const auto& command)
+		{
+			return command.first.get() == pCommand;
+		}) };
+
+
+	// If an analog command is found, return the 2D axis of the analog input
+	if (pBindedAnalogCommand != m_pBindedAnalogCommands.end())
+	{
+		return GetTwoDirectionalAnalogAxis(pBindedAnalogCommand->second);
+	}
+
+	return glm::vec2{};
 }
 
 glm::vec2 that::InputManager::GetTwoDirectionalDigitalAxis(const std::vector<InputDigital>& inputVector) const
@@ -129,7 +171,7 @@ glm::vec2 that::InputManager::GetTwoDirectionalDigitalAxis(const std::vector<Inp
 	// If there are not exact 4 inputs binded to this command, log a warning and return nothing
 	if (inputVector.size() != 4)
 	{
-		Logger::LogWarning("Trying to read a two directional axis from a command that doesn't have 4 inputs binded to it");
+		Logger::LogWarning("Trying to read a two directional digital axis from a command that doesn't have 4 inputs binded to it");
 		return glm::vec2{ 0.0f, 0.0f };
 	}
 
@@ -180,9 +222,26 @@ glm::vec2 that::InputManager::GetTwoDirectionalDigitalAxis(const std::vector<Inp
 	return glm::normalize(input);
 }
 
-glm::vec2 that::InputManager::GetTwoDirectionalAnalogAxis(const std::vector<InputDigital>&) const
+glm::vec2 that::InputManager::GetTwoDirectionalAnalogAxis(const std::vector<InputAnalog>& inputVector) const
 {
-	// TODO: Parse 2 analog inputs to a 2D axis
+	// If there are not exact 4 inputs binded to this command, log a warning and return nothing
+	if (inputVector.size() != 2)
+	{
+		Logger::LogWarning("Trying to read a two directional analog axis from a command that doesn't have 2 inputs binded to it");
+		return glm::vec2{ 0.0f, 0.0f };
+	}
 
-	return glm::vec2();
+	// Retrieve the two input data
+	const auto& horizontalInput{ inputVector[0] };
+	const auto& verticalInput{ inputVector[1] };
+
+	// Calculate the input vector for this button
+	glm::vec2 input
+	{
+		m_pControllers[horizontalInput.controllerIdx]->GetAxis(horizontalInput.left, horizontalInput.x),
+		m_pControllers[verticalInput.controllerIdx]->GetAxis(verticalInput.left, verticalInput.x)
+	};
+
+	// Return the normalized 2D axis
+	return glm::normalize(input);
 }
