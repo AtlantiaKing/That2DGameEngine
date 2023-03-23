@@ -136,7 +136,7 @@ glm::vec2 that::InputManager::GetTwoDirectionalDigitalAxis(const std::vector<Inp
 	glm::vec2 input{};
 
 	// For each button
-	for (int i{}; i < inputVector.size(); ++i)
+	for (int i{}; i < static_cast<int>(inputVector.size()); ++i)
 	{
 		const auto& inputKey{ inputVector[i] };
 
