@@ -8,15 +8,8 @@
 
 bool that::InputManager::ProcessInput() 
 {
-	// Check Alt+F4
-	SDL_Event e;
-	while (SDL_PollEvent(&e)) {
-		if (e.type == SDL_QUIT) {
-			return false;
-		}
-		//process event for IMGUI
-		ImGui_ImplSDL2_ProcessEvent(&e);
-	}
+	// Read input from SDL
+	if (!ReadSDLInput()) return false;
 
 	// Update all the input states of the controllers
 	for (const auto& pController : m_pControllers)
@@ -34,7 +27,6 @@ bool that::InputManager::ProcessInput()
 			if (abs(m_pControllers[inputAnalog.controllerIdx]->GetAxis(inputAnalog.left, inputAnalog.x)) > 0.0f)
 			{
 				analogCommand.first->Execute();
-
 				break;
 			}
 		}
@@ -46,23 +38,8 @@ bool that::InputManager::ProcessInput()
 		// For each button that is binded to this command
 		for (const auto& inputKey : buttonCommand.second)
 		{
-			// Check if input requirement is met
-			bool shouldExecute{};
-			switch (inputKey.inputType)
-			{
-			case InputType::ONBUTTONDOWN:
-				shouldExecute = m_pControllers[inputKey.controllerIdx]->OnButtonDown(inputKey.button);
-				break;
-			case InputType::ONBUTTONUP:
-				shouldExecute = m_pControllers[inputKey.controllerIdx]->OnButtonUp(inputKey.button);
-				break;
-			case InputType::ONBUTTON:
-				shouldExecute = m_pControllers[inputKey.controllerIdx]->OnButton(inputKey.button);
-				break;
-			}
-
 			// Execute the command if one of its input requirements is met
-			if (shouldExecute)
+			if (TryInput(inputKey))
 			{
 				buttonCommand.first->Execute();
 				break;
@@ -73,25 +50,116 @@ bool that::InputManager::ProcessInput()
 	return true;
 }
 
-void that::InputManager::BindDigitalCommand(unsigned int controller, unsigned int button, InputType inputType, std::unique_ptr<Command> pCommand)
+bool that::InputManager::ReadSDLInput()
+{
+	m_KeyboardDownInput.clear();
+	m_KeyboardUpInput.clear();
+
+	// Check keyboard input
+	SDL_Event e;
+	while (SDL_PollEvent(&e))
+	{
+		if (e.type == SDL_QUIT) return false;
+
+		switch (e.key.type)
+		{
+		case SDL_KEYUP:
+		{
+			const auto it{ m_KeyboardInput.find(e.key.keysym.sym) };
+			if (it != m_KeyboardInput.end())
+			{
+				m_KeyboardInput.erase(it);
+				m_KeyboardUpInput.insert(e.key.keysym.sym);
+			}
+			break;
+		}
+		case SDL_KEYDOWN:
+		{
+			const auto it{ m_KeyboardInput.find(e.key.keysym.sym) };
+			if (it == m_KeyboardInput.end())
+			{
+				m_KeyboardInput.insert(e.key.keysym.sym);
+				m_KeyboardDownInput.insert(e.key.keysym.sym);
+			}
+			break;
+		}
+		}
+
+		//process event for IMGUI
+		ImGui_ImplSDL2_ProcessEvent(&e);
+	}
+
+	return true;
+}
+
+bool that::InputManager::TryInput(const that::InputManager::InputDigital& inputKey)
+{
+	if (inputKey.keyboard)
+	{
+		switch (inputKey.inputType)
+		{
+		case InputType::ONBUTTONDOWN:
+			return m_KeyboardDownInput.find(inputKey.button) != m_KeyboardDownInput.end();
+		case InputType::ONBUTTONUP:
+			return m_KeyboardUpInput.find(inputKey.button) != m_KeyboardUpInput.end();
+		case InputType::ONBUTTON:
+			return m_KeyboardInput.find(inputKey.button) != m_KeyboardInput.end();
+		}
+	}
+	else
+	{
+		switch (inputKey.inputType)
+		{
+		case InputType::ONBUTTONDOWN:
+			return m_pControllers[inputKey.controllerIdx]->OnButtonDown(inputKey.button);
+		case InputType::ONBUTTONUP:
+			return m_pControllers[inputKey.controllerIdx]->OnButtonUp(inputKey.button);
+		case InputType::ONBUTTON:
+			return m_pControllers[inputKey.controllerIdx]->OnButton(inputKey.button);
+		}
+	}
+
+	return false;
+}
+
+void that::InputManager::BindDigitalCommand(unsigned int controller, GamepadInput button, InputType inputType, std::unique_ptr<Command> pCommand)
 {
 	// Add controllers if the controllerIdx is higher then the amount of controllers available
 	AddControllersIfNeeded(controller);
 
 	// Create a new command
-	m_pBindedDigitalCommands.push_back(std::make_pair(std::move(pCommand), std::vector<InputDigital>{ InputDigital{ controller, button, inputType } }));
+	m_pBindedDigitalCommands.push_back(std::make_pair(std::move(pCommand), std::vector<InputDigital>{ InputDigital{ false, controller, static_cast<unsigned int>(button), inputType } }));
 }
 
-void that::InputManager::BindDigital2DAxisCommand(unsigned int controller, const std::vector<unsigned int>& buttons, std::unique_ptr<Command> pCommand)
+void that::InputManager::BindDigitalCommand(unsigned int key, InputType inputType, std::unique_ptr<Command> pCommand)
+{
+	// Create a new command
+	m_pBindedDigitalCommands.push_back(std::make_pair(std::move(pCommand), std::vector<InputDigital>{ InputDigital{ true, 0, key, inputType } }));
+}
+
+void that::InputManager::BindDigital2DAxisCommand(unsigned int controller, const std::vector<GamepadInput>& buttons, std::unique_ptr<Command> pCommand)
 {
 	// Add controllers if the controllerIdx is higher then the amount of controllers available
 	AddControllersIfNeeded(controller);
 
 	// Create a vector of input keys with the given controller and buttons
 	std::vector<InputDigital> inputKeys{};
-	for (unsigned int button : buttons)
+	for (GamepadInput button : buttons)
 	{
-		inputKeys.push_back(InputDigital{ controller, button, InputType::ONBUTTON });
+		inputKeys.push_back(InputDigital{ false, controller, static_cast<unsigned int>(button), InputType::ONBUTTON });
+	}
+
+	// Create a new command
+	m_pBindedDigitalCommands.push_back(std::make_pair(std::move(pCommand), inputKeys));
+}
+
+void that::InputManager::BindDigital2DAxisCommand(const std::vector<unsigned int>& keys, std::unique_ptr<Command> pCommand)
+{
+	// Create a vector of input keys with the given controller and buttons
+	std::vector<InputDigital> inputKeys{};
+	for (unsigned int key : keys)
+	{
+		inputKeys.push_back(InputDigital{ true, 0, key, InputType::ONBUTTON });
 	}
 
 	// Create a new command
@@ -105,19 +173,6 @@ void that::InputManager::BindAnalogCommand(unsigned int controller, bool leftJoy
 
 	// Create a new command
 	m_pBindedAnalogCommands.push_back(std::make_pair(std::move(pCommand), std::vector<InputAnalog>{ InputAnalog{ controller, leftJoystick, x } }));
-}
-
-void that::InputManager::AddControllersIfNeeded(unsigned int controller)
-{
-	// Add controllers until there is a controller with the id that is needed
-	if (controller >= m_pControllers.size())
-	{
-		const unsigned int nrControllersNeeded{ (controller + 1) - static_cast<unsigned int>(m_pControllers.size()) };
-		for (unsigned int i{}; i < nrControllersNeeded; ++i)
-		{
-			m_pControllers.push_back(std::make_unique<Controller>(static_cast<unsigned int>(m_pControllers.size())));
-		}
-	}
 }
 
 void that::InputManager::BindAnalog2DAxisCommand(unsigned int controller, bool left, std::unique_ptr<Command> pCommand)
@@ -134,6 +189,19 @@ void that::InputManager::BindAnalog2DAxisCommand(unsigned int controller, bool l
 
 	// Create a new command
 	m_pBindedAnalogCommands.push_back(std::make_pair(std::move(pCommand), inputKeys));
+}
+
+void that::InputManager::AddControllersIfNeeded(unsigned int controller)
+{
+	// Add controllers until there is a controller with the id that is needed
+	if (controller >= m_pControllers.size())
+	{
+		const unsigned int nrControllersNeeded{ (controller + 1) - static_cast<unsigned int>(m_pControllers.size()) };
+		for (unsigned int i{}; i < nrControllersNeeded; ++i)
+		{
+			m_pControllers.push_back(std::make_unique<Controller>(static_cast<unsigned int>(m_pControllers.size())));
+		}
+	}
 }
 
 glm::vec2 that::InputManager::GetTwoDirectionalAxis(Command* pCommand) const
@@ -184,17 +252,24 @@ glm::vec2 that::InputManager::GetTwoDirectionalDigitalAxis(const std::vector<Inp
 
 		// Check if input requirement is met
 		bool hasInput{};
-		switch (inputKey.inputType)
+		if (inputKey.keyboard)
 		{
-		case InputType::ONBUTTONDOWN:
-			hasInput = m_pControllers[inputKey.controllerIdx]->OnButtonDown(inputKey.button);
-			break;
-		case InputType::ONBUTTONUP:
-			hasInput = m_pControllers[inputKey.controllerIdx]->OnButtonUp(inputKey.button);
-			break;
-		case InputType::ONBUTTON:
-			hasInput = m_pControllers[inputKey.controllerIdx]->OnButton(inputKey.button);
-			break;
+			if (m_KeyboardInput.find(inputKey.button) != m_KeyboardInput.end()) hasInput = true;
+		}
+		else
+		{
+			switch (inputKey.inputType)
+			{
+			case InputType::ONBUTTONDOWN:
+				hasInput = m_pControllers[inputKey.controllerIdx]->OnButtonDown(inputKey.button);
+				break;
+			case InputType::ONBUTTONUP:
+				hasInput = m_pControllers[inputKey.controllerIdx]->OnButtonUp(inputKey.button);
+				break;
+			case InputType::ONBUTTON:
+				hasInput = m_pControllers[inputKey.controllerIdx]->OnButton(inputKey.button);
+				break;
+			}
 		}
 
 		// If this button's input is not triggered, continue to the next button

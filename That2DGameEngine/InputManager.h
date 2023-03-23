@@ -7,6 +7,7 @@
 #include "Command.h"
 #include "Controller.h"
 #include <glm/glm.hpp>
+#include <set>
 
 namespace that
 {
@@ -21,17 +22,41 @@ namespace that
 			ONBUTTONUP,
 			ONBUTTON
 		};
+		enum class GamepadInput
+		{
+			DPAD_UP = 0x0001,
+			DPAD_DOWN = 0x0002,
+			DPAD_LEFT = 0x0004,
+			DPAD_RIGHT = 0x0008,
+			START = 0x0010,
+			BACK = 0x0020,
+			LEFT_THUMB = 0x0040,
+			RIGHT_THUMB = 0x0080,
+			LEFT_SHOULDER = 0x0100,
+			RIGHT_SHOULDER = 0x0200,
+			A = 0x1000,
+			B = 0x2000,
+			X = 0x4000,
+			Y = 0x8000
+		};
 
 		bool ProcessInput();
 
 		template <class T>
-		void BindDigitalCommand(unsigned int controller, unsigned int button, InputType inputType, GameObject* pGameObject);
-		void BindDigitalCommand(unsigned int controller, unsigned int button, InputType inputType, std::unique_ptr<Command> pCommand);
+		void BindDigitalCommand(unsigned int controller, GamepadInput button, InputType inputType, GameObject* pGameObject);
+		template <class T>
+		void BindDigitalCommand(unsigned int key, InputType inputType, GameObject* pGameObject);
+		void BindDigitalCommand(unsigned int controller, GamepadInput button, InputType inputType, std::unique_ptr<Command> pCommand);
+		void BindDigitalCommand(unsigned int key, InputType inputType, std::unique_ptr<Command> pCommand);
 
 		/*
 		 The order of buttons should be right, left, up, down
 		 */
-		void BindDigital2DAxisCommand(unsigned int controller, const std::vector<unsigned int>& buttons, std::unique_ptr<Command> pCommand);
+		void BindDigital2DAxisCommand(unsigned int controller, const std::vector<GamepadInput>& buttons, std::unique_ptr<Command> pCommand);
+		/*
+		 The order of buttons should be right, left, up, down
+		 */
+		void BindDigital2DAxisCommand(const std::vector<unsigned int>& keys, std::unique_ptr<Command> pCommand);
 
 		template <class T>
 		void BindAnalogCommand(unsigned int controller, bool leftJoystick, bool x, GameObject* pGameObject);
@@ -43,6 +68,7 @@ namespace that
 	private:
 		struct InputDigital
 		{
+			bool keyboard{};
 			unsigned int controllerIdx{};
 			unsigned int button{};
 			InputType inputType{};
@@ -53,6 +79,13 @@ namespace that
 			bool left{};
 			bool x{};
 		};
+
+		std::set<unsigned int> m_KeyboardDownInput{};
+		std::set<unsigned int> m_KeyboardUpInput{};
+		std::set<unsigned int> m_KeyboardInput{};
+
+		bool ReadSDLInput();
+		bool TryInput(const that::InputManager::InputDigital& inputKey);
 
 		void AddControllersIfNeeded(unsigned int controller);
 
@@ -65,7 +98,7 @@ namespace that
 	};
 
 	template<class T>
-	inline void InputManager::BindDigitalCommand(unsigned int controller, unsigned int button, InputType inputType, GameObject* pGameObject)
+	inline void InputManager::BindDigitalCommand(unsigned int controller, GamepadInput button, InputType inputType, GameObject* pGameObject)
 	{
 		static_assert(std::is_base_of<Command, T>(), "T needs to be derived from Command");
 
@@ -82,12 +115,35 @@ namespace that
 		// If a command/input pair has been found, bind the new input to this command
 		if (it != m_pBindedDigitalCommands.end())
 		{
-			it->second.push_back(InputDigital{ controller, button, inputType });
+			it->second.push_back(InputDigital{ false, controller, static_cast<unsigned int>(button), inputType });
 			return;
 		}
 
 		// Create a new command
-		m_pBindedDigitalCommands.push_back(std::make_pair(std::make_unique<T>(pGameObject), std::vector<InputDigital>{ InputDigital{ controller, button, inputType } }));
+		m_pBindedDigitalCommands.push_back(std::make_pair(std::make_unique<T>(pGameObject), std::vector<InputDigital>{ InputDigital{ false, controller, static_cast<unsigned int>(button), inputType } }));
+	}
+
+	template<class T>
+	inline void InputManager::BindDigitalCommand(unsigned int key, InputType inputType, GameObject* pGameObject)
+	{
+		static_assert(std::is_base_of<Command, T>(), "T needs to be derived from Command");
+
+		// Try finding a command/input pair of type T
+		const auto it{ std::find_if(begin(m_pBindedDigitalCommands), end(m_pBindedDigitalCommands), [](const auto& pBindedCommand)
+			{
+				return typeid(*pBindedCommand.first.get()) == typeid(T);
+			}) };
+
+
+		// If a command/input pair has been found, bind the new input to this command
+		if (it != m_pBindedDigitalCommands.end())
+		{
+			it->second.push_back(InputDigital{ true, 0, key, inputType });
+			return;
+		}
+
+		// Create a new command
+		m_pBindedDigitalCommands.push_back(std::make_pair(std::make_unique<T>(pGameObject), std::vector<InputDigital>{ InputDigital{ true, 0, key, inputType } }));
 	}
 
 	template<class T>
