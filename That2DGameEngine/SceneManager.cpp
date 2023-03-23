@@ -1,42 +1,42 @@
 #include "SceneManager.h"
 #include "Scene.h"
 
+void that::SceneManager::LoadScene(unsigned int index)
+{
+	if (index >= m_SceneLoaders.size())
+	{
+		Logger::LogWarning("Trying to log a scene that is out of range");
+		return;
+	}
+
+	// Remove the previous scene
+	m_pScene = std::make_unique<Scene>();
+
+	// Load the new scene
+	m_SceneLoaders[index](*m_pScene);
+}
+
+void that::SceneManager::AddScene(const std::function<void(Scene&)>& sceneLoader)
+{
+	m_SceneLoaders.push_back(sceneLoader);
+}
+
 void that::SceneManager::Update()
 {
-	for(auto& scene : m_scenes)
-	{
-		scene->Update();
-	}
+	m_pScene->Update();
 }
 
 void that::SceneManager::LateUpdate()
 {
-	for (auto& scene : m_scenes)
-	{
-		scene->LateUpdate();
-		scene->UpdateCleanup();
-	}
+	m_pScene->LateUpdate();
 }
 
 void that::SceneManager::Render()
 {
-	for (const auto& scene : m_scenes)
-	{
-		scene->Render();
-	}
+	m_pScene->Render();
 }
 
 void that::SceneManager::OnGUI()
 {
-	for (const auto& scene : m_scenes)
-	{
-		scene->OnGUI();
-	}
-}
-
-that::Scene& that::SceneManager::CreateScene(const std::string& name)
-{
-	const auto& scene = std::shared_ptr<Scene>(new Scene(name));
-	m_scenes.push_back(scene);
-	return *scene;
+	m_pScene->OnGUI();
 }

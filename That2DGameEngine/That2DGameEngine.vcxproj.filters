@@ -45,6 +45,9 @@
     <Filter Include="Input\Commands">
       <UniqueIdentifier>{1b74cc05-dc42-4f51-a2df-cc88a8a90336}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{48d243f8-e4dc-4313-871d-4dd5dff9fdaa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Font.h">
@@ -149,6 +152,9 @@
     <ClInclude Include="MoveCommand.h">
       <Filter>Input\Commands</Filter>
     </ClInclude>
+    <ClInclude Include="DemoScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">
@@ -164,9 +170,6 @@
       <Filter>Seperate Objects</Filter>
     </ClCompile>
     <ClCompile Include="Engine.cpp">
-      <Filter>Engine Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Main.cpp">
       <Filter>Engine Files</Filter>
     </ClCompile>
     <ClCompile Include="InputManager.cpp">
@@ -250,5 +253,6 @@
     <ClCompile Include="MoveCommand.cpp">
       <Filter>Input\Commands</Filter>
     </ClCompile>
+    <ClCompile Include="Main.cpp" />
   </ItemGroup>
 </Project>

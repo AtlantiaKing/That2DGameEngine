@@ -78,14 +78,17 @@ that::Engine::~Engine()
 	SDL_Quit();
 }
 
-void that::Engine::Run(const std::function<void()>& load)
+void that::Engine::Run(const std::function<void()>& setup)
 {
-	load();
+	setup();
 
 	auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
 	auto& time = Time::GetInstance();
+
+	// Load the first scene
+	sceneManager.LoadScene(0);
 
 	constexpr int desiredFPS{ 60 };
 	constexpr float desiredFrameTime{ 1000.0f / desiredFPS };

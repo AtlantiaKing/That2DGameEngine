@@ -5,12 +5,6 @@
 
 using namespace that;
 
-unsigned int Scene::m_idCounter = 0;
-
-Scene::Scene(const std::string& name) : m_name(name) {}
-
-Scene::~Scene() = default;
-
 GameObject* that::Scene::CreateGameObject(const std::string& name)
 {
 	auto pGameObject{ std::make_unique<GameObject>(this, name) };
@@ -18,30 +12,30 @@ GameObject* that::Scene::CreateGameObject(const std::string& name)
 
 	GameObject* pGameObjectPtr{ pGameObject.get() };
 
-	m_objects.push_back(std::move(pGameObject));
+	m_pObjects.push_back(std::move(pGameObject));
 
 	return pGameObjectPtr;
 }
 
 void Scene::RemoveAll()
 {
-	m_objects.clear();
+	m_pObjects.clear();
 }
 
 void that::Scene::Add(std::unique_ptr<GameObject> pGameObject)
 {
-	m_objects.push_back(std::move(pGameObject));
+	m_pObjects.push_back(std::move(pGameObject));
 }
 
 std::unique_ptr<GameObject> that::Scene::GetUnique(GameObject* pGameObject)
 {
-	for (auto it{ begin(m_objects) }; it < end(m_objects); ++it)
+	for (auto it{ begin(m_pObjects) }; it < end(m_pObjects); ++it)
 	{
 		if (it->get() != pGameObject) continue;
 
 		auto pUnique{ std::move(*it) };
 
-		m_objects.erase(it);
+		m_pObjects.erase(it);
 
 		return pUnique;
 	}
@@ -51,7 +45,7 @@ std::unique_ptr<GameObject> that::Scene::GetUnique(GameObject* pGameObject)
 
 void Scene::Update()
 {
-	for(auto& object : m_objects)
+	for(auto& object : m_pObjects)
 	{
 		object->Update();
 	}
@@ -59,7 +53,7 @@ void Scene::Update()
 
 void that::Scene::LateUpdate()
 {
-	for (auto& object : m_objects)
+	for (auto& object : m_pObjects)
 	{
 		object->LateUpdate();
 	}
@@ -68,13 +62,13 @@ void that::Scene::LateUpdate()
 void that::Scene::UpdateCleanup()
 {
 	// Remove gameobjects from their container if they are marked as dead
-	m_objects.erase(std::remove_if(begin(m_objects), end(m_objects), [](const auto& pGameObject)
+	m_pObjects.erase(std::remove_if(begin(m_pObjects), end(m_pObjects), [](const auto& pGameObject)
 		{
 			return pGameObject->IsMarkedAsDead();
-		}), end(m_objects));
+		}), end(m_pObjects));
 
 	// Remove all components that are marked as dead
-	for (auto& object : m_objects)
+	for (auto& object : m_pObjects)
 	{
 		object->UpdateCleanup();
 	}
@@ -82,7 +76,7 @@ void that::Scene::UpdateCleanup()
 
 void Scene::Render() const
 {
-	for (const auto& object : m_objects)
+	for (const auto& object : m_pObjects)
 	{
 		object->Render();
 	}
@@ -92,7 +86,7 @@ void that::Scene::OnGUI()
 {
 	RenderScenegraph();
 
-	for (const auto& object : m_objects)
+	for (const auto& object : m_pObjects)
 	{
 		object->OnGUI();
 	}
@@ -112,7 +106,7 @@ void that::Scene::RenderScenegraph()
 		return;
 	}
 
-	for (const auto& go : m_objects)
+	for (const auto& go : m_pObjects)
 	{
 		RenderScenegraphGameObject(go.get());
 

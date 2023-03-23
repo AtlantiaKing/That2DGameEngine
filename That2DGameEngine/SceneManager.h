@@ -1,16 +1,18 @@
 #pragma once
-#include <vector>
-#include <string>
-#include <memory>
 #include "Singleton.h"
+
+#include <vector>
+#include <memory>
+#include <functional>
+#include "Scene.h"
 
 namespace that
 {
-	class Scene;
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:
-		Scene& CreateScene(const std::string& name);
+		void LoadScene(unsigned int index);
+		void AddScene(const std::function<void(Scene&)>& sceneLoader);
 
 		void Update();
 		void LateUpdate();
@@ -19,6 +21,7 @@ namespace that
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;
-		std::vector<std::shared_ptr<Scene>> m_scenes;
+		std::vector<std::function<void(Scene&)>> m_SceneLoaders{};
+		std::shared_ptr<Scene> m_pScene{};
 	};
 }
