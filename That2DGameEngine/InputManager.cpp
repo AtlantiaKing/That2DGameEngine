@@ -323,6 +323,5 @@ glm::vec2 that::InputManager::GetTwoDirectionalAnalogAxis(const std::vector<Inpu
 		m_pControllers[verticalInput.controllerIdx]->GetAxis(verticalInput.left, verticalInput.x)
 	};
 
-	// Return the normalized 2D axis
-	return glm::normalize(input);
+	return input;
 }
