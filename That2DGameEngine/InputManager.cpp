@@ -191,6 +191,12 @@ void that::InputManager::BindAnalog2DAxisCommand(unsigned int controller, bool l
 	m_pBindedAnalogCommands.push_back(std::make_pair(std::move(pCommand), inputKeys));
 }
 
+void that::InputManager::Clear()
+{
+	m_pBindedAnalogCommands.clear();
+	m_pBindedDigitalCommands.clear();
+}
+
 void that::InputManager::AddControllersIfNeeded(unsigned int controller)
 {
 	// Add controllers until there is a controller with the id that is needed

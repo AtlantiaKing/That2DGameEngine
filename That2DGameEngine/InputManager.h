@@ -1,11 +1,10 @@
 #pragma once
 #include "Singleton.h"
+#include "Command.h"
+#include "Controller.h"
 
 #include <memory>
 #include <vector>
-
-#include "Command.h"
-#include "Controller.h"
 #include <glm/glm.hpp>
 #include <set>
 
@@ -65,6 +64,8 @@ namespace that
 		void BindAnalog2DAxisCommand(unsigned int controller, bool left, std::unique_ptr<Command> pCommand);
 
 		glm::vec2 GetTwoDirectionalAxis(Command* pCommand) const;
+
+		void Clear();
 	private:
 		struct InputDigital
 		{
