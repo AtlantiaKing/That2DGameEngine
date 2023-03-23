@@ -300,7 +300,7 @@ glm::vec2 that::InputManager::GetTwoDirectionalDigitalAxis(const std::vector<Inp
 	}
 
 	// Return the normalized 2D axis
-	return glm::normalize(input);
+	return glm::dot(input,input) > 0.0f ? glm::normalize(input) : input;
 }
 
 glm::vec2 that::InputManager::GetTwoDirectionalAnalogAxis(const std::vector<InputAnalog>& inputVector) const
