@@ -118,8 +118,7 @@ namespace that
 		{
 			if (GetComponent<Transform>())
 			{
-				// TODO: Add a name to a gameobject, log the name of the gameobject when this warning is triggered
-				Logger::LogWarning("A second Transform component is being added to this gameobject");
+				Logger::LogWarning( "A second Transform component is being added, this will have no effect", this);
 			}
 		}
 
@@ -137,8 +136,7 @@ namespace that
 		{
 			// If the user adds a second texture renderer to a gameobject
 			//		Log a warning that the previous texture renderer has been discarded
-			// TODO: Add a name to a gameobject, log the name of the gameobject when this warning is triggered
-			if(m_pRenderComponent) Logger::LogWarning("A second TextureRenderer component is being added to this gameobject, the previous TextureRenderer is discarded");
+			if(m_pRenderComponent) Logger::LogWarning("A second TextureRenderer component is being added to this gameobject, the previous TextureRenderer is discarded", this);
 
 			m_pRenderComponent = static_cast<TextureRenderer*>(pComponentPtr);
 		}

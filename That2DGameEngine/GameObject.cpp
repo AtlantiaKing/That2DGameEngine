@@ -164,11 +164,10 @@ void that::GameObject::SetParent(GameObject* pParent)
 
 that::GameObject* that::GameObject::GetChild(int index) const
 {
-	// TODO: Add a name to a gameobject, log the name of the gameobject when this warning is triggered
 	// Log a warning if the child is out of bounds
 	if (index >= static_cast<int>(m_pChildren.size()))
 	{
-		Logger::LogWarning("Trying to get a child out of bounds");
+		Logger::LogWarning( "Trying to get a child with an index that is out of bounds", this);
 		return nullptr;
 	}
 
@@ -204,8 +203,7 @@ bool that::GameObject::Destroy(Component* pComponent)
 	// Log a warning if the owner of this component is not this GO
 	if (pComponent->GetOwner() != this)
 	{
-		// TODO: Add a name to a gameobject, log the name of the gameobject when this warning is triggered
-		Logger::LogWarning("Trying to destroy a component that is not part of this gameobject.");
+		Logger::LogWarning( "Trying to destroy a component that is not part of this gameobject.", this);
 		return false;
 	}
 

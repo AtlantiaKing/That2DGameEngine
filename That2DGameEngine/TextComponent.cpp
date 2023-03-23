@@ -82,8 +82,7 @@ bool that::TextComponent::ReloadTexture()
 	//		Log a warning that no font is assigned to this TextComponent
 	if (!m_pFont)
 	{
-		// TODO: Add a name to a gameobject, log the name of the gameobject when this warning is triggered
-		Logger::LogWarning("Trying to create a texture for this TextComponent but there is no font assigned");
+		Logger::LogWarning( "Trying to create a texture for this TextComponent but there is no font assigned", GetOwner());
 		return true;
 	}
 
@@ -96,8 +95,7 @@ bool that::TextComponent::ReloadTexture()
 
 		if (!m_pTextureRenderer)
 		{
-			// TODO: Add a name to a gameobject, log the name of the gameobject when this warning is triggered
-			Logger::LogWarning("The owner of this TextComponent component has no TextureRenderer");
+			Logger::LogWarning( "The owner of this TextComponent component has no TextureRenderer", GetOwner());
 			return false;
 		}
 	};
