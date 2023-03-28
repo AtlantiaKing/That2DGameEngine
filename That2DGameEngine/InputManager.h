@@ -63,6 +63,7 @@ namespace that
 
 		void BindAnalog2DAxisCommand(unsigned int controller, bool left, std::unique_ptr<Command> pCommand);
 
+		float GetAxis(Command* pCommand) const;
 		glm::vec2 GetTwoDirectionalAxis(Command* pCommand) const;
 
 		void Clear();
@@ -81,17 +82,18 @@ namespace that
 			bool x{};
 		};
 
-		std::set<unsigned int> m_KeyboardDownInput{};
-		std::set<unsigned int> m_KeyboardUpInput{};
-		std::set<unsigned int> m_KeyboardInput{};
-
 		bool ReadSDLInput();
 		bool TryInput(const that::InputManager::InputDigital& inputKey);
 
 		void AddControllersIfNeeded(unsigned int controller);
 
-		glm::vec2 GetTwoDirectionalDigitalAxis(const std::vector<InputDigital>& inputVector) const;
-		glm::vec2 GetTwoDirectionalAnalogAxis(const std::vector<InputAnalog>& inputVector) const;
+		glm::vec2 GetTwoDirectionalAxis(const std::vector<InputDigital>& inputVector) const;
+		glm::vec2 GetTwoDirectionalAxis(const std::vector<InputAnalog>& inputVector) const;
+
+
+		std::set<unsigned int> m_KeyboardDownInput{};
+		std::set<unsigned int> m_KeyboardUpInput{};
+		std::set<unsigned int> m_KeyboardInput{};
 
 		std::vector<std::pair<std::unique_ptr<Command>, std::vector<InputAnalog>>> m_pBindedAnalogCommands{};
 		std::vector<std::pair<std::unique_ptr<Command>, std::vector<InputDigital>>> m_pBindedDigitalCommands{};

@@ -24,7 +24,8 @@ bool that::InputManager::ProcessInput()
 		for (const auto& inputAnalog : analogCommand.second)
 		{
 			// Execute the command if one of its input requirements is met
-			if (abs(m_pControllers[inputAnalog.controllerIdx]->GetAxis(inputAnalog.left, inputAnalog.x)) > 0.0f)
+			const float axisValue{ m_pControllers[inputAnalog.controllerIdx]->GetAxis(inputAnalog.left, inputAnalog.x) };
+			if (abs(axisValue) > 0.0f)
 			{
 				analogCommand.first->Execute();
 				break;
@@ -122,6 +123,7 @@ bool that::InputManager::TryInput(const that::InputManager::InputDigital& inputK
 	return false;
 }
 
+#pragma region BindCommandFunctions
 void that::InputManager::BindDigitalCommand(unsigned int controller, GamepadInput button, InputType inputType, std::unique_ptr<Command> pCommand)
 {
 	// Add controllers if the controllerIdx is higher then the amount of controllers available
@@ -190,6 +192,7 @@ void that::InputManager::BindAnalog2DAxisCommand(unsigned int controller, bool l
 	// Create a new command
 	m_pBindedAnalogCommands.push_back(std::make_pair(std::move(pCommand), inputKeys));
 }
+#pragma endregion
 
 void that::InputManager::Clear()
 {
@@ -210,6 +213,7 @@ void that::InputManager::AddControllersIfNeeded(unsigned int controller)
 	}
 }
 
+#pragma region GetAxisFunctions
 glm::vec2 that::InputManager::GetTwoDirectionalAxis(Command* pCommand) const
 {
 	// Get the command/digital input pair with the given command ptr
@@ -221,7 +225,7 @@ glm::vec2 that::InputManager::GetTwoDirectionalAxis(Command* pCommand) const
 	// If a digital command is found, return the 2D axis of the digital input
 	if (pBindedCommand != m_pBindedDigitalCommands.end())
 	{
-		return GetTwoDirectionalDigitalAxis(pBindedCommand->second);
+		return GetTwoDirectionalAxis(pBindedCommand->second);
 	}
 
 	// Get the command/digital input pair with the given command ptr
@@ -234,13 +238,13 @@ glm::vec2 that::InputManager::GetTwoDirectionalAxis(Command* pCommand) const
 	// If an analog command is found, return the 2D axis of the analog input
 	if (pBindedAnalogCommand != m_pBindedAnalogCommands.end())
 	{
-		return GetTwoDirectionalAnalogAxis(pBindedAnalogCommand->second);
+		return GetTwoDirectionalAxis(pBindedAnalogCommand->second);
 	}
 
 	return glm::vec2{};
 }
 
-glm::vec2 that::InputManager::GetTwoDirectionalDigitalAxis(const std::vector<InputDigital>& inputVector) const
+glm::vec2 that::InputManager::GetTwoDirectionalAxis(const std::vector<InputDigital>& inputVector) const
 {
 	// If there are not exact 4 inputs binded to this command, log a warning and return nothing
 	if (inputVector.size() != 4)
@@ -303,7 +307,7 @@ glm::vec2 that::InputManager::GetTwoDirectionalDigitalAxis(const std::vector<Inp
 	return glm::dot(input,input) > 0.0f ? glm::normalize(input) : input;
 }
 
-glm::vec2 that::InputManager::GetTwoDirectionalAnalogAxis(const std::vector<InputAnalog>& inputVector) const
+glm::vec2 that::InputManager::GetTwoDirectionalAxis(const std::vector<InputAnalog>& inputVector) const
 {
 	// If there are not exact 4 inputs binded to this command, log a warning and return nothing
 	if (inputVector.size() != 2)
@@ -325,3 +329,4 @@ glm::vec2 that::InputManager::GetTwoDirectionalAnalogAxis(const std::vector<Inpu
 
 	return input;
 }
+#pragma endregion
