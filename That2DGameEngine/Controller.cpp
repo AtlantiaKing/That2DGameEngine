@@ -88,7 +88,6 @@ that::Controller::Controller(unsigned int controllerIdx)
 
 that::Controller::~Controller()
 {
-    delete m_pImpl;
 }
 
 void that::Controller::Update()

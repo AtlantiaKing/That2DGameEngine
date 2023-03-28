@@ -1,11 +1,13 @@
 #pragma once
 
+#include <memory>
+
 namespace that
 {
 	class Controller
 	{
 		class ControllerImplementation;
-		ControllerImplementation* m_pImpl{};
+		std::unique_ptr<ControllerImplementation> m_pImpl{};
 	public:
 		Controller(unsigned int controllerIdx);
 		~Controller();
