@@ -90,6 +90,8 @@ namespace that
 		glm::vec2 GetTwoDirectionalAxis(const std::vector<InputDigital>& inputVector) const;
 		glm::vec2 GetTwoDirectionalAxis(const std::vector<InputAnalog>& inputVector) const;
 
+		float GetAxis(const std::vector<InputDigital>& inputVector) const;
+		float GetAxis(const InputAnalog& input) const;
 
 		std::set<unsigned int> m_KeyboardDownInput{};
 		std::set<unsigned int> m_KeyboardUpInput{};
@@ -158,13 +160,13 @@ namespace that
 		AddControllersIfNeeded(controller);
 
 		// Try finding a command/input pair of type T
-		const auto it{ std::find_if(begin(m_pBindedDigitalCommands), end(m_pBindedDigitalCommands), [](const auto& pBindedCommand)
+		const auto it{ std::find_if(begin(m_pBindedAnalogCommands), end(m_pBindedAnalogCommands), [](const auto& pBindedCommand)
 			{
-				if (std::is_same<T*, decltype(pBindedCommand.first.get())>()) return true;
+				return std::is_same<T*, decltype(pBindedCommand.first.get())>();
 			}) };
 
 		// If a command/input pair has been found, bind the new input to this command
-		if (it != m_pBindedDigitalCommands.end())
+		if (it != m_pBindedAnalogCommands.end())
 		{
 			it->second.push_back(InputAnalog{ controller, leftJoystick, x });
 			return;

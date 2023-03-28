@@ -214,6 +214,42 @@ void that::InputManager::AddControllersIfNeeded(unsigned int controller)
 }
 
 #pragma region GetAxisFunctions
+float that::InputManager::GetAxis(Command* pCommand) const
+{
+	// Get the command/digital input pair with the given command ptr
+	const auto& pBindedCommand{ std::find_if(begin(m_pBindedDigitalCommands), end(m_pBindedDigitalCommands), [pCommand](const auto& command)
+		{
+			return command.first.get() == pCommand;
+		}) };
+
+	// If a digital command is found, return the axis of the digital input
+	if (pBindedCommand != m_pBindedDigitalCommands.end())
+	{
+		return GetAxis(pBindedCommand->second);
+	}
+
+	// Get the command/digital input pair with the given command ptr
+	const auto& pBindedAnalogCommand{ std::find_if(begin(m_pBindedAnalogCommands), end(m_pBindedAnalogCommands), [pCommand](const auto& command)
+		{
+			return command.first.get() == pCommand;
+		}) };
+
+
+	// If an analog command is found, return the biggest axis binded to this command
+	if (pBindedAnalogCommand != m_pBindedAnalogCommands.end())
+	{
+		float maxInput{};
+		for (const InputAnalog& input : pBindedAnalogCommand->second)
+		{
+			const float curInput{ GetAxis(input) };
+			maxInput = abs(curInput) > abs(maxInput) ? curInput : maxInput;
+		}
+		return maxInput;
+	}
+
+	return 0.0f;
+}
+
 glm::vec2 that::InputManager::GetTwoDirectionalAxis(Command* pCommand) const
 {
 	// Get the command/digital input pair with the given command ptr
@@ -328,5 +364,60 @@ glm::vec2 that::InputManager::GetTwoDirectionalAxis(const std::vector<InputAnalo
 	};
 
 	return input;
+}
+
+float that::InputManager::GetAxis(const std::vector<InputDigital>& inputVector) const
+{
+	float input{};
+
+	// For each button
+	for (int i{}; i < static_cast<int>(inputVector.size()); ++i)
+	{
+		const auto& inputKey{ inputVector[i] };
+
+		// Check if input requirement is met
+		bool hasInput{};
+		if (inputKey.keyboard)
+		{
+			if (m_KeyboardInput.find(inputKey.button) != m_KeyboardInput.end()) hasInput = true;
+		}
+		else
+		{
+			switch (inputKey.inputType)
+			{
+			case InputType::ONBUTTONDOWN:
+				hasInput = m_pControllers[inputKey.controllerIdx]->OnButtonDown(inputKey.button);
+				break;
+			case InputType::ONBUTTONUP:
+				hasInput = m_pControllers[inputKey.controllerIdx]->OnButtonUp(inputKey.button);
+				break;
+			case InputType::ONBUTTON:
+				hasInput = m_pControllers[inputKey.controllerIdx]->OnButton(inputKey.button);
+				break;
+			}
+		}
+
+		// If this button's input is not triggered, continue to the next button
+		if (!hasInput) continue;
+
+		// Calculate the input value for this button
+		switch (i)
+		{
+		case 0:
+			input += 1.0f;
+			break;
+		case 1:
+			input -= 1.0f;
+			break;
+		}
+	}
+
+	// Return the axis
+	return input;
+}
+
+float that::InputManager::GetAxis(const InputAnalog& input) const
+{
+	return m_pControllers[input.controllerIdx]->GetAxis(input.left, input.x);
 }
 #pragma endregion

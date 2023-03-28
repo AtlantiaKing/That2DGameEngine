@@ -10,6 +10,7 @@
 #include "MoveCommand.h"
 #include "GameObject.h"
 #include "Scene.h"
+#include "DebugAxisCommand.h"
 
 namespace that
 {
@@ -70,5 +71,7 @@ namespace that
 			that::InputManager::GamepadInput::DPAD_DOWN
 		};
 		that::InputManager::GetInstance().BindDigital2DAxisCommand(0, character2Input, std::make_unique<that::MoveCommand>(pEnemy, 200.0f));
+
+		that::InputManager::GetInstance().BindAnalogCommand<that::DebugAxisCommand>(0, false, true, pCharacter);
 	}
 }
