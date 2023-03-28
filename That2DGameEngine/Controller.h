@@ -16,7 +16,8 @@ namespace that
 		bool OnButtonDown(unsigned int button) const;
 		bool OnButtonUp(unsigned int button) const;
 		bool OnButton(unsigned int button) const;
-		float GetAxis(bool left, bool x) const;
+		float GetAxis(unsigned int thumbStick, bool x) const;
+		float GetAxis(unsigned int button) const;
 	private:
 	};
 }

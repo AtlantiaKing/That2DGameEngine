@@ -4,10 +4,12 @@
 
 namespace that
 {
+	class GameObject;
+
 	class DebugButtonCommand final : public Command
 	{
 	public:
-		DebugButtonCommand() = default;
+		DebugButtonCommand(GameObject*) {};
 		virtual ~DebugButtonCommand() = default;
 
 		virtual void Execute() override;

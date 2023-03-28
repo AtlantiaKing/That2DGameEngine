@@ -11,6 +11,7 @@
 #include "GameObject.h"
 #include "Scene.h"
 #include "DebugAxisCommand.h"
+#include "DebugButtonCommand.h"
 
 namespace that
 {
@@ -58,20 +59,20 @@ namespace that
 		pEnemy->AddComponent<that::TextureRenderer>()->SetTexture(that::ResourceManager::GetInstance().LoadTexture("Enemy.png"));
 		pEnemy->GetTransform()->SetWorldPosition(300, 300);
 
+		auto& input{ that::InputManager::GetInstance() };
+
 		// Bind the move command to WASD
-		const std::vector<unsigned int> character1Input{ SDLK_d, SDLK_a, SDLK_w, SDLK_s };
-		that::InputManager::GetInstance().BindDigital2DAxisCommand(character1Input, std::make_unique<that::MoveCommand>(pCharacter, 100.0f));
+		const std::vector<unsigned int> character1Input{ 'd', 'a', 'w', 's'};
+		input.BindDigital2DAxisCommand(character1Input, std::make_unique<that::MoveCommand>(pCharacter, 100.0f));
 
 		// Bind the move command to the DPAD of the gamepad
-		const std::vector<that::InputManager::GamepadInput> character2Input
+		const std::vector<that::InputManager::GamepadButton> character2Input
 		{
-			that::InputManager::GamepadInput::DPAD_RIGHT,
-			that::InputManager::GamepadInput::DPAD_LEFT,
-			that::InputManager::GamepadInput::DPAD_UP,
-			that::InputManager::GamepadInput::DPAD_DOWN
+			that::InputManager::GamepadButton::DPAD_RIGHT,
+			that::InputManager::GamepadButton::DPAD_LEFT,
+			that::InputManager::GamepadButton::DPAD_UP,
+			that::InputManager::GamepadButton::DPAD_DOWN
 		};
-		that::InputManager::GetInstance().BindDigital2DAxisCommand(0, character2Input, std::make_unique<that::MoveCommand>(pEnemy, 200.0f));
-
-		that::InputManager::GetInstance().BindAnalogCommand<that::DebugAxisCommand>(0, false, true, pCharacter);
+		input.BindDigital2DAxisCommand(0, character2Input, std::make_unique<that::MoveCommand>(pEnemy, 200.0f));
 	}
 }

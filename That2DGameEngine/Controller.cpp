@@ -55,6 +55,19 @@ namespace that
             const SHORT clamped{ std::clamp(static_cast<SHORT>(abs(axisValue - sign)), deadZoneValue, ceilValue) };
             return static_cast<float>(clamped - deadZoneValue) / (ceilValue - deadZoneValue) * sign;
         }
+        float GetAxis(unsigned int button)
+        {
+            switch (button)
+            {
+            case XINPUT_GAMEPAD_LEFT_SHOULDER:
+                return static_cast<float>(m_CurrentState.Gamepad.bLeftTrigger) / MAXBYTE;
+                break;
+            case XINPUT_GAMEPAD_RIGHT_SHOULDER:
+                return static_cast<float>(m_CurrentState.Gamepad.bRightTrigger) / MAXBYTE;
+                break;
+            }
+            return 0.0f;
+        }
     private:
         unsigned int m_ControllerIdx{};
 
@@ -103,7 +116,12 @@ bool that::Controller::OnButton(unsigned int button) const
     return m_pImpl->OnButton(button);
 }
 
-float that::Controller::GetAxis(bool left, bool x) const
+float that::Controller::GetAxis(unsigned int thumbStick, bool x) const
 {
-    return m_pImpl->GetAxis(left, x);
+    return m_pImpl->GetAxis(thumbStick == XINPUT_GAMEPAD_LEFT_THUMB, x);
+}
+
+float that::Controller::GetAxis(unsigned int button) const
+{
+    return m_pImpl->GetAxis(button);
 }

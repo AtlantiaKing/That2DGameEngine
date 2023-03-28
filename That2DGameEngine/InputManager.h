@@ -15,13 +15,14 @@ namespace that
 	class InputManager final : public Singleton<InputManager>
 	{
 	public:
+#pragma region enums
 		enum class InputType
 		{
 			ONBUTTONDOWN,
 			ONBUTTONUP,
 			ONBUTTON
 		};
-		enum class GamepadInput
+		enum class GamepadButton
 		{
 			DPAD_UP = 0x0001,
 			DPAD_DOWN = 0x0002,
@@ -29,8 +30,6 @@ namespace that
 			DPAD_RIGHT = 0x0008,
 			START = 0x0010,
 			BACK = 0x0020,
-			LEFT_THUMB = 0x0040,
-			RIGHT_THUMB = 0x0080,
 			LEFT_SHOULDER = 0x0100,
 			RIGHT_SHOULDER = 0x0200,
 			A = 0x1000,
@@ -38,30 +37,45 @@ namespace that
 			X = 0x4000,
 			Y = 0x8000
 		};
+		enum class GamepadAxis
+		{
+			LEFT_THUMB = 0x0040,
+			RIGHT_THUMB = 0x0080,
+			LEFT_SHOULDER = 0x0100,
+			RIGHT_SHOULDER = 0x0200
+		};
+#pragma endregion
 
 		bool ProcessInput();
 
+#pragma region BindCommandFunctions
 		template <class T>
-		void BindDigitalCommand(unsigned int controller, GamepadInput button, InputType inputType, GameObject* pGameObject);
+		void BindDigitalCommand(unsigned int controller, GamepadButton button, InputType inputType, GameObject* pGameObject);
+		void BindDigitalCommand(unsigned int controller, GamepadButton button, InputType inputType, std::unique_ptr<Command> pCommand);
 		template <class T>
 		void BindDigitalCommand(unsigned int key, InputType inputType, GameObject* pGameObject);
-		void BindDigitalCommand(unsigned int controller, GamepadInput button, InputType inputType, std::unique_ptr<Command> pCommand);
 		void BindDigitalCommand(unsigned int key, InputType inputType, std::unique_ptr<Command> pCommand);
 
 		/*
+		 Bind a 2D axis command to 4 digital buttons
 		 The order of buttons should be right, left, up, down
 		 */
-		void BindDigital2DAxisCommand(unsigned int controller, const std::vector<GamepadInput>& buttons, std::unique_ptr<Command> pCommand);
+		void BindDigital2DAxisCommand(unsigned int controller, const std::vector<GamepadButton>& buttons, std::unique_ptr<Command> pCommand);
 		/*
+		 Bind a 2D axis command to 4 digital buttons
 		 The order of buttons should be right, left, up, down
 		 */
 		void BindDigital2DAxisCommand(const std::vector<unsigned int>& keys, std::unique_ptr<Command> pCommand);
 
 		template <class T>
-		void BindAnalogCommand(unsigned int controller, bool leftJoystick, bool x, GameObject* pGameObject);
-		void BindAnalogCommand(unsigned int controller, bool leftJoystick, bool x, std::unique_ptr<Command> pCommand);
+		void BindAxisCommand(unsigned int controller, GamepadAxis button, bool isHorizontalAxis, GameObject* pGameObject);
+		void BindAxisCommand(unsigned int controller, GamepadAxis button, bool isHorizontalAxis, std::unique_ptr<Command> pCommand);
+		template <class T>
+		void BindAxisCommand(unsigned int controller, GamepadAxis button, GameObject* pGameObject);
+		void BindAxisCommand(unsigned int controller, GamepadAxis button, std::unique_ptr<Command> pCommand);
 
 		void BindAnalog2DAxisCommand(unsigned int controller, bool left, std::unique_ptr<Command> pCommand);
+#pragma endregion
 
 		float GetAxis(Command* pCommand) const;
 		glm::vec2 GetTwoDirectionalAxis(Command* pCommand) const;
@@ -78,7 +92,7 @@ namespace that
 		struct InputAnalog
 		{
 			unsigned int controllerIdx{};
-			bool left{};
+			unsigned int button{};
 			bool x{};
 		};
 
@@ -103,7 +117,7 @@ namespace that
 	};
 
 	template<class T>
-	inline void InputManager::BindDigitalCommand(unsigned int controller, GamepadInput button, InputType inputType, GameObject* pGameObject)
+	inline void InputManager::BindDigitalCommand(unsigned int controller, GamepadButton button, InputType inputType, GameObject* pGameObject)
 	{
 		static_assert(std::is_base_of<Command, T>(), "T needs to be derived from Command");
 
@@ -152,7 +166,7 @@ namespace that
 	}
 
 	template<class T>
-	inline void InputManager::BindAnalogCommand(unsigned int controller, bool leftJoystick, bool x, GameObject* pGameObject)
+	inline void InputManager::BindAxisCommand(unsigned int controller, GamepadAxis button, bool isHorizontalAxis, GameObject* pGameObject)
 	{
 		static_assert(std::is_base_of<Command, T>(), "T needs to be derived from Command");
 
@@ -168,11 +182,35 @@ namespace that
 		// If a command/input pair has been found, bind the new input to this command
 		if (it != m_pBindedAnalogCommands.end())
 		{
-			it->second.push_back(InputAnalog{ controller, leftJoystick, x });
+			it->second.push_back(InputAnalog{ controller, static_cast<unsigned int>(button), isHorizontalAxis });
 			return;
 		}
 
 		// Create a new command
-		m_pBindedAnalogCommands.push_back(std::make_pair(std::make_unique<T>(pGameObject), std::vector<InputAnalog>{ InputAnalog{ controller, leftJoystick, x } }));
+		m_pBindedAnalogCommands.push_back(std::make_pair(std::make_unique<T>(pGameObject), std::vector<InputAnalog>{ InputAnalog{ controller, static_cast<unsigned int>(button), isHorizontalAxis } }));
+	}
+	template<class T>
+	inline void InputManager::BindAxisCommand(unsigned int controller, GamepadAxis button, GameObject* pGameObject)
+	{
+		static_assert(std::is_base_of<Command, T>(), "T needs to be derived from Command");
+
+		// Add controllers if the controllerIdx is higher then the amount of controllers available
+		AddControllersIfNeeded(controller);
+
+		// Try finding a command/input pair of type T
+		const auto it{ std::find_if(begin(m_pBindedAnalogCommands), end(m_pBindedAnalogCommands), [](const auto& pBindedCommand)
+			{
+				return std::is_same<T*, decltype(pBindedCommand.first.get())>();
+			}) };
+
+		// If a command/input pair has been found, bind the new input to this command
+		if (it != m_pBindedAnalogCommands.end())
+		{
+			it->second.push_back(InputAnalog{ controller, static_cast<unsigned int>(button) });
+			return;
+		}
+
+		// Create a new command
+		m_pBindedAnalogCommands.push_back(std::make_pair(std::make_unique<T>(pGameObject), std::vector<InputAnalog>{ InputAnalog{ controller, static_cast<unsigned int>(button) } }));
 	}
 }

@@ -24,7 +24,7 @@ bool that::InputManager::ProcessInput()
 		for (const auto& inputAnalog : analogCommand.second)
 		{
 			// Execute the command if one of its input requirements is met
-			const float axisValue{ m_pControllers[inputAnalog.controllerIdx]->GetAxis(inputAnalog.left, inputAnalog.x) };
+			const float axisValue{ GetAxis(inputAnalog) };
 			if (abs(axisValue) > 0.0f)
 			{
 				analogCommand.first->Execute();
@@ -124,7 +124,7 @@ bool that::InputManager::TryInput(const that::InputManager::InputDigital& inputK
 }
 
 #pragma region BindCommandFunctions
-void that::InputManager::BindDigitalCommand(unsigned int controller, GamepadInput button, InputType inputType, std::unique_ptr<Command> pCommand)
+void that::InputManager::BindDigitalCommand(unsigned int controller, GamepadButton button, InputType inputType, std::unique_ptr<Command> pCommand)
 {
 	// Add controllers if the controllerIdx is higher then the amount of controllers available
 	AddControllersIfNeeded(controller);
@@ -139,14 +139,14 @@ void that::InputManager::BindDigitalCommand(unsigned int key, InputType inputTyp
 	m_pBindedDigitalCommands.push_back(std::make_pair(std::move(pCommand), std::vector<InputDigital>{ InputDigital{ true, 0, key, inputType } }));
 }
 
-void that::InputManager::BindDigital2DAxisCommand(unsigned int controller, const std::vector<GamepadInput>& buttons, std::unique_ptr<Command> pCommand)
+void that::InputManager::BindDigital2DAxisCommand(unsigned int controller, const std::vector<GamepadButton>& buttons, std::unique_ptr<Command> pCommand)
 {
 	// Add controllers if the controllerIdx is higher then the amount of controllers available
 	AddControllersIfNeeded(controller);
 
 	// Create a vector of input keys with the given controller and buttons
 	std::vector<InputDigital> inputKeys{};
-	for (GamepadInput button : buttons)
+	for (GamepadButton button : buttons)
 	{
 		inputKeys.push_back(InputDigital{ false, controller, static_cast<unsigned int>(button), InputType::ONBUTTON });
 	}
@@ -168,30 +168,42 @@ void that::InputManager::BindDigital2DAxisCommand(const std::vector<unsigned int
 	m_pBindedDigitalCommands.push_back(std::make_pair(std::move(pCommand), inputKeys));
 }
 
-void that::InputManager::BindAnalogCommand(unsigned int controller, bool leftJoystick, bool x, std::unique_ptr<Command> pCommand)
-{
-	// Add controllers if the controllerIdx is higher then the amount of controllers available
-	AddControllersIfNeeded(controller);
-
-	// Create a new command
-	m_pBindedAnalogCommands.push_back(std::make_pair(std::move(pCommand), std::vector<InputAnalog>{ InputAnalog{ controller, leftJoystick, x } }));
-}
-
 void that::InputManager::BindAnalog2DAxisCommand(unsigned int controller, bool left, std::unique_ptr<Command> pCommand)
 {
 	// Add controllers if the controllerIdx is higher then the amount of controllers available
 	AddControllersIfNeeded(controller);
 
+	const unsigned int button{ static_cast<unsigned int>(left ? GamepadAxis::LEFT_THUMB : GamepadAxis::RIGHT_THUMB) };
+
 	// Create a vector of input keys with the given controller and buttons
 	std::vector<InputAnalog> inputKeys
 	{
-		InputAnalog{ controller, left, true },
-		InputAnalog{ controller, left, false }
+		InputAnalog{ controller, button, true },
+		InputAnalog{ controller, button, false }
 	};
 
 	// Create a new command
 	m_pBindedAnalogCommands.push_back(std::make_pair(std::move(pCommand), inputKeys));
 }
+
+void that::InputManager::BindAxisCommand(unsigned int controller, GamepadAxis button, bool isHorizontalAxis, std::unique_ptr<Command> pCommand)
+{
+	// Add controllers if the controllerIdx is higher then the amount of controllers available
+	AddControllersIfNeeded(controller);
+
+	// Create a new command
+	m_pBindedAnalogCommands.push_back(std::make_pair(std::move(pCommand), std::vector<InputAnalog>{ InputAnalog{ controller, static_cast<unsigned int>(button), isHorizontalAxis } }));
+}
+
+void that::InputManager::BindAxisCommand(unsigned int controller, GamepadAxis button, std::unique_ptr<Command> pCommand)
+{
+	// Add controllers if the controllerIdx is higher then the amount of controllers available
+	AddControllersIfNeeded(controller);
+
+	// Create a new command
+	m_pBindedAnalogCommands.push_back(std::make_pair(std::move(pCommand), std::vector<InputAnalog>{ InputAnalog{ controller, static_cast<unsigned int>(button) } }));
+}
+
 #pragma endregion
 
 void that::InputManager::Clear()
@@ -359,8 +371,8 @@ glm::vec2 that::InputManager::GetTwoDirectionalAxis(const std::vector<InputAnalo
 	// Calculate the input vector for this button
 	glm::vec2 input
 	{
-		m_pControllers[horizontalInput.controllerIdx]->GetAxis(horizontalInput.left, horizontalInput.x),
-		m_pControllers[verticalInput.controllerIdx]->GetAxis(verticalInput.left, verticalInput.x)
+		m_pControllers[horizontalInput.controllerIdx]->GetAxis(horizontalInput.button, horizontalInput.x),
+		m_pControllers[verticalInput.controllerIdx]->GetAxis(verticalInput.button, verticalInput.x)
 	};
 
 	return input;
@@ -418,6 +430,17 @@ float that::InputManager::GetAxis(const std::vector<InputDigital>& inputVector) 
 
 float that::InputManager::GetAxis(const InputAnalog& input) const
 {
-	return m_pControllers[input.controllerIdx]->GetAxis(input.left, input.x);
+	switch (static_cast<GamepadAxis>(input.button))
+	{
+	case GamepadAxis::LEFT_THUMB:
+	case GamepadAxis::RIGHT_THUMB:
+		return m_pControllers[input.controllerIdx]->GetAxis(input.button, input.x);
+	case GamepadAxis::RIGHT_SHOULDER:
+	case GamepadAxis::LEFT_SHOULDER:
+		return m_pControllers[input.controllerIdx]->GetAxis(input.button);
+	}
+
+	Logger::LogWarning("Trying to read an axis value of a non-analog button");
+	return 0.0f;
 }
 #pragma endregion
