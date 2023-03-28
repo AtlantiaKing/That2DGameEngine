@@ -137,9 +137,6 @@
     <ClInclude Include="TrashTheCache.h">
       <Filter>_DEPRECATED</Filter>
     </ClInclude>
-    <ClInclude Include="Command.h">
-      <Filter>Input</Filter>
-    </ClInclude>
     <ClInclude Include="Controller.h">
       <Filter>Input</Filter>
     </ClInclude>
@@ -154,6 +151,9 @@
     </ClInclude>
     <ClInclude Include="DemoScene.h">
       <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Base Classes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -238,9 +238,6 @@
     <ClCompile Include="TrashTheCache.cpp">
       <Filter>_DEPRECATED</Filter>
     </ClCompile>
-    <ClCompile Include="Command.cpp">
-      <Filter>Input</Filter>
-    </ClCompile>
     <ClCompile Include="Controller.cpp">
       <Filter>Input</Filter>
     </ClCompile>
@@ -254,5 +251,8 @@
       <Filter>Input\Commands</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Command.cpp">
+      <Filter>Base Classes</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
