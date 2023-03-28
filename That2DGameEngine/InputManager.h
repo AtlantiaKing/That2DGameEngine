@@ -53,8 +53,8 @@ namespace that
 		void BindDigitalCommand(unsigned int controller, GamepadButton button, InputType inputType, GameObject* pGameObject);
 		void BindDigitalCommand(unsigned int controller, GamepadButton button, InputType inputType, std::unique_ptr<Command> pCommand);
 		template <class T>
-		void BindDigitalCommand(unsigned int key, InputType inputType, GameObject* pGameObject);
-		void BindDigitalCommand(unsigned int key, InputType inputType, std::unique_ptr<Command> pCommand);
+		void BindDigitalCommand(unsigned int keyboardKey, InputType inputType, GameObject* pGameObject);
+		void BindDigitalCommand(unsigned int keyboardKey, InputType inputType, std::unique_ptr<Command> pCommand);
 
 		/*
 		 Bind a 2D axis command to 4 digital buttons
@@ -65,7 +65,7 @@ namespace that
 		 Bind a 2D axis command to 4 digital buttons
 		 The order of buttons should be right, left, up, down
 		 */
-		void BindDigital2DAxisCommand(const std::vector<unsigned int>& keys, std::unique_ptr<Command> pCommand);
+		void BindDigital2DAxisCommand(const std::vector<unsigned int>& keyboardKeys, std::unique_ptr<Command> pCommand);
 
 		template <class T>
 		void BindAxisCommand(unsigned int controller, GamepadAxis button, bool isHorizontalAxis, GameObject* pGameObject);
@@ -116,6 +116,7 @@ namespace that
 		std::vector<std::unique_ptr<Controller>> m_pControllers{};
 	};
 
+#pragma region TemplateFunctions
 	template<class T>
 	inline void InputManager::BindDigitalCommand(unsigned int controller, GamepadButton button, InputType inputType, GameObject* pGameObject)
 	{
@@ -143,7 +144,7 @@ namespace that
 	}
 
 	template<class T>
-	inline void InputManager::BindDigitalCommand(unsigned int key, InputType inputType, GameObject* pGameObject)
+	inline void InputManager::BindDigitalCommand(unsigned int keyboardKey, InputType inputType, GameObject* pGameObject)
 	{
 		static_assert(std::is_base_of<Command, T>(), "T needs to be derived from Command");
 
@@ -157,12 +158,12 @@ namespace that
 		// If a command/input pair has been found, bind the new input to this command
 		if (it != m_pBindedDigitalCommands.end())
 		{
-			it->second.push_back(InputDigital{ true, 0, key, inputType });
+			it->second.push_back(InputDigital{ true, 0, keyboardKey, inputType });
 			return;
 		}
 
 		// Create a new command
-		m_pBindedDigitalCommands.push_back(std::make_pair(std::make_unique<T>(pGameObject), std::vector<InputDigital>{ InputDigital{ true, 0, key, inputType } }));
+		m_pBindedDigitalCommands.push_back(std::make_pair(std::make_unique<T>(pGameObject), std::vector<InputDigital>{ InputDigital{ true, 0, keyboardKey, inputType } }));
 	}
 
 	template<class T>
@@ -213,4 +214,5 @@ namespace that
 		// Create a new command
 		m_pBindedAnalogCommands.push_back(std::make_pair(std::make_unique<T>(pGameObject), std::vector<InputAnalog>{ InputAnalog{ controller, static_cast<unsigned int>(button) } }));
 	}
+#pragma endregion
 }

@@ -133,10 +133,10 @@ void that::InputManager::BindDigitalCommand(unsigned int controller, GamepadButt
 	m_pBindedDigitalCommands.push_back(std::make_pair(std::move(pCommand), std::vector<InputDigital>{ InputDigital{ false, controller, static_cast<unsigned int>(button), inputType } }));
 }
 
-void that::InputManager::BindDigitalCommand(unsigned int key, InputType inputType, std::unique_ptr<Command> pCommand)
+void that::InputManager::BindDigitalCommand(unsigned int keyboardKey, InputType inputType, std::unique_ptr<Command> pCommand)
 {
 	// Create a new command
-	m_pBindedDigitalCommands.push_back(std::make_pair(std::move(pCommand), std::vector<InputDigital>{ InputDigital{ true, 0, key, inputType } }));
+	m_pBindedDigitalCommands.push_back(std::make_pair(std::move(pCommand), std::vector<InputDigital>{ InputDigital{ true, 0, keyboardKey, inputType } }));
 }
 
 void that::InputManager::BindDigital2DAxisCommand(unsigned int controller, const std::vector<GamepadButton>& buttons, std::unique_ptr<Command> pCommand)
@@ -155,11 +155,11 @@ void that::InputManager::BindDigital2DAxisCommand(unsigned int controller, const
 	m_pBindedDigitalCommands.push_back(std::make_pair(std::move(pCommand), inputKeys));
 }
 
-void that::InputManager::BindDigital2DAxisCommand(const std::vector<unsigned int>& keys, std::unique_ptr<Command> pCommand)
+void that::InputManager::BindDigital2DAxisCommand(const std::vector<unsigned int>& keyboardKeys, std::unique_ptr<Command> pCommand)
 {
 	// Create a vector of input keys with the given controller and buttons
 	std::vector<InputDigital> inputKeys{};
-	for (unsigned int key : keys)
+	for (unsigned int key : keyboardKeys)
 	{
 		inputKeys.push_back(InputDigital{ true, 0, key, InputType::ONBUTTON });
 	}
