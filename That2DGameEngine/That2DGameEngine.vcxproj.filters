@@ -48,6 +48,9 @@
     <Filter Include="Scenes">
       <UniqueIdentifier>{48d243f8-e4dc-4313-871d-4dd5dff9fdaa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Events">
+      <UniqueIdentifier>{e6ed8e06-33dc-45fb-9f07-01191cf49b53}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Font.h">
@@ -155,6 +158,15 @@
     <ClInclude Include="Command.h">
       <Filter>Base Classes</Filter>
     </ClInclude>
+    <ClInclude Include="EventQueue.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events.h">
+      <Filter>Events</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">
@@ -253,6 +265,9 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Command.cpp">
       <Filter>Base Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="EventQueue.cpp">
+      <Filter>Events</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

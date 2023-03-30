@@ -194,6 +194,9 @@
     <ClInclude Include="DebugAxisCommand.h" />
     <ClInclude Include="DebugButtonCommand.h" />
     <ClInclude Include="DemoScene.h" />
+    <ClInclude Include="Events.h" />
+    <ClInclude Include="Event.h" />
+    <ClInclude Include="EventQueue.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSCounter.h" />
     <ClInclude Include="GameObject.h" />
@@ -244,6 +247,7 @@
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="DebugAxisCommand.cpp" />
     <ClCompile Include="DebugButtonCommand.cpp" />
+    <ClCompile Include="EventQueue.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPSCounter.cpp" />
     <ClCompile Include="GameObject.cpp" />

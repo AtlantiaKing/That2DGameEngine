@@ -10,6 +10,7 @@
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include "Time.h"
+#include "EventQueue.h"
 
 SDL_Window* g_window{};
 
@@ -86,6 +87,7 @@ void that::Engine::Run(const std::function<void()>& setup)
 	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
 	auto& time = Time::GetInstance();
+	auto& events = EventQueue::GetInstance();
 
 	// Load the first scene
 	sceneManager.LoadScene(0);
@@ -101,7 +103,9 @@ void that::Engine::Run(const std::function<void()>& setup)
 		time.Update();
 		doContinue = input.ProcessInput();
 		sceneManager.Update();
+		events.NotifyListeners();
 		sceneManager.LateUpdate();
+		events.NotifyListeners();
 		renderer.Render();
 
 		// Sleep so that the total frame time becomes the desired frame time
