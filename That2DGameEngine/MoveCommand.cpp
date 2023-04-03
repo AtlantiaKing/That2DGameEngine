@@ -2,7 +2,7 @@
 #include "GameObject.h"
 #include "Transform.h"
 #include "InputManager.h"
-#include "Time.h"
+#include "Timer.h"
 
 void that::MoveCommand::Execute()
 {
@@ -12,7 +12,7 @@ void that::MoveCommand::Execute()
 	Transform* pTransform{ m_pPlayer->GetTransform() };
 
 	glm::vec2 pos{ pTransform->GetLocalPosition() };
-	pos += input * m_MoveSpeed * Time::GetInstance().GetElapsed();
+	pos += input * m_MoveSpeed * Timer::GetInstance().GetElapsed();
 
 	pTransform->SetLocalPosition(pos);
 }

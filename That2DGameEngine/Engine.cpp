@@ -9,7 +9,7 @@
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
-#include "Time.h"
+#include "Timer.h"
 #include "EventQueue.h"
 
 SDL_Window* g_window{};
@@ -68,7 +68,7 @@ that::Engine::Engine(const std::string &dataPath)
 
 	ResourceManager::GetInstance().Init(dataPath);
 
-	Time::GetInstance().Init();
+	Timer::GetInstance().Init();
 }
 
 that::Engine::~Engine()
@@ -86,7 +86,7 @@ void that::Engine::Run(const std::function<void()>& setup)
 	auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
-	auto& time = Time::GetInstance();
+	auto& time = Timer::GetInstance();
 	auto& events = EventQueue::GetInstance();
 
 	// Load the first scene

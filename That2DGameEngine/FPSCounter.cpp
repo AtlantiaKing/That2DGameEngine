@@ -1,7 +1,7 @@
 #include "FPSCounter.h"
 #include "GameObject.h"
 #include "TextComponent.h"
-#include "Time.h"
+#include "Timer.h"
 #include "Logger.h"
 
 void that::FPSCounter::Update()
@@ -20,7 +20,7 @@ void that::FPSCounter::Update()
 		}
 	};
 
-	const float elapsedTime{ Time::GetInstance().GetElapsed() };
+	const float elapsedTime{ Timer::GetInstance().GetElapsed() };
 
 	// Every updateInterval, update the text to the FPS on this frame
 	m_AccuSec += elapsedTime;
@@ -30,7 +30,7 @@ void that::FPSCounter::Update()
 
 		std::stringstream fpsText{};
 
-		fpsText << static_cast<int>(1.0f / Time::GetInstance().GetElapsed());
+		fpsText << static_cast<int>(1.0f / Timer::GetInstance().GetElapsed());
 		fpsText << " FPS";
 
 		m_pText->SetText(fpsText.str());

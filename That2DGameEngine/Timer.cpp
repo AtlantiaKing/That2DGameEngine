@@ -1,12 +1,12 @@
-#include "Time.h"
+#include "Timer.h"
 
-void that::Time::Init()
+void that::Timer::Init()
 {
 	// Save the start time
 	m_PrevTime = std::chrono::high_resolution_clock::now();
 }
 
-void that::Time::Update()
+void that::Timer::Update()
 {
 	// Get the current time
 	const auto curTime{ std::chrono::high_resolution_clock::now() };

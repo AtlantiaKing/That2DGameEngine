@@ -5,7 +5,7 @@
 
 namespace that
 {
-	class Time final : public Singleton<Time>
+	class Timer final : public Singleton<Timer>
 	{
 	public:
 		void Init();
