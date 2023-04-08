@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="EnemyMovement.cpp" />
     <ClCompile Include="GridComponent.cpp" />
     <ClCompile Include="GridMoveCommand.cpp" />
     <ClCompile Include="GridTransform.cpp" />
@@ -162,6 +163,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EnemyMovement.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="GridComponent.h" />
     <ClInclude Include="GridMoveCommand.h" />

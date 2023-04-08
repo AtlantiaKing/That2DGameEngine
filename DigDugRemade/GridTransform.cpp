@@ -53,3 +53,19 @@ void digdug::GridTransform::Move(int xSteps, int ySteps)
 	m_Position.x = static_cast<int>(m_FloatPosition.x);
 	m_Position.y = static_cast<int>(m_FloatPosition.y);
 }
+
+void digdug::GridTransform::SetPosition(int x, int y)
+{
+	const int steps{ m_pGrid->GetStepsPerCell() };
+
+	m_Position.x = x * steps;
+	m_Position.y = y * steps;
+
+	m_FloatPosition.x = static_cast<float>(x * steps);
+	m_FloatPosition.y = static_cast<float>(y * steps);
+}
+
+glm::ivec2 digdug::GridTransform::GetPosition() const
+{
+	return m_Position / m_pGrid->GetStepsPerCell();
+}

@@ -23,8 +23,9 @@ namespace digdug
 		virtual void Update() override;
 
 		void Move(int xSteps, int ySteps);
+		void SetPosition(int x, int y);
 
-		const glm::ivec2& GetPosition() const { return m_Position; }
+		glm::ivec2 GetPosition() const;
 	private:
 		glm::vec2 m_FloatPosition{};
 		glm::ivec2 m_Position{};
