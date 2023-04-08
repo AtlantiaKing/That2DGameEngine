@@ -23,7 +23,9 @@ namespace digdug
 		pGrid->GetTransform()->SetWorldPosition(100, 40);
 
 		that::GameObject* pPlayer{ pGrid->CreateGameObject("Player") };
-		pPlayer->AddComponent<that::TextureRenderer>()->SetTexture(that::ResourceManager::GetInstance().LoadTexture("MainCharacter.png"));
+		auto pPlayerRenderer{ pPlayer->AddComponent<that::TextureRenderer>() }; 
+		pPlayerRenderer->SetTexture(that::ResourceManager::GetInstance().LoadTexture("MainCharacter.png"));
+		pPlayerRenderer->SetScale(2.0f);
 		pPlayer->AddComponent<digdug::GridTransform>();
 
 		that::InputManager::GetInstance().BindDigital2DAxisCommand({ 'd', 'q', 'z', 's' }, std::make_unique<GridMoveCommand>(pPlayer));
