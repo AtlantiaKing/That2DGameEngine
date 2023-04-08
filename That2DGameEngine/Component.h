@@ -18,6 +18,7 @@ namespace that
 		Component& operator=(const Component& other) = delete;
 		Component& operator=(Component&& other) = delete;
 
+		virtual void Init() {};
 		virtual void Update() {};
 		virtual void LateUpdate() {};
 		virtual void FixedUpdate() {};

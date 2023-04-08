@@ -128,6 +128,8 @@ namespace that
 		// Set the current gameObject as its parent
 		pComponent->SetOwner(this);
 
+		pComponent->Init();
+
 		// Get the actual pointer to the new component
 		T* pComponentPtr{ pComponent.get() };
 
