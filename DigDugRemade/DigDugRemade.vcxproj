@@ -156,7 +156,9 @@
     <ClCompile Include="GridComponent.cpp" />
     <ClCompile Include="GridMoveCommand.cpp" />
     <ClCompile Include="GridTransform.cpp" />
+    <ClCompile Include="Health.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\That2DGameEngine\That2DGameEngine.vcxproj">
@@ -170,6 +172,8 @@
     <ClInclude Include="GridComponent.h" />
     <ClInclude Include="GridMoveCommand.h" />
     <ClInclude Include="GridTransform.h" />
+    <ClInclude Include="Health.h" />
+    <ClInclude Include="Player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

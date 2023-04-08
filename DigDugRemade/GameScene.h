@@ -8,6 +8,8 @@
 #include "GridTransform.h"
 #include "TextureRenderer.h"
 #include "EnemyMovement.h"
+#include "GridCollider.h"
+#include "Player.h"
 
 #include "InputManager.h"
 #include "ResourceManager.h"
@@ -28,6 +30,8 @@ namespace digdug
 		pPlayerRenderer->SetTexture(that::ResourceManager::GetInstance().LoadTexture("MainCharacter.png"));
 		pPlayerRenderer->SetScale(2.0f);
 		pPlayer->AddComponent<digdug::GridTransform>();
+		pPlayer->AddComponent<digdug::GridCollider>();
+		pPlayer->AddComponent<digdug::Player>();
 
 		that::GameObject* pEnemy{ pGrid->CreateGameObject("Enemy") };
 		auto pEnemyRenderer{ pEnemy->AddComponent<that::TextureRenderer>() };
@@ -35,6 +39,7 @@ namespace digdug
 		pEnemyRenderer->SetScale(2.0f);
 		pEnemy->AddComponent<digdug::GridTransform>()->SetPosition(10, 10);
 		pEnemy->AddComponent<digdug::EnemyMovement>();
+		pEnemy->AddComponent<digdug::GridCollider>();
 
 		that::InputManager::GetInstance().BindDigital2DAxisCommand({ 'd', 'q', 'z', 's' }, std::make_unique<GridMoveCommand>(pPlayer));
 	}
