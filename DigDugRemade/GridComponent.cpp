@@ -9,7 +9,7 @@ void digdug::GridComponent::Update()
 {
 }
 
-void digdug::GridComponent::OnGUI()
+void digdug::GridComponent::Render() const
 {
 	for (int x{}; x < m_GridSize; ++x)
 	{

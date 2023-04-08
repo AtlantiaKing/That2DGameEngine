@@ -24,7 +24,7 @@ namespace digdug
 		GridComponent& operator=(GridComponent&& other) = delete;
 
 		virtual void Update() override;
-		virtual void OnGUI() override;
+		virtual void Render() const override;
 
 		int GetStepsPerCell() const { return m_StepsPerCell; }
 		const glm::vec2& GetPivot() const;
