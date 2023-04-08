@@ -19,12 +19,13 @@ namespace digdug
 	{
 		that::GameObject* pGrid{ scene.CreateGameObject("Grid") };
 		auto pGridComponent{ pGrid->AddComponent<digdug::GridComponent>() };
-		pGrid->GetTransform()->SetWorldPosition(100, 100);
+		pGridComponent->SetCellSize(32.0f);
+		pGrid->GetTransform()->SetWorldPosition(100, 40);
 
 		that::GameObject* pPlayer{ pGrid->CreateGameObject("Player") };
 		pPlayer->AddComponent<that::TextureRenderer>()->SetTexture(that::ResourceManager::GetInstance().LoadTexture("MainCharacter.png"));
 		pPlayer->AddComponent<digdug::GridTransform>();
 
-		that::InputManager::GetInstance().BindDigital2DAxisCommand({ 'd', 'q', 'z', 's' }, std::make_unique<GridMoveCommand>(pPlayer, static_cast<float>(pGridComponent->GetStepsPerCell() * 1.5f)));
+		that::InputManager::GetInstance().BindDigital2DAxisCommand({ 'd', 'q', 'z', 's' }, std::make_unique<GridMoveCommand>(pPlayer));
 	}
 }

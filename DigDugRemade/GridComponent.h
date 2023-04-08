@@ -26,6 +26,9 @@ namespace digdug
 		virtual void Update() override;
 		virtual void Render() const override;
 
+		void SetStepsPerCell(int steps) { m_StepsPerCell = steps; }
+		void SetCellSize(float cellSize) { m_CellSize = cellSize; }
+
 		int GetStepsPerCell() const { return m_StepsPerCell; }
 		const glm::vec2& GetPivot() const;
 		float GetCellSize() const { return m_CellSize; }
