@@ -23,7 +23,7 @@ namespace digdug
 		GridComponent& operator=(const GridComponent& other) = delete;
 		GridComponent& operator=(GridComponent&& other) = delete;
 
-		virtual void Update() override;
+		virtual void LateUpdate() override;
 		virtual void Render() const override;
 
 		void SetStepsPerCell(int steps) { m_StepsPerCell = steps; }
@@ -33,6 +33,8 @@ namespace digdug
 		const glm::vec2& GetPivot() const;
 		float GetCellSize() const { return m_CellSize; }
 	private:
+		bool DoOverlap(const glm::vec2& pos0, const glm::vec2& pos1);
+
 		float m_CellSize{ 16 };
 		int m_StepsPerCell{ 16 };
 		int m_GridSize{ 12 };

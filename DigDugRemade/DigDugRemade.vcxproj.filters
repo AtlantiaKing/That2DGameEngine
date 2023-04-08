@@ -32,6 +32,9 @@
     <ClCompile Include="EnemyMovement.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="GridCollider.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GridComponent.h">
@@ -47,6 +50,9 @@
       <Filter>Commands\Input</Filter>
     </ClInclude>
     <ClInclude Include="EnemyMovement.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GridCollider.h">
       <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>

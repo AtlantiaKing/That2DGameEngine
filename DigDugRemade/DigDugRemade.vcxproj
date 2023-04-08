@@ -152,6 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="EnemyMovement.cpp" />
+    <ClCompile Include="GridCollider.cpp" />
     <ClCompile Include="GridComponent.cpp" />
     <ClCompile Include="GridMoveCommand.cpp" />
     <ClCompile Include="GridTransform.cpp" />
@@ -165,6 +166,7 @@
   <ItemGroup>
     <ClInclude Include="EnemyMovement.h" />
     <ClInclude Include="GameScene.h" />
+    <ClInclude Include="GridCollider.h" />
     <ClInclude Include="GridComponent.h" />
     <ClInclude Include="GridMoveCommand.h" />
     <ClInclude Include="GridTransform.h" />
