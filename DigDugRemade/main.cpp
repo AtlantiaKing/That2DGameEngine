@@ -7,12 +7,13 @@
 
 #include "Engine.h"
 #include "SceneManager.h"
-#include "DemoScene.h"
+//#include "DemoScene.h"
+#include "GameScene.h"
 
 void Setup()
 {
 	// Add the demo scene
-	that::SceneManager::GetInstance().AddScene(that::LoadDemoScene);
+	that::SceneManager::GetInstance().AddScene(digdug::LoadGameScene);
 }
 
 int main(int, char* [])

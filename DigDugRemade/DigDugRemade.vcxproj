@@ -151,12 +151,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GridComponent.cpp" />
+    <ClCompile Include="GridMoveCommand.cpp" />
+    <ClCompile Include="GridTransform.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\That2DGameEngine\That2DGameEngine.vcxproj">
       <Project>{41b0ec47-d48c-4b0f-951b-d98595ffae0a}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GameScene.h" />
+    <ClInclude Include="GridComponent.h" />
+    <ClInclude Include="GridMoveCommand.h" />
+    <ClInclude Include="GridTransform.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
