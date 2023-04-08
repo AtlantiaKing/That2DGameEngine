@@ -48,6 +48,9 @@
     <Filter Include="Events">
       <UniqueIdentifier>{e6ed8e06-33dc-45fb-9f07-01191cf49b53}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Observer">
+      <UniqueIdentifier>{576b0f30-b24b-4636-b2c7-3526b27b983f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Font.h">
@@ -163,6 +166,12 @@
     </ClInclude>
     <ClInclude Include="RotatorComponent.h">
       <Filter>Components\Exercises</Filter>
+    </ClInclude>
+    <ClInclude Include="Subject.h">
+      <Filter>Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Observer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
