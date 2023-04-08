@@ -20,7 +20,7 @@ namespace that
 
 		void SetTexture(std::shared_ptr<Texture2D> pTexture);
 
-		void Render() const;
+		virtual void Render() const override;
 	private:
 		std::shared_ptr<Texture2D> m_pTexture{};
 	};

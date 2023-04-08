@@ -68,7 +68,6 @@ namespace that
 
 		std::vector<std::unique_ptr<Component>> m_pComponents{};
 		Transform* m_pTransform{};
-		TextureRenderer* m_pRenderComponent{};
 
 		Scene* m_pScene{};
 
@@ -132,16 +131,6 @@ namespace that
 
 		// Get the actual pointer to the new component
 		T* pComponentPtr{ pComponent.get() };
-
-		// If the new component is a RenderComponent, set this component as the render component
-		if constexpr (std::is_same<TextureRenderer, T>())
-		{
-			// If the user adds a second texture renderer to a gameobject
-			//		Log a warning that the previous texture renderer has been discarded
-			if(m_pRenderComponent) Logger::LogWarning("A second TextureRenderer component is being added to this gameobject, the previous TextureRenderer is discarded", this);
-
-			m_pRenderComponent = static_cast<TextureRenderer*>(pComponentPtr);
-		}
 
 		// Add this component to the container of components
 		m_pComponents.push_back(std::move(pComponent));

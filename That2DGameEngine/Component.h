@@ -22,6 +22,7 @@ namespace that
 		virtual void Update() {};
 		virtual void LateUpdate() {};
 		virtual void FixedUpdate() {};
+		virtual void Render() const {};
 		virtual void OnGUI() {};
 
 		void Destroy();

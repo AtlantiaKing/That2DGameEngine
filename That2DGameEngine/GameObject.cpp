@@ -62,9 +62,6 @@ void that::GameObject::UpdateCleanup()
 			return pComponent->IsMarkedAsDead();
 		}), end(m_pComponents));
 
-	// Remove the render component if its marked as dead
-	if (m_pRenderComponent && m_pRenderComponent->IsMarkedAsDead()) m_pRenderComponent = nullptr;
-
 	// Remove children from their containers if they are marked as dead
 	m_pChildren.erase(std::remove_if(begin(m_pChildren), end(m_pChildren), [](const auto& pChild)
 		{
@@ -80,7 +77,11 @@ void that::GameObject::UpdateCleanup()
 
 void that::GameObject::Render() const 
 {
-	if(m_pRenderComponent) m_pRenderComponent->Render();
+	// Render every component
+	for (const auto& pComponent : m_pComponents)
+	{
+		pComponent->Render();
+	}
 
 	// Render every child
 	for (const auto& pChild : m_pChildren)
