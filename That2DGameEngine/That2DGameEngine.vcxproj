@@ -194,6 +194,7 @@
     <ClInclude Include="DebugAxisCommand.h" />
     <ClInclude Include="DebugButtonCommand.h" />
     <ClInclude Include="DemoScene.h" />
+    <ClInclude Include="EventListener.h" />
     <ClInclude Include="Events.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventQueue.h" />

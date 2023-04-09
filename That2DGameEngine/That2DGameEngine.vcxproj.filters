@@ -173,6 +173,9 @@
     <ClInclude Include="Observer.h">
       <Filter>Observer</Filter>
     </ClInclude>
+    <ClInclude Include="EventListener.h">
+      <Filter>Events</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">
