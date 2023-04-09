@@ -84,7 +84,7 @@ void Scene::Render() const
 
 void that::Scene::OnGUI()
 {
-	RenderScenegraph();
+	//RenderScenegraph();
 
 	for (const auto& object : m_pObjects)
 	{

@@ -29,7 +29,7 @@ namespace that
 	private:
 		std::shared_ptr<Texture2D> m_pTexture{};
 
-		glm::vec2 m_Scale{};
+		glm::vec2 m_Scale{ 1.0f, 1.0f };
 	};
 }
 
