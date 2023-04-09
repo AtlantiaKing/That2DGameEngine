@@ -102,10 +102,13 @@ void that::Engine::Run(const std::function<void()>& setup)
 
 		time.Update();
 		doContinue = input.ProcessInput();
+
 		sceneManager.Update();
 		events.NotifyListeners();
 		sceneManager.LateUpdate();
 		events.NotifyListeners();
+		sceneManager.UpdateCleanup();
+
 		renderer.Render();
 
 		// Sleep so that the total frame time becomes the desired frame time

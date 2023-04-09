@@ -31,6 +31,11 @@ void that::SceneManager::LateUpdate()
 	m_pScene->LateUpdate();
 }
 
+void that::SceneManager::UpdateCleanup()
+{
+	m_pScene->UpdateCleanup();
+}
+
 void that::SceneManager::Render()
 {
 	m_pScene->Render();

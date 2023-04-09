@@ -16,6 +16,7 @@ namespace that
 
 		void Update();
 		void LateUpdate();
+		void UpdateCleanup();
 		void Render();
 		void OnGUI();
 	private:
