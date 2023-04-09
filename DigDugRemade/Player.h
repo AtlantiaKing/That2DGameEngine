@@ -6,8 +6,25 @@
 #include "GridCollider.h"
 #include "Observer.h"
 
+#include "Event.h"
+
+namespace that
+{
+	class GameObject;
+}
+
 namespace digdug
 {
+
+	class PlayerHitEvent : public that::Event
+	{
+	public:
+		PlayerHitEvent(that::GameObject* pPlayer = nullptr) : Event{ "PlayerDeath" }, m_pPlayer{ pPlayer } {}
+		that::GameObject* GetPlayer() { return m_pPlayer; }
+	private:
+		that::GameObject* m_pPlayer;
+	};
+
 	class Player final : public that::Component, public that::Observer<CollisionData>
 	{
 	public:
@@ -21,7 +38,9 @@ namespace digdug
 
 		virtual void Init() override;
 		virtual void Notify(const CollisionData& data) override;
+
+		int GetHealth() { return m_Health.GetHealth(); }
 	private:
-		Health m_Health{ 1 };
+		Health m_Health{ 3 };
 	};
 }

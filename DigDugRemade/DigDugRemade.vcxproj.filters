@@ -44,6 +44,9 @@
     <ClCompile Include="Health.cpp">
       <Filter>Misc</Filter>
     </ClCompile>
+    <ClCompile Include="LivesHUDComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GridComponent.h">
@@ -69,6 +72,9 @@
     </ClInclude>
     <ClInclude Include="Health.h">
       <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="LivesHUDComponent.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
