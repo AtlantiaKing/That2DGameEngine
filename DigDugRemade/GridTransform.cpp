@@ -27,6 +27,8 @@ void digdug::GridTransform::Update()
 
 void digdug::GridTransform::Move(int xSteps, int ySteps)
 {
+	if (!m_Enabled) return;
+
 	const float moveSpeed{ m_pGrid->GetCellSize() };
 
 	if (abs(ySteps) > 0 && m_Position.x % static_cast<int>(m_pGrid->GetStepsPerCell()) == 0)

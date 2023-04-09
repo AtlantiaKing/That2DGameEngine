@@ -18,19 +18,23 @@ void digdug::GridComponent::LateUpdate()
 	for (auto pChild : GetOwner()->GetChildren())
 	{
 		auto pCollider{ pChild->GetComponent<GridCollider>() };
-		if (!pCollider) continue;
+		if (pCollider) pColliders.push_back(pCollider);
 
-		pColliders.push_back(pCollider);
+		for (auto pGrandChild : pChild->GetChildren())
+		{
+			auto pChildCollider{ pGrandChild->GetComponent<GridCollider>() };
+			if (pChildCollider) pColliders.push_back(pChildCollider);
+		}
 	}
 
 	for (auto pChild : pColliders)
 	{
-		const auto& childPos{ pChild->GetOwner()->GetTransform()->GetLocalPosition() };
+		const auto& childPos{ pChild->GetOwner()->GetTransform()->GetWorldPosition() };
 		for (auto pOther : pColliders)
 		{
 			if (pChild == pOther) continue;
 
-			const auto& otherPos{ pOther->GetOwner()->GetTransform()->GetLocalPosition() };
+			const auto& otherPos{ pOther->GetOwner()->GetTransform()->GetWorldPosition() };
 
 			if (DoOverlap(childPos, otherPos))
 			{
