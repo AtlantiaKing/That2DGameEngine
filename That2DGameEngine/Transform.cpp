@@ -48,7 +48,7 @@ void that::Transform::UpdateTransform()
 	m_WorldPosition.x = parentPos.x + m_LocalPosition.x * cosAngle - m_LocalPosition.y * sinAngle;
 	m_WorldPosition.y = parentPos.y + m_LocalPosition.x * sinAngle + m_LocalPosition.y * cosAngle;
 
-	m_WorldRotation = pParentTransform->GetWorldRotation() + m_LocalRotation;
+	m_WorldRotation = parentRot + m_LocalRotation;
 }
 
 void that::Transform::SetWorldPosition(float x, float y)
