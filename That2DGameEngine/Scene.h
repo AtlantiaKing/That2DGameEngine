@@ -12,6 +12,7 @@ namespace that
 		void Add(std::unique_ptr<GameObject> pGameObject);
 		std::unique_ptr<GameObject> GetUnique(GameObject* pGameObject);
 
+		void Init();
 		void Update();
 		void LateUpdate();
 		void UpdateCleanup();

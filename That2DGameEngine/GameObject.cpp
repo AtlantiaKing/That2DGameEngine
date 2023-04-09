@@ -4,6 +4,13 @@
 #include "Scene.h"
 #include "Logger.h"
 
+that::GameObject::GameObject(Scene* pScene, const std::string& name)
+	: m_pScene{ pScene }
+	, m_Name{ name }
+{
+	m_pTransform = AddComponent<Transform>();
+}
+
 that::GameObject::~GameObject() = default;
 
 that::GameObject* that::GameObject::CreateGameObject(const std::string& name)
@@ -21,7 +28,17 @@ that::GameObject* that::GameObject::CreateGameObject(const std::string& name)
 
 void that::GameObject::Init()
 {
-	m_pTransform = AddComponent<Transform>();
+	// Initialize every component
+	for (const auto& pComponent : m_pComponents)
+	{
+		pComponent->Init();
+	}
+
+	// Initialize every child
+	for (const auto& pChild : m_pChildren)
+	{
+		pChild->Init();
+	}
 }
 
 void that::GameObject::Update()

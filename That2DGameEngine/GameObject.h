@@ -15,7 +15,7 @@ namespace that
 	class GameObject final
 	{
 	public:
-		GameObject(Scene* pScene, const std::string& name) : m_pScene{ pScene }, m_Name{ name } {};
+		GameObject(Scene* pScene, const std::string& name);
 		virtual ~GameObject();
 
 		GameObject(const GameObject& other) = delete;
@@ -126,8 +126,6 @@ namespace that
 
 		// Set the current gameObject as its parent
 		pComponent->SetOwner(this);
-
-		pComponent->Init();
 
 		// Get the actual pointer to the new component
 		T* pComponentPtr{ pComponent.get() };

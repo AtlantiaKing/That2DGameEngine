@@ -14,6 +14,9 @@ void that::SceneManager::LoadScene(unsigned int index)
 
 	// Load the new scene
 	m_SceneLoaders[index](*m_pScene);
+
+	// Initalize the scene
+	m_pScene->Init();
 }
 
 void that::SceneManager::AddScene(const std::function<void(Scene&)>& sceneLoader)

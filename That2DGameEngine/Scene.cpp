@@ -43,6 +43,14 @@ std::unique_ptr<GameObject> that::Scene::GetUnique(GameObject* pGameObject)
 	return nullptr;
 }
 
+void that::Scene::Init()
+{
+	for (auto& object : m_pObjects)
+	{
+		object->Init();
+	}
+}
+
 void Scene::Update()
 {
 	for(auto& object : m_pObjects)
