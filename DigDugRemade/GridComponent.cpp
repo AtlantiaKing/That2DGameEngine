@@ -28,6 +28,8 @@ void digdug::GridComponent::LateUpdate()
 		const auto& childPos{ pChild->GetOwner()->GetTransform()->GetLocalPosition() };
 		for (auto pOther : pColliders)
 		{
+			if (pChild == pOther) continue;
+
 			const auto& otherPos{ pOther->GetOwner()->GetTransform()->GetLocalPosition() };
 
 			if (DoOverlap(childPos, otherPos))
