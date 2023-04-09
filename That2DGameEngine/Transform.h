@@ -23,12 +23,20 @@ namespace that
 		void SetWorldPosition(float x, float y);
 		void SetWorldPosition(const glm::vec2& position);
 		void Translate(float x, float y);
+
+		float GetLocalRotation(bool isDegrees = true) const;
+		float GetWorldRotation(bool isDegrees = true);
+		void SetLocalRotation(float rotation, bool isDegrees = true);
+		void SetWorldRotation(float rotation, bool isDegrees = true);
+		void Rotate(float angle, bool isDegrees = true);
 	private:
 		void EnableChangedFlag();
-		void UpdateWorldPosition();
+		void UpdateTransform();
 
 		glm::vec2 m_LocalPosition{};
 		glm::vec2 m_WorldPosition{};
+		float m_LocalRotation{};
+		float m_WorldRotation{};
 
 		bool m_HasChanged{};
 	};
