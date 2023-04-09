@@ -22,3 +22,9 @@ void digdug::Player::Notify(const CollisionData& data)
 		that::EventQueue::GetInstance().SendEvent(PlayerHitEvent{ GetOwner() });
 	}
 }
+
+void digdug::Player::AddScore()
+{
+	constexpr int scoreAddition{ 200 };
+	m_Score += scoreAddition;
+}

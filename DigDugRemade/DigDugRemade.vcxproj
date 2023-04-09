@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyMovement.cpp" />
     <ClCompile Include="GridCollider.cpp" />
     <ClCompile Include="GridComponent.cpp" />
@@ -161,6 +162,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Pump.cpp" />
+    <ClCompile Include="ScoreHUDComponent.cpp" />
     <ClCompile Include="ShootPumpCommand.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +171,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyMovement.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="GridCollider.h" />
@@ -179,6 +182,7 @@
     <ClInclude Include="LivesHUDComponent.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Pump.h" />
+    <ClInclude Include="ScoreHUDComponent.h" />
     <ClInclude Include="ShootPumpCommand.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

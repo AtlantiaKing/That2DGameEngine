@@ -39,8 +39,12 @@ namespace digdug
 		virtual void Init() override;
 		virtual void Notify(const CollisionData& data) override;
 
+		void AddScore();
+
 		int GetHealth() { return m_Health.GetHealth(); }
+		int GetScore() { return m_Score; }
 	private:
 		Health m_Health{ 3 };
+		int m_Score{};
 	};
 }

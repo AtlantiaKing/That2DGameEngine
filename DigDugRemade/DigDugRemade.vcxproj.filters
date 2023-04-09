@@ -68,6 +68,12 @@
     <ClCompile Include="ShootPumpCommand.cpp">
       <Filter>Commands\Input</Filter>
     </ClCompile>
+    <ClCompile Include="ScoreHUDComponent.cpp">
+      <Filter>Components\Game\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Components\Game\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameScene.h">
@@ -102,6 +108,12 @@
     </ClInclude>
     <ClInclude Include="ShootPumpCommand.h">
       <Filter>Commands\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreHUDComponent.h">
+      <Filter>Components\Game\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Components\Game\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
