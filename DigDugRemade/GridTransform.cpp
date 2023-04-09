@@ -52,6 +52,10 @@ void digdug::GridTransform::Move(int xSteps, int ySteps)
 		m_FloatPosition.y += m_PrevY * moveSpeed * that::Timer::GetInstance().GetElapsed();
 	}
 
+	constexpr float rightAngle{ 90.0f };
+	if (abs(m_PrevX)) GetTransform()->SetLocalRotation(rightAngle - m_PrevX * rightAngle);
+	if (abs(m_PrevY)) GetTransform()->SetLocalRotation(m_PrevY * rightAngle);
+
 	m_Position.x = static_cast<int>(m_FloatPosition.x);
 	m_Position.y = static_cast<int>(m_FloatPosition.y);
 }
