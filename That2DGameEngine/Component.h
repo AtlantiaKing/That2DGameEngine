@@ -25,14 +25,19 @@ namespace that
 		virtual void Render() const {};
 		virtual void OnGUI() {};
 
+		void SetEnabled(bool enabled) { m_Enabled = enabled; }
 		void Destroy();
 
 		friend GameObject;
 
 		Transform* GetTransform() const;
 		GameObject* GetOwner() const { return m_pOwner; };
-
+		bool IsEnabled() const { return m_Enabled; }
 		bool IsMarkedAsDead() const { return m_IsMarkedDead; };
+
+	protected:
+		bool m_Enabled{ true };
+
 	private:
 		void SetOwner(GameObject* pParent);
 

@@ -46,7 +46,7 @@ void that::GameObject::Update()
 	// Update every component
 	for (const auto& pComponent : m_pComponents)
 	{
-		pComponent->Update();
+		if(pComponent->IsEnabled()) pComponent->Update();
 	}
 
 	// Update every child
@@ -61,7 +61,7 @@ void that::GameObject::LateUpdate()
 	// LateUpdate every component
 	for (const auto& pComponent : m_pComponents)
 	{
-		pComponent->LateUpdate();
+		if (pComponent->IsEnabled()) pComponent->LateUpdate();
 	}
 
 	// LateUpdate every child
@@ -97,7 +97,7 @@ void that::GameObject::Render() const
 	// Render every component
 	for (const auto& pComponent : m_pComponents)
 	{
-		pComponent->Render();
+		if (pComponent->IsEnabled()) pComponent->Render();
 	}
 
 	// Render every child
@@ -112,7 +112,7 @@ void that::GameObject::OnGUI()
 	// LateUpdate every component
 	for (const auto& pComponent : m_pComponents)
 	{
-		pComponent->OnGUI();
+		if (pComponent->IsEnabled()) pComponent->OnGUI();
 	}
 
 	// Render GUI every child
