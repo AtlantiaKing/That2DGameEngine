@@ -78,7 +78,7 @@ void that::Renderer::RenderTexture(const Texture2D& texture, const float x, cons
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
-void that::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float scaleX, const float scaleY) const
+void that::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float scaleX, const float scaleY, float rotation) const
 {
 	SDL_Rect dst{};
 	dst.x = static_cast<int>(x);
@@ -86,7 +86,10 @@ void that::Renderer::RenderTexture(const Texture2D& texture, const float x, cons
 	SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &dst.w, &dst.h);
 	dst.w *= static_cast<int>(scaleX);
 	dst.h *= static_cast<int>(scaleY);
-	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
+
+	const SDL_Point rotationCenter{ dst.w / 2, dst.h / 2 };
+
+	SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst, rotation, &rotationCenter, SDL_FLIP_NONE);
 }
 
 inline SDL_Renderer* that::Renderer::GetSDLRenderer() const { return m_renderer; }
