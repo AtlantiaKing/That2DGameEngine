@@ -62,6 +62,12 @@
     <ClCompile Include="LivesHUDComponent.cpp">
       <Filter>Components\Game\HUD</Filter>
     </ClCompile>
+    <ClCompile Include="Pump.cpp">
+      <Filter>Components\Game\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="ShootPumpCommand.cpp">
+      <Filter>Commands\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameScene.h">
@@ -90,6 +96,12 @@
     </ClInclude>
     <ClInclude Include="LivesHUDComponent.h">
       <Filter>Components\Game\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="Pump.h">
+      <Filter>Components\Game\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="ShootPumpCommand.h">
+      <Filter>Commands\Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

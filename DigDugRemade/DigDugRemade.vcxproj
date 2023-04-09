@@ -160,6 +160,8 @@
     <ClCompile Include="LivesHUDComponent.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Pump.cpp" />
+    <ClCompile Include="ShootPumpCommand.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\That2DGameEngine\That2DGameEngine.vcxproj">
@@ -176,6 +178,8 @@
     <ClInclude Include="Health.h" />
     <ClInclude Include="LivesHUDComponent.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Pump.h" />
+    <ClInclude Include="ShootPumpCommand.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -12,11 +12,13 @@
 #include "Player.h"
 #include "LivesHUDComponent.h"
 #include "TextComponent.h"
+#include "Pump.h"
 
 #include "InputManager.h"
 #include "ResourceManager.h"
 
 #include "GridMoveCommand.h"
+#include "ShootPumpCommand.h"
 
 #include <sstream>
 
@@ -37,13 +39,22 @@ namespace digdug
 		pPlayer->AddComponent<digdug::GridCollider>();
 		Player* pPlayerComponent{ pPlayer->AddComponent<digdug::Player>() };
 
+		that::GameObject* pPump{ pPlayer->CreateGameObject("Pump") };
+		auto pPumpRenderer{ pPump->AddComponent<that::TextureRenderer>() };
+		pPumpRenderer->SetTexture(that::ResourceManager::GetInstance().LoadTexture("Pump.png"));
+		pPumpRenderer->SetScale(2.0f);
+		pPump->AddComponent<digdug::GridCollider>();
+		pPump->AddComponent<digdug::Pump>();
+		pPump->GetComponent<that::Transform>()->SetLocalPosition({ pGridComponent->GetCellSize(), 0.0f });
+
 		that::GameObject* pEnemy{ pGrid->CreateGameObject("Enemy") };
 		auto pEnemyRenderer{ pEnemy->AddComponent<that::TextureRenderer>() };
 		pEnemyRenderer->SetTexture(that::ResourceManager::GetInstance().LoadTexture("Enemy.png"));
 		pEnemyRenderer->SetScale(2.0f);
-		pEnemy->AddComponent<digdug::GridTransform>()->SetPosition(10, 10);
 		pEnemy->AddComponent<digdug::EnemyMovement>();
+		pEnemy->AddComponent<digdug::GridTransform>();
 		pEnemy->AddComponent<digdug::GridCollider>();
+		pEnemy->GetComponent<that::Transform>()->SetLocalPosition(pGridComponent->GetCellSize() * 10, pGridComponent->GetCellSize() * 10);
 
 		that::GameObject* pLivesHUD{ scene.CreateGameObject("LivesHUD") };
 		pLivesHUD->GetTransform()->SetWorldPosition(0.0f, 0.0f);
@@ -58,5 +69,6 @@ namespace digdug
 		pLivesHUD->AddComponent<that::TextureRenderer>();
 
 		that::InputManager::GetInstance().BindDigital2DAxisCommand({ 'd', 'q', 'z', 's' }, std::make_unique<GridMoveCommand>(pPlayer));
+		that::InputManager::GetInstance().BindDigitalCommand({ ' ' }, that::InputManager::InputType::ONBUTTONDOWN, std::make_unique<ShootPumpCommand>(pPump));
 	}
 }
