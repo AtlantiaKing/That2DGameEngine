@@ -8,7 +8,6 @@ void digdug::Health::Hit()
 
 	if (m_Health <= 0)
 	{
-		// TODO: Call event
 		int i{};
 		i += 1;
 	}

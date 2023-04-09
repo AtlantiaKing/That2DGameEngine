@@ -31,6 +31,7 @@ namespace that
 	private:
 		bool PollEvent(Event** e);
 
+		// TODO: Make the cyclic buffer a class
 		const static unsigned int m_EventBufferSize{ 10 };
 		std::unique_ptr<Event> m_EventQueue[m_EventBufferSize]{};
 		unsigned int m_EventBufferStart{};
