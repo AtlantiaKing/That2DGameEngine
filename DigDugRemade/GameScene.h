@@ -54,7 +54,7 @@ namespace digdug
 		pEnemy->AddComponent<digdug::EnemyMovement>();
 		pEnemy->AddComponent<digdug::GridTransform>();
 		pEnemy->AddComponent<digdug::GridCollider>();
-		pEnemy->GetComponent<that::Transform>()->SetLocalPosition(pGridComponent->GetCellSize() * 10, pGridComponent->GetCellSize() * 10);
+		pEnemy->GetComponent<that::Transform>()->SetLocalPosition(pGridComponent->GetCellSize() * 5, pGridComponent->GetCellSize() * 5);
 
 		that::GameObject* pLivesHUD{ scene.CreateGameObject("LivesHUD") };
 		pLivesHUD->GetTransform()->SetWorldPosition(0.0f, 0.0f);

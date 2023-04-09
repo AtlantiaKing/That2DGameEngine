@@ -9,6 +9,14 @@
 void digdug::GridTransform::Init()
 {
 	m_pGrid = GetOwner()->GetParent()->GetComponent<GridComponent>();
+	const float cellSize{ m_pGrid->GetCellSize() };
+	const int stepsPerCell{ m_pGrid->GetStepsPerCell() };
+
+	const auto& worldPos{ GetTransform()->GetWorldPosition() };
+	m_Position.x = static_cast<int>(worldPos.x / cellSize) * stepsPerCell;
+	m_Position.y = static_cast<int>(worldPos.y / cellSize) * stepsPerCell;
+	m_FloatPosition.x = static_cast<float>(m_Position.x);
+	m_FloatPosition.y = static_cast<float>(m_Position.y);
 }
 
 void digdug::GridTransform::Update()
