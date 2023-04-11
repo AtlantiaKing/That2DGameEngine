@@ -18,6 +18,8 @@ that::GameObject* that::GameObject::CreateGameObject(const std::string& name)
 	auto pGameObject{ std::make_unique<GameObject>(m_pScene, name) };
 	pGameObject->Init();
 
+	if (m_pTransform->IsDirty()) pGameObject->GetTransform()->EnableChangedFlag();
+
 	auto pGameObjectPtr{ pGameObject.get() };
 
 	pGameObject->m_pParent = this;

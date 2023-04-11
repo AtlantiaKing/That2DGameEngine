@@ -29,8 +29,10 @@ namespace that
 		void SetLocalRotation(float rotation, bool isDegrees = true);
 		void SetWorldRotation(float rotation, bool isDegrees = true);
 		void Rotate(float angle, bool isDegrees = true);
-	private:
+
+		bool IsDirty() const { return m_HasChanged; }
 		void EnableChangedFlag();
+	private:
 		void UpdateTransform();
 
 		glm::vec2 m_LocalPosition{};
