@@ -5,6 +5,11 @@
 
 #include "Player.h"
 
+namespace that
+{
+	class GameObject;
+}
+
 namespace digdug
 {
 	class LivesHUDComponent final : public that::Component, public that::EventListener<PlayerHitEvent>
@@ -20,7 +25,10 @@ namespace digdug
 
 		virtual void Init() override;
 		virtual void OnEvent(PlayerHitEvent*) override;
+
+		void SetPlayer(that::GameObject* pPlayer) { m_pPlayer = pPlayer; };
 	private:
+		that::GameObject* m_pPlayer{};
 	};
 }
 

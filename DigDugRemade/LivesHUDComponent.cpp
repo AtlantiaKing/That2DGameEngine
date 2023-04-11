@@ -16,6 +16,9 @@ void digdug::LivesHUDComponent::Init()
 
 void digdug::LivesHUDComponent::OnEvent(PlayerHitEvent* e)
 {
+	if (!m_pPlayer) return;
+	if (e->GetPlayer() != m_pPlayer) return;
+
 	std::stringstream hudText{};
 	hudText << e->GetPlayer()->GetComponent<Player>()->GetHealth() << " lifes left";
 

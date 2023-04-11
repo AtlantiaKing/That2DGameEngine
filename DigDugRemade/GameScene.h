@@ -26,18 +26,13 @@
 
 namespace digdug
 {
-	void LoadGameScene(that::Scene& scene)
+	void CreatePlayer(that::Scene& scene, that::GameObject* pGrid, int idx)
 	{
-		// Grid
-		that::GameObject* pGrid{ scene.CreateGameObject("Grid") };
-		auto pGridComponent{ pGrid->AddComponent<digdug::GridComponent>() };
-		pGridComponent->SetCellSize(32.0f);
-		pGrid->GetTransform()->SetWorldPosition(100, 40);
-
+		GridComponent* pGridComponent{ pGrid->GetComponent<GridComponent>() };
 
 		// Player
 		that::GameObject* pPlayer{ pGrid->CreateGameObject("Player") };
-		auto pPlayerRenderer{ pPlayer->AddComponent<that::TextureRenderer>() }; 
+		auto pPlayerRenderer{ pPlayer->AddComponent<that::TextureRenderer>() };
 		pPlayerRenderer->SetTexture(that::ResourceManager::GetInstance().LoadTexture("MainCharacter.png"));
 		pPlayerRenderer->SetScale(2.0f);
 		pPlayer->AddComponent<digdug::GridTransform>();
@@ -54,25 +49,37 @@ namespace digdug
 		pPump->GetComponent<that::Transform>()->SetLocalPosition({ pGridComponent->GetCellSize(), 0.0f });
 
 
-		// Enemy
-		for (int i{}; i < 5; ++i)
+		// Input
+		std::vector<unsigned int> movementButtons{};
+		if (idx == 0)
 		{
-			that::GameObject* pEnemy{ pGrid->CreateGameObject("Enemy") };
-			auto pEnemyRenderer{ pEnemy->AddComponent<that::TextureRenderer>() };
-			pEnemyRenderer->SetTexture(that::ResourceManager::GetInstance().LoadTexture("Enemy.png"));
-			pEnemyRenderer->SetScale(2.0f);
-			pEnemy->AddComponent<digdug::EnemyMovement>();
-			pEnemy->AddComponent<digdug::GridTransform>();
-			pEnemy->AddComponent<digdug::GridCollider>();
-			pEnemy->GetComponent<that::Transform>()->SetLocalPosition(pGridComponent->GetCellSize() * 5, pGridComponent->GetCellSize() * 2 * i);
-			pEnemy->AddComponent<digdug::Enemy>();
+			that::InputManager::GetInstance().BindDigital2DAxisCommand({ 'd', 'a', 'w', 's' }, std::make_unique<GridMoveCommand>(pPlayer));
+			that::InputManager::GetInstance().BindDigitalCommand(' ', that::InputManager::InputType::ONBUTTONDOWN, std::make_unique<ShootPumpCommand>(pPump));
+		}
+		else
+		{
+			that::InputManager::GetInstance().BindDigital2DAxisCommand(
+				0, 
+				{ 
+					that::InputManager::GamepadButton::DPAD_RIGHT, 
+					that::InputManager::GamepadButton::DPAD_LEFT, 
+					that::InputManager::GamepadButton::DPAD_UP, 
+					that::InputManager::GamepadButton::DPAD_DOWN },
+				std::make_unique<GridMoveCommand>(pPlayer)
+			);
+			that::InputManager::GetInstance().BindDigitalCommand(
+				0, 
+				that::InputManager::GamepadButton::A, 
+				that::InputManager::InputType::ONBUTTONDOWN, 
+				std::make_unique<ShootPumpCommand>(pPump)
+			);
 		}
 
 
 		// Lives HUD
 		that::GameObject* pLivesHUD{ scene.CreateGameObject("LivesHUD") };
-		pLivesHUD->GetTransform()->SetWorldPosition(0.0f, 0.0f);
-		pLivesHUD->AddComponent<digdug::LivesHUDComponent>();
+		pLivesHUD->GetTransform()->SetWorldPosition(idx ? 500.0f : 0.0f, 0.0f);
+		pLivesHUD->AddComponent<digdug::LivesHUDComponent>()->SetPlayer(pPlayer);
 		that::TextComponent* pLivesText{ pLivesHUD->AddComponent<that::TextComponent>() };
 		pLivesText->SetFont(that::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20));
 
@@ -85,16 +92,39 @@ namespace digdug
 
 		// Score HUD
 		that::GameObject* pScoreHUD{ scene.CreateGameObject("LivesHUD") };
-		pScoreHUD->GetTransform()->SetWorldPosition(0.0f, 100.0f);
+		pScoreHUD->GetTransform()->SetWorldPosition(idx ? 500.0f : 0.0f, 100.0f);
 		pScoreHUD->AddComponent<digdug::ScoreHUDComponent>()->SetPlayer(pPlayerComponent);
 		that::TextComponent* pScoreText{ pScoreHUD->AddComponent<that::TextComponent>() };
 		pScoreText->SetFont(that::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20));
 		pScoreText->SetText("Score: 0");
 		pScoreHUD->AddComponent<that::TextureRenderer>();
+	}
+
+	void LoadGameScene(that::Scene& scene)
+	{
+		// Grid
+		that::GameObject* pGrid{ scene.CreateGameObject("Grid") };
+		auto pGridComponent{ pGrid->AddComponent<digdug::GridComponent>() };
+		pGridComponent->SetCellSize(32.0f);
+		pGrid->GetTransform()->SetWorldPosition(100, 40);
 
 
-		// Input
-		that::InputManager::GetInstance().BindDigital2DAxisCommand({ 'd', 'q', 'z', 's' }, std::make_unique<GridMoveCommand>(pPlayer));
-		that::InputManager::GetInstance().BindDigitalCommand({ ' ' }, that::InputManager::InputType::ONBUTTONDOWN, std::make_unique<ShootPumpCommand>(pPump));
+		CreatePlayer(scene, pGrid, 0);
+		CreatePlayer(scene, pGrid, 1);
+
+
+		// Enemy
+		for (int i{}; i < 10; ++i)
+		{
+			that::GameObject* pEnemy{ pGrid->CreateGameObject("Enemy") };
+			auto pEnemyRenderer{ pEnemy->AddComponent<that::TextureRenderer>() };
+			pEnemyRenderer->SetTexture(that::ResourceManager::GetInstance().LoadTexture("Enemy.png"));
+			pEnemyRenderer->SetScale(2.0f);
+			pEnemy->AddComponent<digdug::EnemyMovement>();
+			pEnemy->AddComponent<digdug::GridTransform>();
+			pEnemy->AddComponent<digdug::GridCollider>();
+			pEnemy->GetComponent<that::Transform>()->SetLocalPosition(pGridComponent->GetCellSize() * (i % 2 * 8), pGridComponent->GetCellSize() * (i+1));
+			pEnemy->AddComponent<digdug::Enemy>();
+		}
 	}
 }
