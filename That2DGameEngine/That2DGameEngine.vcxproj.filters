@@ -51,6 +51,9 @@
     <Filter Include="Observer">
       <UniqueIdentifier>{576b0f30-b24b-4636-b2c7-3526b27b983f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Steam">
+      <UniqueIdentifier>{cffb357e-74bf-4e19-a8f5-60fec2cc55a9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Font.h">
@@ -176,6 +179,12 @@
     <ClInclude Include="EventListener.h">
       <Filter>Events</Filter>
     </ClInclude>
+    <ClInclude Include="SteamAchievements.h">
+      <Filter>Steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Achievement.h">
+      <Filter>Steam</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">
@@ -277,6 +286,9 @@
     </ClCompile>
     <ClCompile Include="RotatorComponent.cpp">
       <Filter>Components\Exercises</Filter>
+    </ClCompile>
+    <ClCompile Include="SteamAchievements.cpp">
+      <Filter>Steam</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

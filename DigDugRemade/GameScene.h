@@ -14,6 +14,7 @@
 #include "TextComponent.h"
 #include "Pump.h"
 #include "Enemy.h"
+#include "ScoreHUDComponent.h"
 
 #include "InputManager.h"
 #include "ResourceManager.h"
@@ -22,7 +23,6 @@
 #include "ShootPumpCommand.h"
 
 #include <sstream>
-#include "ScoreHUDComponent.h"
 
 namespace digdug
 {
@@ -98,6 +98,10 @@ namespace digdug
 		pScoreText->SetFont(that::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20));
 		pScoreText->SetText("Score: 0");
 		pScoreHUD->AddComponent<that::TextureRenderer>();
+
+
+		// Add player to achievement unlocker
+		digdug::AchievementsUnlock::GetInstance().AddPlayer(pPlayerComponent);
 	}
 
 	void LoadGameScene(that::Scene& scene)

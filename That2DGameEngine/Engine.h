@@ -1,6 +1,9 @@
 #pragma once
+#include "Achievement.h"
+
 #include <string>
 #include <functional>
+#include <vector>
 
 namespace that
 {
@@ -10,6 +13,7 @@ namespace that
 		explicit Engine(const std::string& dataPath);
 		~Engine();
 		void Run(const std::function<void()>& load);
+		void Run(const std::function<void()>& load, const std::vector<Achievement_t>& achievements);
 
 		Engine(const Engine& other) = delete;
 		Engine(Engine&& other) = delete;

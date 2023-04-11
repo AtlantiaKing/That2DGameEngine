@@ -173,6 +173,7 @@ xcopy $(SolutionDir)3rdParty\steamworks\steam_appid.txt $(OutputPath) /Y</Comman
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Achievements.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyMovement.cpp" />
     <ClCompile Include="GridCollider.cpp" />
@@ -193,6 +194,7 @@ xcopy $(SolutionDir)3rdParty\steamworks\steam_appid.txt $(OutputPath) /Y</Comman
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Achievements.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyMovement.h" />
     <ClInclude Include="GameScene.h" />

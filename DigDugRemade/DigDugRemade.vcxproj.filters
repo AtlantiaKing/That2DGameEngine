@@ -35,6 +35,9 @@
     <Filter Include="Components\Game\HUD">
       <UniqueIdentifier>{8f56c9a1-2d41-43e8-b076-f2854bda25d1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Achievements">
+      <UniqueIdentifier>{619698ba-92ca-462d-9e1a-2031e052af13}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -73,6 +76,9 @@
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
       <Filter>Components\Game\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Achievements.cpp">
+      <Filter>Achievements</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -114,6 +120,9 @@
     </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>Components\Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Achievements.h">
+      <Filter>Achievements</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

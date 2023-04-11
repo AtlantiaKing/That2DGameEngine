@@ -11,6 +11,7 @@
 #include "ResourceManager.h"
 #include "Timer.h"
 #include "EventQueue.h"
+#include "SteamAchievements.h"
 #include <steam_api.h>
 #include <iostream>
 
@@ -81,7 +82,13 @@ that::Engine::~Engine()
 	SDL_Quit();
 }
 
-void that::Engine::Run(const std::function<void()>& setup)
+void that::Engine::Run(const std::function<void()>& load)
+{
+	std::vector<Achievement_t> tempAchievements{};
+	Run(load, tempAchievements);
+}
+
+void that::Engine::Run(const std::function<void()>& setup, const std::vector<Achievement_t>& achievements)
 {
 	// Setup up steam
 	if (!SteamAPI_Init())
@@ -101,6 +108,8 @@ void that::Engine::Run(const std::function<void()>& setup)
 	auto& input = InputManager::GetInstance();
 	auto& time = Timer::GetInstance();
 	auto& events = EventQueue::GetInstance();
+
+	that::SteamAchievements::GetInstance().Init(achievements, true);
 
 	// Load the first scene
 	sceneManager.LoadScene(0);
