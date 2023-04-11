@@ -87,11 +87,11 @@ bool digdug::GridComponent::DoOverlap(const glm::vec2& pos0, const glm::vec2& po
 		return false;
 
 	// If one rectangle is on left side of other
-	if (l1x > r2x || l2x > r1x)
-		return false;
+	if (l1x >= r2x || l2x >= r1x)
+		return false;	
 
 	// If one rectangle is above other
-	if (r1y > l2y || r2y > l1y)
+	if (r1y >= l2y || r2y >= l1y)
 		return false;
 
 	return true;
