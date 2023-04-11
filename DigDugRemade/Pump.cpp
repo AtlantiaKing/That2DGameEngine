@@ -7,6 +7,7 @@
 #include "Timer.h"
 #include "GridTransform.h"
 #include "Player.h"
+#include "Enemy.h"
 
 void digdug::Pump::Init()
 {
@@ -33,7 +34,7 @@ void digdug::Pump::Notify(const CollisionData& data)
 
 	if (data.other->GetComponent<EnemyMovement>())
 	{
-		data.other->Destroy();
+		data.other->GetComponent<Enemy>()->Kill();
 		GetOwner()->GetParent()->GetComponent<Player>()->AddScore();
 	}
 }

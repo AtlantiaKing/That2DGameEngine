@@ -1,8 +1,10 @@
 #include "Enemy.h"
 
 #include "EventQueue.h"
+#include "GameObject.h"
 
-digdug::Enemy::~Enemy()
+void digdug::Enemy::Kill()
 {
 	that::EventQueue::GetInstance().SendEvent(EnemyDeathEvent{ GetOwner() });
+	GetOwner()->Destroy();
 }
