@@ -11,6 +11,8 @@
 #include "ResourceManager.h"
 #include "Timer.h"
 #include "EventQueue.h"
+#include <steam_api.h>
+#include <iostream>
 
 SDL_Window* g_window{};
 
@@ -81,8 +83,19 @@ that::Engine::~Engine()
 
 void that::Engine::Run(const std::function<void()>& setup)
 {
+	// Setup up steam
+	if (!SteamAPI_Init())
+	{
+		std::cerr << "Fatal Error - Steam must be running to play this game (SteamAPI_Init() failed)." << std::endl;
+		return;
+	}
+	else
+		std::cout << "Successfully initialized steam." << std::endl;
+
+	// Setup game
 	setup();
 
+	// Get singletons
 	auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
@@ -95,10 +108,14 @@ void that::Engine::Run(const std::function<void()>& setup)
 	constexpr int desiredFPS{ 60 };
 	constexpr float desiredFrameTime{ 1000.0f / desiredFPS };
 
+	// Game loop
 	bool doContinue = true;
 	while (doContinue)
 	{
 		const auto frameStart{ std::chrono::high_resolution_clock::now() };
+
+		// Call the steam API
+		SteamAPI_RunCallbacks();
 
 		time.Update();
 		doContinue = input.ProcessInput();
@@ -116,4 +133,7 @@ void that::Engine::Run(const std::function<void()>& setup)
 		const auto sleepTime{ std::chrono::milliseconds(static_cast<int>(desiredFrameTime)) - frameTime };
 		std::this_thread::sleep_for(sleepTime);
 	}
+
+	// Stop the steam api
+	SteamAPI_Shutdown();
 }
