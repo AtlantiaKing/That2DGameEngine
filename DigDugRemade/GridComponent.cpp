@@ -82,16 +82,18 @@ bool digdug::GridComponent::DoOverlap(const glm::vec2& pos0, const glm::vec2& po
 	const float r2x{ pos1.x + m_CellSize };
 	const float r2y{ pos1.y };
 
+	constexpr float distanceEpsilon{ 5.0f };
+
 	// if rectangle has area 0, no overlap
 	if (l1x == r1x || l1y == r1y || r2x == l2x || l2y == r2y)
 		return false;
 
 	// If one rectangle is on left side of other
-	if (l1x >= r2x || l2x >= r1x)
+	if (l1x >= r2x - distanceEpsilon || l2x >= r1x - distanceEpsilon)
 		return false;	
 
 	// If one rectangle is above other
-	if (r1y >= l2y || r2y >= l1y)
+	if (r1y >= l2y - distanceEpsilon || r2y >= l1y - distanceEpsilon)
 		return false;
 
 	return true;
