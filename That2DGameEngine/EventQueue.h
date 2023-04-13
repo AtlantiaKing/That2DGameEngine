@@ -58,7 +58,7 @@ namespace that
 		if (m_NrEventsQueued >= m_EventBufferSize)
 		{
 			std::stringstream sstream{};
-			sstream << "Too many events are being queued. Event " << e.GetName() << " was not added to the event queue.";
+			sstream << "Too many events are being queued. Event " << e.name << " was not added to the event queue.";
 			Logger::LogWarning(sstream.str());
 			return;
 		}

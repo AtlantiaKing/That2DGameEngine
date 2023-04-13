@@ -17,10 +17,10 @@ void digdug::LivesHUDComponent::Init()
 void digdug::LivesHUDComponent::OnEvent(PlayerHitEvent* e)
 {
 	if (!m_pPlayer) return;
-	if (e->GetPlayer() != m_pPlayer) return;
+	if (e->pPlayer != m_pPlayer) return;
 
 	std::stringstream hudText{};
-	hudText << e->GetPlayer()->GetComponent<Health>()->GetHealth() << " lifes left";
+	hudText << e->pPlayer->GetComponent<Health>()->GetHealth() << " lifes left";
 
 	GetOwner()->GetComponent<that::TextComponent>()->SetText(hudText.str());
 }

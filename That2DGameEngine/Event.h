@@ -4,21 +4,19 @@
 
 namespace that
 {
-    class Event
+    struct Event
     {
-    public:
         Event() = default;
-        Event(const char* name) : m_Name{ name } {}
+        Event(const char* name) : name{ name } {}
         virtual ~Event() = default;
 
-        bool IsValid() const { return *m_Name != '\0'; }
-        const char* GetName() const { return m_Name; }
+        bool IsValid() const { return *name != '\0'; }
 
         bool operator==(const Event& other) const {
-            return m_Name == other.m_Name;
+            return name == other.name;
         }
-    private:
-        const char* m_Name{};
+
+        const char* name{};
     };
 }
 
@@ -28,7 +26,7 @@ namespace std {
     {
         std::size_t operator()(const that::Event& event) const
         {
-            return std::hash<const char*>()(event.GetName());
+            return std::hash<const char*>()(event.name);
         }
     };
 }

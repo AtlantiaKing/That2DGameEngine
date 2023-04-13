@@ -15,7 +15,7 @@ void digdug::ScoreHUDComponent::Init()
 
 void digdug::ScoreHUDComponent::OnEvent(that::EntityDeathEvent* e)
 {
-	that::GameObject* pEntity{ e->GetEntity() };
+	that::GameObject* pEntity{ e->pEntity };
 
 	if (!pEntity || !pEntity->GetComponent<Enemy>()) return;
 

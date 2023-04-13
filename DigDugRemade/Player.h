@@ -15,15 +15,12 @@ namespace that
 
 namespace digdug
 {
-	class PlayerHitEvent final : public that::Event
+	struct PlayerHitEvent final : public that::Event
 	{
-	public:
-		PlayerHitEvent(that::GameObject* pPlayer = nullptr) : Event{ "PlayerDeath" }, m_pPlayer{ pPlayer } {}
+		PlayerHitEvent(that::GameObject* _pPlayer = nullptr) : Event{ "PlayerDeath" }, pPlayer{ _pPlayer } {}
 		virtual ~PlayerHitEvent() = default;
 
-		that::GameObject* GetPlayer() { return m_pPlayer; }
-	private:
-		that::GameObject* m_pPlayer;
+		that::GameObject* pPlayer;
 	};
 
 	class Player final : public that::Component, public that::Observer<CollisionData>

@@ -23,7 +23,7 @@ namespace digdug
 		void Display(Player* pPlayer) { m_pPlayer = pPlayer; }
 
 		virtual void Init() override;
-		virtual void OnEvent(that::EntityDeathEvent*) override;
+		virtual void OnEvent(that::EntityDeathEvent* e) override;
 	private:
 		Player* m_pPlayer{};
 	};
