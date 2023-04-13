@@ -15,7 +15,6 @@ namespace that
 
 namespace digdug
 {
-
 	class PlayerHitEvent : public that::Event
 	{
 	public:
@@ -40,11 +39,8 @@ namespace digdug
 		virtual void Notify(const CollisionData& data) override;
 
 		void AddScore();
-
-		int GetHealth() { return m_Health.GetHealth(); }
 		int GetScore() { return m_Score; }
 	private:
-		Health m_Health{ 3 };
 		int m_Score{};
 	};
 }

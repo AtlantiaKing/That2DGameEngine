@@ -4,6 +4,7 @@
 #include "GridCollider.h"
 #include "EnemyMovement.h"
 #include "GridTransform.h"
+#include "Health.h"
 
 #include "EventQueue.h"
 
@@ -18,7 +19,7 @@ void digdug::Player::Notify(const CollisionData& data)
 	{
 		GetOwner()->GetComponent<GridTransform>()->SetPosition(0, 0);
 
-		m_Health.Hit();
+		GetOwner()->GetComponent<Health>()->Hit();
 		that::EventQueue::GetInstance().SendEvent(PlayerHitEvent{ GetOwner() });
 	}
 }

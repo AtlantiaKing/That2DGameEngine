@@ -1,8 +1,10 @@
 #pragma once
 
+// Objects
 #include "Scene.h"
 #include "GameObject.h"
 
+// Components
 #include "Transform.h"
 #include "GridComponent.h"
 #include "GridTransform.h"
@@ -16,17 +18,20 @@
 #include "Enemy.h"
 #include "ScoreHUDComponent.h"
 
+// Managers
 #include "InputManager.h"
 #include "ResourceManager.h"
 
+// Commands
 #include "GridMoveCommand.h"
 #include "ShootPumpCommand.h"
 
+// STD includes
 #include <sstream>
 
 namespace digdug
 {
-	void CreatePlayer(that::Scene& scene, that::GameObject* pGrid, int idx)
+	void CreatePlayerAndHUD(that::Scene& scene, that::GameObject* pGrid, int idx)
 	{
 		GridComponent* pGridComponent{ pGrid->GetComponent<GridComponent>() };
 
@@ -35,22 +40,27 @@ namespace digdug
 		auto pPlayerRenderer{ pPlayer->AddComponent<that::TextureRenderer>() };
 		pPlayerRenderer->SetTexture(that::ResourceManager::GetInstance().LoadTexture("MainCharacter.png"));
 		pPlayerRenderer->SetScale(2.0f);
-		pPlayer->AddComponent<digdug::GridTransform>();
-		pPlayer->AddComponent<digdug::GridCollider>();
-		Player* pPlayerComponent{ pPlayer->AddComponent<digdug::Player>() };
+		pPlayer->AddComponent<GridTransform>();
+		pPlayer->AddComponent<GridCollider>();
+
+		Player* pPlayerComponent{ pPlayer->AddComponent<Player>() };
+
+		constexpr int defaultHealth{ 3 };
+		Health* pPlayerHealth{ pPlayer->AddComponent<Health>() };
+		pPlayerHealth->SetHealth(defaultHealth);
 
 		// Pump
 		that::GameObject* pPump{ pPlayer->CreateGameObject("Pump") };
 		auto pPumpRenderer{ pPump->AddComponent<that::TextureRenderer>() };
 		pPumpRenderer->SetTexture(that::ResourceManager::GetInstance().LoadTexture("Pump.png"));
 		pPumpRenderer->SetScale(2.0f);
-		pPump->AddComponent<digdug::GridCollider>();
-		pPump->AddComponent<digdug::Pump>();
-		pPump->GetComponent<that::Transform>()->SetLocalPosition({ pGridComponent->GetCellSize(), 0.0f });
+		pPump->AddComponent<GridCollider>();
+		pPump->AddComponent<Pump>();
+		// Move the pump one cell to the right
+		pPump->GetComponent<that::Transform>()->Translate(pGridComponent->GetCellSize(), 0.0f);
 
 
 		// Input
-		std::vector<unsigned int> movementButtons{};
 		if (idx == 0)
 		{
 			that::InputManager::GetInstance().BindDigital2DAxisCommand({ 'd', 'a', 'w', 's' }, std::make_unique<GridMoveCommand>(pPlayer));
@@ -82,9 +92,8 @@ namespace digdug
 		pLivesHUD->AddComponent<digdug::LivesHUDComponent>()->SetPlayer(pPlayer);
 		that::TextComponent* pLivesText{ pLivesHUD->AddComponent<that::TextComponent>() };
 		pLivesText->SetFont(that::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20));
-
 		std::stringstream hudText{};
-		hudText << pPlayerComponent->GetHealth() << " lifes left";
+		hudText << pPlayerHealth->GetHealth() << " lifes left";
 		pLivesText->SetText(hudText.str());
 
 		pLivesHUD->AddComponent<that::TextureRenderer>();
@@ -94,9 +103,11 @@ namespace digdug
 		that::GameObject* pScoreHUD{ scene.CreateGameObject("LivesHUD") };
 		pScoreHUD->GetTransform()->SetWorldPosition(idx ? 500.0f : 0.0f, 100.0f);
 		pScoreHUD->AddComponent<digdug::ScoreHUDComponent>()->SetPlayer(pPlayerComponent);
+
 		that::TextComponent* pScoreText{ pScoreHUD->AddComponent<that::TextComponent>() };
 		pScoreText->SetFont(that::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20));
 		pScoreText->SetText("Score: 0");
+
 		pScoreHUD->AddComponent<that::TextureRenderer>();
 
 
@@ -113,8 +124,8 @@ namespace digdug
 		pGrid->GetTransform()->SetWorldPosition(100, 40);
 
 
-		CreatePlayer(scene, pGrid, 0);
-		CreatePlayer(scene, pGrid, 1);
+		CreatePlayerAndHUD(scene, pGrid, 0);
+		CreatePlayerAndHUD(scene, pGrid, 1);
 
 
 		// Enemy

@@ -4,13 +4,14 @@
 
 namespace digdug
 {
-	class Health final
+	class Health final : public that::Component
 	{
 	public:
-		Health(int health = 10) : m_Health{ health } {}
+		Health() = default;
 		virtual ~Health() = default;
 
 		void Hit();
+		void SetHealth(int health) { m_Health = health; }
 		int GetHealth() const { return m_Health; }
 	private:
 		int m_Health{};
