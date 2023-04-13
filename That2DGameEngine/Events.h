@@ -9,9 +9,8 @@ namespace that
 	class EntityDeathEvent final : public Event
 	{
 	public:
-		EntityDeathEvent() = default;
-		EntityDeathEvent(GameObject* pEntity) : Event{ "EntityDeath" }, m_pEntity{ pEntity } {}
-		virtual ~EntityDeathEvent() = default;;
+		EntityDeathEvent(GameObject* pEntity = nullptr) : Event{ "EntityDeath" }, m_pEntity{ pEntity } {}
+		virtual ~EntityDeathEvent() = default;
 		
 		GameObject* GetEntity() { return m_pEntity; }
 	private:

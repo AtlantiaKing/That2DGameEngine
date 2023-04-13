@@ -9,6 +9,7 @@ namespace that
     public:
         Event() = default;
         Event(const char* name) : m_Name{ name } {}
+        virtual ~Event() = default;
 
         bool IsValid() const { return *m_Name != '\0'; }
         const char* GetName() const { return m_Name; }

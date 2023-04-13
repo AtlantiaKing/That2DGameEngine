@@ -15,7 +15,9 @@ void digdug::ScoreHUDComponent::Init()
 
 void digdug::ScoreHUDComponent::OnEvent(that::EntityDeathEvent* e)
 {
-	if (!e->GetEntity()->GetComponent<Enemy>()) return;
+	that::GameObject* pEntity{ e->GetEntity() };
+
+	if (!pEntity || !pEntity->GetComponent<Enemy>()) return;
 
 	std::stringstream hudText{};
 	hudText << "Score: " << m_pPlayer->GetScore();
