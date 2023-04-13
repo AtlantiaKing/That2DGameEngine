@@ -18,6 +18,10 @@ namespace that
 		{
 			m_Observers.push_back(observer);
 		}
+		void RemoveListener(Observer<T>* observer)
+		{
+			m_Observers.erase(std::find(begin(m_Observers), end(m_Observers), observer));
+		}
 
 		void Notify(const T& data)
 		{

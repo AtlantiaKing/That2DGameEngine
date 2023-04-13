@@ -26,6 +26,8 @@ namespace that
 		void SendEvent(const T& e);
 		template <class T>
 		void AddListener(EventListener<T>* listener);
+		template <class T>
+		void RemoveListener(EventListener<T>* listener);
 
 		void NotifyListeners();
 	private:
@@ -66,6 +68,13 @@ namespace that
 		const unsigned int curIdx{ (m_EventBufferStart + m_NrEventsQueued) % m_EventBufferSize };
 		m_EventQueue[curIdx] = std::move(pEvent);
 		++m_NrEventsQueued;
+	}
+
+	template<class T>
+	inline void EventQueue::RemoveListener(EventListener<T>* listener)
+	{
+		auto& listeners{ m_Listeners[T{}] };
+		listeners.erase(std::find(begin(listeners), end(listeners), reinterpret_cast<EventListener<void>*>(listener)));
 	}
 }
 
