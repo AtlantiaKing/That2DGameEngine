@@ -20,7 +20,7 @@ namespace digdug
 		ScoreHUDComponent& operator=(const ScoreHUDComponent& other) = delete;
 		ScoreHUDComponent& operator=(ScoreHUDComponent&& other) = delete;
 
-		void SetPlayer(Player* pPlayer) { m_pPlayer = pPlayer; }
+		void Display(Player* pPlayer) { m_pPlayer = pPlayer; }
 
 		virtual void Init() override;
 		virtual void OnEvent(EnemyDeathEvent*) override;

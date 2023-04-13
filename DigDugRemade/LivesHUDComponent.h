@@ -26,7 +26,7 @@ namespace digdug
 		virtual void Init() override;
 		virtual void OnEvent(PlayerHitEvent*) override;
 
-		void SetPlayer(that::GameObject* pPlayer) { m_pPlayer = pPlayer; };
+		void Display(that::GameObject* pPlayer) { m_pPlayer = pPlayer; };
 	private:
 		that::GameObject* m_pPlayer{};
 	};

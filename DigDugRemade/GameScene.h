@@ -89,7 +89,8 @@ namespace digdug
 		// Lives HUD
 		that::GameObject* pLivesHUD{ scene.CreateGameObject("LivesHUD") };
 		pLivesHUD->GetTransform()->SetWorldPosition(idx ? 500.0f : 0.0f, 0.0f);
-		pLivesHUD->AddComponent<digdug::LivesHUDComponent>()->SetPlayer(pPlayer);
+		pLivesHUD->AddComponent<digdug::LivesHUDComponent>()->Display(pPlayer);
+
 		that::TextComponent* pLivesText{ pLivesHUD->AddComponent<that::TextComponent>() };
 		pLivesText->SetFont(that::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20));
 		std::stringstream hudText{};
@@ -102,7 +103,7 @@ namespace digdug
 		// Score HUD
 		that::GameObject* pScoreHUD{ scene.CreateGameObject("LivesHUD") };
 		pScoreHUD->GetTransform()->SetWorldPosition(idx ? 500.0f : 0.0f, 100.0f);
-		pScoreHUD->AddComponent<digdug::ScoreHUDComponent>()->SetPlayer(pPlayerComponent);
+		pScoreHUD->AddComponent<digdug::ScoreHUDComponent>()->Display(pPlayerComponent);
 
 		that::TextComponent* pScoreText{ pScoreHUD->AddComponent<that::TextComponent>() };
 		pScoreText->SetFont(that::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20));
