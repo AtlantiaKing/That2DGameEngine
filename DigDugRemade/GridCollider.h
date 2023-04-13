@@ -23,7 +23,7 @@ namespace digdug
 		GridCollider& operator=(const GridCollider& other) = delete;
 		GridCollider& operator=(GridCollider&& other) = delete;
 
-		void AddOnCollision(that::Observer<CollisionData>* observer);
+		that::Subject<CollisionData>& OnCollision() { return m_Subject; }
 		void Hit(GridCollider* pOther);
 	private:
 		that::Subject<CollisionData> m_Subject{};

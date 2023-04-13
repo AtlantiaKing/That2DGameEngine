@@ -126,21 +126,21 @@ namespace digdug
 
 
 		CreatePlayerAndHUD(scene, pGrid, 0);
-		CreatePlayerAndHUD(scene, pGrid, 1);
+		//CreatePlayerAndHUD(scene, pGrid, 1);
 
 
-		// Enemy
-		for (int i{}; i < 10; ++i)
-		{
-			that::GameObject* pEnemy{ pGrid->CreateGameObject("Enemy") };
-			auto pEnemyRenderer{ pEnemy->AddComponent<that::TextureRenderer>() };
-			pEnemyRenderer->SetTexture(that::ResourceManager::GetInstance().LoadTexture("Enemy.png"));
-			pEnemyRenderer->SetScale(2.0f);
-			pEnemy->AddComponent<digdug::EnemyMovement>();
-			pEnemy->AddComponent<digdug::GridTransform>();
-			pEnemy->AddComponent<digdug::GridCollider>();
-			pEnemy->GetComponent<that::Transform>()->SetLocalPosition(pGridComponent->GetCellSize() * (i % 2 * 8), pGridComponent->GetCellSize() * (i+1));
-			pEnemy->AddComponent<digdug::Enemy>();
-		}
+		//// Enemy
+		//for (int i{}; i < 10; ++i)
+		//{
+		//	that::GameObject* pEnemy{ pGrid->CreateGameObject("Enemy") };
+		//	auto pEnemyRenderer{ pEnemy->AddComponent<that::TextureRenderer>() };
+		//	pEnemyRenderer->SetTexture(that::ResourceManager::GetInstance().LoadTexture("Enemy.png"));
+		//	pEnemyRenderer->SetScale(2.0f);
+		//	pEnemy->AddComponent<digdug::EnemyMovement>();
+		//	pEnemy->AddComponent<digdug::GridTransform>();
+		//	pEnemy->AddComponent<digdug::GridCollider>();
+		//	pEnemy->GetComponent<that::Transform>()->SetLocalPosition(pGridComponent->GetCellSize() * (i % 2 * 8), pGridComponent->GetCellSize() * (i+1));
+		//	pEnemy->AddComponent<digdug::Enemy>();
+		//}
 	}
 }

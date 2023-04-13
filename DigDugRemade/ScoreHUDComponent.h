@@ -1,15 +1,15 @@
 #pragma once
 
 #include "Component.h"
-#include "EventListener.h"
 
-#include "Enemy.h"
+#include "EventListener.h"
+#include "Events.h"
 
 namespace digdug
 {
 	class Player;
 
-	class ScoreHUDComponent final : public that::Component, public that::EventListener<EnemyDeathEvent>
+	class ScoreHUDComponent final : public that::Component, public that::EventListener<that::EntityDeathEvent>
 	{
 	public:
 		ScoreHUDComponent() = default;
@@ -23,7 +23,7 @@ namespace digdug
 		void Display(Player* pPlayer) { m_pPlayer = pPlayer; }
 
 		virtual void Init() override;
-		virtual void OnEvent(EnemyDeathEvent*) override;
+		virtual void OnEvent(that::EntityDeathEvent*) override;
 	private:
 		Player* m_pPlayer{};
 	};

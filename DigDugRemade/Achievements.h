@@ -1,7 +1,7 @@
 #pragma once
 
 #include "EventListener.h"
-#include "Enemy.h"
+#include "Events.h"
 
 #include "Singleton.h"
 
@@ -15,13 +15,13 @@ namespace digdug
 
 	class Player;
 
-	class AchievementsUnlock final : public that::Singleton<AchievementsUnlock>, public that::EventListener<EnemyDeathEvent>
+	class AchievementsUnlock final : public that::Singleton<AchievementsUnlock>, public that::EventListener<that::EntityDeathEvent>
 	{
 	public:
 		AchievementsUnlock();
 		~AchievementsUnlock() = default;
 
-		virtual void OnEvent(EnemyDeathEvent* e) override;
+		virtual void OnEvent(that::EntityDeathEvent* e) override;
 
 		void AddPlayer(Player* pPlayer);
 	private:

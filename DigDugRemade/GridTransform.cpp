@@ -13,8 +13,12 @@ void digdug::GridTransform::Init()
 	const int stepsPerCell{ m_pGrid->GetStepsPerCell() };
 
 	const auto& position{ GetTransform()->GetLocalPosition() };
+
+	// Set the position in pixels
 	m_Position.x = static_cast<int>(position.x / cellSize) * stepsPerCell;
 	m_Position.y = static_cast<int>(position.y / cellSize) * stepsPerCell;
+
+	// Set the position in floating point values
 	m_FloatPosition.x = static_cast<float>(m_Position.x);
 	m_FloatPosition.y = static_cast<float>(m_Position.y);
 }
@@ -24,6 +28,7 @@ void digdug::GridTransform::Update()
 	const int stepsPerCell{ m_pGrid->GetStepsPerCell() };
 	const float cellSize{ m_pGrid->GetCellSize() };
 
+	// Calculate local position in grid
 	const glm::vec2 gridPosition
 	{
 		m_FloatPosition.x / stepsPerCell * cellSize,
@@ -41,29 +46,35 @@ void digdug::GridTransform::Move(int xSteps, int ySteps)
 
 	if (abs(ySteps) > 0 && m_Position.x % static_cast<int>(m_pGrid->GetStepsPerCell()) == 0)
 	{
+		// There is Y input and has space on grid to move vertically, move the transform on the Y axis
 		m_FloatPosition.y += ySteps * moveSpeed * that::Timer::GetInstance().GetElapsed();
 		m_PrevX = 0;
 		m_PrevY = ySteps;
 	}
-	else if(abs(xSteps) == 0)
-	{
-		m_FloatPosition.x += m_PrevX * moveSpeed * that::Timer::GetInstance().GetElapsed();
-	} 
 	else if (abs(xSteps) > 0 && m_Position.y % static_cast<int>(m_pGrid->GetStepsPerCell()) == 0)
 	{
+		// There is X input and has space on grid to move horizontally, move the transform on the X axis
 		m_FloatPosition.x += xSteps * moveSpeed * that::Timer::GetInstance().GetElapsed();
 		m_PrevY = 0;
 		m_PrevX = xSteps;
 	}
+	else if (abs(ySteps) > 0)
+	{
+		// There is Y input but there is no space on the grid, move the transform on the X axis
+		m_FloatPosition.x += m_PrevX * moveSpeed * that::Timer::GetInstance().GetElapsed();
+	}
 	else
 	{
+		// There is X input but there is no space on the grid, move the transform on the Y axis
 		m_FloatPosition.y += m_PrevY * moveSpeed * that::Timer::GetInstance().GetElapsed();
 	}
 
+	// Rotate the transform depending on the direction
 	constexpr float rightAngle{ 90.0f };
 	if (abs(m_PrevX)) GetTransform()->SetLocalRotation(rightAngle - m_PrevX * rightAngle);
-	if (abs(m_PrevY)) GetTransform()->SetLocalRotation(m_PrevY * rightAngle);
+	else if (abs(m_PrevY)) GetTransform()->SetLocalRotation(m_PrevY * rightAngle);
 
+	// Update the pixel position
 	m_Position.x = static_cast<int>(m_FloatPosition.x);
 	m_Position.y = static_cast<int>(m_FloatPosition.y);
 }

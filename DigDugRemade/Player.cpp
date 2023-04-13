@@ -10,7 +10,7 @@
 
 void digdug::Player::Init()
 {
-	GetOwner()->GetComponent<GridCollider>()->AddOnCollision(this);
+	GetOwner()->GetComponent<GridCollider>()->OnCollision().AddListener(this);
 }
 
 void digdug::Player::Notify(const CollisionData& data)

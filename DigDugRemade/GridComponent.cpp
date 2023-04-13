@@ -13,8 +13,9 @@ void digdug::GridComponent::LateUpdate()
 	const auto& children{ GetOwner()->GetChildren() };
 
 	std::vector<GridCollider*> pColliders{};
-	pColliders.reserve(children.size());
+	pColliders.reserve(children.size()); // Reverse some amount of space in advance (there will be more colliders than children.size)
 
+	// Get all colliders in children and grandchildren
 	for (auto pChild : GetOwner()->GetChildren())
 	{
 		auto pCollider{ pChild->GetComponent<GridCollider>() };
@@ -27,6 +28,7 @@ void digdug::GridComponent::LateUpdate()
 		}
 	}
 
+	// Check collision between all colliders found
 	for (auto pChild : pColliders)
 	{
 		const auto& childPos{ pChild->GetOwner()->GetTransform()->GetWorldPosition() };
@@ -46,6 +48,7 @@ void digdug::GridComponent::LateUpdate()
 
 void digdug::GridComponent::Render() const
 {
+	// Draw each grid cell
 	for (int x{}; x < m_GridSize; ++x)
 	{
 		for (int y{}; y < m_GridSize; ++y)

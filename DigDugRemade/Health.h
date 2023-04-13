@@ -11,7 +11,9 @@ namespace digdug
 		virtual ~Health() = default;
 
 		void Hit();
-		void SetHealth(int health) { m_Health = health; }
+		void Heal();
+
+		void SetHealth(int health);
 		int GetHealth() const { return m_Health; }
 	private:
 		int m_Health{};

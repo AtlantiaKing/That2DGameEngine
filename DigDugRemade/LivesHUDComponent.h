@@ -24,7 +24,7 @@ namespace digdug
 		LivesHUDComponent& operator=(LivesHUDComponent&& other) = delete;
 
 		virtual void Init() override;
-		virtual void OnEvent(PlayerHitEvent*) override;
+		virtual void OnEvent(PlayerHitEvent* e) override;
 
 		void Display(that::GameObject* pPlayer) { m_pPlayer = pPlayer; };
 	private:

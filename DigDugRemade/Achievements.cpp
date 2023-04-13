@@ -7,10 +7,10 @@
 
 digdug::AchievementsUnlock::AchievementsUnlock()
 {
-	that::EventQueue::GetInstance().AddListener<EnemyDeathEvent>(this);
+	that::EventQueue::GetInstance().AddListener<that::EntityDeathEvent>(this);
 }
 
-void digdug::AchievementsUnlock::OnEvent(EnemyDeathEvent* /*e*/)
+void digdug::AchievementsUnlock::OnEvent(that::EntityDeathEvent* /*e*/)
 {
 	constexpr int scoreForAchievement{ 500 };
 	for (Player* pPlayer : m_pPlayers)
