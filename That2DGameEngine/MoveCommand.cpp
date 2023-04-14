@@ -6,7 +6,7 @@
 
 void that::MoveCommand::Execute()
 {
-	glm::vec2 input{ InputManager::GetInstance().GetTwoDirectionalAxis(this) };
+	auto& input{ GetData() };
 	input.y *= -1.0f;
 
 	Transform* pTransform{ m_pPlayer->GetTransform() };

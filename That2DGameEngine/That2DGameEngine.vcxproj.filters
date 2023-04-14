@@ -54,6 +54,9 @@
     <Filter Include="Steam">
       <UniqueIdentifier>{cffb357e-74bf-4e19-a8f5-60fec2cc55a9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Commands">
+      <UniqueIdentifier>{e05d8d89-265a-4ea6-bfb7-74da061d73ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Font.h">
@@ -152,9 +155,6 @@
     <ClInclude Include="DemoScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="Command.h">
-      <Filter>Base Classes</Filter>
-    </ClInclude>
     <ClInclude Include="EventQueue.h">
       <Filter>Events</Filter>
     </ClInclude>
@@ -184,6 +184,12 @@
     </ClInclude>
     <ClInclude Include="Achievement.h">
       <Filter>Steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="DataCommand.h">
+      <Filter>Commands</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -275,9 +281,6 @@
       <Filter>Input\Commands</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Command.cpp">
-      <Filter>Base Classes</Filter>
-    </ClCompile>
     <ClCompile Include="EventQueue.cpp">
       <Filter>Events</Filter>
     </ClCompile>

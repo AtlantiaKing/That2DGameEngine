@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Command.h"
+#include "DataCommand.h"
 
 namespace that
 {
 	class GameObject;
 
-	class DebugAxisCommand final : public Command
+	class DebugAxisCommand final : public DataCommand<float>
 	{
 	public:
 		DebugAxisCommand(GameObject* pGameObject);

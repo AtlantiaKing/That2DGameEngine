@@ -1,6 +1,6 @@
 #pragma once
 #include "Singleton.h"
-#include "Command.h"
+#include "DataCommand.h"
 #include "Controller.h"
 
 #include <memory>
@@ -60,21 +60,21 @@ namespace that
 		 Bind a 2D axis command to 4 digital buttons
 		 The order of buttons should be right, left, up, down
 		 */
-		void BindDigital2DAxisCommand(unsigned int controller, const std::vector<GamepadButton>& buttons, std::unique_ptr<Command> pCommand);
+		void BindDigital2DAxisCommand(unsigned int controller, const std::vector<GamepadButton>& buttons, std::unique_ptr<DataCommand<glm::vec2>> pCommand);
 		/*
 		 Bind a 2D axis command to 4 digital buttons
 		 The order of buttons should be right, left, up, down
 		 */
-		void BindDigital2DAxisCommand(const std::vector<unsigned int>& keyboardKeys, std::unique_ptr<Command> pCommand);
+		void BindDigital2DAxisCommand(const std::vector<unsigned int>& keyboardKeys, std::unique_ptr<DataCommand<glm::vec2>> pCommand);
 
 		template <class T>
 		void BindAxisCommand(unsigned int controller, GamepadAxis button, bool isHorizontalAxis, GameObject* pGameObject);
-		void BindAxisCommand(unsigned int controller, GamepadAxis button, bool isHorizontalAxis, std::unique_ptr<Command> pCommand);
+		void BindAxisCommand(unsigned int controller, GamepadAxis button, bool isHorizontalAxis, std::unique_ptr<DataCommand<float>> pCommand);
 		template <class T>
 		void BindAxisCommand(unsigned int controller, GamepadAxis button, GameObject* pGameObject);
-		void BindAxisCommand(unsigned int controller, GamepadAxis button, std::unique_ptr<Command> pCommand);
+		void BindAxisCommand(unsigned int controller, GamepadAxis button, std::unique_ptr<DataCommand<float>> pCommand);
 
-		void BindAnalog2DAxisCommand(unsigned int controller, bool left, std::unique_ptr<Command> pCommand);
+		void BindAnalog2DAxisCommand(unsigned int controller, bool left, std::unique_ptr<DataCommand<glm::vec2>> pCommand);
 #pragma endregion
 
 		float GetAxis(Command* pCommand) const;
@@ -169,7 +169,7 @@ namespace that
 	template<class T>
 	inline void InputManager::BindAxisCommand(unsigned int controller, GamepadAxis button, bool isHorizontalAxis, GameObject* pGameObject)
 	{
-		static_assert(std::is_base_of<Command, T>(), "T needs to be derived from Command");
+		static_assert(std::is_base_of<DataCommand<float>, T>(), "T needs to be derived from Command");
 
 		// Add controllers if the controllerIdx is higher then the amount of controllers available
 		AddControllersIfNeeded(controller);
@@ -193,7 +193,7 @@ namespace that
 	template<class T>
 	inline void InputManager::BindAxisCommand(unsigned int controller, GamepadAxis button, GameObject* pGameObject)
 	{
-		static_assert(std::is_base_of<Command, T>(), "T needs to be derived from Command");
+		static_assert(std::is_base_of<DataCommand<float>, T>(), "T needs to be derived from Command");
 
 		// Add controllers if the controllerIdx is higher then the amount of controllers available
 		AddControllersIfNeeded(controller);

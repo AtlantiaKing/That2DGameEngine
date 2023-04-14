@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Command.h"
+#include "DataCommand.h"
+#include "glm/vec2.hpp"
 
 namespace that
 {
@@ -9,7 +10,7 @@ namespace that
 
 namespace digdug
 {
-	class GridMoveCommand final : public that::Command
+	class GridMoveCommand final : public that::DataCommand<glm::vec2>
 	{
 	public:
 		GridMoveCommand(that::GameObject* pPlayer) : m_pPlayer{ pPlayer } {}

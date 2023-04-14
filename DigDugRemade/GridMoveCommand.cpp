@@ -9,7 +9,8 @@
 
 void digdug::GridMoveCommand::Execute()
 {
-	glm::vec2 input{ that::InputManager::GetInstance().GetTwoDirectionalAxis(this) };
+	auto& input{ GetData() };
+
 	input.y *= -1.0f;
 
 	GridTransform* pTransform{ m_pPlayer->GetComponent<GridTransform>() };
