@@ -130,7 +130,7 @@ namespace digdug
 		std::cout << "\n";
 		std::cout << "Player 2:\n";
 		std::cout << "Move: D-Pad\n";
-		std::cout << "Shoot pump: West Button (A on XBox)\n";
+		std::cout << "Shoot pump: South Button (A on XBox)\n";
 		std::cout << "\n";
 	}
 
