@@ -77,9 +77,6 @@
     <ClCompile Include="ScoreHUDComponent.cpp">
       <Filter>Components\Game\HUD</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Components\Game\Entities\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="Achievements.cpp">
       <Filter>Achievements</Filter>
     </ClCompile>
@@ -123,9 +120,6 @@
     </ClInclude>
     <ClInclude Include="ScoreHUDComponent.h">
       <Filter>Components\Game\HUD</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>Components\Game\Entities\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Achievements.h">
       <Filter>Achievements</Filter>

@@ -7,7 +7,6 @@
 #include "Timer.h"
 #include "GridTransform.h"
 #include "Player.h"
-#include "Enemy.h"
 #include "ScoreComponent.h"
 
 void digdug::Pump::Init()
