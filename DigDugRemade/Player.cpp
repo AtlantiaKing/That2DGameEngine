@@ -4,7 +4,7 @@
 #include "GridCollider.h"
 #include "EnemyMovement.h"
 #include "GridTransform.h"
-#include "Health.h"
+#include "HealthComponent.h"
 
 #include "EventQueue.h"
 
@@ -19,13 +19,7 @@ void digdug::Player::Notify(const CollisionData& data)
 	{
 		GetOwner()->GetComponent<GridTransform>()->SetPosition(0, 0);
 
-		GetOwner()->GetComponent<Health>()->Hit();
+		GetOwner()->GetComponent<HealthComponent>()->Hit();
 		that::EventQueue::GetInstance().SendEvent(PlayerHitEvent{ GetOwner() });
 	}
-}
-
-void digdug::Player::AddScore()
-{
-	constexpr int scoreAddition{ 200 };
-	m_Score += scoreAddition;
 }

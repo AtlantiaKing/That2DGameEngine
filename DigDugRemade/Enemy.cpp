@@ -7,6 +7,5 @@
 
 void digdug::Enemy::Kill()
 {
-	that::EventQueue::GetInstance().SendEvent(that::EntityDeathEvent{ GetOwner() });
 	GetOwner()->Destroy();
 }

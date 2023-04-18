@@ -1,15 +1,12 @@
 #pragma once
 
 #include "Component.h"
-
-#include "EventListener.h"
-#include "Events.h"
+#include "Observer.h"
+#include "ScoreComponent.h"
 
 namespace digdug
 {
-	class Player;
-
-	class ScoreHUDComponent final : public that::Component, public that::EventListener<that::EntityDeathEvent>
+	class ScoreHUDComponent final : public that::Component, public that::Observer<ScoreComponent>
 	{
 	public:
 		ScoreHUDComponent() = default;
@@ -20,11 +17,9 @@ namespace digdug
 		ScoreHUDComponent& operator=(const ScoreHUDComponent& other) = delete;
 		ScoreHUDComponent& operator=(ScoreHUDComponent&& other) = delete;
 
-		void Display(Player* pPlayer) { m_pPlayer = pPlayer; }
+		void Display(that::GameObject* pPlayer);
 
-		virtual void Init() override;
-		virtual void OnEvent(that::EntityDeathEvent* e) override;
+		virtual void Notify(const ScoreComponent& score) override;
 	private:
-		Player* m_pPlayer{};
 	};
 }

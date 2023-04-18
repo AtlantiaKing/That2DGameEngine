@@ -1,18 +1,12 @@
 #pragma once
 
 #include "Component.h"
-#include "EventListener.h"
-
-#include "Player.h"
-
-namespace that
-{
-	class GameObject;
-}
+#include "Observer.h"
+#include "HealthComponent.h"
 
 namespace digdug
 {
-	class LivesHUDComponent final : public that::Component, public that::EventListener<PlayerHitEvent>
+	class LivesHUDComponent final : public that::Component, public that::Observer<HealthComponent>
 	{
 	public:
 		LivesHUDComponent() = default;
@@ -23,12 +17,10 @@ namespace digdug
 		LivesHUDComponent& operator=(const LivesHUDComponent& other) = delete;
 		LivesHUDComponent& operator=(LivesHUDComponent&& other) = delete;
 
-		virtual void Init() override;
-		virtual void OnEvent(PlayerHitEvent* e) override;
+		virtual void Notify(const HealthComponent& pHealth) override;
 
-		void Display(that::GameObject* pPlayer) { m_pPlayer = pPlayer; };
+		void Display(that::GameObject* pPlayer);
 	private:
-		that::GameObject* m_pPlayer{};
 	};
 }
 

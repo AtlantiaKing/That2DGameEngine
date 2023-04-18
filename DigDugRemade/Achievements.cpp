@@ -1,7 +1,9 @@
 #include "Achievements.h"
 
-#include "Player.h"
 #include "SteamAchievements.h"
+#include "Player.h"
+#include "GameObject.h"
+#include "ScoreComponent.h"
 
 #include "EventQueue.h"
 
@@ -15,7 +17,7 @@ void digdug::AchievementsUnlock::OnEvent(that::EntityDeathEvent* /*e*/)
 	constexpr int scoreForAchievement{ 500 };
 	for (Player* pPlayer : m_pPlayers)
 	{
-		if (pPlayer->GetScore() > scoreForAchievement)
+		if (pPlayer->GetOwner()->GetComponent<ScoreComponent>()->GetScore() > scoreForAchievement)
 		{
 			that::SteamAchievements::GetInstance().SetAchievement(static_cast<unsigned int>(Achievements::ACH_WIN_ONE_GAME));
 		}

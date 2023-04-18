@@ -180,11 +180,12 @@ xcopy $(SolutionDir)3rdParty\steamworks\steam_appid.txt $(OutputPath) /Y</Comman
     <ClCompile Include="GridComponent.cpp" />
     <ClCompile Include="GridMoveCommand.cpp" />
     <ClCompile Include="GridTransform.cpp" />
-    <ClCompile Include="Health.cpp" />
+    <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="LivesHUDComponent.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Pump.cpp" />
+    <ClCompile Include="ScoreComponent.cpp" />
     <ClCompile Include="ScoreHUDComponent.cpp" />
     <ClCompile Include="ShootPumpCommand.cpp" />
   </ItemGroup>
@@ -202,10 +203,11 @@ xcopy $(SolutionDir)3rdParty\steamworks\steam_appid.txt $(OutputPath) /Y</Comman
     <ClInclude Include="GridComponent.h" />
     <ClInclude Include="GridMoveCommand.h" />
     <ClInclude Include="GridTransform.h" />
-    <ClInclude Include="Health.h" />
+    <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="LivesHUDComponent.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Pump.h" />
+    <ClInclude Include="ScoreComponent.h" />
     <ClInclude Include="ScoreHUDComponent.h" />
     <ClInclude Include="ShootPumpCommand.h" />
   </ItemGroup>

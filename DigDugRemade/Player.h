@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Component.h"
-#include "Health.h"
+#include "HealthComponent.h"
 
 #include "GridCollider.h"
 #include "Observer.h"
@@ -36,10 +36,6 @@ namespace digdug
 
 		virtual void Init() override;
 		virtual void Notify(const CollisionData& data) override;
-
-		void AddScore();
-		int GetScore() { return m_Score; }
 	private:
-		int m_Score{};
 	};
 }

@@ -8,6 +8,7 @@
 #include "GridTransform.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "ScoreComponent.h"
 
 void digdug::Pump::Init()
 {
@@ -40,11 +41,16 @@ void digdug::Pump::Notify(const CollisionData& data)
 	if (!m_IsActive) return;
 
 	// If the pump hits an enemy, kill it
-	Enemy* pEnemy{ data.other->GetComponent<Enemy>() };
-	if (pEnemy)
+	HealthComponent* pOtherHealth{ data.other->GetComponent<HealthComponent>() };
+	if (pOtherHealth)
 	{
-		pEnemy->Kill();
-		GetOwner()->GetParent()->GetComponent<Player>()->AddScore();
+		pOtherHealth->Hit();
+
+		if (pOtherHealth->GetHealth() <= 0)
+		{
+			constexpr int pointPerKill{ 200 };
+			GetOwner()->GetParent()->GetComponent<ScoreComponent>()->AddScore(pointPerKill);
+		}
 
 		// TODO: A pump will not instantly kill an enemy but slowly inflate it until the enemy bursts.
 		//			Score and enemy destroyal should be called when the health of the enemy reaches 0 (the enemy bursts)

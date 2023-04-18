@@ -46,8 +46,10 @@ namespace digdug
 		Player* pPlayerComponent{ pPlayer->AddComponent<Player>() };
 
 		constexpr int defaultHealth{ 3 };
-		Health* pPlayerHealth{ pPlayer->AddComponent<Health>() };
+		HealthComponent* pPlayerHealth{ pPlayer->AddComponent<HealthComponent>() };
 		pPlayerHealth->SetHealth(defaultHealth);
+
+		pPlayer->AddComponent<digdug::ScoreComponent>();
 
 		// Pump
 		that::GameObject* pPump{ pPlayer->CreateGameObject("Pump") };
@@ -103,7 +105,7 @@ namespace digdug
 		// Score HUD
 		that::GameObject* pScoreHUD{ scene.CreateGameObject("LivesHUD") };
 		pScoreHUD->GetTransform()->SetWorldPosition(idx ? 500.0f : 0.0f, 100.0f);
-		pScoreHUD->AddComponent<digdug::ScoreHUDComponent>()->Display(pPlayerComponent);
+		pScoreHUD->AddComponent<digdug::ScoreHUDComponent>()->Display(pPlayer);
 
 		that::TextComponent* pScoreText{ pScoreHUD->AddComponent<that::TextComponent>() };
 		pScoreText->SetFont(that::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20));
@@ -128,7 +130,6 @@ namespace digdug
 		CreatePlayerAndHUD(scene, pGrid, 0);
 		CreatePlayerAndHUD(scene, pGrid, 1);
 
-
 		// Enemy
 		for (int i{}; i < 10; ++i)
 		{
@@ -141,6 +142,7 @@ namespace digdug
 			pEnemy->AddComponent<digdug::GridCollider>();
 			pEnemy->GetComponent<that::Transform>()->SetLocalPosition(pGridComponent->GetCellSize() * (i % 2 * 8), pGridComponent->GetCellSize() * (i+1));
 			pEnemy->AddComponent<digdug::Enemy>();
+			pEnemy->AddComponent<digdug::HealthComponent>()->SetHealth(1);
 		}
 	}
 }

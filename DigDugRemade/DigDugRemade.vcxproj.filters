@@ -23,14 +23,8 @@
     <Filter Include="Components\Game">
       <UniqueIdentifier>{f973401b-b595-4e35-9d85-d66d766b8056}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components\Game\Enemy">
-      <UniqueIdentifier>{d524665d-8576-4ccb-a777-e7923ddc025d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Components\Game\Grid">
       <UniqueIdentifier>{eb803d69-1c6d-4161-af24-c5d6ef491baf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components\Game\Player">
-      <UniqueIdentifier>{c8bb2ee9-e3ba-41ac-95b6-4e113b20c97a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Components\Game\HUD">
       <UniqueIdentifier>{8f56c9a1-2d41-43e8-b076-f2854bda25d1}</UniqueIdentifier>
@@ -38,17 +32,26 @@
     <Filter Include="Achievements">
       <UniqueIdentifier>{619698ba-92ca-462d-9e1a-2031e052af13}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\Game\Entities">
+      <UniqueIdentifier>{9d2d88f8-2d8c-46e2-b500-cb23269b2561}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Game\Entities\Player">
+      <UniqueIdentifier>{c8bb2ee9-e3ba-41ac-95b6-4e113b20c97a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Game\Entities\Enemy">
+      <UniqueIdentifier>{d524665d-8576-4ccb-a777-e7923ddc025d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Game\Debug">
+      <UniqueIdentifier>{20acf9b2-6a69-489f-b3c3-84dece6371a9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="GridMoveCommand.cpp">
       <Filter>Commands\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Health.cpp">
-      <Filter>Misc</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyMovement.cpp">
-      <Filter>Components\Game\Enemy</Filter>
+      <Filter>Components\Game\Entities\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="GridCollider.cpp">
       <Filter>Components\Game\Grid</Filter>
@@ -60,13 +63,13 @@
       <Filter>Components\Game\Grid</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>Components\Game\Player</Filter>
+      <Filter>Components\Game\Entities\Player</Filter>
     </ClCompile>
     <ClCompile Include="LivesHUDComponent.cpp">
       <Filter>Components\Game\HUD</Filter>
     </ClCompile>
     <ClCompile Include="Pump.cpp">
-      <Filter>Components\Game\Player</Filter>
+      <Filter>Components\Game\Entities\Player</Filter>
     </ClCompile>
     <ClCompile Include="ShootPumpCommand.cpp">
       <Filter>Commands\Input</Filter>
@@ -75,10 +78,16 @@
       <Filter>Components\Game\HUD</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
-      <Filter>Components\Game\Enemy</Filter>
+      <Filter>Components\Game\Entities\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Achievements.cpp">
       <Filter>Achievements</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthComponent.cpp">
+      <Filter>Components\Game\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreComponent.cpp">
+      <Filter>Components\Game\Entities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -88,11 +97,8 @@
     <ClInclude Include="GridMoveCommand.h">
       <Filter>Commands\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Health.h">
-      <Filter>Misc</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyMovement.h">
-      <Filter>Components\Game\Enemy</Filter>
+      <Filter>Components\Game\Entities\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="GridCollider.h">
       <Filter>Components\Game\Grid</Filter>
@@ -104,13 +110,13 @@
       <Filter>Components\Game\Grid</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>Components\Game\Player</Filter>
+      <Filter>Components\Game\Entities\Player</Filter>
     </ClInclude>
     <ClInclude Include="LivesHUDComponent.h">
       <Filter>Components\Game\HUD</Filter>
     </ClInclude>
     <ClInclude Include="Pump.h">
-      <Filter>Components\Game\Player</Filter>
+      <Filter>Components\Game\Entities\Player</Filter>
     </ClInclude>
     <ClInclude Include="ShootPumpCommand.h">
       <Filter>Commands\Input</Filter>
@@ -119,10 +125,16 @@
       <Filter>Components\Game\HUD</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
-      <Filter>Components\Game\Enemy</Filter>
+      <Filter>Components\Game\Entities\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Achievements.h">
       <Filter>Achievements</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthComponent.h">
+      <Filter>Components\Game\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreComponent.h">
+      <Filter>Components\Game\Entities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
