@@ -28,6 +28,7 @@
 
 // STD includes
 #include <sstream>
+#include <iostream>
 
 namespace digdug
 {
@@ -118,6 +119,21 @@ namespace digdug
 		digdug::AchievementsUnlock::GetInstance().AddPlayer(pPlayerComponent);
 	}
 
+	void PrintControls()
+	{
+		std::cout << "\n";
+		std::cout << "Controls for DigDug Remade\n";
+		std::cout << "\n";
+		std::cout << "Player 1:\n";
+		std::cout << "Move: WASD\n";
+		std::cout << "Shoot pump: Space bar\n";
+		std::cout << "\n";
+		std::cout << "Player 2:\n";
+		std::cout << "Move: D-Pad\n";
+		std::cout << "Shoot pump: West Button (A on XBox)\n";
+		std::cout << "\n";
+	}
+
 	void LoadGameScene(that::Scene& scene)
 	{
 		// Grid
@@ -144,5 +160,7 @@ namespace digdug
 			pEnemy->AddComponent<digdug::Enemy>();
 			pEnemy->AddComponent<digdug::HealthComponent>()->SetHealth(1);
 		}
+
+		PrintControls();
 	}
 }
