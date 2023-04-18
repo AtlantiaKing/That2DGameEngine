@@ -39,6 +39,9 @@ void digdug::HealthComponent::Die()
 	// Notify non-direct listeners (eventlisteners)
 	that::EventQueue::GetInstance().SendEvent(that::EntityDeathEvent{ GetOwner() });
 
-	// Destroy the gameobject
-	GetOwner()->Destroy();
+	if (m_ShouldDestroyOnDeath)
+	{
+		// Destroy the gameobject
+		GetOwner()->Destroy();
+	}
 }

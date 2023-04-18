@@ -48,6 +48,7 @@ namespace digdug
 		constexpr int defaultHealth{ 3 };
 		HealthComponent* pPlayerHealth{ pPlayer->AddComponent<HealthComponent>() };
 		pPlayerHealth->SetHealth(defaultHealth);
+		pPlayerHealth->SetDestroyOnDeath(false);
 
 		pPlayer->AddComponent<digdug::ScoreComponent>();
 
