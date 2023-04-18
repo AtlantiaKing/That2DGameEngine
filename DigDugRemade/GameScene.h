@@ -155,7 +155,7 @@ namespace digdug
 			pEnemy->AddComponent<digdug::EnemyMovement>();
 			pEnemy->AddComponent<digdug::GridTransform>();
 			pEnemy->AddComponent<digdug::GridCollider>();
-			pEnemy->GetComponent<that::Transform>()->SetLocalPosition(pGridComponent->GetCellSize()/* * (i % 2 * 8)*/, pGridComponent->GetCellSize() /** (i+1)*/);
+			pEnemy->GetComponent<that::Transform>()->SetLocalPosition(pGridComponent->GetCellSize() * (i % 2 * 8), pGridComponent->GetCellSize() * (i+1));
 			pEnemy->AddComponent<digdug::HealthComponent>()->SetHealth(1);
 		}
 

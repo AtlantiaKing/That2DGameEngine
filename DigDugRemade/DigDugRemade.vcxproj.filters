@@ -41,9 +41,6 @@
     <Filter Include="Components\Game\Entities\Enemy">
       <UniqueIdentifier>{d524665d-8576-4ccb-a777-e7923ddc025d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components\Game\Debug">
-      <UniqueIdentifier>{20acf9b2-6a69-489f-b3c3-84dece6371a9}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />

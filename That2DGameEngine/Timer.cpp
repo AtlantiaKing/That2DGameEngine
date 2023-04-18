@@ -15,6 +15,9 @@ void that::Timer::Update()
 	m_DeltaTime = std::chrono::duration<float>(curTime - m_PrevTime).count();
 	m_TotalTime += m_DeltaTime;
 
+	// Make sure delta time never goes above maxDeltaTime
+	m_DeltaTime = std::min(m_DeltaTime, m_MaxDeltaTime);
+
 	// Store the current time for the next frame
 	m_PrevTime = curTime;
 }
