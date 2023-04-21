@@ -7,8 +7,6 @@
 
 #include "Engine.h"
 #include "SceneManager.h"
-#include "SteamAchievements.h"
-#include "Achievements.h"
 
 //#include "DemoScene.h"
 #include "GameScene.h"
@@ -23,13 +21,8 @@ void Setup()
 
 int main(int, char* [])
 {
-	std::vector<that::Achievement_t> achievements
-	{
-		that::Achievement_t{ static_cast<int>(digdug::Achievements::ACH_WIN_ONE_GAME), "ACH_WIN_ONE_GAME" }
-	};
-
 	that::Engine engine("../Data/");
-	engine.Run(Setup, achievements);
+	engine.Run(Setup);
 
 	return 0;
 }

@@ -171,7 +171,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Achievements.cpp" />
     <ClCompile Include="EnemyMovement.cpp" />
     <ClCompile Include="GridCollider.cpp" />
     <ClCompile Include="GridComponent.cpp" />
@@ -192,7 +191,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Achievements.h" />
     <ClInclude Include="EnemyMovement.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="GridCollider.h" />

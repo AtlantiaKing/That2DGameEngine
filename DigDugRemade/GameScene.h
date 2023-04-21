@@ -43,7 +43,7 @@ namespace digdug
 		pPlayer->AddComponent<GridTransform>();
 		pPlayer->AddComponent<GridCollider>();
 
-		Player* pPlayerComponent{ pPlayer->AddComponent<Player>() };
+		pPlayer->AddComponent<Player>();
 
 		constexpr int defaultHealth{ 3 };
 		HealthComponent* pPlayerHealth{ pPlayer->AddComponent<HealthComponent>() };
@@ -113,10 +113,6 @@ namespace digdug
 		pScoreText->SetText("Score: 0");
 
 		pScoreHUD->AddComponent<that::TextureRenderer>();
-
-
-		// Add player to achievement unlocker
-		digdug::AchievementsUnlock::GetInstance().AddPlayer(pPlayerComponent);
 	}
 
 	void PrintControls()
