@@ -18,6 +18,8 @@ namespace digdug
 
 		virtual void Init() override;
 		virtual void Update() override;
+		virtual void OnDestroy() override;
+
 		virtual void Notify(const CollisionData& data) override;
 		
 		void Enable();

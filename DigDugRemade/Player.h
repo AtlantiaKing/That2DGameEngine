@@ -35,6 +35,8 @@ namespace digdug
 		Player& operator=(Player&& other) = delete;
 
 		virtual void Init() override;
+		virtual void OnDestroy() override;
+
 		virtual void Notify(const CollisionData& data) override;
 	private:
 	};

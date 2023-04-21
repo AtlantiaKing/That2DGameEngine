@@ -35,6 +35,11 @@ void digdug::Pump::Update()
 	}
 }
 
+void digdug::Pump::OnDestroy()
+{
+	GetOwner()->GetComponent<GridCollider>()->OnCollision().RemoveListener(this);
+}
+
 void digdug::Pump::Notify(const CollisionData& data)
 {
 	if (!m_IsActive) return;

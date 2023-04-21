@@ -13,6 +13,11 @@ void digdug::Player::Init()
 	GetOwner()->GetComponent<GridCollider>()->OnCollision().AddListener(this);
 }
 
+void digdug::Player::OnDestroy()
+{
+	GetOwner()->GetComponent<GridCollider>()->OnCollision().RemoveListener(this);
+}
+
 void digdug::Player::Notify(const CollisionData& data)
 {
 	if (data.other->GetComponent<EnemyMovement>())

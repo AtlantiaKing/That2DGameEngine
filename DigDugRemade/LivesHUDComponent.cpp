@@ -8,6 +8,8 @@
 #include <iostream>
 #include <sstream>
 
+
+
 void digdug::LivesHUDComponent::Notify(const HealthComponent& pHealth)
 {
 	std::stringstream hudText{};
@@ -16,7 +18,14 @@ void digdug::LivesHUDComponent::Notify(const HealthComponent& pHealth)
 	GetOwner()->GetComponent<that::TextComponent>()->SetText(hudText.str());
 }
 
+void digdug::LivesHUDComponent::OnDestroy()
+{
+	m_pHealth->OnHealthUpdate().RemoveListener(this);
+}
+
 void digdug::LivesHUDComponent::Display(that::GameObject* pPlayer)
 {
-	pPlayer->GetComponent<HealthComponent>()->OnHealthUpdate().AddListener(this);
+	m_pHealth = pPlayer->GetComponent<HealthComponent>();
+	m_pHealth->OnHealthUpdate().AddListener(this);
+
 }

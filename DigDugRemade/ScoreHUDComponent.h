@@ -19,7 +19,10 @@ namespace digdug
 
 		void Display(that::GameObject* pPlayer);
 
+		virtual void OnDestroy() override;
+
 		virtual void Notify(const ScoreComponent& score) override;
 	private:
+		digdug::ScoreComponent* m_pScore{};
 	};
 }

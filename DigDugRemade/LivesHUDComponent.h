@@ -18,9 +18,11 @@ namespace digdug
 		LivesHUDComponent& operator=(LivesHUDComponent&& other) = delete;
 
 		virtual void Notify(const HealthComponent& pHealth) override;
+		virtual void OnDestroy() override;
 
 		void Display(that::GameObject* pPlayer);
 	private:
+		digdug::HealthComponent* m_pHealth{};
 	};
 }
 
