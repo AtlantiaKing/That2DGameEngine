@@ -69,11 +69,17 @@ void that::Scene::LateUpdate()
 
 void that::Scene::UpdateCleanup()
 {
+	// Move all objects marked as dead to the end of the objects container
+	const auto& removeIt{ std::remove_if(begin(m_pObjects), end(m_pObjects), [](const auto& pGameObject) { return pGameObject->IsMarkedAsDead(); }) };
+
+	// Call the OnDestroy method of every to-be-destroyed object
+	for (auto it{ removeIt }; it < end(m_pObjects); ++it)
+	{
+		(*it)->OnDestroy();
+	}
+
 	// Remove gameobjects from their container if they are marked as dead
-	m_pObjects.erase(std::remove_if(begin(m_pObjects), end(m_pObjects), [](const auto& pGameObject)
-		{
-			return pGameObject->IsMarkedAsDead();
-		}), end(m_pObjects));
+	m_pObjects.erase(removeIt, end(m_pObjects));
 
 	// Remove all components that are marked as dead
 	for (auto& object : m_pObjects)
@@ -97,6 +103,15 @@ void that::Scene::OnGUI()
 	for (const auto& object : m_pObjects)
 	{
 		object->OnGUI();
+	}
+}
+
+that::Scene::~Scene()
+{	
+	// Call the OnDestroy method of every to-be-destroyed object
+	for (const auto& pGameObject : m_pObjects)
+	{
+		pGameObject->OnDestroy();
 	}
 }
 

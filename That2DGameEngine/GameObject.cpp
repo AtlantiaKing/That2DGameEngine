@@ -75,17 +75,32 @@ void that::GameObject::LateUpdate()
 
 void that::GameObject::UpdateCleanup()
 {
-	// Remove components from their containers if they are marked as dead
-	m_pComponents.erase(std::remove_if(begin(m_pComponents), end(m_pComponents), [](const auto& pComponent)
-		{
-			return pComponent->IsMarkedAsDead();
-		}), end(m_pComponents));
+	// Move all components marked as dead to the end of the objects container
+	const auto& removeCompIt{ std::remove_if(begin(m_pComponents), end(m_pComponents), [](const auto& pComponent) { return pComponent->IsMarkedAsDead(); }) };
 
-	// Remove children from their containers if they are marked as dead
-	m_pChildren.erase(std::remove_if(begin(m_pChildren), end(m_pChildren), [](const auto& pChild)
-		{
-			return pChild->IsMarkedAsDead();
-		}), end(m_pChildren));
+	// Call the OnDestroy method of every to-be-destroyed component
+	for (auto it{ removeCompIt }; it < end(m_pComponents); ++it)
+	{
+		(*it)->OnDestroy();
+	}
+
+	// Remove components from their container if they are marked as dead
+	m_pComponents.erase(removeCompIt, end(m_pComponents));
+
+
+
+	// Move all components marked as dead to the end of the objects container
+	const auto& removeChildIt{ std::remove_if(begin(m_pChildren), end(m_pChildren), [](const auto& pChild) { return pChild->IsMarkedAsDead(); }) };
+
+	// Call the OnDestroy method of every to-be-destroyed component
+	for (auto it{ removeChildIt }; it < end(m_pChildren); ++it)
+	{
+		(*it)->OnDestroy();
+	}
+
+	// Remove components from their container if they are marked as dead
+	m_pChildren.erase(removeChildIt, end(m_pChildren));
+
 
 	// Cleanup every child
 	for (const auto& pChild : m_pChildren)
@@ -106,6 +121,21 @@ void that::GameObject::Render() const
 	for (const auto& pChild : m_pChildren)
 	{
 		pChild->Render();
+	}
+}
+
+void that::GameObject::OnDestroy()
+{
+	// Render every component
+	for (const auto& pComponent : m_pComponents)
+	{
+		if (pComponent->IsEnabled()) pComponent->OnDestroy();
+	}
+
+	// Render every child
+	for (const auto& pChild : m_pChildren)
+	{
+		pChild->OnDestroy();
 	}
 }
 

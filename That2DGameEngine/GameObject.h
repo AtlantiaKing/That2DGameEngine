@@ -30,6 +30,7 @@ namespace that
 		void LateUpdate();
 		void UpdateCleanup();
 		void Render() const;
+		void OnDestroy();
 		void OnGUI();
 
 		void SetParent(GameObject* pParent);

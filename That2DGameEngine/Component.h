@@ -24,6 +24,7 @@ namespace that
 		virtual void FixedUpdate() {};
 		virtual void Render() const {};
 		virtual void OnGUI() {};
+		virtual void OnDestroy() {};
 
 		void SetEnabled(bool enabled) { m_Enabled = enabled; }
 		void Destroy();

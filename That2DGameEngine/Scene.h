@@ -20,7 +20,7 @@ namespace that
 		void OnGUI();
 
 		Scene() = default;
-		~Scene() = default;
+		~Scene();
 		Scene(const Scene& other) = delete;
 		Scene(Scene&& other) = delete;
 		Scene& operator=(const Scene& other) = delete;
