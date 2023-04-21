@@ -12,7 +12,6 @@
 #include "Timer.h"
 #include "EventQueue.h"
 #include "SteamAchievements.h"
-#include <steam_api.h>
 #include <iostream>
 
 SDL_Window* g_window{};
@@ -90,15 +89,6 @@ void that::Engine::Run(const std::function<void()>& load)
 
 void that::Engine::Run(const std::function<void()>& setup, const std::vector<Achievement_t>& achievements)
 {
-	// Setup up steam
-	if (!SteamAPI_Init())
-	{
-		std::cerr << "Fatal Error - Steam must be running to play this game (SteamAPI_Init() failed)." << std::endl;
-		return;
-	}
-	else
-		std::cout << "Successfully initialized steam." << std::endl;
-
 	// Setup game
 	setup();
 
@@ -123,9 +113,6 @@ void that::Engine::Run(const std::function<void()>& setup, const std::vector<Ach
 	{
 		const auto frameStart{ std::chrono::high_resolution_clock::now() };
 
-		// Call the steam API
-		SteamAPI_RunCallbacks();
-
 		time.Update();
 		doContinue = input.ProcessInput();
 
@@ -142,7 +129,4 @@ void that::Engine::Run(const std::function<void()>& setup, const std::vector<Ach
 		const auto sleepTime{ std::chrono::milliseconds(static_cast<int>(desiredFrameTime)) - frameTime };
 		std::this_thread::sleep_for(sleepTime);
 	}
-
-	// Stop the steam api
-	SteamAPI_Shutdown();
 }

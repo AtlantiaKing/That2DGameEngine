@@ -29,9 +29,6 @@
     <Filter Include="Components\Game\HUD">
       <UniqueIdentifier>{8f56c9a1-2d41-43e8-b076-f2854bda25d1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Achievements">
-      <UniqueIdentifier>{619698ba-92ca-462d-9e1a-2031e052af13}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Components\Game\Entities">
       <UniqueIdentifier>{9d2d88f8-2d8c-46e2-b500-cb23269b2561}</UniqueIdentifier>
     </Filter>
@@ -40,6 +37,9 @@
     </Filter>
     <Filter Include="Components\Game\Entities\Enemy">
       <UniqueIdentifier>{d524665d-8576-4ccb-a777-e7923ddc025d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_DEPRECATED">
+      <UniqueIdentifier>{619698ba-92ca-462d-9e1a-2031e052af13}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -75,7 +75,7 @@
       <Filter>Components\Game\HUD</Filter>
     </ClCompile>
     <ClCompile Include="Achievements.cpp">
-      <Filter>Achievements</Filter>
+      <Filter>_DEPRECATED</Filter>
     </ClCompile>
     <ClCompile Include="HealthComponent.cpp">
       <Filter>Components\Game\Entities</Filter>
@@ -119,7 +119,7 @@
       <Filter>Components\Game\HUD</Filter>
     </ClInclude>
     <ClInclude Include="Achievements.h">
-      <Filter>Achievements</Filter>
+      <Filter>_DEPRECATED</Filter>
     </ClInclude>
     <ClInclude Include="HealthComponent.h">
       <Filter>Components\Game\Entities</Filter>
