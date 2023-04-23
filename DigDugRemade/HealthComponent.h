@@ -15,9 +15,10 @@ namespace digdug
 		void Heal();
 
 		void SetDestroyOnDeath(bool shouldDestroyOnDeath) { m_ShouldDestroyOnDeath = shouldDestroyOnDeath; }
-		void SetHealth(int health);
+		void SetMaxHealth(int health);
 
 		int GetHealth() const { return m_Health; }
+		int GetMaxHealth() const { return m_MaxHealth; }
 
 		that::Subject<HealthComponent>& OnHealthUpdate() { return m_HealthUpdateListeners; }
 		that::Subject<that::GameObject> OnDeath() { return m_DeathListeners; }
@@ -27,6 +28,7 @@ namespace digdug
 		that::Subject<HealthComponent> m_HealthUpdateListeners{};
 		that::Subject<that::GameObject> m_DeathListeners{};
 		int m_Health{};
+		int m_MaxHealth{};
 
 		bool m_ShouldDestroyOnDeath{ true };
 	};

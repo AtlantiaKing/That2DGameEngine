@@ -23,8 +23,9 @@ void digdug::HealthComponent::Heal()
 	m_HealthUpdateListeners.Notify(*this);
 }
 
-void digdug::HealthComponent::SetHealth(int health)
+void digdug::HealthComponent::SetMaxHealth(int health)
 {
+	m_MaxHealth = health;
 	m_Health = health;
 
 	m_HealthUpdateListeners.Notify(*this);

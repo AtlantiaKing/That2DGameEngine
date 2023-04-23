@@ -28,6 +28,7 @@
 // STD includes
 #include <sstream>
 #include <iostream>
+#include "EnemyBehaviour.h"
 
 namespace digdug
 {
@@ -47,7 +48,7 @@ namespace digdug
 
 		constexpr int defaultHealth{ 3 };
 		HealthComponent* pPlayerHealth{ pPlayer->AddComponent<HealthComponent>() };
-		pPlayerHealth->SetHealth(defaultHealth);
+		pPlayerHealth->SetMaxHealth(defaultHealth);
 		pPlayerHealth->SetDestroyOnDeath(false);
 
 		pPlayer->AddComponent<digdug::ScoreComponent>();
@@ -153,7 +154,8 @@ namespace digdug
 			pEnemy->AddComponent<digdug::GridTransform>();
 			pEnemy->AddComponent<digdug::GridCollider>();
 			pEnemy->GetComponent<that::Transform>()->SetLocalPosition(pGridComponent->GetCellSize() * (i % 2 * 8), pGridComponent->GetCellSize() * (i+1));
-			pEnemy->AddComponent<digdug::HealthComponent>()->SetHealth(1);
+			pEnemy->AddComponent<digdug::HealthComponent>()->SetMaxHealth(4);
+			pEnemy->AddComponent<digdug::EnemyBehaviour>();
 		}
 
 		PrintControls();

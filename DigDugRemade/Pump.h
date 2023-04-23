@@ -5,6 +5,8 @@
 
 namespace digdug
 {
+	class HealthComponent;
+
 	class Pump : public that::Component, public that::Observer<CollisionData>
 	{
 	public:
@@ -21,13 +23,21 @@ namespace digdug
 		virtual void OnDestroy() override;
 
 		virtual void Notify(const CollisionData& data) override;
+		void PumpToEnemy();
 		
 		void Enable();
 		bool IsActive() const { return m_IsActive; }
 	private:
 		bool m_IsActive{};
 
-		const float m_AliveTime{ 0.5f };
+		HealthComponent* m_pPumpTo{};
+
+		// TODO: Needs to be the length of the pump
+		const float m_AliveTime{ 0.75f };
 		float m_AccuAliveTime{};
+
+		const float m_TimeBetweenPumps{ 0.5f };
+		float m_AccuPumpTime{};
+		bool m_CanPump{ true };
 	};
 }

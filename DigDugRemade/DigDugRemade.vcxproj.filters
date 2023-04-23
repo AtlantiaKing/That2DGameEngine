@@ -77,6 +77,9 @@
     <ClCompile Include="ScoreComponent.cpp">
       <Filter>Components\Game\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyBehaviour.cpp">
+      <Filter>Components\Game\Entities\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameScene.h">
@@ -117,6 +120,9 @@
     </ClInclude>
     <ClInclude Include="ScoreComponent.h">
       <Filter>Components\Game\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBehaviour.h">
+      <Filter>Components\Game\Entities\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
