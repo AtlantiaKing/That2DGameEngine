@@ -75,38 +75,41 @@ void that::GameObject::LateUpdate()
 
 void that::GameObject::UpdateCleanup()
 {
-	// Move all components marked as dead to the end of the objects container
-	const auto& removeCompIt{ std::remove_if(begin(m_pComponents), end(m_pComponents), [](const auto& pComponent) { return pComponent->IsMarkedAsDead(); }) };
-
-	// Call the OnDestroy method of every to-be-destroyed component
-	for (auto it{ removeCompIt }; it < end(m_pComponents); ++it)
-	{
-		(*it)->OnDestroy();
-	}
-
-	// Remove components from their container if they are marked as dead
-	m_pComponents.erase(removeCompIt, end(m_pComponents));
-
-
-
-	// Move all components marked as dead to the end of the objects container
-	const auto& removeChildIt{ std::remove_if(begin(m_pChildren), end(m_pChildren), [](const auto& pChild) { return pChild->IsMarkedAsDead(); }) };
-
-	// Call the OnDestroy method of every to-be-destroyed component
-	for (auto it{ removeChildIt }; it < end(m_pChildren); ++it)
-	{
-		(*it)->OnDestroy();
-	}
-
-	// Remove components from their container if they are marked as dead
-	m_pChildren.erase(removeChildIt, end(m_pChildren));
-
-
-	// Cleanup every child
+	// Cleanup every child (also calls OnDestroy on all child objects/components)
 	for (const auto& pChild : m_pChildren)
 	{
 		pChild->UpdateCleanup();
 	}
+
+	// Call OnDestroy on all to-be-destructed components
+	for (const auto& pComponent : m_pComponents)
+	{
+		if (pComponent->IsMarkedAsDead()) pComponent->OnDestroy();
+	}
+
+	// Remove components from their container if they are marked as dead
+	m_pComponents.erase(
+		std::remove_if(
+			begin(m_pComponents), 
+			end(m_pComponents), 
+			[](const auto& pComponent) { return pComponent->IsMarkedAsDead(); }
+		), 
+		end(m_pComponents));
+
+	// Call OnDestroy on all to-be-destructed children
+	for (const auto& pChild : m_pChildren)
+	{
+		if (pChild->IsMarkedAsDead()) pChild->OnDestroy();
+	}
+
+	// Remove components from their container if they are marked as dead
+	m_pChildren.erase(
+		std::remove_if(
+			begin(m_pChildren), 
+			end(m_pChildren), 
+			[](const auto& pChild) { return pChild->IsMarkedAsDead(); }
+		), 
+		end(m_pChildren));
 }
 
 void that::GameObject::Render() const 
