@@ -2,6 +2,7 @@
 
 #include "Singleton.h"
 #include "Logger.h"
+#include "CyclicBuffer.h"
 
 #include "Event.h"
 #include "EventListener.h"
@@ -31,13 +32,10 @@ namespace that
 
 		void NotifyListeners();
 	private:
-		bool PollEvent(Event** e);
+		bool PollEvent(std::unique_ptr<Event>& e);
 
-		// TODO: Make the cyclic buffer a class
-		const static unsigned int m_EventBufferSize{ 10 };
-		std::unique_ptr<Event> m_EventQueue[m_EventBufferSize]{};
-		unsigned int m_EventBufferStart{};
-		unsigned int m_NrEventsQueued{};
+		CyclicBuffer<std::unique_ptr<Event>, 10> m_Queue{};
+
 		std::unordered_map<Event, std::vector<EventListener<void>*>> m_Listeners; 
 	};
 
@@ -54,20 +52,10 @@ namespace that
 	inline void that::EventQueue::SendEvent(const T& e)
 	{
 		static_assert(std::is_base_of<that::Event, T>(), "T should derive from the base Event class");
-				
-		if (m_NrEventsQueued >= m_EventBufferSize)
-		{
-			std::stringstream sstream{};
-			sstream << "Too many events are being queued. Event " << e.name << " was not added to the event queue.";
-			Logger::LogWarning(sstream.str());
-			return;
-		}
 
 		auto pEvent{ std::make_unique<T>(e) };
 
-		const unsigned int curIdx{ (m_EventBufferStart + m_NrEventsQueued) % m_EventBufferSize };
-		m_EventQueue[curIdx] = std::move(pEvent);
-		++m_NrEventsQueued;
+		m_Queue.Insert(std::move(pEvent));
 	}
 
 	template<class T>
