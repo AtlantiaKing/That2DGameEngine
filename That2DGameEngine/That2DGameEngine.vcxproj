@@ -211,6 +211,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClInclude Include="Command.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Controller.h" />
+    <ClInclude Include="CyclicBuffer.h" />
     <ClInclude Include="DataCommand.h" />
     <ClInclude Include="DebugAxisCommand.h" />
     <ClInclude Include="DebugButtonCommand.h" />
