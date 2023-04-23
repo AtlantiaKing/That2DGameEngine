@@ -44,6 +44,8 @@ void digdug::GridTransform::Move(int xSteps, int ySteps)
 
 	const float moveSpeed{ m_pGrid->GetCellSize() };
 
+	glm::vec2 prevPos{ m_FloatPosition };
+
 	if (abs(ySteps) > 0 && m_Position.x % static_cast<int>(m_pGrid->GetStepsPerCell()) == 0)
 	{
 		// There is Y input and has space on grid to move vertically, move the transform on the Y axis
@@ -77,6 +79,15 @@ void digdug::GridTransform::Move(int xSteps, int ySteps)
 	// Update the pixel position
 	m_Position.x = static_cast<int>(m_FloatPosition.x);
 	m_Position.y = static_cast<int>(m_FloatPosition.y);
+
+	if (!m_pGrid->IsValidPosition(m_Position))
+	{
+		m_FloatPosition = prevPos;
+
+		// Update the pixel position
+		m_Position.x = static_cast<int>(m_FloatPosition.x);
+		m_Position.y = static_cast<int>(m_FloatPosition.y);
+	}
 }
 
 void digdug::GridTransform::SetPosition(int x, int y)

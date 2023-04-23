@@ -73,6 +73,16 @@ const glm::vec2& digdug::GridComponent::GetPivot() const
 	return GetTransform()->GetWorldPosition();
 }
 
+bool digdug::GridComponent::IsValidPosition(const glm::vec2& position)
+{
+	if (position.x < 0.0f || position.y < 0.0f) return false;
+
+	const int maxGridIdx{ m_GridSize - 1 };
+	if (position.x > maxGridIdx * m_StepsPerCell || position.y > maxGridIdx * m_StepsPerCell) return false;
+
+	return true;
+}
+
 bool digdug::GridComponent::DoOverlap(const glm::vec2& pos0, const glm::vec2& pos1)
 {
 	const float l1x{ pos0.x };

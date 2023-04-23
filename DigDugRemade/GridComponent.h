@@ -32,6 +32,7 @@ namespace digdug
 		int GetStepsPerCell() const { return m_StepsPerCell; }
 		const glm::vec2& GetPivot() const;
 		float GetCellSize() const { return m_CellSize; }
+		bool IsValidPosition(const glm::vec2& position);
 	private:
 		bool DoOverlap(const glm::vec2& pos0, const glm::vec2& pos1);
 
