@@ -25,6 +25,8 @@ namespace that
 		void SetScale(float x, float y) { m_Scale = { x,y }; }
 		void SetScale(float scale) { m_Scale = { scale,scale }; }
 
+		const glm::vec2& GetScale() const { return m_Scale; }
+
 		virtual void Render() const override;
 	private:
 		std::shared_ptr<Texture2D> m_pTexture{};

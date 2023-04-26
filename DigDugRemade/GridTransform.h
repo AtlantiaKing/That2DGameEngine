@@ -4,6 +4,11 @@
 
 #include "glm/vec2.hpp"
 
+namespace that
+{
+	class TextureRenderer;
+}
+
 namespace digdug
 {
 	class GridComponent;
@@ -33,5 +38,6 @@ namespace digdug
 		int m_PrevY{ 0 };
 
 		GridComponent* m_pGrid{};
+		that::TextureRenderer* m_pTexture{};
 	};
 }

@@ -84,12 +84,14 @@ void that::Renderer::RenderTexture(const Texture2D& texture, const float x, cons
 	dst.x = static_cast<int>(x);
 	dst.y = static_cast<int>(y);
 	SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &dst.w, &dst.h);
-	dst.w *= static_cast<int>(scaleX);
-	dst.h *= static_cast<int>(scaleY);
+	dst.w *= static_cast<int>(abs(scaleX));
+	dst.h *= static_cast<int>(abs(scaleY));
 
 	const SDL_Point rotationCenter{ dst.w / 2, dst.h / 2 };
 
-	SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst, rotation, &rotationCenter, SDL_FLIP_NONE);
+	const int flipState{ (scaleX < 0.0f ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE) | (scaleY < 0.0f ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE) };
+
+	SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst, rotation, &rotationCenter, static_cast<SDL_RendererFlip>(flipState));
 }
 
 inline SDL_Renderer* that::Renderer::GetSDLRenderer() const { return m_renderer; }

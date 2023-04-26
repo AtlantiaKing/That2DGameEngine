@@ -3,6 +3,7 @@
 
 #include "GameObject.h"
 #include "Transform.h"
+#include "TextureRenderer.h"
 
 #include "Timer.h"
 
@@ -21,6 +22,8 @@ void digdug::GridTransform::Init()
 	// Set the position in floating point values
 	m_FloatPosition.x = static_cast<float>(m_Position.x);
 	m_FloatPosition.y = static_cast<float>(m_Position.y);
+
+	m_pTexture = GetOwner()->GetComponent<that::TextureRenderer>();
 }
 
 void digdug::GridTransform::Update()
@@ -73,8 +76,22 @@ void digdug::GridTransform::Move(int xSteps, int ySteps)
 
 	// Rotate the transform depending on the direction
 	constexpr float rightAngle{ 90.0f };
-	if (abs(m_PrevX)) GetTransform()->SetLocalRotation(rightAngle - m_PrevX * rightAngle);
-	else if (abs(m_PrevY)) GetTransform()->SetLocalRotation(m_PrevY * rightAngle);
+	if (abs(m_PrevX))
+	{
+		GetTransform()->SetLocalRotation(rightAngle - m_PrevX * rightAngle);
+
+		glm::vec2 scale{ m_pTexture->GetScale() };
+		scale.y = abs(scale.y) * m_PrevX;
+		m_pTexture->SetScale(scale);
+	}
+	else if (abs(m_PrevY))
+	{
+		GetTransform()->SetLocalRotation(m_PrevY * rightAngle);
+
+		glm::vec2 scale{ m_pTexture->GetScale() };
+		scale.y = -abs(scale.y) * m_PrevY;
+		m_pTexture->SetScale(scale);
+	}
 
 	// Update the pixel position
 	m_Position.x = static_cast<int>(m_FloatPosition.x);
