@@ -9,8 +9,12 @@
 
 void digdug::GridTransform::Init()
 {
+	m_pTexture = GetOwner()->GetComponent<that::TextureRenderer>();
+
 	m_pGrid = GetOwner()->GetParent()->GetComponent<GridComponent>();
 	const float cellSize{ m_pGrid->GetCellSize() };
+	m_pTexture->SetScale(cellSize / m_pTexture->GetTextureSize().x);
+
 	const int stepsPerCell{ m_pGrid->GetStepsPerCell() };
 
 	const auto& position{ GetTransform()->GetLocalPosition() };
@@ -22,8 +26,6 @@ void digdug::GridTransform::Init()
 	// Set the position in floating point values
 	m_FloatPosition.x = static_cast<float>(m_Position.x);
 	m_FloatPosition.y = static_cast<float>(m_Position.y);
-
-	m_pTexture = GetOwner()->GetComponent<that::TextureRenderer>();
 }
 
 void digdug::GridTransform::Update()

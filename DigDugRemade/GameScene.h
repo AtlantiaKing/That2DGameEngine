@@ -40,7 +40,6 @@ namespace digdug
 		that::GameObject* pPlayer{ pGrid->CreateGameObject("Player") };
 		auto pPlayerRenderer{ pPlayer->AddComponent<that::TextureRenderer>() };
 		pPlayerRenderer->SetTexture(that::ResourceManager::GetInstance().LoadTexture("MainCharacter.png"));
-		pPlayerRenderer->SetScale(2.0f);
 		pPlayer->AddComponent<GridTransform>();
 		pPlayer->AddComponent<GridCollider>();
 
@@ -57,7 +56,6 @@ namespace digdug
 		that::GameObject* pPump{ pPlayer->CreateGameObject("Pump") };
 		auto pPumpRenderer{ pPump->AddComponent<that::TextureRenderer>() };
 		pPumpRenderer->SetTexture(that::ResourceManager::GetInstance().LoadTexture("Pump.png"));
-		pPumpRenderer->SetScale(2.0f);
 		pPump->AddComponent<GridCollider>();
 		pPump->AddComponent<Pump>();
 		// Move the pump one cell to the right
@@ -149,7 +147,6 @@ namespace digdug
 			that::GameObject* pEnemy{ pGrid->CreateGameObject("Enemy") };
 			auto pEnemyRenderer{ pEnemy->AddComponent<that::TextureRenderer>() };
 			pEnemyRenderer->SetTexture(that::ResourceManager::GetInstance().LoadTexture("Enemy.png"));
-			pEnemyRenderer->SetScale(2.0f);
 			pEnemy->AddComponent<digdug::EnemyMovement>();
 			pEnemy->AddComponent<digdug::GridTransform>();
 			pEnemy->AddComponent<digdug::GridCollider>();

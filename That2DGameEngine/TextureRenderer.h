@@ -26,6 +26,7 @@ namespace that
 		void SetScale(float scale) { m_Scale = { scale,scale }; }
 
 		const glm::vec2& GetScale() const { return m_Scale; }
+		glm::ivec2 GetTextureSize() const { return m_pTexture->GetSize(); }
 
 		virtual void Render() const override;
 	private:
