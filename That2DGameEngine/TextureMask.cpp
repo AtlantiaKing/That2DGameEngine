@@ -24,9 +24,6 @@ void that::TextureMask::Init()
 
 void that::TextureMask::Update()
 {
-    m_XMask = (static_cast<int>(Timer::GetInstance().GetTotal()) % 2) * 0.5f;
-    m_YMask = (static_cast<int>(Timer::GetInstance().GetTotal()) % 2) * 0.5f;
-
     auto& srcRect{ m_pTexture->GetSource() };
     const auto& textureSize{ m_pTexture->GetTextureSize() };
 
