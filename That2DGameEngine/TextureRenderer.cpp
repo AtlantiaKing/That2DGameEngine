@@ -15,5 +15,6 @@ void that::TextureRenderer::Render() const
 	// Render the current texture at the position defined by the transform
 	const glm::vec2& pos = GetTransform()->GetWorldPosition();
 	const float rotation = GetTransform()->GetWorldRotation();
-	Renderer::GetInstance().RenderTexture(*m_pTexture, pos.x, pos.y, m_Scale.x, m_Scale.y, rotation);
+
+	Renderer::GetInstance().RenderTexture(*m_pTexture, m_SrcRect, pos.x, pos.y, m_Scale.x, m_Scale.y, rotation);
 }

@@ -170,6 +170,9 @@
     <ClInclude Include="CyclicBuffer.h">
       <Filter>Seperate Objects</Filter>
     </ClInclude>
+    <ClInclude Include="TextureMask.h">
+      <Filter>Components\Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">
@@ -259,6 +262,9 @@
     </ClCompile>
     <ClCompile Include="Timer.cpp">
       <Filter>Seperate Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureMask.cpp">
+      <Filter>Components\Rendering</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

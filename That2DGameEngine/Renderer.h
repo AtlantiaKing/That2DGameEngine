@@ -21,6 +21,9 @@ namespace that
 
 		void RenderTexture(const Texture2D& texture, float x, float y) const;
 		void RenderTexture(const Texture2D& texture, float x, float y, float scaleX, float scaleY, float rotation) const;
+		void RenderTexture(const Texture2D& texture, const SDL_Rect& srcRect, float x, float y) const;
+		void RenderTexture(const Texture2D& texture, const SDL_Rect& srcRect, float x, float y, float scaleX, float scaleY, float rotation) const;
+
 
 		SDL_Renderer* GetSDLRenderer() const;
 

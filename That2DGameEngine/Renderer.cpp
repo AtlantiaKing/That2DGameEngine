@@ -6,6 +6,8 @@
 #include "imgui.h"
 #include <backends/imgui_impl_sdl2.h>
 #include <backends/imgui_impl_opengl2.h>
+#include <iostream>
+#include "glm/trigonometric.hpp"
 
 int GetOpenGLDriverIndex()
 {
@@ -71,27 +73,58 @@ void that::Renderer::Destroy()
 
 void that::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y) const
 {
-	SDL_Rect dst{};
-	dst.x = static_cast<int>(x);
-	dst.y = static_cast<int>(y);
-	SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &dst.w, &dst.h);
-	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
+	SDL_Rect temp{};
+	RenderTexture(texture, temp, x, y);
 }
 
 void that::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float scaleX, const float scaleY, float rotation) const
+{
+	SDL_Rect temp{};
+	RenderTexture(texture, temp, x, y, scaleX, scaleY, rotation);
+}
+
+void that::Renderer::RenderTexture(const Texture2D& texture, const SDL_Rect& srcRect, float x, float y) const
 {
 	SDL_Rect dst{};
 	dst.x = static_cast<int>(x);
 	dst.y = static_cast<int>(y);
 	SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &dst.w, &dst.h);
-	dst.w *= static_cast<int>(abs(scaleX));
-	dst.h *= static_cast<int>(abs(scaleY));
+
+	const bool hasSrcRect{ srcRect.w > FLT_EPSILON || srcRect.y > FLT_EPSILON };
+	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), hasSrcRect ? &srcRect : nullptr, &dst);
+}
+
+void that::Renderer::RenderTexture(const Texture2D& texture, const SDL_Rect& srcRect, float x, float y, float scaleX, float scaleY, float rotation) const
+{
+	int textureWidth{};
+	int textureHeight{};
+	SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &textureWidth, &textureHeight);
+
+	SDL_Rect dst{};
+	dst.x = static_cast<int>(x);
+	dst.y = static_cast<int>(y);
+
+	dst.w = static_cast<int>(textureWidth * abs(scaleX));
+	dst.h = static_cast<int>(textureHeight * abs(scaleY));
 
 	const SDL_Point rotationCenter{ dst.w / 2, dst.h / 2 };
 
 	const int flipState{ (scaleX < 0.0f ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE) | (scaleY < 0.0f ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE) };
 
-	SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst, rotation, &rotationCenter, static_cast<SDL_RendererFlip>(flipState));
+	const bool hasSrcRect{ srcRect.w > FLT_EPSILON || srcRect.y > FLT_EPSILON };
+	if (hasSrcRect)
+	{
+		dst.w = static_cast<int>(static_cast<float>(dst.w) * srcRect.w / textureWidth);
+		dst.h = static_cast<int>(static_cast<float>(dst.h) * srcRect.h / textureHeight);
+
+		if (static_cast<SDL_RendererFlip>(flipState) == SDL_RendererFlip::SDL_FLIP_VERTICAL)
+		{
+			dst.y += static_cast<int>(cosf(glm::radians(rotation)) * (textureHeight * abs(scaleY) - dst.h));
+			dst.x -= static_cast<int>(sinf(glm::radians(rotation)) * (textureHeight * abs(scaleY) - dst.h));
+		}
+	}
+
+	SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), hasSrcRect ? &srcRect : nullptr, &dst, rotation, &rotationCenter, static_cast<SDL_RendererFlip>(flipState));
 }
 
 inline SDL_Renderer* that::Renderer::GetSDLRenderer() const { return m_renderer; }
