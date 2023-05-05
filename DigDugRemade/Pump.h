@@ -2,6 +2,7 @@
 
 #include "Component.h"
 #include "GridCollider.h"
+#include <TextureMask.h>
 
 namespace digdug
 {
@@ -31,9 +32,9 @@ namespace digdug
 		bool m_IsActive{};
 
 		HealthComponent* m_pPumpTo{};
+		that::TextureMask* m_pMask{};
 
-		// TODO: Needs to be the length of the pump
-		const float m_AliveTime{ 0.75f };
+		const float m_AliveTime{ 0.35f };
 		float m_AccuAliveTime{};
 
 		const float m_TimeBetweenPumps{ 0.5f };

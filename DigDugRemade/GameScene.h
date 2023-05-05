@@ -16,6 +16,7 @@
 #include "TextComponent.h"
 #include "Pump.h"
 #include "ScoreHUDComponent.h"
+#include "TextureMask.h"
 
 // Managers
 #include "InputManager.h"
@@ -33,7 +34,7 @@
 
 namespace digdug
 {
-	that::GameObject* CreatePlayerAndHUD(that::Scene& scene, that::GameObject* pGrid, int idx)
+	that::GameObject* CreatePlayer(that::GameObject* pGrid)
 	{
 		GridComponent* pGridComponent{ pGrid->GetComponent<GridComponent>() };
 
@@ -57,62 +58,17 @@ namespace digdug
 		that::GameObject* pPump{ pPlayer->CreateGameObject("Pump") };
 		auto pPumpRenderer{ pPump->AddComponent<that::TextureRenderer>() };
 		pPumpRenderer->SetTexture(that::ResourceManager::GetInstance().LoadTexture("Pump.png"));
+		pPumpRenderer->SetScale(2.0f);
 		pPump->AddComponent<GridCollider>();
 		pPump->AddComponent<Pump>();
+		pPump->AddComponent<that::TextureMask>()->SetPercentage(true, 1.0f);
 		// Move the pump one cell to the right
 		pPump->GetComponent<that::Transform>()->Translate(pGridComponent->GetCellSize() * 2.0f, 0.0f);
 
 
 		// Input
-		if (idx == 0)
-		{
-			that::InputManager::GetInstance().BindDigital2DAxisCommand({ 'd', 'a', 'w', 's' }, std::make_unique<GridMoveCommand>(pPlayer));
-			that::InputManager::GetInstance().BindDigitalCommand(' ', that::InputManager::InputType::ONBUTTONDOWN, std::make_unique<ShootPumpCommand>(pPump));
-		}
-		else
-		{
-			that::InputManager::GetInstance().BindDigital2DAxisCommand(
-				0, 
-				{ 
-					that::InputManager::GamepadButton::DPAD_RIGHT, 
-					that::InputManager::GamepadButton::DPAD_LEFT, 
-					that::InputManager::GamepadButton::DPAD_UP, 
-					that::InputManager::GamepadButton::DPAD_DOWN },
-				std::make_unique<GridMoveCommand>(pPlayer)
-			);
-			that::InputManager::GetInstance().BindDigitalCommand(
-				0, 
-				that::InputManager::GamepadButton::A, 
-				that::InputManager::InputType::ONBUTTONDOWN, 
-				std::make_unique<ShootPumpCommand>(pPump)
-			);
-		}
-
-
-		// Lives HUD
-		that::GameObject* pLivesHUD{ scene.CreateGameObject("LivesHUD") };
-		pLivesHUD->GetTransform()->SetWorldPosition(idx ? 500.0f : 0.0f, 0.0f);
-		pLivesHUD->AddComponent<digdug::LivesHUDComponent>()->Display(pPlayer);
-
-		that::TextComponent* pLivesText{ pLivesHUD->AddComponent<that::TextComponent>() };
-		pLivesText->SetFont(that::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20));
-		std::stringstream hudText{};
-		hudText << pPlayerHealth->GetHealth() << " lifes left";
-		pLivesText->SetText(hudText.str());
-
-		pLivesHUD->AddComponent<that::TextureRenderer>();
-
-
-		// Score HUD
-		that::GameObject* pScoreHUD{ scene.CreateGameObject("LivesHUD") };
-		pScoreHUD->GetTransform()->SetWorldPosition(idx ? 500.0f : 0.0f, 100.0f);
-		pScoreHUD->AddComponent<digdug::ScoreHUDComponent>()->Display(pPlayer);
-
-		that::TextComponent* pScoreText{ pScoreHUD->AddComponent<that::TextComponent>() };
-		pScoreText->SetFont(that::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20));
-		pScoreText->SetText("Score: 0");
-
-		pScoreHUD->AddComponent<that::TextureRenderer>();
+		that::InputManager::GetInstance().BindDigital2DAxisCommand({ 'd', 'a', 'w', 's' }, std::make_unique<GridMoveCommand>(pPlayer));
+		that::InputManager::GetInstance().BindDigitalCommand(' ', that::InputManager::InputType::ONBUTTONDOWN, std::make_unique<ShootPumpCommand>(pPump));
 
 		return pPlayer;
 	}
@@ -158,8 +114,7 @@ namespace digdug
 			}
 		}
 
-		that::GameObject* pPlayer0{ CreatePlayerAndHUD(scene, pGrid, 0) };
-		CreatePlayerAndHUD(scene, pGrid, 1);
+		that::GameObject* pPlayer0{ CreatePlayer(pGrid) };
 
 		for (auto pTile : pTileObjects)
 		{

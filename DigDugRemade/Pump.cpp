@@ -16,6 +16,8 @@ void digdug::Pump::Init()
 
 	// Disable the renderer
 	GetOwner()->GetComponent<that::TextureRenderer>()->SetEnabled(false);
+
+	m_pMask = GetOwner()->GetComponent<that::TextureMask>();
 }
 
 void digdug::Pump::Update()
@@ -25,6 +27,8 @@ void digdug::Pump::Update()
 
 	// Decrease the time that the pump has been enabled
 	m_AccuAliveTime -= that::Timer::GetInstance().GetElapsed();
+
+	m_pMask->SetPercentage(true, 1.0f - m_AccuAliveTime / m_AliveTime);
 
 	if (m_AccuAliveTime < 0.0f)
 	{
@@ -105,8 +109,6 @@ void digdug::Pump::PumpToEnemy()
 
 	// Hit the enemy
 	m_pPumpTo->Hit();
-
-	std::cout << "hit\n";
 
 	// Reset the pump time of the pump
 	m_AccuPumpTime = m_TimeBetweenPumps;
