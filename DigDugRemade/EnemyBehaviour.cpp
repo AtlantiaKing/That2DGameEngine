@@ -5,7 +5,7 @@
 
 #include "EnemyMovement.h"
 #include "TextureRenderer.h"
-#include "GridCollider.h"
+#include "BoxCollider.h"
 
 void digdug::EnemyBehaviour::Init()
 {
@@ -40,12 +40,12 @@ void digdug::EnemyBehaviour::Notify(const HealthComponent& health)
 	if (m_pHealth->GetHealth() == m_pHealth->GetMaxHealth())
 	{
 		m_pMovement->SetEnabled(true);
-		m_pHealth->GetOwner()->GetComponent<GridCollider>()->SetEnabled(true);
+		m_pHealth->GetOwner()->GetComponent<that::BoxCollider>()->SetEnabled(true);
 	}
 	else
 	{
 		m_pMovement->SetEnabled(false);
-		m_pHealth->GetOwner()->GetComponent<GridCollider>()->SetEnabled(false);
+		m_pHealth->GetOwner()->GetComponent<that::BoxCollider>()->SetEnabled(false);
 
 		m_AccuHealTime = m_TimeBetweenHeals;
 

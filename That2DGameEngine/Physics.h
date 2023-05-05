@@ -1,17 +1,12 @@
 #pragma once
 
 #include "Singleton.h"
+
 #include <vector>
 
 namespace that
 {
 	class BoxCollider;
-
-	struct CollisionData
-	{
-		BoxCollider* collider;
-		BoxCollider* other;
-	};
 
 	class Physics final : public Singleton<Physics>
 	{

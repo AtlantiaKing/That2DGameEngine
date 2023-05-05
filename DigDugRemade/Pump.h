@@ -1,14 +1,16 @@
 #pragma once
 
 #include "Component.h"
-#include "GridCollider.h"
-#include <TextureMask.h>
+#include "Observer.h"
+
+#include "TextureMask.h"
+#include "PhysicsData.h"
 
 namespace digdug
 {
 	class HealthComponent;
 
-	class Pump : public that::Component, public that::Observer<CollisionData>
+	class Pump : public that::Component, public that::Observer<that::CollisionData>
 	{
 	public:
 		Pump() = default;
@@ -23,7 +25,7 @@ namespace digdug
 		virtual void Update() override;
 		virtual void OnDestroy() override;
 
-		virtual void Notify(const CollisionData& data) override;
+		virtual void Notify(const that::CollisionData& data) override;
 		void PumpToEnemy();
 		
 		void Enable();

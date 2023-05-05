@@ -3,10 +3,9 @@
 #include "Component.h"
 #include "HealthComponent.h"
 
-#include "GridCollider.h"
 #include "Observer.h"
-
 #include "Event.h"
+#include "PhysicsData.h"
 
 namespace that
 {
@@ -23,7 +22,7 @@ namespace digdug
 		that::GameObject* pPlayer;
 	};
 
-	class Player final : public that::Component, public that::Observer<CollisionData>
+	class Player final : public that::Component, public that::Observer<that::CollisionData>
 	{
 	public:
 		Player() = default;
@@ -37,7 +36,7 @@ namespace digdug
 		virtual void Init() override;
 		virtual void OnDestroy() override;
 
-		virtual void Notify(const CollisionData& data) override;
+		virtual void Notify(const that::CollisionData& data) override;
 	private:
 	};
 }

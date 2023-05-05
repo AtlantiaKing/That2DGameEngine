@@ -51,6 +51,9 @@
     <Filter Include="Components\Physics">
       <UniqueIdentifier>{26047b73-4f59-4610-9749-a13caf8badb7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Physics">
+      <UniqueIdentifier>{891a2353-c10e-4793-a87f-0fcf5631796f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Font.h">
@@ -176,11 +179,14 @@
     <ClInclude Include="TextureMask.h">
       <Filter>Components\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="Physics.h">
-      <Filter>Engine Files</Filter>
-    </ClInclude>
     <ClInclude Include="BoxCollider.h">
       <Filter>Components\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsData.h">
+      <Filter>Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -275,11 +281,11 @@
     <ClCompile Include="TextureMask.cpp">
       <Filter>Components\Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="Physics.cpp">
-      <Filter>Engine Files</Filter>
-    </ClCompile>
     <ClCompile Include="BoxCollider.cpp">
       <Filter>Components\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics.cpp">
+      <Filter>Physics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

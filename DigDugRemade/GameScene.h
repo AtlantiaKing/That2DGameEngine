@@ -31,6 +31,8 @@
 #include <iostream>
 #include "EnemyBehaviour.h"
 #include "WorldTile.h"
+#include <BoxCollider.h>
+#include <Rigidbody.cpp>
 
 namespace digdug
 {
@@ -40,11 +42,9 @@ namespace digdug
 
 		// Player
 		that::GameObject* pPlayer{ pGrid->CreateGameObject("Player") };
-		auto pPlayerRenderer{ pPlayer->AddComponent<that::TextureRenderer>() };
-		pPlayerRenderer->SetTexture(that::ResourceManager::GetInstance().LoadTexture("MainCharacter.png"));
+		pPlayer->AddComponent<that::TextureRenderer>()->SetTexture(that::ResourceManager::GetInstance().LoadTexture("MainCharacter.png"));
 		pPlayer->AddComponent<GridTransform>();
-		pPlayer->AddComponent<GridCollider>();
-
+		pPlayer->AddComponent<that::BoxCollider>();
 		pPlayer->AddComponent<Player>();
 
 		constexpr int defaultHealth{ 3 };
@@ -59,7 +59,7 @@ namespace digdug
 		auto pPumpRenderer{ pPump->AddComponent<that::TextureRenderer>() };
 		pPumpRenderer->SetTexture(that::ResourceManager::GetInstance().LoadTexture("Pump.png"));
 		pPumpRenderer->SetScale(2.0f);
-		pPump->AddComponent<GridCollider>();
+		pPump->AddComponent<that::BoxCollider>();
 		pPump->AddComponent<Pump>();
 		pPump->AddComponent<that::TextureMask>()->SetPercentage(true, 1.0f);
 		// Move the pump one cell to the right
@@ -129,7 +129,7 @@ namespace digdug
 			pEnemyRenderer->SetTexture(that::ResourceManager::GetInstance().LoadTexture("Enemy.png"));
 			pEnemy->AddComponent<digdug::EnemyMovement>();
 			pEnemy->AddComponent<digdug::GridTransform>();
-			pEnemy->AddComponent<digdug::GridCollider>();
+			pEnemy->AddComponent<that::BoxCollider>();
 			pEnemy->GetComponent<that::Transform>()->SetLocalPosition(pGridComponent->GetCellSize() * (i % 2 * 8), pGridComponent->GetCellSize() * (i+1));
 			pEnemy->AddComponent<digdug::HealthComponent>()->SetMaxHealth(4);
 			pEnemy->AddComponent<digdug::EnemyBehaviour>();

@@ -2,6 +2,7 @@
 
 #include "Component.h"
 
+#include "PhysicsData.h"
 #include "Physics.h"
 #include "Subject.h"
 

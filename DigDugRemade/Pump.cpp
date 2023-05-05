@@ -3,16 +3,18 @@
 #include "GameObject.h"
 #include "EnemyMovement.h"
 #include "TextureRenderer.h"
-
 #include "Timer.h"
+
 #include "GridTransform.h"
 #include "Player.h"
 #include "ScoreComponent.h"
+#include "BoxCollider.h"
+
 #include <iostream>
 
 void digdug::Pump::Init()
 {
-	GetOwner()->GetComponent<GridCollider>()->OnCollision().AddListener(this);
+	GetOwner()->GetComponent<that::BoxCollider>()->OnHitEvent().AddListener(this);
 
 	// Disable the renderer
 	GetOwner()->GetComponent<that::TextureRenderer>()->SetEnabled(false);
@@ -69,16 +71,16 @@ void digdug::Pump::Update()
 
 void digdug::Pump::OnDestroy()
 {
-	GetOwner()->GetComponent<GridCollider>()->OnCollision().RemoveListener(this);
+	GetOwner()->GetComponent<that::BoxCollider>()->OnHitEvent().RemoveListener(this);
 }
 
-void digdug::Pump::Notify(const CollisionData& data)
+void digdug::Pump::Notify(const that::CollisionData& data)
 {
 	if (!m_IsActive) return;
 	if (m_pPumpTo) return;
 
 	// If the pump hits an enemy, kill it
-	HealthComponent* pOtherHealth{ data.other->GetComponent<HealthComponent>() };
+	HealthComponent* pOtherHealth{ data.pOther->GetOwner()->GetComponent<HealthComponent>()};
 	if (pOtherHealth)
 	{
 		m_pPumpTo = pOtherHealth;
