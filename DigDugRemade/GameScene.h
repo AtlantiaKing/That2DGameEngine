@@ -29,10 +29,11 @@
 #include <sstream>
 #include <iostream>
 #include "EnemyBehaviour.h"
+#include "WorldTile.h"
 
 namespace digdug
 {
-	void CreatePlayerAndHUD(that::Scene& scene, that::GameObject* pGrid, int idx)
+	that::GameObject* CreatePlayerAndHUD(that::Scene& scene, that::GameObject* pGrid, int idx)
 	{
 		GridComponent* pGridComponent{ pGrid->GetComponent<GridComponent>() };
 
@@ -112,6 +113,8 @@ namespace digdug
 		pScoreText->SetText("Score: 0");
 
 		pScoreHUD->AddComponent<that::TextureRenderer>();
+
+		return pPlayer;
 	}
 
 	void PrintControls()
@@ -134,12 +137,34 @@ namespace digdug
 		// Grid
 		that::GameObject* pGrid{ scene.CreateGameObject("Grid") };
 		auto pGridComponent{ pGrid->AddComponent<digdug::GridComponent>() };
-		pGridComponent->SetCellSize(32.0f);
+		constexpr float gridCellSize{ 32.0f };
+		pGridComponent->SetCellSize(gridCellSize);
 		pGrid->GetTransform()->SetWorldPosition(100, 40);
 
+		std::vector<that::GameObject*> pTileObjects{};
+		
+		for (int x{}; x < pGridComponent->GetSize(); ++x)
+		{
+			for (int y{}; y < pGridComponent->GetSize(); ++y)
+			{
+				that::GameObject* pTile{ pGrid->CreateGameObject("WorldTile") };
+				pTile->AddComponent<digdug::GridTransform>();
+				pTile->GetComponent<that::Transform>()->SetLocalPosition(x * gridCellSize, y * gridCellSize);
+				auto pTexture{ pTile->AddComponent<that::TextureRenderer>() };
+				pTexture->SetTexture(that::ResourceManager::GetInstance().LoadTexture("WorldTile.png"));
+				pTexture->SetScale(2.0f);
 
-		CreatePlayerAndHUD(scene, pGrid, 0);
+				pTileObjects.push_back(pTile);
+			}
+		}
+
+		that::GameObject* pPlayer0{ CreatePlayerAndHUD(scene, pGrid, 0) };
 		CreatePlayerAndHUD(scene, pGrid, 1);
+
+		for (auto pTile : pTileObjects)
+		{
+			pTile->AddComponent<digdug::WorldTile>()->BindPlayer(pPlayer0->GetComponent<digdug::GridTransform>());
+		}
 
 		// Enemy
 		for (int i{}; i < 10; ++i)

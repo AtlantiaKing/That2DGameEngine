@@ -4,6 +4,8 @@
 
 #include "glm/vec2.hpp"
 
+#include "Subject.h"
+
 namespace that
 {
 	class TextureRenderer;
@@ -30,7 +32,10 @@ namespace digdug
 		void Move(int xSteps, int ySteps);
 		void SetPosition(int x, int y);
 
-		glm::ivec2 GetPosition() const;
+		glm::ivec2 GetCellPosition() const;
+		glm::ivec2 GetPosition() const { return m_Position; }
+
+		that::Subject<glm::ivec2>& OnMove() { return m_MoveEvent; }
 	private:
 		glm::vec2 m_FloatPosition{};
 		glm::ivec2 m_Position{};
@@ -39,5 +44,7 @@ namespace digdug
 
 		GridComponent* m_pGrid{};
 		that::TextureRenderer* m_pTexture{};
+
+		that::Subject<glm::ivec2> m_MoveEvent{};
 	};
 }

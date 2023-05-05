@@ -111,7 +111,7 @@ void that::Renderer::RenderTexture(const Texture2D& texture, const SDL_Rect& src
 
 	const int flipState{ (scaleX < 0.0f ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE) | (scaleY < 0.0f ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE) };
 
-	const bool hasSrcRect{ srcRect.w > FLT_EPSILON || srcRect.y > FLT_EPSILON };
+	const bool hasSrcRect{ srcRect.w > FLT_EPSILON || srcRect.h > FLT_EPSILON };
 	if (hasSrcRect)
 	{
 		dst.w = static_cast<int>(static_cast<float>(dst.w) * srcRect.w / textureWidth);

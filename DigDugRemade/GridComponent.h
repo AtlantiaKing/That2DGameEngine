@@ -33,6 +33,7 @@ namespace digdug
 		const glm::vec2& GetPivot() const;
 		float GetCellSize() const { return m_CellSize; }
 		bool IsValidPosition(const glm::vec2& position);
+		int GetSize() const { return m_GridSize; }
 	private:
 		bool DoOverlap(const glm::vec2& pos0, const glm::vec2& pos1);
 

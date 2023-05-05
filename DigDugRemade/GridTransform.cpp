@@ -94,6 +94,8 @@ void digdug::GridTransform::Move(int xSteps, int ySteps)
 		scale.y = -abs(scale.y) * m_PrevY;
 		m_pTexture->SetScale(scale);
 	}
+	
+	const glm::ivec2 prevPosition{ m_Position };
 
 	// Update the pixel position
 	m_Position.x = static_cast<int>(m_FloatPosition.x);
@@ -103,10 +105,17 @@ void digdug::GridTransform::Move(int xSteps, int ySteps)
 	{
 		m_FloatPosition = prevPos;
 
-		// Update the pixel position
+		// Reset the pixel position
 		m_Position.x = static_cast<int>(m_FloatPosition.x);
 		m_Position.y = static_cast<int>(m_FloatPosition.y);
+
+		return;
 	}
+
+	const int difX{ m_Position.x - prevPosition.x };
+	const int difY{ m_Position.y - prevPosition.y };
+
+	m_MoveEvent.Notify({ difX, difY });
 }
 
 void digdug::GridTransform::SetPosition(int x, int y)
@@ -120,7 +129,7 @@ void digdug::GridTransform::SetPosition(int x, int y)
 	m_FloatPosition.y = static_cast<float>(y * steps);
 }
 
-glm::ivec2 digdug::GridTransform::GetPosition() const
+glm::ivec2 digdug::GridTransform::GetCellPosition() const
 {
 	return m_Position / m_pGrid->GetStepsPerCell();
 }

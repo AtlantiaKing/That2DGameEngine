@@ -38,6 +38,9 @@
     <Filter Include="Components\Game\Entities\Enemy">
       <UniqueIdentifier>{d524665d-8576-4ccb-a777-e7923ddc025d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\Game\World">
+      <UniqueIdentifier>{003a933a-27d7-4ba6-8fc1-ec2c53b45991}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -79,6 +82,9 @@
     </ClCompile>
     <ClCompile Include="EnemyBehaviour.cpp">
       <Filter>Components\Game\Entities\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldTile.cpp">
+      <Filter>Components\Game\World</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -123,6 +129,9 @@
     </ClInclude>
     <ClInclude Include="EnemyBehaviour.h">
       <Filter>Components\Game\Entities\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldTile.h">
+      <Filter>Components\Game\World</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
