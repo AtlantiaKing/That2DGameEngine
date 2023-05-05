@@ -28,6 +28,7 @@ namespace that
 
 		const glm::vec2& GetScale() const { return m_Scale; }
 		glm::ivec2 GetTextureSize() const { return m_pTexture->GetSize(); }
+		glm::vec2 GetScaledTextureSize() const;
 		SDL_Rect& GetSource() { return m_SrcRect; }
 
 		virtual void Render() const override;

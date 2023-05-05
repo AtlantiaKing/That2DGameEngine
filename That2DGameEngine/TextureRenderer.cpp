@@ -7,6 +7,17 @@ void that::TextureRenderer::SetTexture(std::shared_ptr<Texture2D> pTexture)
 	m_pTexture = pTexture;
 }
 
+glm::vec2 that::TextureRenderer::GetScaledTextureSize() const
+{
+	const auto& texSize{ m_pTexture->GetSize() };
+
+	return
+	{
+		texSize.x * m_Scale.x,
+		texSize.y * m_Scale.y
+	};
+}
+
 void that::TextureRenderer::Render() const
 {
 	// If no texture has been assigned to this TextureRenderer, do nothing

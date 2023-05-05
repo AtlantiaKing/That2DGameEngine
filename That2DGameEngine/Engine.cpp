@@ -4,13 +4,17 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+
 #include "Engine.h"
+
 #include "InputManager.h"
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include "Timer.h"
 #include "EventQueue.h"
+#include "Physics.h"
+
 #include <iostream>
 
 SDL_Window* g_window{};
@@ -91,6 +95,7 @@ void that::Engine::Run(const std::function<void()>& setup)
 	auto& input = InputManager::GetInstance();
 	auto& time = Timer::GetInstance();
 	auto& events = EventQueue::GetInstance();
+	auto& physics = Physics::GetInstance();
 
 	// Load the first scene
 	sceneManager.LoadScene(0);
@@ -107,10 +112,15 @@ void that::Engine::Run(const std::function<void()>& setup)
 		time.Update();
 		doContinue = input.ProcessInput();
 
+		physics.Update();
+		events.NotifyListeners();
+
 		sceneManager.Update();
 		events.NotifyListeners();
+
 		sceneManager.LateUpdate();
 		events.NotifyListeners();
+
 		sceneManager.UpdateCleanup();
 
 		renderer.Render();
