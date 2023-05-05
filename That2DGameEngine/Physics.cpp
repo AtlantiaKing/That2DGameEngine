@@ -10,7 +10,9 @@ void that::Physics::AddCollider(BoxCollider* pCollider)
 
 void that::Physics::RemoveCollider(BoxCollider* pCollider)
 {
-	m_pColliders.erase(std::remove(begin(m_pColliders), end(m_pColliders), pCollider));
+	if (m_pColliders.empty()) return;
+
+	m_pColliders.erase(std::remove(begin(m_pColliders), end(m_pColliders), pCollider), end(m_pColliders));
 }
 
 void that::Physics::Update()
@@ -36,17 +38,17 @@ bool that::Physics::DoOverlap(BoxCollider* pCollider, BoxCollider* pOther) const
 	const auto& otherPos{ pOther->GetTransform()->GetWorldPosition() };
 	const auto& otherSize{ pOther->GetSize() };
 
-	const float l1x{ colPos.x };
-	const float l1y{ colPos.y + colSize.y };
-	const float r1x{ colPos.x + colSize.x };
-	const float r1y{ colPos.y };
+	const float l1x{ colPos.x - colSize.x / 2.0f };
+	const float l1y{ colPos.y + colSize.y / 2.0f };
+	const float r1x{ colPos.x + colSize.x / 2.0f };
+	const float r1y{ colPos.y - colSize.y / 2.0f };
 
-	const float l2x{ otherPos.x };
-	const float l2y{ otherPos.y + otherSize.y };
-	const float r2x{ otherPos.x + otherSize.x };
-	const float r2y{ otherPos.y };
+	const float l2x{ otherPos.x - otherSize.x / 2.0f };
+	const float l2y{ otherPos.y + otherSize.y / 2.0f };
+	const float r2x{ otherPos.x + otherSize.x / 2.0f };
+	const float r2y{ otherPos.y - otherSize.y / 2.0f };
 
-	constexpr float distanceEpsilon{ 0.01f };
+	constexpr float distanceEpsilon{ 2.0f };
 
 	// if rectangle has area 0, no overlap
 	if (l1x == r1x || l1y == r1y || r2x == l2x || l2y == r2y)
