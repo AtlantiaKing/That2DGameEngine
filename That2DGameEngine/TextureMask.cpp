@@ -19,7 +19,7 @@ glm::vec2 that::TextureMask::GetMask() const
 void that::TextureMask::Init()
 {
     m_pTexture = GetOwner()->GetComponent<TextureRenderer>();
-    if (m_pTexture == nullptr) Logger::LogError("TextureMask on GameObject \"" + GetOwner()->GetName() + "\" could not find a TextureRenderer on its owner.");
+    if (m_pTexture == nullptr) Logger::LogError("GameObject has TextureMask but no TextureRenderer");
 }
 
 void that::TextureMask::Update()
