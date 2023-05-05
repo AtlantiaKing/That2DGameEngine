@@ -24,7 +24,6 @@ namespace digdug
 		GridComponent& operator=(GridComponent&& other) = delete;
 
 		virtual void LateUpdate() override;
-		virtual void Render() const override;
 
 		void SetStepsPerCell(int steps) { m_StepsPerCell = steps; }
 		void SetCellSize(float cellSize) { m_CellSize = cellSize; }

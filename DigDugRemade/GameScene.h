@@ -60,7 +60,7 @@ namespace digdug
 		pPump->AddComponent<GridCollider>();
 		pPump->AddComponent<Pump>();
 		// Move the pump one cell to the right
-		pPump->GetComponent<that::Transform>()->Translate(pGridComponent->GetCellSize(), 0.0f);
+		pPump->GetComponent<that::Transform>()->Translate(pGridComponent->GetCellSize() * 2.0f, 0.0f);
 
 
 		// Input
