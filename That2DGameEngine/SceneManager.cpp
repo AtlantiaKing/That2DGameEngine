@@ -24,6 +24,11 @@ void that::SceneManager::AddScene(const std::function<void(Scene&)>& sceneLoader
 	m_SceneLoaders.push_back(sceneLoader);
 }
 
+void that::SceneManager::OnFrameStart()
+{
+	m_pScene->OnFrameStart();
+}
+
 void that::SceneManager::Update()
 {
 	m_pScene->Update();

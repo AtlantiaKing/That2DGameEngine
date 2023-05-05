@@ -14,6 +14,7 @@ namespace that
 		void LoadScene(unsigned int index);
 		void AddScene(const std::function<void(Scene&)>& sceneLoader);
 
+		void OnFrameStart();
 		void Update();
 		void LateUpdate();
 		void UpdateCleanup();

@@ -43,6 +43,21 @@ void that::GameObject::Init()
 	}
 }
 
+void that::GameObject::OnFrameStart()
+{
+	// Update every component
+	for (const auto& pComponent : m_pComponents)
+	{
+		if (pComponent->IsEnabled()) pComponent->OnFrameStart();
+	}
+
+	// Update every child
+	for (const auto& pChild : m_pChildren)
+	{
+		pChild->OnFrameStart();
+	}
+}
+
 void that::GameObject::Update()
 {
 	// Update every component

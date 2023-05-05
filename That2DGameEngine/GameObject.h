@@ -26,6 +26,7 @@ namespace that
 		GameObject* CreateGameObject(const std::string& name);
 
 		void Init();
+		void OnFrameStart();
 		void Update();
 		void LateUpdate();
 		void UpdateCleanup();

@@ -112,13 +112,16 @@ void that::Engine::Run(const std::function<void()>& setup)
 		time.Update();
 		doContinue = input.ProcessInput();
 
-		physics.Update();
+		sceneManager.OnFrameStart();
 		events.NotifyListeners();
 
 		sceneManager.Update();
 		events.NotifyListeners();
 
 		sceneManager.LateUpdate();
+		events.NotifyListeners();
+
+		physics.Update();
 		events.NotifyListeners();
 
 		sceneManager.UpdateCleanup();

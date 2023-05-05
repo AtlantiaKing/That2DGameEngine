@@ -19,9 +19,9 @@ namespace that
 		Component& operator=(Component&& other) = delete;
 
 		virtual void Init() {};
+		virtual void OnFrameStart() {};
 		virtual void Update() {};
 		virtual void LateUpdate() {};
-		virtual void FixedUpdate() {};
 		virtual void Render() const {};
 		virtual void OnGUI() {};
 		virtual void OnDestroy() {};

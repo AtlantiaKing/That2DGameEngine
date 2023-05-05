@@ -51,6 +51,14 @@ void that::Scene::Init()
 	}
 }
 
+void that::Scene::OnFrameStart()
+{
+	for (auto& object : m_pObjects)
+	{
+		object->OnFrameStart();
+	}
+}
+
 void Scene::Update()
 {
 	for(auto& object : m_pObjects)

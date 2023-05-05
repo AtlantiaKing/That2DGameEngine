@@ -13,6 +13,7 @@ namespace that
 		std::unique_ptr<GameObject> GetUnique(GameObject* pGameObject);
 
 		void Init();
+		void OnFrameStart();
 		void Update();
 		void LateUpdate();
 		void UpdateCleanup();
