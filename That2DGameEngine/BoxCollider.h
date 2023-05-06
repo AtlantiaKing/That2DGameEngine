@@ -23,10 +23,16 @@ namespace that
 
 		virtual void Init() override;
 		virtual void OnDestroy() override;
+		virtual void Render() const override;
 
-		void SetSize(const glm::vec2 size);
+		void SetCenter(const glm::vec2& center);
+		void SetCenter(float x, float y);
+		const glm::vec2& GetCenter() const { return m_Center; }
+		glm::vec2 GetCenterWorld() const;
+		void SetSize(const glm::vec2& size);
 		void SetSize(float x, float y);
-		const glm::vec2& GetSize() { return m_Size; }
+		const glm::vec2& GetSize() const { return m_Size; }
+		glm::vec2 GetSizeWorld() const;
 
 		Subject<CollisionData>& OnHitEvent() { return m_OnHitEvent; }
 	private:
@@ -34,6 +40,7 @@ namespace that
 
 		void Hit(BoxCollider* pOther);
 
+		glm::vec2 m_Center{};
 		glm::vec2 m_Size{ 1.0f, 1.0f };
 		bool m_DefaultSize{ true };
 

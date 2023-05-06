@@ -127,4 +127,10 @@ void that::Renderer::RenderTexture(const Texture2D& texture, const SDL_Rect& src
 	SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), hasSrcRect ? &srcRect : nullptr, &dst, rotation, &rotationCenter, static_cast<SDL_RendererFlip>(flipState));
 }
 
+void that::Renderer::DrawRect(const SDL_Rect& rect, const SDL_Color& color)
+{
+	SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
+	SDL_RenderDrawRect(m_renderer, &rect);
+}
+
 inline SDL_Renderer* that::Renderer::GetSDLRenderer() const { return m_renderer; }

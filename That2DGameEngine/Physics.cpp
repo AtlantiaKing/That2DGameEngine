@@ -32,11 +32,11 @@ void that::Physics::Update()
 
 bool that::Physics::DoOverlap(BoxCollider* pCollider, BoxCollider* pOther) const
 {
-	const auto& colPos{ pCollider->GetTransform()->GetWorldPosition() };
-	const auto& colSize{ pCollider->GetSize() };
+	const auto& colPos{ pCollider->GetCenterWorld() };
+	const auto& colSize{ pCollider->GetSizeWorld() };
 
-	const auto& otherPos{ pOther->GetTransform()->GetWorldPosition() };
-	const auto& otherSize{ pOther->GetSize() };
+	const auto& otherPos{ pOther->GetCenterWorld() };
+	const auto& otherSize{ pOther->GetSizeWorld() };
 
 	const float l1x{ colPos.x - colSize.x / 2.0f };
 	const float l1y{ colPos.y + colSize.y / 2.0f };
