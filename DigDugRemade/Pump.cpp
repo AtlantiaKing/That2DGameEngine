@@ -5,6 +5,7 @@
 #include "TextureRenderer.h"
 #include "Timer.h"
 
+#include "TextureMask.h"
 #include "GridTransform.h"
 #include "Player.h"
 #include "ScoreComponent.h"
@@ -14,10 +15,12 @@
 
 void digdug::Pump::Init()
 {
-	GetOwner()->GetComponent<that::BoxCollider>()->OnHitEvent().AddListener(this);
+	m_pCollider = GetOwner()->GetComponent<that::BoxCollider>();
+	m_pCollider->OnHitEvent().AddListener(this);
 
 	// Disable the renderer
-	GetOwner()->GetComponent<that::TextureRenderer>()->SetEnabled(false);
+	m_pTexture = GetOwner()->GetComponent<that::TextureRenderer>();
+	m_pTexture->SetEnabled(false);
 
 	m_pMask = GetOwner()->GetComponent<that::TextureMask>();
 }
@@ -31,6 +34,11 @@ void digdug::Pump::Update()
 	m_AccuAliveTime -= that::Timer::GetInstance().GetElapsed();
 
 	m_pMask->SetPercentage(true, 1.0f - m_AccuAliveTime / m_AliveTime);
+
+	const float textureSize{ m_pTexture->GetScaledTextureSize().x };
+	const float colliderSize{ m_pMask->GetMask().x * textureSize };
+	m_pCollider->SetSize(colliderSize, m_pCollider->GetSize().y);
+	m_pCollider->SetCenter(-textureSize / 2.0f + colliderSize / 2.0f, 0.0f);
 
 	if (m_AccuAliveTime < 0.0f)
 	{

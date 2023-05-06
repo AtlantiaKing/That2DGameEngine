@@ -3,8 +3,14 @@
 #include "Component.h"
 #include "Observer.h"
 
-#include "TextureMask.h"
 #include "PhysicsData.h"
+
+namespace that
+{
+	class TextureRenderer;
+	class TextureMask;
+	class BoxCollider;
+}
 
 namespace digdug
 {
@@ -34,7 +40,9 @@ namespace digdug
 		bool m_IsActive{};
 
 		HealthComponent* m_pPumpTo{};
+		that::TextureRenderer* m_pTexture{};
 		that::TextureMask* m_pMask{};
+		that::BoxCollider* m_pCollider{};
 
 		const float m_AliveTime{ 0.35f };
 		float m_AccuAliveTime{};
