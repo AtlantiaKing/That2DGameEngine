@@ -13,8 +13,9 @@ namespace that
 namespace digdug
 {
 	class GridTransform;
+	class GridComponent;
 
-	class WorldTile final : public that::Component, public that::Observer<glm::ivec2>
+	class WorldTile final : public that::Component
 	{
 	public:
 		WorldTile() = default;
@@ -27,12 +28,12 @@ namespace digdug
 
 		virtual void Init() override;
 
-		void BindPlayer(GridTransform* pPlayer);
-		virtual void Notify(const glm::ivec2& change) override;
-		virtual void OnDestroy() override;
+		void UpdatePlayer(const glm::ivec2& playerCell, const glm::ivec2& playerPosition, const glm::ivec2& direction, float playerSize);
+
+		bool IsValidPosition(const glm::vec2& position, const glm::ivec2& direction, float size);
 	private:
+		GridComponent* m_pGrid{};
 		GridTransform* m_pGridTr{};
-		GridTransform* m_pPlayer{};
 
 		that::TextureMask* m_pLeftMask{};
 		that::TextureMask* m_pRightMask{};

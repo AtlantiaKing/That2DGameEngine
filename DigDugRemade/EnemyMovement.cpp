@@ -6,11 +6,20 @@
 void digdug::EnemyMovement::Update()
 {
 	auto pTransform{ GetOwner()->GetComponent<GridTransform>() };
-	
-	const auto& gridPos{ pTransform->GetCellPosition() };
 
-	if (gridPos.x >= m_MaxX) m_Direction = -1;
-	if (gridPos.x <= m_MinX) m_Direction = 1;
+	bool moveResult{ pTransform->Move(m_Direction.x, m_Direction.y, true) };
 
-	pTransform->Move(m_Direction, 0);
+	if (!moveResult)
+	{
+		if (rand() % 1001 / 1000.0f > 0.3f)
+		{
+			m_Direction.x = rand() % 1001 / 1000.0f > 0.5f ? -1 : 1;
+			m_Direction.y = 0;
+		}
+		else
+		{
+			m_Direction.y = rand() % 1001 / 1000.0f > 0.5f ? -1 : 1;
+			m_Direction.x = 0;
+		}
+	}
 }

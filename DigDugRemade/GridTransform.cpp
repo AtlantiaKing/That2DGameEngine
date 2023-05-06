@@ -34,18 +34,14 @@ void digdug::GridTransform::Update()
 	const float cellSize{ m_pGrid->GetCellSize() };
 
 	// Calculate local position in grid
-	const glm::vec2 gridPosition
-	{
-		m_FloatPosition.x / stepsPerCell * cellSize,
-		m_FloatPosition.y / stepsPerCell * cellSize
-	};
+	const glm::vec2 gridPosition{ m_FloatPosition / static_cast<float>(stepsPerCell) * cellSize };
 
 	GetTransform()->SetLocalPosition(gridPosition);
 }
 
-void digdug::GridTransform::Move(int xSteps, int ySteps)
+bool digdug::GridTransform::Move(int xSteps, int ySteps, bool checkWorld)
 {
-	if (!m_Enabled) return;
+	if (!m_Enabled) return false;
 
 	const float moveSpeed{ m_pGrid->GetCellSize() };
 
@@ -98,10 +94,10 @@ void digdug::GridTransform::Move(int xSteps, int ySteps)
 	const glm::ivec2 prevPosition{ m_Position };
 
 	// Update the pixel position
-	m_Position.x = static_cast<int>(m_FloatPosition.x);
-	m_Position.y = static_cast<int>(m_FloatPosition.y);
+	m_Position.x = std::clamp(static_cast<int>(m_FloatPosition.x), 0, m_pGrid->GetSize() * m_pGrid->GetStepsPerCell());
+	m_Position.y = std::clamp(static_cast<int>(m_FloatPosition.y), 0, m_pGrid->GetSize() * m_pGrid->GetStepsPerCell());
 
-	if (!m_pGrid->IsValidPosition(m_Position))
+	if (!m_pGrid->IsValidPosition(m_Position, { m_PrevX,m_PrevY }, checkWorld))
 	{
 		m_FloatPosition = prevPos;
 
@@ -109,13 +105,12 @@ void digdug::GridTransform::Move(int xSteps, int ySteps)
 		m_Position.x = static_cast<int>(m_FloatPosition.x);
 		m_Position.y = static_cast<int>(m_FloatPosition.y);
 
-		return;
+		return false;
 	}
 
-	const int difX{ m_Position.x - prevPosition.x };
-	const int difY{ m_Position.y - prevPosition.y };
+	m_MoveEvent.Notify(*this);
 
-	m_MoveEvent.Notify({ difX, difY });
+	return true;
 }
 
 void digdug::GridTransform::SetPosition(int x, int y)

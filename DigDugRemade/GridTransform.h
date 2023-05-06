@@ -29,13 +29,14 @@ namespace digdug
 		virtual void Init() override;
 		virtual void Update() override;
 
-		void Move(int xSteps, int ySteps);
+		bool Move(int xSteps, int ySteps, bool checkWorld = false);
 		void SetPosition(int x, int y);
 
 		glm::ivec2 GetCellPosition() const;
 		glm::ivec2 GetPosition() const { return m_Position; }
+		glm::ivec2 GetDirection() const { return { m_PrevX, m_PrevY }; }
 
-		that::Subject<glm::ivec2>& OnMove() { return m_MoveEvent; }
+		that::Subject<GridTransform>& OnMove() { return m_MoveEvent; }
 	private:
 		glm::vec2 m_FloatPosition{};
 		glm::ivec2 m_Position{};
@@ -45,6 +46,6 @@ namespace digdug
 		GridComponent* m_pGrid{};
 		that::TextureRenderer* m_pTexture{};
 
-		that::Subject<glm::ivec2> m_MoveEvent{};
+		that::Subject<GridTransform> m_MoveEvent{};
 	};
 }

@@ -97,32 +97,34 @@ namespace digdug
 		pGridComponent->SetCellSize(gridCellSize);
 		pGrid->GetTransform()->SetWorldPosition(100, 40);
 
-		std::vector<that::GameObject*> pTileObjects{};
-		
-		for (int x{}; x < pGridComponent->GetSize(); ++x)
+		const int gridSize{ pGridComponent->GetSize() };
+		const float cellSize{ pGridComponent->GetCellSize() };
+		for (int x{}; x < gridSize; ++x)
 		{
-			for (int y{}; y < pGridComponent->GetSize(); ++y)
+			for (int y{}; y < gridSize-4; ++y)
 			{
+				if (y == gridSize / 2 && x >= gridSize / 2 - 1 && x <= gridSize / 2 + 1) continue;
+
 				that::GameObject* pTile{ pGrid->CreateGameObject("WorldTile") };
-				pTile->AddComponent<digdug::GridTransform>();
-				pTile->GetComponent<that::Transform>()->SetLocalPosition(x * gridCellSize, y * gridCellSize);
+
+				pTile->GetComponent<that::Transform>()->SetLocalPosition(x * cellSize, y * cellSize);
+
 				auto pTexture{ pTile->AddComponent<that::TextureRenderer>() };
 				pTexture->SetTexture(that::ResourceManager::GetInstance().LoadTexture("WorldTile.png"));
 				pTexture->SetScale(2.0f);
 
-				pTileObjects.push_back(pTile);
+				pTile->AddComponent<GridTransform>();
+
+				pGridComponent->SetTile(x,y, pTile->AddComponent<WorldTile>());
 			}
 		}
 
-		that::GameObject* pPlayer0{ CreatePlayer(pGrid) };
+		that::GameObject* pPlayer{ CreatePlayer(pGrid) };
 
-		for (auto pTile : pTileObjects)
-		{
-			pTile->AddComponent<digdug::WorldTile>()->BindPlayer(pPlayer0->GetComponent<digdug::GridTransform>());
-		}
+		pGridComponent->BindPlayer(pPlayer->GetComponent<GridTransform>());
 
 		// Enemy
-		for (int i{}; i < 10; ++i)
+		for (int i{}; i < 1; ++i)
 		{
 			that::GameObject* pEnemy{ pGrid->CreateGameObject("Enemy") };
 			auto pEnemyRenderer{ pEnemy->AddComponent<that::TextureRenderer>() };
@@ -130,7 +132,7 @@ namespace digdug
 			pEnemy->AddComponent<digdug::EnemyMovement>();
 			pEnemy->AddComponent<digdug::GridTransform>();
 			pEnemy->AddComponent<that::BoxCollider>();
-			pEnemy->GetComponent<that::Transform>()->SetLocalPosition(pGridComponent->GetCellSize() * (i % 2 * 8), pGridComponent->GetCellSize() * (i+1));
+			pEnemy->GetComponent<that::Transform>()->SetLocalPosition(pGridComponent->GetCellSize() * (i % 2 * 6 + 6), pGridComponent->GetCellSize() * (i+1+5));
 			pEnemy->AddComponent<digdug::HealthComponent>()->SetMaxHealth(4);
 			pEnemy->AddComponent<digdug::EnemyBehaviour>();
 		}

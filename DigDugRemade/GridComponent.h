@@ -2,6 +2,8 @@
 
 #include "Component.h"
 
+#include "Observer.h"
+
 #include <unordered_map>
 #include "glm/vec2.hpp"
 
@@ -12,7 +14,10 @@ namespace that
 
 namespace digdug
 {
-	class GridComponent final : public that::Component
+	class WorldTile;
+	class GridTransform;
+
+	class GridComponent final : public that::Component, that::Observer<GridTransform>
 	{
 	public:
 		GridComponent() = default;
@@ -23,18 +28,21 @@ namespace digdug
 		GridComponent& operator=(const GridComponent& other) = delete;
 		GridComponent& operator=(GridComponent&& other) = delete;
 
-		virtual void LateUpdate() override;
-
 		void SetStepsPerCell(int steps) { m_StepsPerCell = steps; }
 		void SetCellSize(float cellSize) { m_CellSize = cellSize; }
 
 		int GetStepsPerCell() const { return m_StepsPerCell; }
 		const glm::vec2& GetPivot() const;
 		float GetCellSize() const { return m_CellSize; }
-		bool IsValidPosition(const glm::vec2& position);
+		bool IsValidPosition(const glm::vec2& position, const glm::ivec2& direction, bool checkWorld = false);
 		int GetSize() const { return m_GridSize; }
+
+		void SetTile(int x, int y, WorldTile* pWorldTile);
+		void BindPlayer(GridTransform* pPlayer);
+
+		virtual void Notify(const GridTransform& change) override;
 	private:
-		bool DoOverlap(const glm::vec2& pos0, const glm::vec2& pos1);
+		std::vector<WorldTile*> m_pTiles{};
 
 		float m_CellSize{ 16 };
 		int m_StepsPerCell{ 16 };

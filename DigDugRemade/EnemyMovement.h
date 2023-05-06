@@ -2,6 +2,8 @@
 
 #include "Component.h"
 
+#include "glm/vec2.hpp"
+
 namespace digdug
 {
 	class EnemyMovement final : public that::Component
@@ -17,7 +19,7 @@ namespace digdug
 
 		virtual void Update() override;
 	private:
-		int m_Direction{ 1 };
+		glm::ivec2 m_Direction{ 1,0 };
 		int m_MinX{ 1 };
 		int m_MaxX{ 10 };
 	};
