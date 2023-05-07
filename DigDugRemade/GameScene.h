@@ -101,7 +101,7 @@ namespace digdug
 		const float cellSize{ pGridComponent->GetCellSize() };
 		for (int x{}; x < gridSize; ++x)
 		{
-			for (int y{}; y < gridSize-4; ++y)
+			for (int y{}; y < gridSize; ++y)
 			{
 				if (y == gridSize / 2 && x >= gridSize / 2 - 1 && x <= gridSize / 2 + 1) continue;
 

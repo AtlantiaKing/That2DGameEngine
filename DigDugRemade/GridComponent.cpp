@@ -15,25 +15,26 @@ const glm::vec2& digdug::GridComponent::GetPivot() const
 
 bool digdug::GridComponent::IsValidPosition(const glm::vec2& position, const glm::ivec2& direction, bool checkWorld)
 {
-	const glm::vec2 gridPos{ position / static_cast<float>(m_StepsPerCell) * m_CellSize };
-
-	if (position.x < 0.0f || position.y < 0.0f) return false;
+	if (position.x < 0.0f || position.y < 0.0f) 
+		return false;
 
 	const int maxGridIdx{ m_GridSize - 1 };
-	if (position.x > maxGridIdx * m_CellSize || position.y > maxGridIdx * m_CellSize) return false;
+	if (position.x > maxGridIdx * m_CellSize || position.y > maxGridIdx * m_CellSize) 
+		return false;
 
 	if (!checkWorld) return true;
 
-	bool validPos{ true };
+	const glm::vec2 gridPos{ position / static_cast<float>(m_StepsPerCell) * m_CellSize };
 
 	for (WorldTile* pTile : m_pTiles)
 	{
-		if (pTile) validPos &= pTile->IsValidPosition(gridPos, direction, m_CellSize);
+		if (!pTile) continue;
 
-		if (!validPos) break;
+		if (!pTile->IsValidPosition(gridPos, direction, m_CellSize)) 
+			return false;
 	}
 
-	return validPos;
+	return true;
 }
 
 void digdug::GridComponent::SetTile(int x, int y, WorldTile* pWorldTile)

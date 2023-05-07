@@ -114,6 +114,12 @@ void digdug::WorldTile::UpdatePlayer(const glm::ivec2& /*playerCell*/, const glm
 			if (curTopMask < percentage)
 				m_pBottomMask->SetPercentage(true, percentage);
 		}
+
+		if (m_pBottomMask->GetMask().x > 0.5f && m_pTopMask->GetMask().x > 0.5f)
+		{
+			m_pBottomMask->SetPercentage(true, 1.0f);
+			m_pTopMask->SetPercentage(true, 1.0f);
+		}
 	}
 }
 
@@ -129,13 +135,13 @@ bool digdug::WorldTile::IsValidPosition(const glm::vec2& position, const glm::iv
 		return true;
 
 	if (direction.x > 0)
-		return position.x + size > tilePos.x + textureSize.x || position.x + size <= tilePos.x + m_pLeftMask->GetMask().x * textureSize.x;
+		return position.x + size >= tilePos.x + textureSize.x || position.x + size <= tilePos.x + m_pLeftMask->GetMask().x * textureSize.x;
 	else if (direction.x < 0)
-		return position.x < tilePos.x || position.x >= tilePos.x + textureSize.x - m_pRightMask->GetMask().x * textureSize.x;
+		return position.x <= tilePos.x || position.x >= tilePos.x + textureSize.x - m_pRightMask->GetMask().x * textureSize.x;
 	else if (direction.y > 0)
-		return position.y + size > tilePos.y + textureSize.y || position.y + size <= tilePos.y + m_pTopMask->GetMask().x * textureSize.y;
+		return position.y + size >= tilePos.y + textureSize.y || position.y + size <= tilePos.y + m_pTopMask->GetMask().x * textureSize.y;
 	else if (direction.y < 0)
-		return position.y < tilePos.y || position.y >= tilePos.y + textureSize.y - m_pBottomMask->GetMask().x * textureSize.y;
+		return position.y <= tilePos.y || position.y >= tilePos.y + textureSize.y - m_pBottomMask->GetMask().x * textureSize.y;
 
 	return false;
 }
