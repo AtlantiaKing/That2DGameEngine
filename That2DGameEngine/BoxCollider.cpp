@@ -29,7 +29,7 @@ void that::BoxCollider::OnDestroy()
 
 void that::BoxCollider::Render() const
 {
-	const auto& center{ GetCenterWorld() };
+	/*const auto& center{ GetCenterWorld() };
 	const auto& size{ GetSizeWorld() };
 
 	SDL_Rect rect
@@ -39,7 +39,7 @@ void that::BoxCollider::Render() const
 		static_cast<int>(size.x),
 		static_cast<int>(size.y)
 	};
-	that::Renderer::GetInstance().DrawRect(rect, SDL_Color{ 0,255,0,255 });
+	that::Renderer::GetInstance().DrawRect(rect, SDL_Color{ 0,255,0,255 });*/
 }
 
 void that::BoxCollider::SetCenter(const glm::vec2& center)
