@@ -30,37 +30,35 @@ void digdug::Pump::Update()
 	// Do nothing if the pump is not active
 	if (!m_IsActive) return;
 
-	// Decrease the time that the pump has been enabled
-	m_AccuAliveTime -= that::Timer::GetInstance().GetElapsed();
+	// Decrease the alive timer only when there is nothing attached to the pump
+	if (!m_pPumpTo)
+	{
+		// Decrease the time that the pump has been enabled
+		m_AccuAliveTime -= that::Timer::GetInstance().GetElapsed();
+	}
 
+	// Apply the alive timer to the texture mask
 	m_pMask->SetPercentage(true, 1.0f - m_AccuAliveTime / m_AliveTime);
 
+	// Scale the collider according to the mask
 	const float textureSize{ m_pTexture->GetScaledTextureSize().x };
 	const float colliderSize{ m_pMask->GetMask().x * textureSize };
 	m_pCollider->SetSize(colliderSize, m_pCollider->GetSize().y);
 	m_pCollider->SetCenter(-textureSize / 2.0f + colliderSize / 2.0f, 0.0f);
 
+	// Disable the pump if the timer is less then 0
 	if (m_AccuAliveTime < 0.0f)
 	{
-		m_IsActive = false;
-		GetOwner()->GetComponent<that::TextureRenderer>()->SetEnabled(false);
-
-		GetOwner()->GetParent()->GetComponent<GridTransform>()->SetEnabled(true);
-
-		m_pPumpTo = nullptr;
+		DisablePump();
 	}
 
+	// If nothing is attached to the pump, stop here
 	if (!m_pPumpTo) return;
 
 	// Disable the pump if the enemy has regenerated all its health
 	if (m_pPumpTo->GetHealth() == m_pPumpTo->GetMaxHealth())
 	{
-		m_IsActive = false;
-		GetOwner()->GetComponent<that::TextureRenderer>()->SetEnabled(false);
-
-		GetOwner()->GetParent()->GetComponent<GridTransform>()->SetEnabled(true);
-
-		m_pPumpTo = nullptr;
+		DisablePump();
 	}
 
 	// Set CanPump to true if AccuPumpTime is 0
@@ -86,8 +84,9 @@ void digdug::Pump::Notify(const that::CollisionData& data)
 {
 	if (!m_IsActive) return;
 	if (m_pPumpTo) return;
+	if (data.pOther->GetOwner()->HasComponent<Player>()) return;
 
-	// If the pump hits an enemy, kill it
+	// If the pump collider hits an enemy, decrease the health of the enemy and stop the pump animation
 	HealthComponent* pOtherHealth{ data.pOther->GetOwner()->GetComponent<HealthComponent>()};
 	if (pOtherHealth)
 	{
@@ -122,6 +121,23 @@ void digdug::Pump::PumpToEnemy()
 
 	// Reset the pump time of the pump
 	m_AccuPumpTime = m_TimeBetweenPumps;
-	m_AccuAliveTime = m_AliveTime;
 	m_CanPump = false;
+
+	// Disable the pump if the enemy is dead
+	if (m_pPumpTo->GetHealth() <= 0)
+	{
+		DisablePump();
+	}
+}
+
+void digdug::Pump::DisablePump()
+{
+	// Disable the pump logic
+	m_IsActive = false;
+	// Disable the renderer
+	GetOwner()->GetComponent<that::TextureRenderer>()->SetEnabled(false);
+	// Enable the player transform
+	GetOwner()->GetParent()->GetComponent<GridTransform>()->SetEnabled(true);
+	// Remove any attached enemy
+	m_pPumpTo = nullptr;
 }

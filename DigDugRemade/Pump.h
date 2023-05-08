@@ -37,6 +37,8 @@ namespace digdug
 		void Enable();
 		bool IsActive() const { return m_IsActive; }
 	private:
+		void DisablePump();
+
 		bool m_IsActive{};
 
 		HealthComponent* m_pPumpTo{};
