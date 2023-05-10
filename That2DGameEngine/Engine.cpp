@@ -7,6 +7,8 @@
 
 #include "Engine.h"
 
+#include "ServiceLocator.h"
+#include "SDLAudioSystem.h"
 #include "InputManager.h"
 #include "SceneManager.h"
 #include "Renderer.h"
@@ -74,6 +76,8 @@ that::Engine::Engine(const std::string &dataPath)
 	ResourceManager::GetInstance().Init(dataPath);
 
 	Timer::GetInstance().Init();
+
+	ServiceLocator::RegisterAudioSystem(std::make_unique<SDLAudioSystem>());
 }
 
 that::Engine::~Engine()
