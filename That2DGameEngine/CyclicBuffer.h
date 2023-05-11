@@ -25,9 +25,7 @@ namespace that
 	{
 		if (m_NrItems >= size)
 		{
-			std::stringstream sstream{};
-			sstream << "Too many items are being queued. Item \"" <<  item << "\" was not added to the event queue.";
-			Logger::LogWarning(sstream.str());
+			Logger::LogWarning("Too many items are being queued.");
 			return;
 		}
 
@@ -41,9 +39,7 @@ namespace that
 	{
 		if (m_NrItems >= size)
 		{
-			std::stringstream sstream{};
-			sstream << "Too many items are being queued. Item \"" << item << "\" was not added to the event queue.";
-			Logger::LogWarning(sstream.str());
+			Logger::LogError("Too many items are being queued.");
 			return;
 		}
 
