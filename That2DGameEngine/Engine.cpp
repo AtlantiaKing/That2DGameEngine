@@ -77,7 +77,7 @@ that::Engine::Engine(const std::string &dataPath)
 
 	Timer::GetInstance().Init();
 
-	ServiceLocator::RegisterAudioSystem(std::make_unique<SDLAudioSystem>());
+	ServiceLocator::RegisterAudioSystem<SDLAudioSystem>();
 }
 
 that::Engine::~Engine()

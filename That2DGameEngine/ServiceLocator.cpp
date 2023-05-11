@@ -7,8 +7,3 @@ that::AudioSystem& that::ServiceLocator::GetAudio()
 {
 	return m_pAudioSystem.get() == nullptr ? *m_pDefaultAudioSystem.get() : *m_pAudioSystem.get();
 }
-
-void that::ServiceLocator::RegisterAudioSystem(std::unique_ptr<AudioSystem> pAudio)
-{
-	m_pAudioSystem = std::move(pAudio);
-}

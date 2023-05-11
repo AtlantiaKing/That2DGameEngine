@@ -308,9 +308,6 @@
     <ClCompile Include="ServiceLocator.cpp">
       <Filter>Seperate Objects</Filter>
     </ClCompile>
-    <ClCompile Include="AudioSystem.cpp">
-      <Filter>Audio</Filter>
-    </ClCompile>
     <ClCompile Include="SDLAudioSystem.cpp">
       <Filter>Audio</Filter>
     </ClCompile>
