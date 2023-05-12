@@ -15,10 +15,11 @@ namespace that
 	public:
 		virtual ~AudioSystem() = default;
 		virtual void Initialize() = 0;
-		virtual void Play(AudioData* pAudioData) = 0;
+		virtual void Play(const AudioData& pAudioData) = 0;
 		virtual void Pause(unsigned int id) = 0;
 		virtual void Unpause(unsigned int id) = 0;
 		virtual void Stop(unsigned int id) = 0;
+		virtual void OnSoundEnd(int channel) = 0;
 		virtual unsigned int Load(const std::string& path) = 0;
 	};
 }
