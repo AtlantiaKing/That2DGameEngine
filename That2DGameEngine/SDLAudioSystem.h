@@ -78,7 +78,6 @@ namespace that
 		CyclicBuffer<SDLAudioEvent, 10> m_EventBuffer{};
 		std::vector<SDLSound> m_pSounds{};
 
-		std::jthread m_AudioThread{};
 		std::mutex m_AudioMutex{};
 		std::condition_variable m_AudioCondition{};
 	};

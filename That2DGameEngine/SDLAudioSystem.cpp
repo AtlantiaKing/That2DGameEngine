@@ -27,8 +27,8 @@ void that::SDLAudioSystem::Initialize()
 		return;
 	}
 
-	m_AudioThread = std::jthread{ [this] { AudioThread(); } };
-	m_AudioThread.detach();
+	auto audioThread{ std::jthread{ [this] { AudioThread(); } } };
+	audioThread.detach();
 
 	Mix_ChannelFinished(&OnSoundEndRoot);
 }
@@ -191,7 +191,7 @@ void that::SDLAudioSystem::LoadSound(const std::string& filePath)
 	Mix_Chunk* pSound{ Mix_LoadWAV(fullPath.str().c_str()) };
 	if (!pSound) return;
 
-	SDLSound sdlSound{ static_cast<int>(m_pSounds.size()), pSound, filePath };
+	const SDLSound sdlSound{ static_cast<int>(m_pSounds.size()), pSound, filePath };
 	m_pSounds.push_back(sdlSound);
 }
 
