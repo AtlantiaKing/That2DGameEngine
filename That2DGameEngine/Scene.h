@@ -12,7 +12,6 @@ namespace that
 		void Add(std::unique_ptr<GameObject> pGameObject);
 		std::unique_ptr<GameObject> GetUnique(GameObject* pGameObject);
 
-		void Init();
 		void OnFrameStart();
 		void Update();
 		void LateUpdate();
@@ -33,6 +32,7 @@ namespace that
 		void RenderScenegraphComponents(GameObject* pGameObject);
 
 		std::vector<std::unique_ptr<GameObject>> m_pObjects{};
+		std::vector<std::unique_ptr<GameObject>> m_pObjectsToAdd{};
 	};
 
 }

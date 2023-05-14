@@ -16,14 +16,13 @@ that::GameObject::~GameObject() = default;
 that::GameObject* that::GameObject::CreateGameObject(const std::string& name)
 {
 	auto pGameObject{ std::make_unique<GameObject>(m_pScene, name) };
-	pGameObject->Init();
 
 	if (m_pTransform->IsDirty()) pGameObject->GetTransform()->EnableChangedFlag();
 
 	auto pGameObjectPtr{ pGameObject.get() };
 
 	pGameObject->m_pParent = this;
-	m_pChildren.push_back(std::move(pGameObject));
+	m_pChildrenToAdd.push_back(std::move(pGameObject));
 
 	return pGameObjectPtr;
 }
@@ -35,16 +34,17 @@ void that::GameObject::Init()
 	{
 		pComponent->Init();
 	}
-
-	// Initialize every child
-	for (const auto& pChild : m_pChildren)
-	{
-		pChild->Init();
-	}
 }
 
 void that::GameObject::OnFrameStart()
 {
+	for (auto& pChild : m_pChildrenToAdd)
+	{
+		pChild->Init();
+		m_pChildren.push_back(std::move(pChild));
+	}
+	m_pChildrenToAdd.clear();
+
 	// Update every component
 	for (const auto& pComponent : m_pComponents)
 	{

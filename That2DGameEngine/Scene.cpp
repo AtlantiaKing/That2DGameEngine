@@ -12,7 +12,7 @@ GameObject* that::Scene::CreateGameObject(const std::string& name)
 
 	GameObject* pGameObjectPtr{ pGameObject.get() };
 
-	m_pObjects.push_back(std::move(pGameObject));
+	m_pObjectsToAdd.push_back(std::move(pGameObject));
 
 	return pGameObjectPtr;
 }
@@ -43,16 +43,15 @@ std::unique_ptr<GameObject> that::Scene::GetUnique(GameObject* pGameObject)
 	return nullptr;
 }
 
-void that::Scene::Init()
-{
-	for (auto& object : m_pObjects)
-	{
-		object->Init();
-	}
-}
-
 void that::Scene::OnFrameStart()
 {
+	for (auto& object : m_pObjectsToAdd)
+	{
+		object->Init();
+		m_pObjects.push_back(std::move(object));
+	}
+	m_pObjectsToAdd.clear();
+
 	for (auto& object : m_pObjects)
 	{
 		object->OnFrameStart();

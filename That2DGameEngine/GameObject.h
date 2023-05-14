@@ -66,6 +66,7 @@ namespace that
 		std::string m_Name{};
 
 		GameObject* m_pParent{};
+		std::vector<std::unique_ptr<GameObject>> m_pChildrenToAdd{};
 		std::vector<std::unique_ptr<GameObject>> m_pChildren{};
 
 		std::vector<std::unique_ptr<Component>> m_pComponents{};
