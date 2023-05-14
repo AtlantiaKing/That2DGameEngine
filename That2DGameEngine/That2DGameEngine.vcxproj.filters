@@ -209,6 +209,9 @@
     <ClInclude Include="AudioSource.h">
       <Filter>Components\Audio</Filter>
     </ClInclude>
+    <ClInclude Include="InstantAudioSource.h">
+      <Filter>Engine Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">
@@ -319,6 +322,9 @@
     </ClCompile>
     <ClCompile Include="AudioSource.cpp">
       <Filter>Components\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="InstantAudioSource.cpp">
+      <Filter>Seperate Objects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
