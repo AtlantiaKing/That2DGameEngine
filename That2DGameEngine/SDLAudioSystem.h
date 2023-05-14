@@ -15,7 +15,7 @@ namespace that
 	{
 	public:
 		SDLAudioSystem() = default;
-		virtual ~SDLAudioSystem() = default;
+		virtual ~SDLAudioSystem();
 
 		SDLAudioSystem(const SDLAudioSystem& other) = delete;
 		SDLAudioSystem(SDLAudioSystem&& other) = delete;
@@ -47,9 +47,9 @@ namespace that
 		struct SDLAudioEvent
 		{
 			SDLAudioEvent() = default;
-			SDLAudioEvent(const AudioData& _pData, SDLAudioEventType _e)
-				: pData{ _pData }
-				, id{ pData.id }
+			SDLAudioEvent(const AudioData& _data, SDLAudioEventType _e)
+				: data{ _data }
+				, id{ data.id }
 				, type{ _e }
 			{}
 			SDLAudioEvent(const unsigned int _id, SDLAudioEventType _e)
@@ -57,7 +57,7 @@ namespace that
 				, type{ _e }
 			{}
 
-			AudioData pData{};
+			AudioData data{};
 			unsigned int id{};
 			SDLAudioEventType type{};
 		};
@@ -78,6 +78,7 @@ namespace that
 		CyclicBuffer<SDLAudioEvent, 10> m_EventBuffer{};
 		std::vector<SDLSound> m_pSounds{};
 
+		std::jthread m_AudioThread{};
 		std::mutex m_AudioMutex{};
 		std::condition_variable m_AudioCondition{};
 	};

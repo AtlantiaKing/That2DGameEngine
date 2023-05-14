@@ -30,6 +30,7 @@ namespace that
 		static std::unique_ptr<AudioSystem> m_pAudioSystem;
 		static std::unique_ptr<DefaultAudioSystem> m_pDefaultAudioSystem;
 	};
+
 	template<typename T>
 	inline void ServiceLocator::RegisterAudioSystem()
 	{

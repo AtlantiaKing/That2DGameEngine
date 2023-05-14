@@ -4,6 +4,18 @@
 
 #include <SDL_mixer.h>
 #include <SDL.h>
+#include <iostream>
+
+that::SDLAudioSystem::~SDLAudioSystem()
+{
+	m_AudioThread.request_stop();
+	m_AudioCondition.notify_all();
+
+	for (SDLSound& sound : m_pSounds)
+	{
+		Mix_FreeChunk(sound.pData);
+	}
+}
 
 void that::SDLAudioSystem::Initialize()
 {
@@ -11,7 +23,7 @@ void that::SDLAudioSystem::Initialize()
 	if (sdlInitResult != 0)
 	{
 		std::stringstream errorMessage{};
-		errorMessage << "SDL Audio Initialization failed" << SDL_GetError();
+		errorMessage << "SDL Audio Initialization failed : " << SDL_GetError();
 
 		Logger::LogError(errorMessage.str());
 		return;
@@ -21,14 +33,13 @@ void that::SDLAudioSystem::Initialize()
 	if (audioInitResult != 0)
 	{
 		std::stringstream errorMessage{};
-		errorMessage << "SDL Mixer Initialization failed" << Mix_GetError();
+		errorMessage << "SDL Mixer Initialization failed : " << Mix_GetError();
 
 		Logger::LogError(errorMessage.str());
 		return;
 	}
 
-	auto audioThread{ std::jthread{ [this] { AudioThread(); } } };
-	audioThread.detach();
+	m_AudioThread = std::jthread{ [this] { AudioThread(); } };
 
 	Mix_ChannelFinished(&OnSoundEndRoot);
 }
@@ -106,43 +117,48 @@ unsigned int that::SDLAudioSystem::GetIdFromName(const std::string& path)
 
 void that::SDLAudioSystem::AudioThread()
 {
+	const std::stop_token& stopToken{ m_AudioThread.get_stop_token() };
+
 	while (true)
 	{
 		std::unique_lock lock(m_AudioMutex);
-		m_AudioCondition.wait(lock, [&] { return m_EventBuffer.GetNrAssigned() > 0; });
 
-		while (m_EventBuffer.GetNrAssigned() > 0)
+		if (stopToken.stop_requested()) break;
+
+		m_AudioCondition.wait(lock);
+
+		while (m_EventBuffer.GetNrAssigned() > 0 && !stopToken.stop_requested())
 		{
 			SDLAudioEvent e{ m_EventBuffer.Pop() };
 			switch (e.type)
 			{
 			case SDLAudioEventType::LOAD:
 			{
-				const auto& soundIt{ std::find_if(begin(m_pSounds), end(m_pSounds), [&](const SDLSound& sound) { return e.pData.filePath == sound.name; }) };
-				if(soundIt != end(m_pSounds)) break;
+				const auto& soundIt{ std::find_if(begin(m_pSounds), end(m_pSounds), [&](const SDLSound& sound) { return e.data.filePath == sound.name; }) };
+				if (soundIt != end(m_pSounds)) break;
 
-				LoadSound(e.pData.filePath);
+				LoadSound(e.data.filePath);
 
 				break;
 			}
 			case SDLAudioEventType::PLAY:
 			{
-				SDLSound& pSound{ m_pSounds[e.pData.id] };
+				SDLSound& pSound{ m_pSounds[e.data.id] };
 
-				PlaySound(pSound, e.pData.volume);
+				PlaySound(pSound, e.data.volume);
 				break;
 			}
 			case SDLAudioEventType::PLAY_NAME:
 			{
-				const auto& soundIt{ std::find_if(begin(m_pSounds), end(m_pSounds), [&](const SDLSound& sound) { return e.pData.filePath == sound.name; }) };
+				const auto& soundIt{ std::find_if(begin(m_pSounds), end(m_pSounds), [&](const SDLSound& sound) { return e.data.filePath == sound.name; }) };
 				if (soundIt == end(m_pSounds))
 				{
-					LoadSound(e.pData.filePath);
+					LoadSound(e.data.filePath);
 					m_EventBuffer.Insert(e);
 					break;
 				}
 
-				PlaySound(*soundIt, e.pData.volume);
+				PlaySound(*soundIt, e.data.volume);
 				break;
 			}
 			case SDLAudioEventType::PAUSE:
