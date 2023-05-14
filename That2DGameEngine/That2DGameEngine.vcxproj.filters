@@ -57,6 +57,9 @@
     <Filter Include="Audio">
       <UniqueIdentifier>{df142c2e-35a0-45f6-b5fc-d77ec80fb01a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\Audio">
+      <UniqueIdentifier>{c9d08ce9-0b32-4be4-87af-838c43ad9d3a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Font.h">
@@ -203,6 +206,9 @@
     <ClInclude Include="SDLAudioSystem.h">
       <Filter>Audio</Filter>
     </ClInclude>
+    <ClInclude Include="AudioSource.h">
+      <Filter>Components\Audio</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">
@@ -310,6 +316,9 @@
     </ClCompile>
     <ClCompile Include="SDLAudioSystem.cpp">
       <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioSource.cpp">
+      <Filter>Components\Audio</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
