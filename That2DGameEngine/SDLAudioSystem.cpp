@@ -33,11 +33,21 @@ void that::SDLAudioSystem::Initialize()
 	Mix_ChannelFinished(&OnSoundEndRoot);
 }
 
-void that::SDLAudioSystem::Play(const AudioData& pAudioData)
+void that::SDLAudioSystem::Play(unsigned int id, float volume)
 {
 	{
 		const std::lock_guard lock{ m_AudioMutex };
-		m_EventBuffer.Insert(SDLAudioEvent{ pAudioData, SDLAudioEventType::PLAY });
+		m_EventBuffer.Insert(SDLAudioEvent{ AudioData{id,volume}, SDLAudioEventType::PLAY});
+	}
+
+	m_AudioCondition.notify_one();
+}
+
+void that::SDLAudioSystem::Play(const std::string& path, float volume)
+{
+	{
+		const std::lock_guard lock{ m_AudioMutex };
+		m_EventBuffer.Insert(SDLAudioEvent{ AudioData{UINT_MAX,volume,path}, SDLAudioEventType::PLAY_NAME });
 	}
 
 	m_AudioCondition.notify_one();
@@ -73,18 +83,25 @@ void that::SDLAudioSystem::Stop(const unsigned int id)
 	m_AudioCondition.notify_one();
 }
 
-unsigned int that::SDLAudioSystem::Load(const std::string& path)
+void that::SDLAudioSystem::Load(const std::string& path)
 {
-	Mix_Chunk* pSound{ Mix_LoadWAV(path.c_str()) };
+	{
+		const std::lock_guard lock{ m_AudioMutex };
+		m_EventBuffer.Insert(SDLAudioEvent{ AudioData{UINT_MAX,0.0f,path}, SDLAudioEventType::LOAD });
+	}
 
-	if (!pSound) return UINT_MAX;
+	m_AudioCondition.notify_one();
+}
 
-	SDLSound sdlSound{ pSound };
+unsigned int that::SDLAudioSystem::GetIdFromName(const std::string& path)
+{
+	while (m_EventBuffer.GetNrAssigned() > 0) {}
 
-	std::lock_guard lock{ m_AudioMutex };
-	m_pSounds.push_back(sdlSound);
+	const std::lock_guard lock{ m_AudioMutex };
+	const auto& soundIt{ std::find_if(begin(m_pSounds), end(m_pSounds), [&](const SDLSound& sound) { return path == sound.name; }) };
+	if (soundIt == end(m_pSounds)) return UINT_MAX;
 
-	return static_cast<unsigned int>(m_pSounds.size()) - 1;
+	return soundIt->id;
 }
 
 void that::SDLAudioSystem::AudioThread()
@@ -99,18 +116,32 @@ void that::SDLAudioSystem::AudioThread()
 			SDLAudioEvent e{ m_EventBuffer.Pop() };
 			switch (e.type)
 			{
+			case SDLAudioEventType::LOAD:
+			{
+				LoadSound(e.pData.filePath);
+
+				break;
+			}
 			case SDLAudioEventType::PLAY:
 			{
 				SDLSound& pSound{ m_pSounds[e.pData.id] };
 
-				const int channel{ Mix_PlayChannel(-1, pSound.pData, 0) };
-				if (channel == -1) break;
-
-				Mix_Volume(channel, static_cast<int>(e.pData.volume * MIX_MAX_VOLUME));
-
-				pSound.playingChannels.push_back(channel);
-			}
+				PlaySound(pSound, e.pData.volume);
 				break;
+			}
+			case SDLAudioEventType::PLAY_NAME:
+			{
+				const auto& soundIt{ std::find_if(begin(m_pSounds), end(m_pSounds), [&](const SDLSound& sound) { return e.pData.filePath == sound.name; }) };
+				if (soundIt == end(m_pSounds))
+				{
+					LoadSound(e.pData.filePath);
+					m_EventBuffer.Insert(e);
+					break;
+				}
+
+				PlaySound(*soundIt, e.pData.volume);
+				break;
+			}
 			case SDLAudioEventType::PAUSE:
 			{
 				const SDLSound& sound{ m_pSounds[e.id] };
@@ -119,8 +150,9 @@ void that::SDLAudioSystem::AudioThread()
 				{
 					Mix_Pause(channel);
 				}
-			}
+
 				break;
+			}
 			case SDLAudioEventType::UNPAUSE:
 			{
 				const SDLSound& sound{ m_pSounds[e.id] };
@@ -129,8 +161,9 @@ void that::SDLAudioSystem::AudioThread()
 				{
 					Mix_Resume(channel);
 				}
-			}
+
 				break;
+			}
 			case SDLAudioEventType::STOP:
 			{
 				const SDLSound& sound{ m_pSounds[e.id] };
@@ -139,11 +172,31 @@ void that::SDLAudioSystem::AudioThread()
 				{
 					Mix_HaltChannel(channel);
 				}
-			}
+
 				break;
+			}
 			}
 		}
 	}
+}
+
+void that::SDLAudioSystem::LoadSound(const std::string& filePath)
+{
+	Mix_Chunk* pSound{ Mix_LoadWAV(filePath.c_str()) };
+	if (!pSound) return;
+
+	SDLSound sdlSound{ static_cast<int>(m_pSounds.size()), pSound, filePath };
+	m_pSounds.push_back(sdlSound);
+}
+
+void that::SDLAudioSystem::PlaySound(SDLSound& pSound, float volume)
+{
+	const int channel{ Mix_PlayChannel(-1, pSound.pData, 0) };
+	if (channel == -1) return;
+
+	Mix_Volume(channel, static_cast<int>(volume * MIX_MAX_VOLUME));
+
+	pSound.playingChannels.push_back(channel);
 }
 
 void that::SDLAudioSystem::OnSoundEndRoot(int channel)

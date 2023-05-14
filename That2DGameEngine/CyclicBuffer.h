@@ -13,7 +13,7 @@ namespace that
 		void Insert(T&& item);
 		void Insert(const T& item);
 		T Pop();
-		unsigned int GetNrAssigned() { return m_NrItems; }
+		unsigned int GetNrAssigned() const { return m_NrItems; }
 	private:
 		T m_Buffer[size]{};
 

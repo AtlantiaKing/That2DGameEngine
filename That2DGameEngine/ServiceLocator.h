@@ -10,11 +10,13 @@ namespace that
 	public:
 		virtual ~DefaultAudioSystem() = default;
 		virtual void Initialize() {}
-		virtual void Play(const AudioData&) {}
+		virtual void Play(unsigned int, float) {}
+		virtual void Play(const std::string&, float) {}
 		virtual void Pause(unsigned int) {}
 		virtual void Unpause(unsigned int) {}
 		virtual void Stop(unsigned int) {}
-		virtual unsigned int Load(const std::string&) { return UINT_MAX; }
+		virtual void Load(const std::string&) {}
+		virtual unsigned int GetIdFromName(const std::string&) { return UINT_MAX; }
 		virtual void OnSoundEnd(int) {};
 	};
 
