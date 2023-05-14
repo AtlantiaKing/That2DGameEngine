@@ -118,6 +118,9 @@ void that::SDLAudioSystem::AudioThread()
 			{
 			case SDLAudioEventType::LOAD:
 			{
+				const auto& soundIt{ std::find_if(begin(m_pSounds), end(m_pSounds), [&](const SDLSound& sound) { return e.pData.filePath == sound.name; }) };
+				if(soundIt != end(m_pSounds)) break;
+
 				LoadSound(e.pData.filePath);
 
 				break;
@@ -182,7 +185,10 @@ void that::SDLAudioSystem::AudioThread()
 
 void that::SDLAudioSystem::LoadSound(const std::string& filePath)
 {
-	Mix_Chunk* pSound{ Mix_LoadWAV(filePath.c_str()) };
+	std::stringstream fullPath{};
+	fullPath << "../Data/" << filePath;
+
+	Mix_Chunk* pSound{ Mix_LoadWAV(fullPath.str().c_str()) };
 	if (!pSound) return;
 
 	SDLSound sdlSound{ static_cast<int>(m_pSounds.size()), pSound, filePath };
