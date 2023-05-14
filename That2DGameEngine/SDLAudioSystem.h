@@ -46,20 +46,10 @@ namespace that
 
 		struct SDLAudioEvent
 		{
-			SDLAudioEvent() = default;
-			SDLAudioEvent(const AudioData& _data, SDLAudioEventType _e)
-				: data{ _data }
-				, id{ data.id }
-				, type{ _e }
-			{}
-			SDLAudioEvent(const unsigned int _id, SDLAudioEventType _e)
-				: id{ _id }
-				, type{ _e }
-			{}
-
-			AudioData data{};
-			unsigned int id{};
 			SDLAudioEventType type{};
+			unsigned int id{};
+			float volume{};
+			std::string filePath{};
 		};
 
 		struct SDLSound

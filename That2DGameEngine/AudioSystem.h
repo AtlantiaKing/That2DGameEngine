@@ -4,13 +4,6 @@
 
 namespace that
 {
-	struct AudioData
-	{
-		unsigned int id{};
-		float volume{};
-		std::string filePath{};
-	};
-
 	class AudioSystem
 	{
 	public:
