@@ -21,7 +21,7 @@ namespace digdug
 	{
 	public:
 		GridComponent() = default;
-		virtual ~GridComponent() = default;
+		virtual ~GridComponent();
 
 		GridComponent(const GridComponent& other) = delete;
 		GridComponent(GridComponent&& other) = delete;
@@ -43,6 +43,7 @@ namespace digdug
 		virtual void Notify(const GridTransform& change) override;
 	private:
 		std::vector<WorldTile*> m_pTiles{};
+		std::vector<GridTransform*> m_pPlayers{};
 
 		float m_CellSize{ 16 };
 		int m_StepsPerCell{ 16 };

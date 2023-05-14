@@ -8,6 +8,14 @@
 #include "Renderer.h"
 #include "ResourceManager.h"
 
+digdug::GridComponent::~GridComponent()
+{
+	for (GridTransform* pPlayer : m_pPlayers)
+	{
+		pPlayer->OnMove().RemoveListener(this);
+	}
+}
+
 const glm::vec2& digdug::GridComponent::GetPivot() const
 {
 	return GetTransform()->GetWorldPosition();
@@ -47,6 +55,7 @@ void digdug::GridComponent::SetTile(int x, int y, WorldTile* pWorldTile)
 void digdug::GridComponent::BindPlayer(GridTransform* pPlayer)
 {
 	pPlayer->OnMove().AddListener(this);
+	m_pPlayers.push_back(pPlayer);
 }
 
 void digdug::GridComponent::Notify(const GridTransform& transform)

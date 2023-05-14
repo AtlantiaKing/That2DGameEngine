@@ -34,6 +34,7 @@ namespace that
 	private:
 		std::vector<Observer<T>*> m_Observers{};
 	};
+
 	template<class T>
 	inline Subject<T>::~Subject()
 	{
