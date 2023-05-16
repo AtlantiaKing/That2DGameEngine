@@ -114,7 +114,7 @@ void digdug::Pump::Enable()
 
 void digdug::Pump::PumpToEnemy()
 {
-	if (!m_CanPump) return;
+	if (!m_CanPump || !m_pPumpTo) return;
 
 	// Hit the enemy
 	m_pPumpTo->Hit();
