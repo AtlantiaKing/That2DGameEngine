@@ -212,6 +212,9 @@
     <ClInclude Include="InstantAudioSource.h">
       <Filter>Engine Files</Filter>
     </ClInclude>
+    <ClInclude Include="DebugAudioSystem.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">
