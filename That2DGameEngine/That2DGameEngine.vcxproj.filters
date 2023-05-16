@@ -324,7 +324,7 @@
       <Filter>Components\Audio</Filter>
     </ClCompile>
     <ClCompile Include="InstantAudioSource.cpp">
-      <Filter>Seperate Objects</Filter>
+      <Filter>Engine Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
