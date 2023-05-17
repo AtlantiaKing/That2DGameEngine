@@ -25,8 +25,10 @@ namespace that
 		virtual void Render() const {};
 		virtual void OnGUI() {};
 		virtual void OnDestroy() {};
+		virtual void OnDisable() {};
+		virtual void OnEnable() {};
 
-		void SetEnabled(bool enabled) { m_Enabled = enabled; }
+		void SetEnabled(bool enabled);
 		void Destroy();
 
 		friend GameObject;

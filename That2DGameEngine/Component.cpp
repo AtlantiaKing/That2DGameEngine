@@ -1,6 +1,18 @@
 #include "Component.h"
 #include "GameObject.h"
 
+void that::Component::SetEnabled(bool enabled)
+{
+	if (m_Enabled == enabled) return;
+
+	m_Enabled = enabled;
+
+	if (enabled)
+		OnEnable();
+	else
+		OnDisable();
+}
+
 void that::Component::Destroy()
 {
 	m_IsMarkedDead = true;

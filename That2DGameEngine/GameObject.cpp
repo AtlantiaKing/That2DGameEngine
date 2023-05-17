@@ -147,7 +147,7 @@ void that::GameObject::OnDestroy()
 	// Render every component
 	for (const auto& pComponent : m_pComponents)
 	{
-		if (pComponent->IsEnabled()) pComponent->OnDestroy();
+		pComponent->OnDestroy();
 	}
 
 	// Render every child
