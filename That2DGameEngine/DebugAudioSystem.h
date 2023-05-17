@@ -28,6 +28,7 @@ namespace that
 		virtual void Unpause(unsigned int id);
 		virtual void Stop(unsigned int id);
 		virtual void OnSoundEnd(int channel);
+		virtual void SetLooping(unsigned int id, bool shouldLoop);
 		virtual unsigned int GetIdFromName(const std::string& path);
 		virtual void Load(const std::string& path);
 	private:
@@ -99,6 +100,16 @@ namespace that
 
 		std::stringstream log{};
 		log << "AudioSystem has been notified of the end of a sound on channel " << channel;
+		Logger::Log(log.str());
+	}
+
+	template<typename T>
+	inline void DebugAudioSystem<T>::SetLooping(unsigned int id, bool shouldLoop)
+	{
+		m_pAudioSystem->SetLooping(id, shouldLoop);
+
+		std::stringstream log{};
+		log << "AudioSystem has changed the loopstate of the sound with id " << id << " to " << std::boolalpha << shouldLoop;
 		Logger::Log(log.str());
 	}
 

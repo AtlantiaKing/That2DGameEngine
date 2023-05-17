@@ -15,6 +15,7 @@ namespace that
 		virtual void Unpause(unsigned int id) = 0;
 		virtual void Stop(unsigned int id) = 0;
 		virtual void OnSoundEnd(int channel) = 0;
+		virtual void SetLooping(unsigned int id, bool shouldLoop) = 0;
 		virtual unsigned int GetIdFromName(const std::string& path) = 0;
 		virtual void Load(const std::string& path) = 0;
 	};

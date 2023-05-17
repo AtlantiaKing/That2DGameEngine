@@ -75,7 +75,7 @@ void that::SDLAudioSystem::Play(const std::string& path, float volume)
 	m_AudioCondition.notify_one();
 }
 
-void that::SDLAudioSystem::Pause(const unsigned int id)
+void that::SDLAudioSystem::Pause(unsigned int id)
 {
 	{
 		// Add a pause event to the queue
@@ -87,7 +87,7 @@ void that::SDLAudioSystem::Pause(const unsigned int id)
 	m_AudioCondition.notify_one();
 }
 
-void that::SDLAudioSystem::Unpause(const unsigned int id)
+void that::SDLAudioSystem::Unpause(unsigned int id)
 {
 	{
 		// Add an unpause event to the queue
@@ -99,7 +99,7 @@ void that::SDLAudioSystem::Unpause(const unsigned int id)
 	m_AudioCondition.notify_one();
 }
 
-void that::SDLAudioSystem::Stop(const unsigned int id)
+void that::SDLAudioSystem::Stop(unsigned int id)
 {
 	{
 		// Add a stop event to the queue
@@ -109,6 +109,17 @@ void that::SDLAudioSystem::Stop(const unsigned int id)
 
 	// Unblock the audio thread
 	m_AudioCondition.notify_one();
+}
+
+void that::SDLAudioSystem::SetLooping(unsigned int id, bool shoudLoop)
+{
+	// Lock the event queue so no new sounds can be added
+	const std::lock_guard lock{ m_AudioMutex };
+
+	// Retrieve the sound that has the same file path
+	const auto& soundIt{ std::find_if(begin(m_pSounds), end(m_pSounds), [&](const SDLSound& sound) { return sound.id == id; }) };
+
+	soundIt->shouldLoop = shoudLoop;
 }
 
 void that::SDLAudioSystem::Load(const std::string& path)
@@ -147,17 +158,24 @@ void that::SDLAudioSystem::AudioThread()
 	// Keep this thread alive as long as the thread has not been requested to stop
 	while (!stopToken.stop_requested())
 	{
-		// Lock the event queue
-		std::unique_lock lock(m_AudioMutex);
-
-		// Wait for a change in the event queue
-		m_AudioCondition.wait(lock);
-
-		// Loop over all the events in the queue or stop if the thread has been requested to stop
-		while (m_EventBuffer.GetNrAssigned() > 0 && !stopToken.stop_requested())
 		{
-			// Retrieve an event from the queue
-			SDLAudioEvent e{ m_EventBuffer.Pop() };
+			// Lock the event queue
+			std::unique_lock lock{ m_AudioMutex };
+
+			// Wait for a change in the event queue
+			m_AudioCondition.wait(lock, [&] { return m_EventBuffer.GetNrAssigned() > 0 || stopToken.stop_requested(); });
+		}
+
+		SDLAudioEvent e{};
+		while (m_EventBuffer.GetNrAssigned() > 0)
+		{
+			{
+				// Lock the event queue
+				std::lock_guard lock{ m_AudioMutex };
+
+				// Retrieve an event from the queue
+				e = m_EventBuffer.Pop();
+			}
 
 			switch (e.type)
 			{
@@ -258,16 +276,16 @@ void that::SDLAudioSystem::LoadSound(const std::string& filePath)
 	if (!pSound) return;
 
 	// Create a sound object from the loaded sdl sound
-	const SDLSound sdlSound{ static_cast<int>(m_pSounds.size()), pSound, filePath };
+	const SDLSound sdlSound{ static_cast<unsigned int>(m_pSounds.size()), pSound, filePath };
 
 	// Add the newly created sound to the container of sounds
 	m_pSounds.push_back(sdlSound);
 }
 
-void that::SDLAudioSystem::PlaySound(SDLSound& pSound, float volume)
+void that::SDLAudioSystem::PlaySound(SDLSound& sound, float volume)
 {
 	// Play the sound at the first available channel
-	const int channel{ Mix_PlayChannel(-1, pSound.pData, 0) };
+	const int channel{ Mix_PlayChannel(-1, sound.pData, sound.shouldLoop ? -1 : 0) };
 
 	// Stop if no channel was available
 	if (channel == -1) return;
@@ -276,7 +294,7 @@ void that::SDLAudioSystem::PlaySound(SDLSound& pSound, float volume)
 	Mix_Volume(channel, static_cast<int>(volume * MIX_MAX_VOLUME));
 
 	// Add the channel to the sound
-	pSound.playingChannels.push_back(channel);
+	sound.playingChannels.push_back(channel);
 }
 
 void that::SDLAudioSystem::OnSoundEndRoot(int channel)

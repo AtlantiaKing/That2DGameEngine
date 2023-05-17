@@ -25,9 +25,10 @@ namespace that
 		virtual void Initialize() override;
 		virtual void Play(unsigned int id, float volume) override;
 		virtual void Play(const std::string& path, float volume) override;
-		virtual void Pause(const unsigned int id) override;
-		virtual void Unpause(const unsigned int id) override;
-		virtual void Stop(const unsigned int id) override;
+		virtual void Pause(unsigned int id) override;
+		virtual void Unpause(unsigned int id) override;
+		virtual void Stop(unsigned int id) override;
+		virtual void SetLooping(unsigned int id, bool shoudLoop) override;
 		virtual void Load(const std::string& path) override;
 		// Get the ID from a loaded file
 		// This may block the current thread, use with caution
@@ -54,15 +55,16 @@ namespace that
 
 		struct SDLSound
 		{
-			int id{};
+			unsigned int id{};
 			Mix_Chunk* pData{};
 			std::string name{};
 			std::vector<int> playingChannels{};
+			bool shouldLoop{};
 		};
 
 		void AudioThread();
 		void LoadSound(const std::string& filePath);
-		void PlaySound(SDLSound& pSound, float volume);
+		void PlaySound(SDLSound& sound, float volume);
 		static void OnSoundEndRoot(int channel);
 
 		CyclicBuffer<SDLAudioEvent, 10> m_EventBuffer{};

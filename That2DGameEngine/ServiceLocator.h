@@ -16,6 +16,7 @@ namespace that
 		virtual void Unpause(unsigned int) {}
 		virtual void Stop(unsigned int) {}
 		virtual void Load(const std::string&) {}
+		virtual void SetLooping(unsigned int, bool) {};
 		virtual unsigned int GetIdFromName(const std::string&) { return UINT_MAX; }
 		virtual void OnSoundEnd(int) {};
 	};
