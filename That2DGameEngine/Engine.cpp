@@ -18,6 +18,7 @@
 #include "Physics.h"
 
 #include <iostream>
+#include "DebugAudioSystem.h"
 
 SDL_Window* g_window{};
 
@@ -77,7 +78,7 @@ that::Engine::Engine(const std::string &dataPath)
 
 	Timer::GetInstance().Init();
 
-	ServiceLocator::RegisterAudioSystem<SDLAudioSystem>();
+	ServiceLocator::RegisterAudioSystem<DebugAudioSystem<SDLAudioSystem>>();
 }
 
 that::Engine::~Engine()
