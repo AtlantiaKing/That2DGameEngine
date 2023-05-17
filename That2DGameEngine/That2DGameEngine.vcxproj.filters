@@ -209,11 +209,11 @@
     <ClInclude Include="AudioSource.h">
       <Filter>Components\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="InstantAudioSource.h">
-      <Filter>Engine Files</Filter>
-    </ClInclude>
     <ClInclude Include="DebugAudioSystem.h">
       <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="InstantAudioSource.h">
+      <Filter>Components\Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -327,7 +327,7 @@
       <Filter>Components\Audio</Filter>
     </ClCompile>
     <ClCompile Include="InstantAudioSource.cpp">
-      <Filter>Engine Files</Filter>
+      <Filter>Components\Audio</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
