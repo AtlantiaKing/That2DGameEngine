@@ -22,12 +22,19 @@ namespace that
 		void Reset();
 		void SetVolume(float volume);
 		void Play();
-		void Stop() const;
-		void ChangePlayState(bool paused) const;
+		void Stop();
+		void ChangePlayState(bool paused);
+		void SetLooping(bool shouldLoop);
+
+		virtual void OnDestroy() override;
 	private:
+		bool CheckSoundExist();
+
 		unsigned int m_Id{ UINT_MAX };
 		std::string m_TargetSound{};
 		float m_Volume{ 1.0f };
+		bool m_IsPlaying{};
+		bool m_ShouldLoop{};
 	};
 }
 

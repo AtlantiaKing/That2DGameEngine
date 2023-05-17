@@ -33,33 +33,62 @@ void that::AudioSource::Play()
 {
 	AudioSystem& audio{ ServiceLocator::GetAudio() };
 
+	if (!CheckSoundExist()) return;
+
+	audio.SetLooping(m_Id, m_ShouldLoop);
+	audio.Play(m_Id, m_Volume);
+	m_IsPlaying = true;
+}
+
+bool that::AudioSource::CheckSoundExist()
+{
+	AudioSystem& audio{ ServiceLocator::GetAudio() };
+
 	if (m_Id == UINT_MAX)
 	{
 		if (m_TargetSound.empty())
 		{
 			Logger::LogWarning("AudioSource is trying to play but has no target file assigned", GetOwner());
-			return;
+			return false;
 		}
 
 		m_Id = audio.GetIdFromName(m_TargetSound);
 	}
 
-	audio.Play(m_Id, m_Volume);
+	return true;
 }
 
-void that::AudioSource::Stop() const
+void that::AudioSource::Stop()
 {
 	if (m_Id == UINT_MAX) return;
 
 	ServiceLocator::GetAudio().Stop(m_Id);
+	m_IsPlaying = false;
 }
 
-void that::AudioSource::ChangePlayState(bool paused) const
+void that::AudioSource::ChangePlayState(bool paused)
 {
-	if (m_Id == UINT_MAX) return;
+	if (!CheckSoundExist()) return;
 
-	if(paused)
+	if (paused)
+	{
 		ServiceLocator::GetAudio().Pause(m_Id);
+	}
 	else
-		ServiceLocator::GetAudio().Unpause(m_Id);
+	{
+		if (m_IsPlaying)
+			ServiceLocator::GetAudio().Unpause(m_Id);
+		else
+			Play();
+	}
+}
+
+void that::AudioSource::SetLooping(bool shouldLoop)
+{
+	m_ShouldLoop = shouldLoop;
+}
+
+void that::AudioSource::OnDestroy()
+{
+	Stop();
 }
