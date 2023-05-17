@@ -1,15 +1,18 @@
 #include "Pump.h"
 
-#include "GameObject.h"
 #include "EnemyMovement.h"
 #include "TextureRenderer.h"
-#include "Timer.h"
-
 #include "TextureMask.h"
 #include "GridTransform.h"
 #include "Player.h"
 #include "ScoreComponent.h"
 #include "BoxCollider.h"
+
+#include "GameObject.h"
+
+#include "Timer.h"
+#include "ServiceLocator.h"
+#include "AudioSystem.h"
 
 #include <iostream>
 
@@ -127,6 +130,11 @@ void digdug::Pump::PumpToEnemy()
 	if (m_pPumpTo->GetHealth() <= 0)
 	{
 		DisablePump();
+		that::ServiceLocator::GetAudio().Play("EnemyDeath.wav", 1.0f);
+	}
+	else
+	{
+		that::ServiceLocator::GetAudio().Play("PumpToEnemy.wav", 1.0f);
 	}
 }
 

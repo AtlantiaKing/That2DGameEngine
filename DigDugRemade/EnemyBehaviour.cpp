@@ -37,16 +37,12 @@ void digdug::EnemyBehaviour::OnDestroy()
 
 void digdug::EnemyBehaviour::Notify(const HealthComponent& health)
 {
-	if (m_pHealth->GetHealth() == m_pHealth->GetMaxHealth())
-	{
-		m_pMovement->SetEnabled(true);
-		m_pHealth->GetOwner()->GetComponent<that::BoxCollider>()->SetEnabled(true);
-	}
-	else
-	{
-		m_pMovement->SetEnabled(false);
-		m_pHealth->GetOwner()->GetComponent<that::BoxCollider>()->SetEnabled(false);
+	const bool hasRegerated{ m_pHealth->GetHealth() == m_pHealth->GetMaxHealth() };
 
+	m_pMovement->SetEnabled(hasRegerated);
+
+	if (!hasRegerated)
+	{
 		m_AccuHealTime = m_TimeBetweenHeals;
 
 		m_pTexture->SetScale(2.0f + std::max(health.GetMaxHealth() - health.GetHealth() - 1, 0));

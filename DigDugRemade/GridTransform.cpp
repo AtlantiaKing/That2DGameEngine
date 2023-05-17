@@ -6,6 +6,7 @@
 #include "TextureRenderer.h"
 
 #include "Timer.h"
+#include <iostream>
 
 void digdug::GridTransform::Init()
 {
@@ -37,6 +38,18 @@ void digdug::GridTransform::Update()
 	const glm::vec2 gridPosition{ m_FloatPosition / static_cast<float>(stepsPerCell) * cellSize };
 
 	GetTransform()->SetLocalPosition(gridPosition);
+
+	if (!m_IsMoving && m_WasMoving) 
+		OnStopMove.Notify(*this);
+	m_WasMoving = m_IsMoving;
+	m_IsMoving = false;
+}
+
+void digdug::GridTransform::OnDisable()
+{
+	OnStopMove.Notify(*this);
+	m_WasMoving = false;
+	m_IsMoving = false;
 }
 
 bool digdug::GridTransform::Move(int xSteps, int ySteps, bool checkWorld)
@@ -158,7 +171,12 @@ bool digdug::GridTransform::Move(int xSteps, int ySteps, bool checkWorld)
 		return false;
 	}
 
-	m_MoveEvent.Notify(*this);
+	m_IsMoving = true;
+	if (!m_WasMoving)
+	{
+		OnStartMove.Notify(*this);
+	}
+	OnMove.Notify(*this);
 
 	if (const float difX{ m_FloatPosition.x - prevPos.x }; abs(difX) > 0.0f)
 	{

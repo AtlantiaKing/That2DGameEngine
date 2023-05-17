@@ -17,6 +17,7 @@
 #include "Pump.h"
 #include "ScoreHUDComponent.h"
 #include "TextureMask.h"
+#include "AudioSource.h"
 
 // Managers
 #include "InputManager.h"
@@ -46,6 +47,9 @@ namespace digdug
 		pPlayer->AddComponent<GridTransform>();
 		pPlayer->AddComponent<that::BoxCollider>();
 		pPlayer->AddComponent<Player>();
+		that::AudioSource* pAudioSource{ pPlayer->AddComponent<that::AudioSource>() };
+		pAudioSource->SetSound("walkmusic.wav");
+		pAudioSource->SetLooping(true);
 
 		constexpr int defaultHealth{ 3 };
 		HealthComponent* pPlayerHealth{ pPlayer->AddComponent<HealthComponent>() };
@@ -78,13 +82,12 @@ namespace digdug
 		std::cout << "\n";
 		std::cout << "Controls for DigDug Remade\n";
 		std::cout << "\n";
-		std::cout << "Player 1:\n";
 		std::cout << "Move: WASD\n";
 		std::cout << "Shoot pump: Space bar\n";
 		std::cout << "\n";
-		std::cout << "Player 2:\n";
-		std::cout << "Move: D-Pad\n";
-		std::cout << "Shoot pump: South Button (A on XBox)\n";
+		std::cout << "Sounds in the current game:\n";
+		std::cout << "Music while walking\n";
+		std::cout << "Sounds when you hit an enemy and a different sound when you kill the enemy\n";
 		std::cout << "\n";
 	}
 
@@ -113,7 +116,7 @@ namespace digdug
 				pTexture->SetTexture(that::ResourceManager::GetInstance().LoadTexture("WorldTile.png"));
 				pTexture->SetScale(2.0f);
 
-				pTile->AddComponent<GridTransform>();
+				//pTile->AddComponent<GridTransform>();
 
 				pGridComponent->SetTile(x,y, pTile->AddComponent<WorldTile>());
 			}
@@ -124,18 +127,15 @@ namespace digdug
 		pGridComponent->BindPlayer(pPlayer->GetComponent<GridTransform>());
 
 		// Enemy
-		for (int i{}; i < 1; ++i)
-		{
-			that::GameObject* pEnemy{ pGrid->CreateGameObject("Enemy") };
-			auto pEnemyRenderer{ pEnemy->AddComponent<that::TextureRenderer>() };
-			pEnemyRenderer->SetTexture(that::ResourceManager::GetInstance().LoadTexture("Enemy.png"));
-			pEnemy->AddComponent<digdug::EnemyMovement>();
-			pEnemy->AddComponent<digdug::GridTransform>();
-			pEnemy->AddComponent<that::BoxCollider>();
-			pEnemy->GetComponent<that::Transform>()->SetLocalPosition(pGridComponent->GetCellSize() * (i % 2 * 6 + 6), pGridComponent->GetCellSize() * (i+1+5));
-			pEnemy->AddComponent<digdug::HealthComponent>()->SetMaxHealth(4);
-			pEnemy->AddComponent<digdug::EnemyBehaviour>();
-		}
+		that::GameObject* pEnemy{ pGrid->CreateGameObject("Enemy") };
+		auto pEnemyRenderer{ pEnemy->AddComponent<that::TextureRenderer>() };
+		pEnemyRenderer->SetTexture(that::ResourceManager::GetInstance().LoadTexture("Enemy.png"));
+		pEnemy->AddComponent<digdug::EnemyMovement>();
+		pEnemy->AddComponent<digdug::GridTransform>();
+		pEnemy->AddComponent<that::BoxCollider>();
+		pEnemy->GetComponent<that::Transform>()->SetLocalPosition(pGridComponent->GetCellSize() * 6, pGridComponent->GetCellSize() * 6);
+		pEnemy->AddComponent<digdug::HealthComponent>()->SetMaxHealth(4);
+		pEnemy->AddComponent<digdug::EnemyBehaviour>();
 
 		PrintControls();
 	}

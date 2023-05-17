@@ -12,7 +12,7 @@ digdug::GridComponent::~GridComponent()
 {
 	for (GridTransform* pPlayer : m_pPlayers)
 	{
-		pPlayer->OnMove().RemoveListener(this);
+		pPlayer->OnMove.RemoveListener(this);
 	}
 }
 
@@ -54,7 +54,7 @@ void digdug::GridComponent::SetTile(int x, int y, WorldTile* pWorldTile)
 
 void digdug::GridComponent::BindPlayer(GridTransform* pPlayer)
 {
-	pPlayer->OnMove().AddListener(this);
+	pPlayer->OnMove.AddListener(this);
 	m_pPlayers.push_back(pPlayer);
 }
 
