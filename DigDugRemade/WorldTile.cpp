@@ -123,7 +123,7 @@ void digdug::WorldTile::UpdatePlayer(const glm::ivec2& /*playerCell*/, const glm
 	}
 }
 
-bool digdug::WorldTile::IsValidPosition(const glm::vec2& position, const glm::ivec2& direction, float size)
+bool digdug::WorldTile::IsValidPosition(const glm::vec2& position, const glm::ivec2& direction, float size) const
 {
 	const auto& tilePos{ GetTransform()->GetLocalPosition() };
 	const auto& textureSize{ GetOwner()->GetComponent<that::TextureRenderer>()->GetScaledTextureSize() };
@@ -144,4 +144,20 @@ bool digdug::WorldTile::IsValidPosition(const glm::vec2& position, const glm::iv
 		return position.y <= tilePos.y || position.y >= tilePos.y + textureSize.y - m_pBottomMask->GetMask().x * textureSize.y;
 
 	return false;
+}
+
+bool digdug::WorldTile::IsOpen() const
+{
+	if (m_pBottomMask->GetMask().x > 0.5f && m_pTopMask->GetMask().x > 0.5f) return true;
+	if (m_pLeftMask->GetMask().x > 0.5f && m_pRightMask->GetMask().x > 0.5f) return true;
+	if (m_pBottomMask->GetMask().x > 0.9f || m_pTopMask->GetMask().x > 0.9f) return true;
+	if (m_pLeftMask->GetMask().x > 0.9f || m_pRightMask->GetMask().x > 0.9f) return true;
+
+	return false;
+}
+
+glm::ivec2 digdug::WorldTile::GetGridPosition() const
+{
+	const glm::ivec2& gridPos{ GetTransform()->GetLocalPosition() / m_pGrid->GetCellSize() };
+	return gridPos;
 }

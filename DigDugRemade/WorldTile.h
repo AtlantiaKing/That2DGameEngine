@@ -30,7 +30,10 @@ namespace digdug
 
 		void UpdatePlayer(const glm::ivec2& playerCell, const glm::ivec2& playerPosition, const glm::ivec2& direction, float playerSize);
 
-		bool IsValidPosition(const glm::vec2& position, const glm::ivec2& direction, float size);
+		bool IsValidPosition(const glm::vec2& position, const glm::ivec2& direction, float size) const;
+		bool IsOpen() const;
+
+		glm::ivec2 GetGridPosition() const;
 	private:
 		GridComponent* m_pGrid{};
 		GridTransform* m_pGridTr{};

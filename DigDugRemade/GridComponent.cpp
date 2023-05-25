@@ -45,6 +45,29 @@ bool digdug::GridComponent::IsValidPosition(const glm::vec2& position, const glm
 	return true;
 }
 
+bool digdug::GridComponent::IsOpenPosition(const glm::ivec2 position)
+{
+	if (position.x < 0.0f || position.y < 0.0f)
+		return false;
+
+	const int maxGridIdx{ m_GridSize - 1 };
+	if (position.x > maxGridIdx * m_CellSize || position.y > maxGridIdx * m_CellSize)
+		return false;
+
+	const glm::ivec2 gridPos{ position / static_cast<int>(m_CellSize) };
+
+	for (WorldTile* pTile : m_pTiles)
+	{
+		if (!pTile) continue;
+
+		if (pTile->GetGridPosition() != gridPos) continue;
+
+		return pTile->IsOpen();
+	}
+
+	return false;
+}
+
 void digdug::GridComponent::SetTile(int x, int y, WorldTile* pWorldTile)
 {
 	if (m_pTiles.empty()) m_pTiles.resize(m_GridSize * m_GridSize);
