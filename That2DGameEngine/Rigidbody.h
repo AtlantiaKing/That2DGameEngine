@@ -29,10 +29,17 @@ namespace that
 		
 		void SetPosition(const glm::vec2 position, bool world = true);
 		void Move(const glm::vec2 step);
-		bool SetGravity(bool activated) { m_HasGravity = activated; }
+		void SetGravity(float gravity) { m_Gravity = gravity; }
+		void SetGravityEnabled(bool activated) { m_HasGravity = activated; }
+		void SetConstantGravity(bool hasConstantGravity) { m_HasConstantGravity = hasConstantGravity; }
+		void SetCollisionCorrection(bool hasCollisionCorrection) { m_HasCollisionCorrection = hasCollisionCorrection; }
 		void SetMass(float mass) { m_Mass = mass; }
+		void Reset();
 	private:
 		bool m_HasGravity{ true };
+		bool m_HasConstantGravity{ false };
+		bool m_HasCollisionCorrection{ true };
+		float m_Gravity{ 9.81f };
 		
 		float m_Mass{ 1.0f };
 

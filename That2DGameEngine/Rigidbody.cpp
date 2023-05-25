@@ -37,8 +37,10 @@ void that::Rigidbody::Update()
 	// Apply gravity
 	if (m_HasGravity)
 	{
-		constexpr float gravity{ 9.81f };
-		m_Velocity.y += gravity * m_Mass * elapsedSec;
+		if (m_HasConstantGravity)
+			m_Velocity.y = m_Gravity * m_Mass;
+		else 
+			m_Velocity.y += m_Gravity * m_Mass * elapsedSec;
 	}
 
 	// Apply the velocity
@@ -47,6 +49,8 @@ void that::Rigidbody::Update()
 
 void that::Rigidbody::Notify(const CollisionData&)
 {
+	if (!m_HasCollisionCorrection) return;
+
 	// Revert the previous movement
 	m_Position -= m_PrevStep;
 }
@@ -80,4 +84,10 @@ void that::Rigidbody::Move(const glm::vec2 step)
 
 	// Apply the position
 	GetTransform()->SetWorldPosition(m_Position);
+}
+
+void that::Rigidbody::Reset()
+{
+	m_Velocity = {};
+	m_PrevStep = {};
 }
