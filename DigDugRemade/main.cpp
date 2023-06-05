@@ -9,14 +9,15 @@
 #include "SceneManager.h"
 
 //#include "DemoScene.h"
+#include "MainMenuScene.h"
 #include "GameScene.h"
 
 #include <vector>
 
 void Setup()
 {
-	// Add the demo scene
-	that::SceneManager::GetInstance().AddScene(digdug::LoadGameScene);
+	that::SceneManager::GetInstance().AddScene(digdug::MainMenuScene{}.Load);
+	that::SceneManager::GetInstance().AddScene(digdug::GameScene{}.Load);
 }
 
 int main(int, char* [])

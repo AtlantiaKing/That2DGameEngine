@@ -9,12 +9,10 @@ namespace that
 
 namespace digdug
 {
-	class GameScene final
+	class MainMenuScene final
 	{
 	public:
 		static void Load(that::Scene& scene);
 	private:
-		static that::GameObject* CreatePlayer(that::GameObject* pGrid);
-		static void PrintControls();
 	};
 }
