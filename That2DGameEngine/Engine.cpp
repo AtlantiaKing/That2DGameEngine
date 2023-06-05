@@ -7,6 +7,7 @@
 
 #include "Engine.h"
 
+#include "Window.h"
 #include "ServiceLocator.h"
 #include "SDLAudioSystem.h"
 #include "InputManager.h"
@@ -16,11 +17,6 @@
 #include "Timer.h"
 #include "EventQueue.h"
 #include "Physics.h"
-
-#include <iostream>
-#include "DebugAudioSystem.h"
-
-SDL_Window* g_window{};
 
 void PrintSDLVersion()
 {
@@ -59,33 +55,25 @@ that::Engine::Engine(const std::string &dataPath)
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
 	}
 
-	g_window = SDL_CreateWindow(
-		"Programming 4 assignment",
-		SDL_WINDOWPOS_CENTERED,
-		SDL_WINDOWPOS_CENTERED,
-		640,
-		480,
-		SDL_WINDOW_OPENGL
-	);
-	if (g_window == nullptr) 
+	Window& window{ Window::GetInstance() };
+	const bool windowCreationSucces{ window.SetWindowSize(640, 480) };
+
+	if (!windowCreationSucces)
 	{
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
 	}
-
-	Renderer::GetInstance().Init(g_window);
 
 	ResourceManager::GetInstance().Init(dataPath);
 
 	Timer::GetInstance().Init();
 
-	ServiceLocator::RegisterAudioSystem<DebugAudioSystem<SDLAudioSystem>>();
+	ServiceLocator::RegisterAudioSystem<SDLAudioSystem>();
 }
 
 that::Engine::~Engine()
 {
 	Renderer::GetInstance().Destroy();
-	SDL_DestroyWindow(g_window);
-	g_window = nullptr;
+
 	SDL_Quit();
 }
 

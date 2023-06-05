@@ -25,6 +25,13 @@ int GetOpenGLDriverIndex()
 
 void that::Renderer::Init(SDL_Window* window)
 {
+	if (!window) return;
+
+	if (m_window)
+	{
+		Destroy();
+	}
+
 	m_window = window;
 	m_renderer = SDL_CreateRenderer(window, GetOpenGLDriverIndex(), SDL_RENDERER_ACCELERATED);
 	if (m_renderer == nullptr) 

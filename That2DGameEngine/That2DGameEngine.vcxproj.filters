@@ -215,6 +215,9 @@
     <ClInclude Include="InstantAudioSource.h">
       <Filter>Components\Audio</Filter>
     </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Seperate Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">
@@ -328,6 +331,9 @@
     </ClCompile>
     <ClCompile Include="InstantAudioSource.cpp">
       <Filter>Components\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Seperate Objects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
