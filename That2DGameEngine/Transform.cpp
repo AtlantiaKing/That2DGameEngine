@@ -1,12 +1,6 @@
 #include "Transform.h"
 #include "GameObject.h"
 
-void that::Transform::SetWorldPosition(const glm::vec2& position)
-{
-	m_LocalPosition += position - GetWorldPosition();
-	EnableChangedFlag();
-}
-
 const glm::vec2& that::Transform::GetWorldPosition()
 {
 	// If the local position has been changed, recalculate the world position
@@ -51,12 +45,17 @@ void that::Transform::UpdateTransform()
 	m_WorldRotation = parentRot + m_LocalRotation;
 }
 
+void that::Transform::SetWorldPosition(const glm::vec2& position)
+{
+	m_LocalPosition += position - GetWorldPosition();
+	EnableChangedFlag();
+}
+
 void that::Transform::SetWorldPosition(float x, float y)
 {
-	const glm::vec2& worldPos{ GetWorldPosition() };
-
-	m_LocalPosition.x = x - worldPos.x;
-	m_LocalPosition.y = y - worldPos.y;
+	const auto& worldPos{ GetWorldPosition() };
+	m_LocalPosition.x += x - worldPos.x;
+	m_LocalPosition.y += y - worldPos.y;
 
 	EnableChangedFlag();
 }
