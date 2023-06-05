@@ -20,7 +20,6 @@
 #include "AudioSource.h"
 #include "BoxCollider.h"
 #include "Rigidbody.cpp"
-#include "Rock.h"
 
 // Managers
 #include "InputManager.h"
@@ -79,18 +78,6 @@ void digdug::GameScene::Load(that::Scene& scene)
 	pEnemy->GetComponent<that::Transform>()->SetLocalPosition(pGridComponent->GetCellSize() * 6, pGridComponent->GetCellSize() * 6);
 	pEnemy->AddComponent<HealthComponent>()->SetMaxHealth(4);
 	pEnemy->AddComponent<EnemyBehaviour>();
-
-
-	that::GameObject* pRock{ pGrid->CreateGameObject("Rock") };
-	auto pRockRenderer{ pRock->AddComponent<that::TextureRenderer>() };
-	pRockRenderer->SetTexture(that::ResourceManager::GetInstance().LoadTexture("Enemy.png"));
-	pRockRenderer->SetScale(2.0f);
-	pRock->AddComponent<GridTransform>();
-	pRock->AddComponent<that::BoxCollider>();
-	pRock->AddComponent<that::Rigidbody>();
-	pRock->GetComponent<that::Transform>()->SetLocalPosition(pGridComponent->GetCellSize() * 8, pGridComponent->GetCellSize() * 2);
-	pRock->AddComponent<Rock>();
-
 
 	PrintControls();
 }
