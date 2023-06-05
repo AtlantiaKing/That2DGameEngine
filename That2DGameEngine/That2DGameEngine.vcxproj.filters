@@ -218,6 +218,9 @@
     <ClInclude Include="Window.h">
       <Filter>Seperate Objects</Filter>
     </ClInclude>
+    <ClInclude Include="LambdaCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">
