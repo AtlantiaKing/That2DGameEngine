@@ -41,6 +41,9 @@
     <Filter Include="Components\Game\World">
       <UniqueIdentifier>{003a933a-27d7-4ba6-8fc1-ec2c53b45991}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\MainMenu">
+      <UniqueIdentifier>{e3f9d169-fb68-4b41-a7c6-22b8bd8caaee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -85,6 +88,18 @@
     </ClCompile>
     <ClCompile Include="WorldTile.cpp">
       <Filter>Components\Game\World</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenuScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="GameModeChooser.cpp">
+      <Filter>Components\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenuFadeIn.cpp">
+      <Filter>Components\MainMenu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -132,6 +147,18 @@
     </ClInclude>
     <ClInclude Include="WorldTile.h">
       <Filter>Components\Game\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Rock.h">
+      <Filter>Components\Game\Entities\Rock</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenuScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="GameModeChooser.h">
+      <Filter>Components\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenuFadeIn.h">
+      <Filter>Components\MainMenu</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
