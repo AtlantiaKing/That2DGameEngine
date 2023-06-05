@@ -12,7 +12,13 @@ namespace that
 	{
 	public:
 		Subject() = default;
-		~Subject();
+		~Subject() 
+		{
+			for (auto& observer : m_Observers)
+			{
+				observer->OnSubjectDestroy();
+			}
+		}
 
 		void AddListener(Observer<T>* observer)
 		{
@@ -48,14 +54,5 @@ namespace that
 		std::vector<Observer<T>*> m_Observers{};
 		std::vector<std::function<void(const T&)>> m_Functions{};
 	};
-
-	template<class T>
-	inline Subject<T>::~Subject()
-	{
-		for (auto& observer : m_Observers)
-		{
-			observer->OnSubjectDestroy();
-		}
-	}
 }
 
