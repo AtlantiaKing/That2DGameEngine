@@ -38,6 +38,9 @@ void that::GameObject::Init()
 
 void that::GameObject::OnFrameStart()
 {
+	// Don't update if the gameobject is not active
+	if (!m_IsActive) return;
+
 	for (auto& pChild : m_pChildrenToAdd)
 	{
 		pChild->Init();
@@ -60,6 +63,9 @@ void that::GameObject::OnFrameStart()
 
 void that::GameObject::Update()
 {
+	// Don't update if the gameobject is not active
+	if (!m_IsActive) return;
+
 	// Update every component
 	for (const auto& pComponent : m_pComponents)
 	{
@@ -75,6 +81,9 @@ void that::GameObject::Update()
 
 void that::GameObject::LateUpdate()
 {
+	// Don't update if the gameobject is not active
+	if (!m_IsActive) return;
+
 	// LateUpdate every component
 	for (const auto& pComponent : m_pComponents)
 	{
@@ -129,6 +138,9 @@ void that::GameObject::UpdateCleanup()
 
 void that::GameObject::Render() const 
 {
+	// Don't render if the gameobject is not active
+	if (!m_IsActive) return;
+
 	// Render every component
 	for (const auto& pComponent : m_pComponents)
 	{
@@ -253,6 +265,16 @@ std::vector<that::GameObject*> that::GameObject::GetChildren() const
 	}
 
 	return pGameObjects;
+}
+
+void that::GameObject::SetActive(bool isActive)
+{
+	m_IsActive = isActive;
+}
+
+bool that::GameObject::IsActive() const
+{
+	return m_IsActive;
 }
 
 void that::GameObject::Destroy()

@@ -42,6 +42,9 @@ namespace that
 
 		const std::string& GetName() const { return m_Name; };
 
+		void SetActive(bool isActive);
+		bool IsActive() const;
+
 		void Destroy();
 		bool IsMarkedAsDead() const { return m_IsMarkedDead; };
 
@@ -64,6 +67,7 @@ namespace that
 		bool Destroy(Component* pComponent);
 
 		std::string m_Name{};
+		bool m_IsActive{ true };
 
 		GameObject* m_pParent{};
 		std::vector<std::unique_ptr<GameObject>> m_pChildrenToAdd{};
