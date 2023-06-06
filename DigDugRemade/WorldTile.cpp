@@ -24,27 +24,23 @@ void digdug::WorldTile::Init()
 
 	auto pLeftTexture{ pLeftMask->AddComponent<that::TextureRenderer>() };
 	pLeftTexture->SetTexture(that::ResourceManager::GetInstance().LoadTexture("DiggedAreaLeft.png"));
-	pLeftTexture->SetScale(2.0f);
 	m_pLeftMask = pLeftMask->AddComponent<that::TextureMask>();
 	m_pLeftMask->SetPercentage(true, 0.0f);
 
 	auto pRightTexture{ pRightMask->AddComponent<that::TextureRenderer>() };
 	pRightTexture->SetTexture(that::ResourceManager::GetInstance().LoadTexture("DiggedAreaRight.png"));
-	pRightTexture->SetScale(2.0f);
 	pRightMask->GetTransform()->Rotate(180.0f);
 	m_pRightMask = pRightMask->AddComponent<that::TextureMask>();
 	m_pRightMask->SetPercentage(true, 0.0f);
 
 	auto pBottomTexture{ pBottomMask->AddComponent<that::TextureRenderer>() };
 	pBottomTexture->SetTexture(that::ResourceManager::GetInstance().LoadTexture("DiggedAreaLeft.png"));
-	pBottomTexture->SetScale(2.0f);
 	pBottomMask->GetTransform()->Rotate(-90.0f);
 	m_pBottomMask = pBottomMask->AddComponent<that::TextureMask>();
 	m_pBottomMask->SetPercentage(true, 0.0f);
 
 	auto pTopTexture{ pTopMask->AddComponent<that::TextureRenderer>() };
 	pTopTexture->SetTexture(that::ResourceManager::GetInstance().LoadTexture("DiggedAreaRight.png"));
-	pTopTexture->SetScale(2.0f);
 	pTopMask->GetTransform()->Rotate(90.0f);
 	m_pTopMask = pTopMask->AddComponent<that::TextureMask>();
 	m_pTopMask->SetPercentage(true, 0.0f);
@@ -55,7 +51,7 @@ void digdug::WorldTile::UpdatePlayer(const glm::ivec2& /*playerCell*/, const glm
 	const int cellSize{ static_cast<int>(m_pGrid->GetCellSize()) };
 
 	const auto& tilePos{ GetTransform()->GetLocalPosition() };
-	const auto& textureSize{ GetOwner()->GetComponent<that::TextureRenderer>()->GetScaledTextureSize() };
+	const auto& textureSize{ GetOwner()->GetComponent<that::TextureRenderer>()->GetTextureSize() };
 
 	constexpr float epsilon{ 0.01f };
 	if (playerPosition.x + playerSize < tilePos.x + epsilon || playerPosition.x + epsilon > tilePos.x + textureSize.x) return;
@@ -64,22 +60,24 @@ void digdug::WorldTile::UpdatePlayer(const glm::ivec2& /*playerCell*/, const glm
 	if (direction.x != 0 && playerPosition.y % cellSize == 0)
 	{
 		const float curLeftMask{ m_pLeftMask->GetMask().x };
-		if (playerPosition.x + (2 * (curLeftMask < 0.1f)) <= tilePos.x)
+		const bool leftMaskUnused{ curLeftMask < m_UnusedMaskEpsilon };
+		if (playerPosition.x + (m_BorderSize * leftMaskUnused) <= tilePos.x)
 		{
 			const int playerRight{ static_cast<int>(playerPosition.x + playerSize - tilePos.x) };
 
-			const float percentage = std::max(static_cast<float>(playerRight - 2), 0.0f) / textureSize.x;
+			const float percentage = std::max(static_cast<float>(playerRight - m_BorderSize), 0.0f) / textureSize.x;
 
 			if (curLeftMask < percentage)
 				m_pLeftMask->SetPercentage(true, percentage);
 		}
 
 		const float curRightMask{ m_pRightMask->GetMask().x };
-		if (playerPosition.x + playerSize - (2 * (curRightMask < 0.1f)) >= tilePos.x + textureSize.x)
+		const bool rightMaskUnused{ curRightMask < m_UnusedMaskEpsilon };
+		if (playerPosition.x + playerSize - (m_BorderSize * rightMaskUnused) >= tilePos.x + textureSize.x)
 		{
 			const int playerLeft{ static_cast<int>(tilePos.x + textureSize.x - playerPosition.x) };
 
-			const float percentage = std::max(static_cast<float>(playerLeft - 2), 0.0f) / textureSize.x;
+			const float percentage = std::max(static_cast<float>(playerLeft - m_BorderSize), 0.0f) / textureSize.x;
 
 			if (curRightMask < percentage)
 				m_pRightMask->SetPercentage(true, percentage);
@@ -94,22 +92,24 @@ void digdug::WorldTile::UpdatePlayer(const glm::ivec2& /*playerCell*/, const glm
 	else if (direction.y != 0 && playerPosition.x % cellSize == 0)
 	{
 		const float curBottomMask{ m_pTopMask->GetMask().x };
-		if (playerPosition.y + (2 * (curBottomMask < 0.1f)) <= tilePos.y)
+		const bool bottomMaskUnused{ curBottomMask < m_UnusedMaskEpsilon };
+		if (playerPosition.y + (m_BorderSize * bottomMaskUnused) <= tilePos.y)
 		{
 			const int playerTop{ static_cast<int>(playerPosition.y + playerSize - tilePos.y) };
 
-			const float percentage = std::max(static_cast<float>(playerTop - 2), 0.0f) / textureSize.x;
+			const float percentage = std::max(static_cast<float>(playerTop - m_BorderSize), 0.0f) / textureSize.x;
 
 			if (curBottomMask < percentage)
 				m_pTopMask->SetPercentage(true, percentage);
 		}
 
 		const float curTopMask{ m_pBottomMask->GetMask().x };
-		if (playerPosition.y + playerSize - (2 * (curTopMask < 0.1f)) >= tilePos.y + textureSize.y)
+		const bool topMaskUnused{ curTopMask < m_UnusedMaskEpsilon };
+		if (playerPosition.y + playerSize - (m_BorderSize * topMaskUnused) >= tilePos.y + textureSize.y)
 		{
 			const int playerBottom{ static_cast<int>(tilePos.y + textureSize.y - playerPosition.y) };
 
-			const float percentage = std::max(static_cast<float>(playerBottom - 2), 0.0f) / textureSize.x;
+			const float percentage = std::max(static_cast<float>(playerBottom - m_BorderSize), 0.0f) / textureSize.x;
 
 			if (curTopMask < percentage)
 				m_pBottomMask->SetPercentage(true, percentage);
@@ -126,7 +126,7 @@ void digdug::WorldTile::UpdatePlayer(const glm::ivec2& /*playerCell*/, const glm
 bool digdug::WorldTile::IsValidPosition(const glm::vec2& position, const glm::ivec2& direction, float size) const
 {
 	const auto& tilePos{ GetTransform()->GetLocalPosition() };
-	const auto& textureSize{ GetOwner()->GetComponent<that::TextureRenderer>()->GetScaledTextureSize() };
+	const auto& textureSize{ GetOwner()->GetComponent<that::TextureRenderer>()->GetTextureSize() };
 
 	constexpr float epsilon{ 0.01f };
 	if (position.x + size < tilePos.x + epsilon || position.x + epsilon > tilePos.x + textureSize.x) 

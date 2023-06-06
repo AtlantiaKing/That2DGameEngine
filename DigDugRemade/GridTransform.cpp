@@ -14,7 +14,6 @@ void digdug::GridTransform::Init()
 
 	m_pGrid = GetOwner()->GetParent()->GetComponent<GridComponent>();
 	const float cellSize{ m_pGrid->GetCellSize() };
-	m_pTexture->SetScale(cellSize / m_pTexture->GetTextureSize().x);
 
 	const int stepsPerCell{ m_pGrid->GetStepsPerCell() };
 
@@ -56,13 +55,17 @@ bool digdug::GridTransform::Move(int xSteps, int ySteps, bool checkWorld)
 {
 	if (!m_Enabled) return false;
 
-	const float moveSpeed{ m_pGrid->GetCellSize() };
+	const float moveSpeed{ m_pGrid->GetCellSize() * GetTransform()->GetWorldScale().x };
 
 	glm::vec2 prevPos{ m_FloatPosition };
 
 	const int posInTileX{ m_Position.x % static_cast<int>(m_pGrid->GetStepsPerCell()) };
 	const int posInTileY{ m_Position.y % static_cast<int>(m_pGrid->GetStepsPerCell()) };
-	if (abs(ySteps) > 0 && (checkWorld && (posInTileX <= 3 || posInTileX >= m_pGrid->GetStepsPerCell() - 3) || !checkWorld && posInTileX == 0))
+
+	const bool canMoveVertical{ (checkWorld && (posInTileX <= m_ChangeDirectionEpsilon || posInTileX >= m_pGrid->GetStepsPerCell() - m_ChangeDirectionEpsilon) || !checkWorld && posInTileX == 0) };
+	const bool canMoveHorizontal{ (checkWorld && (posInTileY <= m_ChangeDirectionEpsilon || posInTileY >= m_pGrid->GetStepsPerCell() - m_ChangeDirectionEpsilon) || !checkWorld && posInTileY == 0) };
+
+	if (abs(ySteps) > 0 && canMoveVertical)
 	{
 		m_FloatPosition.x = static_cast<float>(m_Position.x / static_cast<int>(m_pGrid->GetStepsPerCell()) * static_cast<int>(m_pGrid->GetStepsPerCell()));
 		// There is Y input and has space on grid to move vertically, move the transform on the Y axis
@@ -70,7 +73,7 @@ bool digdug::GridTransform::Move(int xSteps, int ySteps, bool checkWorld)
 		m_PrevX = 0;
 		m_PrevY = ySteps;
 	}
-	else if (abs(xSteps) > 0 && (checkWorld && (posInTileY <= 3 || posInTileY >= m_pGrid->GetStepsPerCell() - 3) || !checkWorld && posInTileY == 0))
+	else if (abs(xSteps) > 0 && canMoveHorizontal)
 	{
 		m_FloatPosition.y = static_cast<float>(m_Position.y / static_cast<int>(m_pGrid->GetStepsPerCell()) * static_cast<int>(m_pGrid->GetStepsPerCell()));
 		// There is X input and has space on grid to move horizontally, move the transform on the X axis
@@ -95,17 +98,17 @@ bool digdug::GridTransform::Move(int xSteps, int ySteps, bool checkWorld)
 	{
 		GetTransform()->SetLocalRotation(rightAngle - m_PrevX * rightAngle);
 
-		glm::vec2 scale{ m_pTexture->GetScale() };
+		glm::vec2 scale{ GetTransform()->GetLocalScale() };
 		scale.y = abs(scale.y) * m_PrevX;
-		m_pTexture->SetScale(scale);
+		GetTransform()->SetLocalScale(scale);
 	}
 	else if (abs(m_PrevY))
 	{
 		GetTransform()->SetLocalRotation(m_PrevY * rightAngle);
 
-		glm::vec2 scale{ m_pTexture->GetScale() };
+		glm::vec2 scale{ GetTransform()->GetLocalScale() };
 		scale.y = -abs(scale.y) * m_PrevY;
-		m_pTexture->SetScale(scale);
+		GetTransform()->SetLocalScale(scale);
 	}
 	
 	const glm::ivec2 prevPosition{ m_Position };

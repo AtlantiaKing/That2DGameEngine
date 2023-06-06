@@ -99,7 +99,7 @@ void digdug::GameModeChooser::BindInput()
 void digdug::GameModeChooser::UpdatePosition()
 {
 	// Move the marker to the current marker position
-	GetTransform()->SetWorldPosition(m_Markers[m_CurMarker]);
+	GetTransform()->SetLocalPosition(m_Markers[m_CurMarker]);
 }
 
 void digdug::GameModeChooser::LoadScene()

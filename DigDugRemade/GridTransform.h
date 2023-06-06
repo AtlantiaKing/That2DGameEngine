@@ -48,6 +48,8 @@ namespace digdug
 		bool m_IsMoving{};
 		bool m_WasMoving{};
 
+		const int m_ChangeDirectionEpsilon{ 3 };
+
 		GridComponent* m_pGrid{};
 		that::TextureRenderer* m_pTexture{};
 	};

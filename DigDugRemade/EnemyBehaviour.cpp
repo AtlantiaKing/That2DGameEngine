@@ -6,6 +6,7 @@
 #include "EnemyMovement.h"
 #include "TextureRenderer.h"
 #include "BoxCollider.h"
+#include "Transform.h"
 
 void digdug::EnemyBehaviour::Init()
 {
@@ -45,6 +46,6 @@ void digdug::EnemyBehaviour::Notify(const HealthComponent& health)
 	{
 		m_AccuHealTime = m_TimeBetweenHeals;
 
-		m_pTexture->SetScale(2.0f + std::max(health.GetMaxHealth() - health.GetHealth() - 1, 0));
+		GetTransform()->SetLocalScale(1.0f + std::max(health.GetMaxHealth() - health.GetHealth() - 1, 0));
 	}
 }

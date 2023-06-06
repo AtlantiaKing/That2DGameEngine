@@ -20,21 +20,19 @@ void digdug::MainMenuScene::Load(that::Scene& scene)
 	pBackgroundRenderer->SetTexture(pBackgroundTexture);
 
 	const float uiScale{ static_cast<float>(screenSize.y) / pBackgroundTexture->GetSize().y};
-	pBackgroundRenderer->SetScale(uiScale);
-	const auto& backgroundSize{ pBackgroundRenderer->GetScaledTextureSize() };
+	pBackground->GetTransform()->SetWorldScale(uiScale);
 
 	// MARKER
-	that::GameObject* pMarker{ scene.CreateGameObject("Marker")};
+	that::GameObject* pMarker{ pBackground->CreateGameObject("Marker")};
 	const auto& pMarkerTexture{ that::ResourceManager::GetInstance().LoadTexture("MainMenu/Marker.png") };
 	const auto pMarkerRenderer{ pMarker->AddComponent<that::TextureRenderer>() };
 	pMarkerRenderer->SetTexture(pMarkerTexture);
-	pMarkerRenderer->SetScale(uiScale);
-	const float markerPosX{ screenSize.x / 2.0f - backgroundSize.x / 2.0f + 83.5f * uiScale };
+	const float markerPosX{ -45.0f };
 	const auto pGameChooser{ pMarker->AddComponent<GameModeChooser>() };
 	pGameChooser->SetMarkerPositions(
-		{ markerPosX, 105.5f * uiScale },
-		{ markerPosX, 121.5f * uiScale },
-		{ markerPosX, 137.5f * uiScale }
+		{ markerPosX, -6.0f },
+		{ markerPosX, 10.0f },
+		{ markerPosX, 26.0f }
 	);
 	pMarker->SetActive(false);
 

@@ -42,6 +42,9 @@ namespace digdug
 		that::TextureMask* m_pRightMask{};
 		that::TextureMask* m_pBottomMask{};
 		that::TextureMask* m_pTopMask{};
+
+		const float m_BorderSize{ 2.0f };
+		const float m_UnusedMaskEpsilon{ 0.1f };
 	};
 }
 

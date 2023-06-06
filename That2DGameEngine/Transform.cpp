@@ -1,63 +1,53 @@
 #include "Transform.h"
 #include "GameObject.h"
 
-const glm::vec2& that::Transform::GetWorldPosition()
-{
-	// If the local position has been changed, recalculate the world position
-	if (m_HasChanged) UpdateTransform();
-
-	return m_WorldPosition;
-}
-
 void that::Transform::UpdateTransform()
 {
-	const auto pParent{ GetOwner()->GetParent() };
-
+	// Disable the dirty flag
 	m_HasChanged = false;
+
+	// Retrieve the parent object
+	const auto pParent{ GetOwner()->GetParent() };
 
 	// If no parent exist, use the local position as world position
 	if (!pParent)
 	{
 		m_WorldPosition = m_LocalPosition;
 		m_WorldRotation = m_LocalRotation;
+		m_WorldScale = m_LocalScale;
 		return;
 	}
 
-	const auto pParentTransform{ pParent->GetTransform() };
-
-	// If no parent transform exist, use the local position as world position
-	if (!pParentTransform)
-	{
-		m_WorldPosition = m_LocalPosition;
-		m_WorldRotation = m_LocalRotation;
-		return;
-	}
-
-	// Calculate the world position using the position of the parent
+	// Retrieve the parent transform and its properties
+	const auto pParentTransform{ pParent->GetTransform() }; 
 	const glm::vec2& parentPos{ pParentTransform->GetWorldPosition() };
+	const glm::vec2& parentScale{ pParentTransform->GetWorldScale() };
 	const float parentRot{ pParentTransform->GetWorldRotation(false) };
+
+	// Calculate the world position
 	const float cosAngle{ cosf(parentRot) };
 	const float sinAngle{ sinf(parentRot) };
+	m_WorldPosition.x = parentPos.x + m_LocalPosition.x * cosAngle * parentScale.x - m_LocalPosition.y * sinAngle * parentScale.y;
+	m_WorldPosition.y = parentPos.y + m_LocalPosition.x * sinAngle * parentScale.x + m_LocalPosition.y * cosAngle * parentScale.y;
 
-	m_WorldPosition.x = parentPos.x + m_LocalPosition.x * cosAngle - m_LocalPosition.y * sinAngle;
-	m_WorldPosition.y = parentPos.y + m_LocalPosition.x * sinAngle + m_LocalPosition.y * cosAngle;
-
+	// Calculate the world rotation
 	m_WorldRotation = parentRot + m_LocalRotation;
+
+	// Calculate the world scale
+	m_WorldScale = parentScale * m_LocalScale;
 }
 
-void that::Transform::SetWorldPosition(const glm::vec2& position)
+const glm::vec2& that::Transform::GetLocalPosition() const
 {
-	m_LocalPosition += position - GetWorldPosition();
-	EnableChangedFlag();
+	return m_LocalPosition;
 }
 
-void that::Transform::SetWorldPosition(float x, float y)
+const glm::vec2& that::Transform::GetWorldPosition()
 {
-	const auto& worldPos{ GetWorldPosition() };
-	m_LocalPosition.x += x - worldPos.x;
-	m_LocalPosition.y += y - worldPos.y;
+	// If the local position has been changed, recalculate the world position
+	if (m_HasChanged) UpdateTransform();
 
-	EnableChangedFlag();
+	return m_WorldPosition;
 }
 
 void that::Transform::SetLocalPosition(float x, float y)
@@ -71,6 +61,21 @@ void that::Transform::SetLocalPosition(float x, float y)
 void that::Transform::SetLocalPosition(const glm::vec2& position)
 {
 	m_LocalPosition = position;
+
+	EnableChangedFlag();
+}
+
+void that::Transform::SetWorldPosition(const glm::vec2& position)
+{
+	m_LocalPosition += position - GetWorldPosition();
+	EnableChangedFlag();
+}
+
+void that::Transform::SetWorldPosition(float x, float y)
+{
+	const auto& worldPos{ GetWorldPosition() };
+	m_LocalPosition.x += x - worldPos.x;
+	m_LocalPosition.y += y - worldPos.y;
 
 	EnableChangedFlag();
 }
@@ -123,6 +128,54 @@ void that::Transform::Rotate(float angle, bool isDegrees)
 	const float curAngle{ isDegrees ? glm::radians(angle) : angle };
 
 	m_LocalRotation += curAngle;
+
+	EnableChangedFlag();
+}
+
+const glm::vec2& that::Transform::GetLocalScale() const
+{
+	return m_LocalScale;
+}
+
+const glm::vec2& that::Transform::GetWorldScale()
+{	
+	// If the local position has been changed, recalculate the world position
+	if (m_HasChanged) UpdateTransform();
+
+	return m_WorldScale;
+}
+
+void that::Transform::SetLocalScale(float scale)
+{
+	m_LocalScale.x = scale;
+	m_LocalScale.y = scale;
+
+	EnableChangedFlag();
+}
+
+void that::Transform::SetLocalScale(const glm::vec2& scale)
+{
+	m_LocalScale = scale;
+
+	EnableChangedFlag();
+}
+
+void that::Transform::SetWorldScale(float scale)
+{
+	const auto& worldScale{ GetWorldScale() };
+
+	m_LocalScale.x = scale / worldScale.x;
+	m_LocalScale.y = scale / worldScale.y;
+
+	EnableChangedFlag();
+}
+
+void that::Transform::SetWorldScale(const glm::vec2& scale)
+{
+	const auto& worldScale{ GetWorldScale() };
+
+	m_LocalScale.x = scale.x / worldScale.x;
+	m_LocalScale.y = scale.y / worldScale.y;
 
 	EnableChangedFlag();
 }

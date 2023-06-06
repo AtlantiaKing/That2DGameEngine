@@ -40,12 +40,12 @@ void digdug::GameScene::Load(that::Scene& scene)
 	// Grid
 	that::GameObject* pGrid{ scene.CreateGameObject("Grid") };
 	auto pGridComponent{ pGrid->AddComponent<digdug::GridComponent>() };
-	constexpr float gridCellSize{ 32.0f };
-	pGridComponent->SetCellSize(gridCellSize);
 	pGrid->GetTransform()->SetWorldPosition(100, 40);
+	pGrid->GetTransform()->SetWorldScale(2.0f);
 
 	const int gridSize{ pGridComponent->GetSize() };
 	const float cellSize{ pGridComponent->GetCellSize() };
+	const auto& pWorldTileTexture{ that::ResourceManager::GetInstance().LoadTexture("WorldTile.png") };
 	for (int x{}; x < gridSize; ++x)
 	{
 		for (int y{}; y < gridSize; ++y)
@@ -54,11 +54,10 @@ void digdug::GameScene::Load(that::Scene& scene)
 
 			that::GameObject* pTile{ pGrid->CreateGameObject("WorldTile") };
 
-			pTile->GetComponent<that::Transform>()->SetLocalPosition(x * cellSize, y * cellSize);
+			pTile->GetComponent<that::Transform>()->SetLocalPosition(static_cast<float>(x * cellSize), static_cast<float>(y * cellSize));
 
 			auto pTexture{ pTile->AddComponent<that::TextureRenderer>() };
-			pTexture->SetTexture(that::ResourceManager::GetInstance().LoadTexture("WorldTile.png"));
-			pTexture->SetScale(2.0f);
+			pTexture->SetTexture(pWorldTileTexture);
 
 			pGridComponent->SetTile(x, y, pTile->AddComponent<WorldTile>());
 		}
@@ -79,16 +78,16 @@ void digdug::GameScene::Load(that::Scene& scene)
 	pEnemy->AddComponent<HealthComponent>()->SetMaxHealth(4);
 	pEnemy->AddComponent<EnemyBehaviour>();
 
+
 	PrintControls();
 }
 
 that::GameObject* digdug::GameScene::CreatePlayer(that::GameObject* pGrid)
 {
-	GridComponent* pGridComponent{ pGrid->GetComponent<GridComponent>() };
-
 	// Player
 	that::GameObject* pPlayer{ pGrid->CreateGameObject("Player") };
-	pPlayer->AddComponent<that::TextureRenderer>()->SetTexture(that::ResourceManager::GetInstance().LoadTexture("MainCharacter.png"));
+	const auto& pPlayerTexture{ that::ResourceManager::GetInstance().LoadTexture("MainCharacter.png") };
+	pPlayer->AddComponent<that::TextureRenderer>()->SetTexture(pPlayerTexture);
 	pPlayer->AddComponent<GridTransform>();
 	pPlayer->AddComponent<that::BoxCollider>();
 	pPlayer->AddComponent<Player>();
@@ -106,13 +105,13 @@ that::GameObject* digdug::GameScene::CreatePlayer(that::GameObject* pGrid)
 	// Pump
 	that::GameObject* pPump{ pPlayer->CreateGameObject("Pump") };
 	auto pPumpRenderer{ pPump->AddComponent<that::TextureRenderer>() };
-	pPumpRenderer->SetTexture(that::ResourceManager::GetInstance().LoadTexture("Pump.png"));
-	pPumpRenderer->SetScale(2.0f);
+	const auto& pPumpTexture{ that::ResourceManager::GetInstance().LoadTexture("Pump.png") };
+	pPumpRenderer->SetTexture(pPumpTexture);
 	pPump->AddComponent<that::BoxCollider>();
 	pPump->AddComponent<Pump>();
 	pPump->AddComponent<that::TextureMask>()->SetPercentage(true, 1.0f);
 	// Move the pump one cell to the right
-	pPump->GetComponent<that::Transform>()->Translate(pGridComponent->GetCellSize() * 2.0f, 0.0f);
+	pPump->GetComponent<that::Transform>()->Translate((pPlayerTexture->GetSize().x + pPumpTexture->GetSize().x) / 2.0f, 0.0f);
 
 
 	// Input

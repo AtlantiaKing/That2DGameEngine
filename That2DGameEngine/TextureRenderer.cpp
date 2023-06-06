@@ -10,11 +10,12 @@ void that::TextureRenderer::SetTexture(std::shared_ptr<Texture2D> pTexture)
 glm::vec2 that::TextureRenderer::GetScaledTextureSize() const
 {
 	const auto& texSize{ m_pTexture->GetSize() };
+	const auto& scale{ GetTransform()->GetWorldScale() };
 
 	return
 	{
-		texSize.x * m_Scale.x,
-		texSize.y * m_Scale.y
+		texSize.x * scale.x,
+		texSize.y * scale.y
 	};
 }
 
@@ -26,12 +27,13 @@ void that::TextureRenderer::Render() const
 	// Render the current texture at the position defined by the transform
 	const glm::vec2& pos = GetTransform()->GetWorldPosition();
 	const float rotation = GetTransform()->GetWorldRotation();
+	const auto& scale{ GetTransform()->GetWorldScale() };
 	const auto& textureSize{ m_pTexture->GetSize() };
 
 	Renderer::GetInstance().RenderTexture(
 		*m_pTexture, m_SrcRect, 
-		pos.x - textureSize.x * abs(m_Scale.x) / 2.0f, 
-		pos.y - textureSize.y * abs(m_Scale.y) / 2.0f,
-		m_Scale.x, m_Scale.y, 
+		pos.x - textureSize.x * abs(scale.x) / 2.0f,
+		pos.y - textureSize.y * abs(scale.y) / 2.0f,
+		scale.x, scale.y,
 		rotation);
 }
