@@ -1,5 +1,6 @@
-#include <SDL.h>
 #include "Texture2D.h"
+
+#include <SDL.h>
 
 that::Texture2D::~Texture2D()
 {

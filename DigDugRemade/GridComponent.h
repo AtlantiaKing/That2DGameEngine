@@ -36,19 +36,21 @@ namespace digdug
 		float GetCellSize() const { return m_CellSize; }
 		bool IsValidPosition(const glm::vec2& position, const glm::ivec2& direction, bool checkWorld = false) const;
 		bool IsOpenPosition(const glm::ivec2& position) const;
-		int GetSize() const { return m_GridSize; }
+		const glm::ivec2& GetSize() const { return m_GridSize; }
+		WorldTile* GetTile(int x, int y) const;
 
+		void SetSize(int x, int y);
 		void SetTile(int x, int y, WorldTile* pWorldTile);
 		void BindPlayer(GridTransform* pPlayer);
 
 		virtual void Notify(const GridTransform& change) override;
 	private:
-		std::vector<WorldTile*> m_pTiles{};
+		std::vector<std::pair<glm::ivec2, WorldTile*>> m_pTiles{};
 		std::vector<GridTransform*> m_pPlayers{};
 
 		float m_CellSize{ 16 };
 		int m_StepsPerCell{ 16 };
-		int m_GridSize{ 12 };
+		glm::ivec2 m_GridSize{ 12 };
 	};
 }
 

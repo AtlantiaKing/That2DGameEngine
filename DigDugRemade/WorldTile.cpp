@@ -123,6 +123,14 @@ void digdug::WorldTile::UpdatePlayer(const glm::ivec2& /*playerCell*/, const glm
 	}
 }
 
+void digdug::WorldTile::SetMasks(float left, float right, float bottom, float top)
+{
+	m_pLeftMask->SetPercentage(true, left);
+	m_pRightMask->SetPercentage(true, right);
+	m_pBottomMask->SetPercentage(true, bottom);
+	m_pTopMask->SetPercentage(true, top);
+}
+
 bool digdug::WorldTile::IsValidPosition(const glm::vec2& position, const glm::ivec2& direction, float size) const
 {
 	const auto& tilePos{ GetTransform()->GetLocalPosition() };

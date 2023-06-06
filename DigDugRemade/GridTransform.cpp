@@ -113,8 +113,9 @@ bool digdug::GridTransform::Move(int xSteps, int ySteps, bool checkWorld)
 	
 	const glm::ivec2 prevPosition{ m_Position };
 
-	m_FloatPosition.x = std::clamp(m_FloatPosition.x, 0.0f, static_cast<float>((m_pGrid->GetSize() - 1) * m_pGrid->GetStepsPerCell()));
-	m_FloatPosition.y = std::clamp(m_FloatPosition.y, 0.0f, static_cast<float>((m_pGrid->GetSize() - 1) * m_pGrid->GetStepsPerCell()));
+	const auto& gridSize{ m_pGrid->GetSize() };
+	m_FloatPosition.x = std::clamp(m_FloatPosition.x, 0.0f, static_cast<float>((gridSize.x - 1) * m_pGrid->GetStepsPerCell()));
+	m_FloatPosition.y = std::clamp(m_FloatPosition.y, 0.0f, static_cast<float>((gridSize.y - 1) * m_pGrid->GetStepsPerCell()));
 
 	// Update the pixel position
 	m_Position.x = static_cast<int>(m_FloatPosition.x);

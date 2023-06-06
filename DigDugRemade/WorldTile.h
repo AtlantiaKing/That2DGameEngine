@@ -29,11 +29,12 @@ namespace digdug
 		virtual void Init() override;
 
 		void UpdatePlayer(const glm::ivec2& playerCell, const glm::ivec2& playerPosition, const glm::ivec2& direction, float playerSize);
+		void SetMasks(float left, float right, float bottom, float top);
 
 		bool IsValidPosition(const glm::vec2& position, const glm::ivec2& direction, float size) const;
 		bool IsOpen() const;
-
 		glm::ivec2 GetGridPosition() const;
+
 	private:
 		GridComponent* m_pGrid{};
 		GridTransform* m_pGridTr{};

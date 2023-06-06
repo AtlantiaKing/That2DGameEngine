@@ -193,6 +193,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClCompile Include="ScoreComponent.cpp" />
     <ClCompile Include="ScoreHUDComponent.cpp" />
     <ClCompile Include="ShootPumpCommand.cpp" />
+    <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="WorldTile.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -218,6 +219,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClInclude Include="ScoreComponent.h" />
     <ClInclude Include="ScoreHUDComponent.h" />
     <ClInclude Include="ShootPumpCommand.h" />
+    <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="WorldTile.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -101,6 +101,9 @@
     <ClCompile Include="MainMenuFadeIn.cpp">
       <Filter>Components\MainMenu</Filter>
     </ClCompile>
+    <ClCompile Include="LevelLoader.cpp">
+      <Filter>Components\Game\Grid</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameScene.h">
@@ -159,6 +162,9 @@
     </ClInclude>
     <ClInclude Include="MainMenuFadeIn.h">
       <Filter>Components\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelLoader.h">
+      <Filter>Components\Game\Grid</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -221,6 +221,9 @@
     <ClInclude Include="LambdaCommand.h">
       <Filter>Commands</Filter>
     </ClInclude>
+    <ClInclude Include="Surface2D.h">
+      <Filter>Seperate Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">
@@ -336,6 +339,9 @@
       <Filter>Components\Audio</Filter>
     </ClCompile>
     <ClCompile Include="Window.cpp">
+      <Filter>Seperate Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Surface2D.cpp">
       <Filter>Seperate Objects</Filter>
     </ClCompile>
   </ItemGroup>

@@ -63,6 +63,8 @@ namespace that
 		bool HasComponent() const;
 		Transform* GetTransform() const { return m_pTransform; };
 
+		Scene* GetScene() const { return m_pScene; }
+
 	private:
 		bool Destroy(Component* pComponent);
 

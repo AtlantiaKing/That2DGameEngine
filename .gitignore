@@ -401,3 +401,6 @@ FodyWeavers.xsd
 
 # Dear Imgui settings file
 imgui.ini
+
+# Personal files
+SourceFiles/

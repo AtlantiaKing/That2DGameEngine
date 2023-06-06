@@ -5,6 +5,7 @@
 #include "Renderer.h"
 #include "Texture2D.h"
 #include "Font.h"
+#include "Surface2D.h"
 
 void that::ResourceManager::Init(const std::string& dataPath)
 {
@@ -30,4 +31,15 @@ std::shared_ptr<that::Texture2D> that::ResourceManager::LoadTexture(const std::s
 std::shared_ptr<that::Font> that::ResourceManager::LoadFont(const std::string& file, unsigned int size) const
 {
 	return std::make_shared<Font>(m_dataPath + file, size);
+}
+
+std::shared_ptr<that::Surface2D> that::ResourceManager::LoadSurface(const std::string& file) const
+{
+	const auto fullPath = m_dataPath + file;
+	auto pSurface = IMG_Load(fullPath.c_str());
+	if (pSurface == nullptr)
+	{
+		throw std::runtime_error(std::string("Failed to load surface: ") + SDL_GetError());
+	}
+	return std::make_shared<Surface2D>(pSurface);
 }

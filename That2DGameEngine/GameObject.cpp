@@ -257,7 +257,7 @@ that::GameObject* that::GameObject::GetChild(int index) const
 std::vector<that::GameObject*> that::GameObject::GetChildren() const
 {
 	std::vector<GameObject*> pGameObjects{};
-	pGameObjects.reserve(m_pChildren.size());
+	pGameObjects.reserve(m_pChildren.size() + m_pChildrenToAdd.size());
 
 	for (const auto& pChild : m_pChildren)
 	{

@@ -26,16 +26,19 @@ bool digdug::GridComponent::IsValidPosition(const glm::vec2& position, const glm
 	if (position.x < 0.0f || position.y < 0.0f) 
 		return false;
 
-	const int maxGridIdx{ m_GridSize - 1 };
-	if (position.x > maxGridIdx * m_CellSize || position.y > maxGridIdx * m_CellSize) 
+	const int maxGridIdxX{ m_GridSize.x -1 };
+	const int maxGridIdxY{ m_GridSize.y - 1 };
+	if (position.x > maxGridIdxX * m_CellSize || position.y > maxGridIdxY * m_CellSize)
 		return false;
 
 	if (!checkWorld) return true;
 
 	const glm::vec2 gridPos{ position / static_cast<float>(m_StepsPerCell) * m_CellSize };
 
-	for (WorldTile* pTile : m_pTiles)
+	for (const auto& tilePair : m_pTiles)
 	{
+		WorldTile* pTile{ tilePair.second };
+
 		if (!pTile) continue;
 
 		if (!pTile->IsValidPosition(gridPos, direction, m_CellSize)) 
@@ -50,14 +53,17 @@ bool digdug::GridComponent::IsOpenPosition(const glm::ivec2& position) const
 	if (position.x < 0.0f || position.y < 0.0f)
 		return false;
 
-	const int maxGridIdx{ m_GridSize - 1 };
-	if (position.x > maxGridIdx * m_CellSize || position.y > maxGridIdx * m_CellSize)
+	const int maxGridIdxX{ m_GridSize.x - 1 };
+	const int maxGridIdxY{ m_GridSize.y - 1 };
+	if (position.x > maxGridIdxX * m_CellSize || position.y > maxGridIdxY * m_CellSize)
 		return false;
 
 	const glm::ivec2 gridPos{ position / static_cast<int>(m_CellSize) };
 
-	for (WorldTile* pTile : m_pTiles)
+	for (const auto& tilePair : m_pTiles)
 	{
+		WorldTile* pTile{ tilePair.second };
+
 		if (!pTile) continue;
 
 		if (pTile->GetGridPosition() != gridPos) continue;
@@ -68,11 +74,20 @@ bool digdug::GridComponent::IsOpenPosition(const glm::ivec2& position) const
 	return false;
 }
 
+digdug::WorldTile* digdug::GridComponent::GetTile(int x, int y) const
+{
+	return std::find_if(begin(m_pTiles), end(m_pTiles), [x, y](const auto& tilePair) { return tilePair.first.x == x && tilePair.first.y == y; })->second;
+}
+
+void digdug::GridComponent::SetSize(int x, int y)
+{
+	m_GridSize = { x,y };
+	if (m_pTiles.empty()) m_pTiles.resize(x * y);
+}
+
 void digdug::GridComponent::SetTile(int x, int y, WorldTile* pWorldTile)
 {
-	if (m_pTiles.empty()) m_pTiles.resize(m_GridSize * m_GridSize);
-
-	m_pTiles[y * m_GridSize + x] = pWorldTile;
+	m_pTiles[y * m_GridSize.x + x] = std::make_pair(glm::ivec2{x, y}, pWorldTile);
 }
 
 void digdug::GridComponent::BindPlayer(GridTransform* pPlayer)
@@ -83,8 +98,10 @@ void digdug::GridComponent::BindPlayer(GridTransform* pPlayer)
 
 void digdug::GridComponent::Notify(const GridTransform& transform)
 {
-	for (WorldTile* pTile : m_pTiles)
+	for (const auto& tilePair : m_pTiles)
 	{
+		WorldTile* pTile{ tilePair.second };
+
 		if (!pTile) continue;
 
 		const auto intPos{ transform.GetPosition() };
