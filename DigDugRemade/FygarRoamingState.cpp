@@ -1,51 +1,60 @@
-#include "PookaRoamingState.h"
+#include "FygarRoamingState.h"
+
 
 #include "GameObject.h"
 
 #include "TextureRenderer.h"
 #include "GridTransform.h"
 
-#include "PookaGhostState.h"
+#include "FygarGhostState.h"
+#include "FygarAttackState.h"
 
 #include "ResourceManager.h"
 #include "Timer.h"
 
-digdug::PookaRoamingState::PookaRoamingState(that::GameObject* pFygar, that::GameObject* pPlayer)
+digdug::FygarRoamingState::FygarRoamingState(that::GameObject* pFygar, that::GameObject* pPlayer)
 	: m_pFygarObj{ pFygar }
 	, m_pPlayer{ pPlayer }
 {
 }
 
-
-std::unique_ptr<digdug::PookaState> digdug::PookaRoamingState::Update()
+std::unique_ptr<digdug::FygarState> digdug::FygarRoamingState::Update()
 {
 	m_RoamTime += that::Timer::GetInstance().GetElapsed();
-	if (m_RoamTime > m_TimeUntilGhost) return std::make_unique<PookaGhostState>(m_pFygarObj, m_pPlayer);
+	if (m_RoamTime > m_TimeUntilStateChange)
+	{
+		if (static_cast<float>(rand()) / RAND_MAX < m_AttackChance)
+		{
+			return std::make_unique<FygarAttackState>(m_pFygarObj, m_pPlayer);
+		}
+		else
+		{
+			return std::make_unique<FygarGhostState>(m_pFygarObj, m_pPlayer);
+		}
+	}
 
 	UpdateMovement();
 
 	return nullptr;
 }
 
-void digdug::PookaRoamingState::StateEnter()
+void digdug::FygarRoamingState::StateEnter()
 {
 	GridTransform* pGridTransform{ m_pFygarObj->GetComponent<GridTransform>() };
-	pGridTransform->SetEnabled(true);
 	pGridTransform->SnapToGrid();
 
-	const auto& pTexture{ that::ResourceManager::GetInstance().LoadTexture("Pooka/Default.png") };
+	const auto& pTexture{ that::ResourceManager::GetInstance().LoadTexture("Fygar/Default.png") };
 	m_pFygarObj->GetComponent<that::TextureRenderer>()->SetTexture(pTexture);
 
 	m_RoamTime = 0.0f;
-	m_TimeUntilGhost = static_cast<float>(rand()) / RAND_MAX * (m_MaxTimeUntilGhost - m_MinTimeUntilGhost) + m_MinTimeUntilGhost;
+	m_TimeUntilStateChange = static_cast<float>(rand()) / RAND_MAX * (m_MaxTimeUntilState - m_MinTimeUntilState) + m_MinTimeUntilState;
 }
 
-void digdug::PookaRoamingState::StateEnd()
+void digdug::FygarRoamingState::StateEnd()
 {
-	m_pFygarObj->GetComponent<GridTransform>()->SetEnabled(false);
 }
 
-void digdug::PookaRoamingState::UpdateMovement()
+void digdug::FygarRoamingState::UpdateMovement()
 {
 	auto pTransform{ m_pFygarObj->GetComponent<GridTransform>() };
 

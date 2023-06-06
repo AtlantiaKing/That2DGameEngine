@@ -156,13 +156,13 @@ void that::GameObject::Render() const
 
 void that::GameObject::OnDestroy()
 {
-	// Render every component
+	// OnDestroy every component
 	for (const auto& pComponent : m_pComponents)
 	{
 		pComponent->OnDestroy();
 	}
 
-	// Render every child
+	// OnDestroy every child
 	for (const auto& pChild : m_pChildren)
 	{
 		pChild->OnDestroy();
@@ -171,7 +171,7 @@ void that::GameObject::OnDestroy()
 
 void that::GameObject::OnGUI()
 {
-	// LateUpdate every component
+	// Render GUI every component
 	for (const auto& pComponent : m_pComponents)
 	{
 		if (pComponent->IsEnabled()) pComponent->OnGUI();
@@ -181,6 +181,36 @@ void that::GameObject::OnGUI()
 	for (const auto& pChild : m_pChildren)
 	{
 		pChild->OnGUI();
+	}
+}
+
+void that::GameObject::OnEnable()
+{
+	// OnEnable every component
+	for (const auto& pComponent : m_pComponents)
+	{
+		if (pComponent->IsEnabled()) pComponent->OnEnable();
+	}
+
+	// OnEnable every child
+	for (const auto& pChild : m_pChildren)
+	{
+		pChild->OnEnable();
+	}
+}
+
+void that::GameObject::OnDisable()
+{
+	// OnDisable every component
+	for (const auto& pComponent : m_pComponents)
+	{
+		if (pComponent->IsEnabled()) pComponent->OnDisable();
+	}
+
+	// OnDisable every child
+	for (const auto& pChild : m_pChildren)
+	{
+		pChild->OnDisable();
 	}
 }
 
@@ -269,7 +299,14 @@ std::vector<that::GameObject*> that::GameObject::GetChildren() const
 
 void that::GameObject::SetActive(bool isActive)
 {
+	if (m_IsActive == isActive) return;
+
 	m_IsActive = isActive;
+
+	if (m_IsActive)
+		OnEnable();
+	else
+		OnDisable();
 }
 
 bool that::GameObject::IsActive() const

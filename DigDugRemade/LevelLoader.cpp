@@ -21,6 +21,8 @@
 #include "WorldTile.h"
 #include "Rigidbody.cpp"
 #include "Pooka.h"
+#include "Fygar.h"
+#include "FireBreath.h"
 
 // Managers
 #include "InputManager.h"
@@ -121,7 +123,22 @@ void digdug::LevelLoader::OnFrameStart()
 				pEnemy->AddComponent<that::BoxCollider>();
 				pEnemy->GetComponent<that::Transform>()->SetLocalPosition(cellSize * x, cellSize * y);
 				pEnemy->AddComponent<HealthComponent>()->SetMaxHealth(m_EnemyHealth);
-				pEnemy->AddComponent<Pooka>()->Start(pPlayer);
+				if (enemyData == UINT8_MAX)
+				{
+					pEnemy->AddComponent<Pooka>()->Start(pPlayer);
+				}
+				else
+				{
+					pEnemy->AddComponent<Fygar>()->Start(pPlayer);
+
+					that::GameObject* pFire{ pEnemy->CreateGameObject("FireBreath") };
+					that::TextureRenderer* pFireRenderer{ pFire->AddComponent<that::TextureRenderer>() };
+					pFireRenderer->SetTexture(that::ResourceManager::GetInstance().LoadTexture("Fygar/FireBreath.png"));
+					pFire->GetTransform()->SetLocalPosition((pPlayer->GetComponent<that::TextureRenderer>()->GetTextureSize().x + pFireRenderer->GetTextureSize().x) / 2.0f, 0.0f);
+					pFire->AddComponent<FireBreath>();
+					pFire->AddComponent<that::TextureMask>()->SetPercentage(true, 0.0f);
+					pFire->SetActive(false);
+				}
 			}
 		}
 	}

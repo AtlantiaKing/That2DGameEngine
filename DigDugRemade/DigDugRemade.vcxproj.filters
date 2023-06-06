@@ -53,6 +53,12 @@
     <Filter Include="Components\Game\Entities\Pooka">
       <UniqueIdentifier>{889d3ea2-775f-4cd6-b329-5a5fafc37891}</UniqueIdentifier>
     </Filter>
+    <Filter Include="States\Fygar">
+      <UniqueIdentifier>{1887f633-99d1-44e2-97b0-f35950e464a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Game\Entities\Fygar">
+      <UniqueIdentifier>{19510b7c-ed5c-4eeb-92d3-9a084e8f56f9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -124,6 +130,24 @@
     </ClCompile>
     <ClCompile Include="PookaPumpState.cpp">
       <Filter>States\Pooka</Filter>
+    </ClCompile>
+    <ClCompile Include="FygarRoamingState.cpp">
+      <Filter>States\Fygar</Filter>
+    </ClCompile>
+    <ClCompile Include="FygarGhostState.cpp">
+      <Filter>States\Fygar</Filter>
+    </ClCompile>
+    <ClCompile Include="FygarPumpState.cpp">
+      <Filter>States\Fygar</Filter>
+    </ClCompile>
+    <ClCompile Include="FygarAttackState.cpp">
+      <Filter>States\Fygar</Filter>
+    </ClCompile>
+    <ClCompile Include="Fygar.cpp">
+      <Filter>Components\Game\Entities\Fygar</Filter>
+    </ClCompile>
+    <ClCompile Include="FireBreath.cpp">
+      <Filter>Components\Game\Entities\Fygar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

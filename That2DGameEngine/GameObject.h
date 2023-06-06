@@ -33,6 +33,8 @@ namespace that
 		void Render() const;
 		void OnDestroy();
 		void OnGUI();
+		void OnEnable();
+		void OnDisable();
 
 		void SetParent(GameObject* pParent);
 		GameObject* GetParent() const { return m_pParent; };

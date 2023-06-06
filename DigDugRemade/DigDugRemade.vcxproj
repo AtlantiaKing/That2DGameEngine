@@ -177,6 +177,12 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
   <ItemGroup>
     <ClCompile Include="EnemyBehaviour.cpp" />
     <ClCompile Include="EnemyMovement.cpp" />
+    <ClCompile Include="FireBreath.cpp" />
+    <ClCompile Include="Fygar.cpp" />
+    <ClCompile Include="FygarAttackState.cpp" />
+    <ClCompile Include="FygarGhostState.cpp" />
+    <ClCompile Include="FygarPumpState.cpp" />
+    <ClCompile Include="FygarRoamingState.cpp" />
     <ClCompile Include="GameModeChooser.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="GridCollider.cpp" />
@@ -208,6 +214,13 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
   <ItemGroup>
     <ClInclude Include="EnemyBehaviour.h" />
     <ClInclude Include="EnemyMovement.h" />
+    <ClInclude Include="FireBreath.h" />
+    <ClInclude Include="Fygar.h" />
+    <ClInclude Include="FygarAttackState.h" />
+    <ClInclude Include="FygarGhostState.h" />
+    <ClInclude Include="FygarPumpState.h" />
+    <ClInclude Include="FygarRoamingState.h" />
+    <ClInclude Include="FygarState.h" />
     <ClInclude Include="GameModeChooser.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="GridCollider.h" />
