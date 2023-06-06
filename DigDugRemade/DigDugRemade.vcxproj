@@ -189,6 +189,10 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClCompile Include="MainMenuFadeIn.cpp" />
     <ClCompile Include="MainMenuScene.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Pooka.cpp" />
+    <ClCompile Include="PookaGhostState.cpp" />
+    <ClCompile Include="PookaPumpState.cpp" />
+    <ClCompile Include="PookaRoamingState.cpp" />
     <ClCompile Include="Pump.cpp" />
     <ClCompile Include="ScoreComponent.cpp" />
     <ClCompile Include="ScoreHUDComponent.cpp" />
@@ -215,11 +219,16 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClInclude Include="MainMenuFadeIn.h" />
     <ClInclude Include="MainMenuScene.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Pooka.h" />
+    <ClInclude Include="PookaGhostState.h" />
+    <ClInclude Include="PookaPumpState.h" />
+    <ClInclude Include="PookaRoamingState.h" />
     <ClInclude Include="Pump.h" />
     <ClInclude Include="ScoreComponent.h" />
     <ClInclude Include="ScoreHUDComponent.h" />
     <ClInclude Include="ShootPumpCommand.h" />
     <ClInclude Include="LevelLoader.h" />
+    <ClInclude Include="PookaState.h" />
     <ClInclude Include="WorldTile.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -23,6 +23,7 @@ namespace that
 		void SetWorldPosition(float x, float y);
 		void SetWorldPosition(const glm::vec2& position);
 		void Translate(float x, float y);
+		void Translate(const glm::vec2& displacement);
 
 		float GetLocalRotation(bool isDegrees = true) const;
 		float GetWorldRotation(bool isDegrees = true);

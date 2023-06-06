@@ -38,6 +38,7 @@ namespace digdug
 		bool IsOpenPosition(const glm::ivec2& position) const;
 		const glm::ivec2& GetSize() const { return m_GridSize; }
 		WorldTile* GetTile(int x, int y) const;
+		WorldTile* GetOpenTile() const;
 
 		void SetSize(int x, int y);
 		void SetTile(int x, int y, WorldTile* pWorldTile);

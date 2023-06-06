@@ -10,22 +10,7 @@
 
 void digdug::GridTransform::Init()
 {
-	m_pTexture = GetOwner()->GetComponent<that::TextureRenderer>();
-
-	m_pGrid = GetOwner()->GetParent()->GetComponent<GridComponent>();
-	const float cellSize{ m_pGrid->GetCellSize() };
-
-	const int stepsPerCell{ m_pGrid->GetStepsPerCell() };
-
-	const auto& position{ GetTransform()->GetLocalPosition() };
-
-	// Set the position in pixels
-	m_Position.x = static_cast<int>(position.x / cellSize) * stepsPerCell;
-	m_Position.y = static_cast<int>(position.y / cellSize) * stepsPerCell;
-
-	// Set the position in floating point values
-	m_FloatPosition.x = static_cast<float>(m_Position.x);
-	m_FloatPosition.y = static_cast<float>(m_Position.y);
+	SnapToGrid();
 }
 
 void digdug::GridTransform::Update()
@@ -49,6 +34,26 @@ void digdug::GridTransform::OnDisable()
 	OnStopMove.Notify(*this);
 	m_WasMoving = false;
 	m_IsMoving = false;
+}
+
+void digdug::GridTransform::SnapToGrid()
+{
+	if(!m_pTexture) m_pTexture = GetOwner()->GetComponent<that::TextureRenderer>();
+	if(!m_pGrid) m_pGrid = GetOwner()->GetParent()->GetComponent<GridComponent>();
+
+	const float cellSize{ m_pGrid->GetCellSize() };
+
+	const int stepsPerCell{ m_pGrid->GetStepsPerCell() };
+
+	const auto& position{ GetTransform()->GetLocalPosition() };
+
+	// Set the position in pixels
+	m_Position.x = static_cast<int>(position.x / cellSize) * stepsPerCell;
+	m_Position.y = static_cast<int>(position.y / cellSize) * stepsPerCell;
+
+	// Set the position in floating point values
+	m_FloatPosition.x = static_cast<float>(m_Position.x);
+	m_FloatPosition.y = static_cast<float>(m_Position.y);
 }
 
 bool digdug::GridTransform::Move(int xSteps, int ySteps, bool checkWorld)

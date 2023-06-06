@@ -30,6 +30,7 @@ namespace digdug
 		virtual void Update() override;
 		virtual void OnDisable() override;
 
+		void SnapToGrid();
 		bool Move(int xSteps, int ySteps, bool checkWorld = false);
 		void SetPosition(int x, int y);
 

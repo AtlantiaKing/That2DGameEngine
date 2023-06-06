@@ -88,6 +88,13 @@ void that::Transform::Translate(float x, float y)
 	EnableChangedFlag();
 }
 
+void that::Transform::Translate(const glm::vec2& displacement)
+{
+	m_LocalPosition += displacement;
+
+	EnableChangedFlag();
+}
+
 float that::Transform::GetLocalRotation(bool isDegrees) const
 {
 	if (!isDegrees) return m_LocalRotation;

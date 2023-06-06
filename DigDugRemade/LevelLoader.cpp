@@ -9,7 +9,6 @@
 #include "GridComponent.h"
 #include "GridTransform.h"
 #include "TextureRenderer.h"
-#include "EnemyMovement.h"
 #include "GridCollider.h"
 #include "Player.h"
 #include "LivesHUDComponent.h"
@@ -21,7 +20,7 @@
 #include "BoxCollider.h"
 #include "WorldTile.h"
 #include "Rigidbody.cpp"
-#include "EnemyBehaviour.h"
+#include "Pooka.h"
 
 // Managers
 #include "InputManager.h"
@@ -80,6 +79,9 @@ void digdug::LevelLoader::OnFrameStart()
 
 	GridComponent* pGridComponent{ GetOwner()->GetComponent<GridComponent>() };
 
+	that::GameObject* pPlayer{ CreatePlayer() };
+	pGridComponent->BindPlayer(pPlayer->GetComponent<GridTransform>());
+
 	// SURFACE PASS 2
 	// Create all entities
 	// Set world tile masks
@@ -114,21 +116,15 @@ void digdug::LevelLoader::OnFrameStart()
 			if (enemyData)
 			{
 				that::GameObject* pEnemy{ GetOwner()->CreateGameObject("Enemy") };
-				auto pEnemyRenderer{ pEnemy->AddComponent<that::TextureRenderer>() };
-				pEnemyRenderer->SetTexture(that::ResourceManager::GetInstance().LoadTexture("Enemy.png"));
-				pEnemy->AddComponent<EnemyMovement>();
-				pEnemy->AddComponent<EnemyBehaviour>();
+				pEnemy->AddComponent<that::TextureRenderer>();
 				pEnemy->AddComponent<GridTransform>();
 				pEnemy->AddComponent<that::BoxCollider>();
 				pEnemy->GetComponent<that::Transform>()->SetLocalPosition(cellSize * x, cellSize * y);
 				pEnemy->AddComponent<HealthComponent>()->SetMaxHealth(m_EnemyHealth);
+				pEnemy->AddComponent<Pooka>()->Start(pPlayer);
 			}
 		}
 	}
-
-	that::GameObject* pPlayer{ CreatePlayer() };
-
-	pGridComponent->BindPlayer(pPlayer->GetComponent<GridTransform>());
 
 	// Destroy the level loader component from the grid
 	Destroy();

@@ -79,6 +79,21 @@ digdug::WorldTile* digdug::GridComponent::GetTile(int x, int y) const
 	return std::find_if(begin(m_pTiles), end(m_pTiles), [x, y](const auto& tilePair) { return tilePair.first.x == x && tilePair.first.y == y; })->second;
 }
 
+digdug::WorldTile* digdug::GridComponent::GetOpenTile() const
+{
+	std::vector<WorldTile*> pOpenTiles{};
+
+	for (const auto& tilePair : m_pTiles)
+	{
+		WorldTile* pTile{ tilePair.second };
+		if (!pTile) continue;
+
+		if (pTile->IsOpen()) pOpenTiles.push_back(pTile);
+	}
+
+	return pOpenTiles[rand() % pOpenTiles.size()];
+}
+
 void digdug::GridComponent::SetSize(int x, int y)
 {
 	m_GridSize = { x,y };

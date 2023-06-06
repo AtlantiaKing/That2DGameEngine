@@ -44,6 +44,15 @@
     <Filter Include="Components\MainMenu">
       <UniqueIdentifier>{e3f9d169-fb68-4b41-a7c6-22b8bd8caaee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="States">
+      <UniqueIdentifier>{f342d3b9-34ab-4158-8d4e-c14440151fdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States\Pooka">
+      <UniqueIdentifier>{702151bc-04b1-437e-9093-4e1abc348241}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Game\Entities\Pooka">
+      <UniqueIdentifier>{889d3ea2-775f-4cd6-b329-5a5fafc37891}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -80,9 +89,6 @@
     <ClCompile Include="HealthComponent.cpp">
       <Filter>Components\Game\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="ScoreComponent.cpp">
-      <Filter>Components\Game\Entities</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyBehaviour.cpp">
       <Filter>Components\Game\Entities\Enemy</Filter>
     </ClCompile>
@@ -101,8 +107,23 @@
     <ClCompile Include="MainMenuFadeIn.cpp">
       <Filter>Components\MainMenu</Filter>
     </ClCompile>
+    <ClCompile Include="PookaRoamingState.cpp">
+      <Filter>States\Pooka</Filter>
+    </ClCompile>
+    <ClCompile Include="PookaGhostState.cpp">
+      <Filter>States\Pooka</Filter>
+    </ClCompile>
+    <ClCompile Include="Pooka.cpp">
+      <Filter>Components\Game\Entities\Pooka</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreComponent.cpp">
+      <Filter>Components\Game\Entities\Player</Filter>
+    </ClCompile>
     <ClCompile Include="LevelLoader.cpp">
-      <Filter>Components\Game\Grid</Filter>
+      <Filter>Components\Game\World</Filter>
+    </ClCompile>
+    <ClCompile Include="PookaPumpState.cpp">
+      <Filter>States\Pooka</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -142,9 +163,6 @@
     <ClInclude Include="HealthComponent.h">
       <Filter>Components\Game\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="ScoreComponent.h">
-      <Filter>Components\Game\Entities</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyBehaviour.h">
       <Filter>Components\Game\Entities\Enemy</Filter>
     </ClInclude>
@@ -163,8 +181,26 @@
     <ClInclude Include="MainMenuFadeIn.h">
       <Filter>Components\MainMenu</Filter>
     </ClInclude>
+    <ClInclude Include="PookaRoamingState.h">
+      <Filter>States\Pooka</Filter>
+    </ClInclude>
+    <ClInclude Include="PookaGhostState.h">
+      <Filter>States\Pooka</Filter>
+    </ClInclude>
+    <ClInclude Include="PookaState.h">
+      <Filter>States\Pooka</Filter>
+    </ClInclude>
+    <ClInclude Include="Pooka.h">
+      <Filter>Components\Game\Entities\Pooka</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreComponent.h">
+      <Filter>Components\Game\Entities\Player</Filter>
+    </ClInclude>
     <ClInclude Include="LevelLoader.h">
-      <Filter>Components\Game\Grid</Filter>
+      <Filter>Components\Game\World</Filter>
+    </ClInclude>
+    <ClInclude Include="PookaPumpState.h">
+      <Filter>States\Pooka</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
