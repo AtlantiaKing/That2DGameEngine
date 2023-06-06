@@ -21,7 +21,7 @@ const glm::vec2& digdug::GridComponent::GetPivot() const
 	return GetTransform()->GetWorldPosition();
 }
 
-bool digdug::GridComponent::IsValidPosition(const glm::vec2& position, const glm::ivec2& direction, bool checkWorld)
+bool digdug::GridComponent::IsValidPosition(const glm::vec2& position, const glm::ivec2& direction, bool checkWorld) const
 {
 	if (position.x < 0.0f || position.y < 0.0f) 
 		return false;
@@ -45,7 +45,7 @@ bool digdug::GridComponent::IsValidPosition(const glm::vec2& position, const glm
 	return true;
 }
 
-bool digdug::GridComponent::IsOpenPosition(const glm::ivec2 position)
+bool digdug::GridComponent::IsOpenPosition(const glm::ivec2& position) const
 {
 	if (position.x < 0.0f || position.y < 0.0f)
 		return false;
