@@ -30,13 +30,15 @@ namespace digdug
 		virtual void Init() override;
 		virtual void Update() override;
 		virtual void OnEnable() override;
+		virtual void OnDisable() override;
 		virtual void OnDestroy() override;
+
+		bool IsPumpedInEnemy() { return m_pPumpTo; }
 
 		virtual void Notify(const that::CollisionData& data) override;
 		void PumpToEnemy();
 
 	private:
-		void DisablePump();
 
 		HealthComponent* m_pPumpTo{};
 		that::TextureRenderer* m_pTexture{};
@@ -45,9 +47,5 @@ namespace digdug
 
 		const float m_AliveTime{ 0.35f };
 		float m_AccuAliveTime{};
-
-		const float m_TimeBetweenPumps{ 0.5f };
-		float m_AccuPumpTime{};
-		bool m_CanPump{ true };
 	};
 }

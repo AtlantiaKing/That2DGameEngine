@@ -17,7 +17,7 @@ digdug::PookaRoamingState::PookaRoamingState(that::GameObject* pPooka, that::Gam
 }
 
 
-std::unique_ptr<digdug::State> digdug::PookaRoamingState::Update()
+std::unique_ptr<digdug::EnemyState> digdug::PookaRoamingState::Update()
 {
 	m_RoamTime += that::Timer::GetInstance().GetElapsed();
 	if (m_RoamTime > m_TimeUntilGhost) return std::make_unique<PookaGhostState>(m_pPookaObj, m_pPlayer);

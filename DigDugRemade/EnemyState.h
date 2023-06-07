@@ -4,12 +4,12 @@
 
 namespace digdug
 {
-	class State
+	class EnemyState
 	{
 	public:
-		virtual ~State() = default;
+		virtual ~EnemyState() = default;
 
-		virtual std::unique_ptr<State> Update() = 0;
+		virtual std::unique_ptr<EnemyState> Update() = 0;
 		virtual void StateEnter() = 0;
 		virtual void StateEnd() = 0;
 	};

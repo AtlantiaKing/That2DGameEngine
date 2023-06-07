@@ -6,11 +6,11 @@ namespace digdug
 {
 	class DigDug;
 
-	class ShootPumpCommand : public that::Command
+	class PumpToEnemyCommand : public that::Command
 	{
 	public:
-		ShootPumpCommand(digdug::DigDug* pPlayer) : m_pPlayer{ pPlayer } {}
-		virtual ~ShootPumpCommand() = default;
+		PumpToEnemyCommand(digdug::DigDug* pPlayer) : m_pPlayer{ pPlayer } {}
+		virtual ~PumpToEnemyCommand() = default;
 
 		virtual void Execute() override;
 	private:

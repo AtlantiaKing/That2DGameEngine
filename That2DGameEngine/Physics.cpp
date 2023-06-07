@@ -2,6 +2,7 @@
 
 #include "BoxCollider.h"
 #include "Transform.h"
+#include "GameObject.h"
 
 void that::Physics::AddCollider(BoxCollider* pCollider)
 {
@@ -20,8 +21,12 @@ void that::Physics::Update()
 	// Loop over all known colliders
 	for (auto pChild : m_pColliders)
 	{
+		if (!pChild->IsEnabled() || !pChild->GetOwner()->IsActive()) continue;
+
 		for (auto pOther : m_pColliders)
 		{
+			if (!pOther->IsEnabled() || !pOther->GetOwner()->IsActive()) continue;
+
 			// Don't try collision with itself
 			if (pChild == pOther) continue;
 

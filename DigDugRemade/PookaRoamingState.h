@@ -1,6 +1,6 @@
 #pragma once
 
-#include "State.h"
+#include "EnemyState.h"
 
 #include "glm/vec2.hpp"
 
@@ -11,13 +11,13 @@ namespace that
 
 namespace digdug
 {
-	class PookaRoamingState final : public State
+	class PookaRoamingState final : public EnemyState
 	{
 	public:
 		PookaRoamingState(that::GameObject* pPooka, that::GameObject* pPlayer);
 		virtual ~PookaRoamingState() = default;
 
-		virtual std::unique_ptr<digdug::State> Update() override;
+		virtual std::unique_ptr<digdug::EnemyState> Update() override;
 		virtual void StateEnter() override;
 		virtual void StateEnd() override;
 

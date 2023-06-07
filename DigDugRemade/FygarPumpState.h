@@ -1,6 +1,6 @@
 #pragma once
 
-#include "State.h"
+#include "EnemyState.h"
 #include "Observer.h"
 
 namespace that
@@ -12,13 +12,13 @@ namespace digdug
 {
 	class HealthComponent;
 
-	class FygarPumpState : public State, public that::Observer<HealthComponent>
+	class FygarPumpState : public EnemyState, public that::Observer<HealthComponent>
 	{
 	public:
 		FygarPumpState(that::GameObject* pFygar, that::GameObject* pPlayer);
 		virtual ~FygarPumpState() = default;
 
-		virtual std::unique_ptr<State> Update() override;
+		virtual std::unique_ptr<EnemyState> Update() override;
 		virtual void StateEnter() override;
 		virtual void StateEnd() override;
 

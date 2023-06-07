@@ -18,11 +18,22 @@ void that::SpriteRenderer::SetSprite(std::shared_ptr<Texture2D> pTexture, int ti
 	RecalculateSrcRect();
 }
 
-void that::SpriteRenderer::SetTexture(std::shared_ptr<Texture2D> pTexture)
+void that::SpriteRenderer::SetTexture(std::shared_ptr<Texture2D> pTexture, bool reset)
 {
 	m_pTexture = pTexture;
 
-	Reset();
+	if(reset) Reset();
+}
+
+void that::SpriteRenderer::SetTimePerTile(float timePerTile, bool reset)
+{
+	m_TimeBetweenTiles = timePerTile;
+
+	if (reset)
+	{
+		Reset();
+		RecalculateSrcRect();
+	}
 }
 
 void that::SpriteRenderer::SetTile(int tile)
@@ -42,6 +53,11 @@ glm::vec2 that::SpriteRenderer::GetScaledTextureSize() const
 	const auto& scale{ GetTransform()->GetWorldScale() };
 
 	return { m_SrcRect.w * scale.x, m_SrcRect.h * scale.y };
+}
+
+int that::SpriteRenderer::GetTile() const
+{
+	return m_CurTile;
 }
 
 void that::SpriteRenderer::Update()

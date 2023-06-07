@@ -10,7 +10,7 @@
 #include "GridTransform.h"
 #include "TextureRenderer.h"
 #include "GridCollider.h"
-#include "Player.h"
+#include "DigDug.h"
 #include "LivesHUDComponent.h"
 #include "TextComponent.h"
 #include "Pump.h"
@@ -136,7 +136,9 @@ void digdug::LevelLoader::OnFrameStart()
 				that::GameObject* pEnemy{ GetOwner()->CreateGameObject("Enemy") };
 				pEnemy->AddComponent<that::SpriteRenderer>();
 				pEnemy->AddComponent<GridTransform>();
-				pEnemy->AddComponent<that::BoxCollider>()->SetLayer(ENEMY_LAYER);
+				that::BoxCollider* pCollider{ pEnemy->AddComponent<that::BoxCollider>() };
+				pCollider->SetLayer(ENEMY_LAYER);
+				pCollider->SetSize(cellSize, cellSize);
 				pEnemy->GetComponent<that::Transform>()->SetLocalPosition(cellSize * x, cellSize * y);
 				pEnemy->AddComponent<HealthComponent>()->SetMaxHealth(m_EnemyHealth);
 				if (enemyData == UINT8_MAX)
@@ -152,7 +154,7 @@ void digdug::LevelLoader::OnFrameStart()
 					that::GameObject* pFire{ pEnemy->CreateGameObject("FireBreath") };
 					that::TextureRenderer* pFireRenderer{ pFire->AddComponent<that::TextureRenderer>() };
 					pFireRenderer->SetTexture(that::TextureManager::GetInstance().LoadTexture("Fygar/FireBreath.png"));
-					pFire->GetTransform()->SetLocalPosition((pPlayer->GetComponent<that::TextureRenderer>()->GetTextureSize().x + pFireRenderer->GetTextureSize().x) / 2.0f, 0.0f);
+					pFire->GetTransform()->SetLocalPosition((cellSize + pFireRenderer->GetTextureSize().x) / 2.0f, 0.0f);
 					pFire->AddComponent<FireBreath>();
 					pFire->AddComponent<that::TextureMask>()->SetPercentage(true, 0.0f);
 					pFire->SetActive(false);
@@ -167,13 +169,15 @@ void digdug::LevelLoader::OnFrameStart()
 
 that::GameObject* digdug::LevelLoader::CreatePlayer()
 {
+	const float cellSize{ GetOwner()->GetComponent<GridComponent>()->GetCellSize()};
+
 	// Player
 	that::GameObject* pPlayer{ GetOwner()->CreateGameObject("Player") };
 	const auto& pPlayerTexture{ that::TextureManager::GetInstance().LoadTexture("MainCharacter.png") };
-	pPlayer->AddComponent<that::TextureRenderer>()->SetTexture(pPlayerTexture);
+	pPlayer->AddComponent<that::SpriteRenderer>();
 	pPlayer->AddComponent<GridTransform>()->ShouldRotateWhenGoingUp(true);
-	pPlayer->AddComponent<that::BoxCollider>();
-	pPlayer->AddComponent<Player>();
+	pPlayer->AddComponent<that::BoxCollider>()->SetSize(cellSize, cellSize);;
+	pPlayer->AddComponent<DigDug>();
 	that::AudioSource* pAudioSource{ pPlayer->AddComponent<that::AudioSource>() };
 	pAudioSource->SetSound("walkmusic.wav");
 	pAudioSource->SetLooping(true);
@@ -195,11 +199,6 @@ that::GameObject* digdug::LevelLoader::CreatePlayer()
 	pPump->AddComponent<that::TextureMask>()->SetPercentage(true, 1.0f);
 	// Move the pump one cell to the right
 	pPump->GetComponent<that::Transform>()->Translate((pPlayerTexture->GetSize().x + pPumpTexture->GetSize().x) / 2.0f, 0.0f);
-
-
-	// Input
-	that::InputManager::GetInstance().BindDigital2DAxisCommand({ 'd', 'a', 'w', 's' }, std::make_unique<GridMoveCommand>(pPlayer));
-	that::InputManager::GetInstance().BindDigitalCommand(' ', that::InputManager::InputType::ONBUTTONDOWN, std::make_unique<ShootPumpCommand>(pPump));
 
 	return pPlayer;
 }

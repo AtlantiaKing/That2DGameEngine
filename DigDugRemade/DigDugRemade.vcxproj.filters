@@ -47,14 +47,8 @@
     <Filter Include="States">
       <UniqueIdentifier>{f342d3b9-34ab-4158-8d4e-c14440151fdf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="States\Pooka">
-      <UniqueIdentifier>{702151bc-04b1-437e-9093-4e1abc348241}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Components\Game\Entities\Pooka">
       <UniqueIdentifier>{889d3ea2-775f-4cd6-b329-5a5fafc37891}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="States\Fygar">
-      <UniqueIdentifier>{1887f633-99d1-44e2-97b0-f35950e464a3}</UniqueIdentifier>
     </Filter>
     <Filter Include="Components\Game\Entities\Fygar">
       <UniqueIdentifier>{19510b7c-ed5c-4eeb-92d3-9a084e8f56f9}</UniqueIdentifier>
@@ -64,6 +58,21 @@
     </Filter>
     <Filter Include="Prefabs">
       <UniqueIdentifier>{df48532e-d93e-4a0f-9471-9b4bdb445261}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States\DigDug">
+      <UniqueIdentifier>{1c269a6f-3131-4c98-b12c-ad97c0461b9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States\Enemies">
+      <UniqueIdentifier>{c9787521-2b53-4262-ab4e-571baaaddbd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States\Enemies\Fygar">
+      <UniqueIdentifier>{1887f633-99d1-44e2-97b0-f35950e464a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States\Enemies\Pooka">
+      <UniqueIdentifier>{702151bc-04b1-437e-9093-4e1abc348241}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Game\Entities\DigDug">
+      <UniqueIdentifier>{4eb0c2db-2a44-488d-bd96-74123792b7ca}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -120,10 +129,10 @@
       <Filter>Components\MainMenu</Filter>
     </ClCompile>
     <ClCompile Include="PookaRoamingState.cpp">
-      <Filter>States\Pooka</Filter>
+      <Filter>States\Enemies\Pooka</Filter>
     </ClCompile>
     <ClCompile Include="PookaGhostState.cpp">
-      <Filter>States\Pooka</Filter>
+      <Filter>States\Enemies\Pooka</Filter>
     </ClCompile>
     <ClCompile Include="Pooka.cpp">
       <Filter>Components\Game\Entities\Pooka</Filter>
@@ -135,19 +144,19 @@
       <Filter>Components\Game\World</Filter>
     </ClCompile>
     <ClCompile Include="PookaPumpState.cpp">
-      <Filter>States\Pooka</Filter>
+      <Filter>States\Enemies\Pooka</Filter>
     </ClCompile>
     <ClCompile Include="FygarRoamingState.cpp">
-      <Filter>States\Fygar</Filter>
+      <Filter>States\Enemies\Fygar</Filter>
     </ClCompile>
     <ClCompile Include="FygarGhostState.cpp">
-      <Filter>States\Fygar</Filter>
+      <Filter>States\Enemies\Fygar</Filter>
     </ClCompile>
     <ClCompile Include="FygarPumpState.cpp">
-      <Filter>States\Fygar</Filter>
+      <Filter>States\Enemies\Fygar</Filter>
     </ClCompile>
     <ClCompile Include="FygarAttackState.cpp">
-      <Filter>States\Fygar</Filter>
+      <Filter>States\Enemies\Fygar</Filter>
     </ClCompile>
     <ClCompile Include="Fygar.cpp">
       <Filter>Components\Game\Entities\Fygar</Filter>
@@ -160,6 +169,21 @@
     </ClCompile>
     <ClCompile Include="ScorePrefab.cpp">
       <Filter>Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="DigDugDeathState.cpp">
+      <Filter>States\DigDug</Filter>
+    </ClCompile>
+    <ClCompile Include="DigDugPumpState.cpp">
+      <Filter>States\DigDug</Filter>
+    </ClCompile>
+    <ClCompile Include="DigDugWalkingState.cpp">
+      <Filter>States\DigDug</Filter>
+    </ClCompile>
+    <ClCompile Include="DigDug.cpp">
+      <Filter>Components\Game\Entities\DigDug</Filter>
+    </ClCompile>
+    <ClCompile Include="PumpToEnemyCommand.cpp">
+      <Filter>Commands\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -218,10 +242,10 @@
       <Filter>Components\MainMenu</Filter>
     </ClInclude>
     <ClInclude Include="PookaRoamingState.h">
-      <Filter>States\Pooka</Filter>
+      <Filter>States\Enemies\Pooka</Filter>
     </ClInclude>
     <ClInclude Include="PookaGhostState.h">
-      <Filter>States\Pooka</Filter>
+      <Filter>States\Enemies\Pooka</Filter>
     </ClInclude>
     <ClInclude Include="Pooka.h">
       <Filter>Components\Game\Entities\Pooka</Filter>
@@ -233,19 +257,19 @@
       <Filter>Components\Game\World</Filter>
     </ClInclude>
     <ClInclude Include="PookaPumpState.h">
-      <Filter>States\Pooka</Filter>
+      <Filter>States\Enemies\Pooka</Filter>
     </ClInclude>
     <ClInclude Include="FygarRoamingState.h">
-      <Filter>States\Fygar</Filter>
+      <Filter>States\Enemies\Fygar</Filter>
     </ClInclude>
     <ClInclude Include="FygarGhostState.h">
-      <Filter>States\Fygar</Filter>
+      <Filter>States\Enemies\Fygar</Filter>
     </ClInclude>
     <ClInclude Include="FygarPumpState.h">
-      <Filter>States\Fygar</Filter>
+      <Filter>States\Enemies\Fygar</Filter>
     </ClInclude>
     <ClInclude Include="FygarAttackState.h">
-      <Filter>States\Fygar</Filter>
+      <Filter>States\Enemies\Fygar</Filter>
     </ClInclude>
     <ClInclude Include="Fygar.h">
       <Filter>Components\Game\Entities\Fygar</Filter>
@@ -262,8 +286,26 @@
     <ClInclude Include="ScorePrefab.h">
       <Filter>Prefabs</Filter>
     </ClInclude>
-    <ClInclude Include="State.h">
-      <Filter>States</Filter>
+    <ClInclude Include="DigDugDeathState.h">
+      <Filter>States\DigDug</Filter>
+    </ClInclude>
+    <ClInclude Include="DigDugPumpState.h">
+      <Filter>States\DigDug</Filter>
+    </ClInclude>
+    <ClInclude Include="DigDugWalkingState.h">
+      <Filter>States\DigDug</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyState.h">
+      <Filter>States\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="DigDugState.h">
+      <Filter>States\DigDug</Filter>
+    </ClInclude>
+    <ClInclude Include="DigDug.h">
+      <Filter>Components\Game\Entities\DigDug</Filter>
+    </ClInclude>
+    <ClInclude Include="PumpToEnemyCommand.h">
+      <Filter>Commands\Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

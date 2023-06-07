@@ -14,6 +14,8 @@
 #include "ServiceLocator.h"
 #include "AudioSystem.h"
 
+#include "ColliderLayers.h"
+
 #include <iostream>
 
 void digdug::Pump::Init()
@@ -30,9 +32,6 @@ void digdug::Pump::Init()
 
 void digdug::Pump::Update()
 {
-	// Do nothing if the pump is not active
-	if (!GetOwner()->IsActive()) return;
-
 	// Decrease the alive timer only when there is nothing attached to the pump
 	if (!m_pPumpTo)
 	{
@@ -52,7 +51,7 @@ void digdug::Pump::Update()
 	// Disable the pump if the timer is less then 0
 	if (m_AccuAliveTime < 0.0f)
 	{
-		DisablePump();
+		GetOwner()->SetActive(false);
 	}
 
 	// If nothing is attached to the pump, stop here
@@ -61,20 +60,7 @@ void digdug::Pump::Update()
 	// Disable the pump if the enemy has regenerated all its health
 	if (m_pPumpTo->GetHealth() == m_pPumpTo->GetMaxHealth())
 	{
-		DisablePump();
-	}
-
-	// Set CanPump to true if AccuPumpTime is 0
-	if (m_AccuPumpTime > 0)
-	{
-		// Decrease the time that the pump has been enabled
-		m_AccuPumpTime -= that::Timer::GetInstance().GetElapsed();
-
-		// If the pump time is over, disable the pump and enable the player
-		if (m_AccuPumpTime <= 0)
-		{
-			m_CanPump = true;
-		}
+		GetOwner()->SetActive(false);
 	}
 }
 
@@ -87,7 +73,7 @@ void digdug::Pump::Notify(const that::CollisionData& data)
 {
 	if (!GetOwner()->IsActive()) return;
 	if (m_pPumpTo) return;
-	if (data.pOther->GetOwner()->HasComponent<Player>()) return;
+	if (data.pOther->GetLayer() != ENEMY_LAYER) return;
 
 	// If the pump collider hits an enemy, decrease the health of the enemy and stop the pump animation
 	HealthComponent* pOtherHealth{ data.pOther->GetOwner()->GetComponent<HealthComponent>()};
@@ -95,7 +81,6 @@ void digdug::Pump::Notify(const that::CollisionData& data)
 	{
 		m_pPumpTo = pOtherHealth;
 
-		m_CanPump = true;
 		PumpToEnemy();
 	}
 }
@@ -104,42 +89,32 @@ void digdug::Pump::OnEnable()
 {
 	GetOwner()->GetComponent<that::TextureRenderer>()->SetEnabled(true);
 
-	// Disable the movement of the player
-	GetOwner()->GetParent()->GetComponent<GridTransform>()->SetEnabled(false);
-
 	m_AccuAliveTime = m_AliveTime;
+}
+
+void digdug::Pump::OnDisable()
+{
+	// Disable the renderer
+	GetOwner()->GetComponent<that::TextureRenderer>()->SetEnabled(false);
+	// Remove any attached enemy
+	m_pPumpTo = nullptr;
 }
 
 void digdug::Pump::PumpToEnemy()
 {
-	if (!m_CanPump || !m_pPumpTo) return;
+	if (!m_pPumpTo) return;
 
 	// Hit the enemy
 	m_pPumpTo->Hit();
 
-	// Reset the pump time of the pump
-	m_AccuPumpTime = m_TimeBetweenPumps;
-	m_CanPump = false;
-
 	// Disable the pump if the enemy is dead
 	if (m_pPumpTo->GetHealth() <= 0)
 	{
-		DisablePump();
+		GetOwner()->SetActive(false);
 		that::ServiceLocator::GetAudio().Play("EnemyDeath.wav", 1.0f);
 	}
 	else
 	{
 		that::ServiceLocator::GetAudio().Play("PumpToEnemy.wav", 1.0f);
 	}
-}
-
-void digdug::Pump::DisablePump()
-{
-	GetOwner()->SetActive(false);
-	// Disable the renderer
-	GetOwner()->GetComponent<that::TextureRenderer>()->SetEnabled(false);
-	// Enable the player transform
-	GetOwner()->GetParent()->GetComponent<GridTransform>()->SetEnabled(true);
-	// Remove any attached enemy
-	m_pPumpTo = nullptr;
 }

@@ -3,7 +3,7 @@
 #include "Component.h"
 #include "Observer.h"
 
-#include "State.h"
+#include "EnemyState.h"
 
 namespace digdug
 {
@@ -26,10 +26,10 @@ namespace digdug
 
 		void Start(that::GameObject* pPlayer);
 	private:
-		void ChangeState(std::unique_ptr<digdug::State> pState);
+		void ChangeState(std::unique_ptr<digdug::EnemyState> pState);
 
 		that::GameObject* m_pPlayer{};
 
-		std::unique_ptr<State> m_pState{};
+		std::unique_ptr<EnemyState> m_pState{};
 	};
 }

@@ -13,7 +13,7 @@ digdug::FygarAttackState::FygarAttackState(that::GameObject* pFygar, that::GameO
 {
 }
 
-std::unique_ptr<digdug::State> digdug::FygarAttackState::Update()
+std::unique_ptr<digdug::EnemyState> digdug::FygarAttackState::Update()
 {
 	if (m_pFire->IsActive()) return nullptr;
 

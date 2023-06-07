@@ -22,12 +22,13 @@ namespace that
 		SpriteRenderer& operator=(SpriteRenderer&& other) = delete;
 
 		void SetSprite(std::shared_ptr<Texture2D> pTexture, int tilesInX, int tilesInY, float timePerTile = FLT_MAX);
-		void SetTexture(std::shared_ptr<Texture2D> pTexture);
-
+		void SetTexture(std::shared_ptr<Texture2D> pTexture, bool reset = true);
+		void SetTimePerTile(float timePerTile, bool reset = true);
 		void SetTile(int tile);
 
 		glm::ivec2 GetTextureSize() const;
 		glm::vec2 GetScaledTextureSize() const;
+		int GetTile() const;
 
 		virtual void Update() override;
 		virtual void Render() const override;

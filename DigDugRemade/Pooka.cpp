@@ -14,7 +14,7 @@ void digdug::Pooka::Init()
 
 void digdug::Pooka::Update()
 {
-	std::unique_ptr<PookaState> pNewState{ m_pState->Update() };
+	std::unique_ptr<EnemyState> pNewState{ m_pState->Update() };
 
 	if (pNewState) ChangeState(std::move(pNewState));
 }
@@ -30,7 +30,7 @@ void digdug::Pooka::Start(that::GameObject* pPlayer)
 	ChangeState(std::make_unique<PookaRoamingState>(GetOwner(), pPlayer));
 }
 
-void digdug::Pooka::ChangeState(std::unique_ptr<digdug::PookaState> pState)
+void digdug::Pooka::ChangeState(std::unique_ptr<digdug::EnemyState> pState)
 {
 	if (m_pState) m_pState->StateEnd();
 
