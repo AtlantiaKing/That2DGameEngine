@@ -3,7 +3,7 @@
 #include "GameObject.h"
 
 #include "HealthComponent.h"
-#include "TextureRenderer.h"
+#include "SpriteRenderer.h"
 #include "BoxCollider.h"
 #include "Transform.h"
 
@@ -41,7 +41,7 @@ void digdug::FygarPumpState::StateEnter()
 	m_pFygarObj->GetComponent<HealthComponent>()->OnHealthUpdate().AddListener(this);
 
 	const auto& pTexture{ that::TextureManager::GetInstance().LoadTexture("Fygar/Pumped.png") };
-	m_pFygarObj->GetComponent<that::TextureRenderer>()->SetTexture(pTexture);
+	m_pFygarObj->GetComponent<that::SpriteRenderer>()->SetSprite(pTexture, 4, 1);
 
 	m_pFygarObj->GetComponent<that::BoxCollider>()->SetEnabled(false);
 }
@@ -58,5 +58,9 @@ void digdug::FygarPumpState::Notify(const HealthComponent& health)
 	m_DeflateTime = 0.0f;
 
 	if (health.GetMaxHealth() != health.GetHealth())
-		m_pFygarObj->GetTransform()->SetLocalScale(1.0f + (health.GetMaxHealth() - health.GetHealth() - 1) / 2.0f);
+	{
+		const int tileIdx{ health.GetMaxHealth() - health.GetHealth() };
+		m_pFygarObj->GetComponent<that::SpriteRenderer>()->SetTile(tileIdx);
+		m_pFygarObj->GetTransform()->SetLocalScale(1.0f + (tileIdx - 1) / 2.0f);
+	}
 }

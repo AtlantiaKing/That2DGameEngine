@@ -2,7 +2,7 @@
 
 #include "GameObject.h"
 
-#include "TextureRenderer.h"
+#include "SpriteRenderer.h"
 #include "GridTransform.h"
 
 #include "PookaGhostState.h"
@@ -34,7 +34,7 @@ void digdug::PookaRoamingState::StateEnter()
 	pGridTransform->SnapToGrid();
 
 	const auto& pTexture{ that::TextureManager::GetInstance().LoadTexture("Pooka/Default.png") };
-	m_pPookaObj->GetComponent<that::TextureRenderer>()->SetTexture(pTexture);
+	m_pPookaObj->GetComponent<that::SpriteRenderer>()->SetSprite(pTexture, 2, 1, 0.2f);
 
 	m_RoamTime = 0.0f;
 	m_TimeUntilGhost = static_cast<float>(rand()) / RAND_MAX * (m_MaxTimeUntilGhost - m_MinTimeUntilGhost) + m_MinTimeUntilGhost;

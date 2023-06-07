@@ -3,7 +3,7 @@
 
 #include "GameObject.h"
 
-#include "TextureRenderer.h"
+#include "SpriteRenderer.h"
 #include "GridTransform.h"
 
 #include "FygarGhostState.h"
@@ -44,7 +44,7 @@ void digdug::FygarRoamingState::StateEnter()
 	pGridTransform->SnapToGrid();
 
 	const auto& pTexture{ that::TextureManager::GetInstance().LoadTexture("Fygar/Default.png") };
-	m_pFygarObj->GetComponent<that::TextureRenderer>()->SetTexture(pTexture);
+	m_pFygarObj->GetComponent<that::SpriteRenderer>()->SetSprite(pTexture, 2, 1, 0.2f);
 
 	m_RoamTime = 0.0f;
 	m_TimeUntilStateChange = static_cast<float>(rand()) / RAND_MAX * (m_MaxTimeUntilState - m_MinTimeUntilState) + m_MinTimeUntilState;

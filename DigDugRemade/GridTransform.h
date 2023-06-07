@@ -30,6 +30,7 @@ namespace digdug
 		virtual void Update() override;
 		virtual void OnDisable() override;
 
+		void ShouldRotateWhenGoingUp(bool rotate) { m_RotateIfUp = rotate; }
 		void SnapToGrid();
 		bool Move(int xSteps, int ySteps, bool checkWorld = false);
 		void SetPosition(int x, int y);
@@ -48,6 +49,7 @@ namespace digdug
 		int m_PrevY{ 0 };
 		bool m_IsMoving{};
 		bool m_WasMoving{};
+		bool m_RotateIfUp{ false };
 
 		const int m_ChangeDirectionEpsilon{ 3 };
 

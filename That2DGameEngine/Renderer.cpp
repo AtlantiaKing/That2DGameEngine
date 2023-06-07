@@ -134,6 +134,20 @@ void that::Renderer::RenderTexture(const Texture2D& texture, const SDL_Rect& src
 	SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), hasSrcRect ? &srcRect : nullptr, &dst, rotation, &rotationCenter, static_cast<SDL_RendererFlip>(flipState));
 }
 
+void that::Renderer::RenderTexture(const Texture2D& texture, const SDL_Rect& srcRect, SDL_Rect dstRect, float rotation) const
+{
+	const SDL_Point rotationCenter{ abs(dstRect.w) / 2, abs(dstRect.h) / 2 };
+
+	const int flipState{ (dstRect.w < 0.0f ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE) | (dstRect.h < 0.0f ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE) };
+
+	dstRect.w = abs(dstRect.w);
+	dstRect.h = abs(dstRect.h);
+
+	const bool hasSrcRect{ srcRect.w > FLT_EPSILON || srcRect.h > FLT_EPSILON };
+
+	SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), hasSrcRect ? &srcRect : nullptr, &dstRect, rotation, &rotationCenter, static_cast<SDL_RendererFlip>(flipState));
+}
+
 void that::Renderer::DrawRect(const SDL_Rect& rect, const SDL_Color& color)
 {
 	SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);

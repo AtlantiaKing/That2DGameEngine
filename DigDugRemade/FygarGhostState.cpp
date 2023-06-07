@@ -2,7 +2,7 @@
 
 #include "GameObject.h"
 
-#include "TextureRenderer.h"
+#include "SpriteRenderer.h"
 #include "GridComponent.h"
 #include "WorldTile.h"
 #include "Transform.h"
@@ -49,7 +49,7 @@ std::unique_ptr<digdug::FygarState> digdug::FygarGhostState::Update()
 void digdug::FygarGhostState::StateEnter()
 {
     const auto& pTexture{ that::TextureManager::GetInstance().LoadTexture("Fygar/Ghost.png") };
-    m_pFygarObj->GetComponent<that::TextureRenderer>()->SetTexture(pTexture);
+    m_pFygarObj->GetComponent<that::SpriteRenderer>()->SetSprite(pTexture, 2, 1, 0.4f);
 
     m_pGrid = m_pFygarObj->GetParent()->GetComponent<GridComponent>();
     m_GoToTile = m_pGrid->GetOpenTile()->GetGridPosition() * static_cast<int>(m_pGrid->GetCellSize());

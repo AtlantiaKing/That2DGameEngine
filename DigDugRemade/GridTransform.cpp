@@ -109,11 +109,19 @@ bool digdug::GridTransform::Move(int xSteps, int ySteps, bool checkWorld)
 	}
 	else if (abs(m_PrevY))
 	{
-		GetTransform()->SetLocalRotation(m_PrevY * rightAngle);
+		if (m_RotateIfUp)
+		{
+			GetTransform()->SetLocalRotation(m_PrevY * rightAngle);
 
-		glm::vec2 scale{ GetTransform()->GetLocalScale() };
-		scale.y = -abs(scale.y) * m_PrevY;
-		GetTransform()->SetLocalScale(scale);
+			glm::vec2 scale{ GetTransform()->GetLocalScale() };
+			scale.y = -abs(scale.y) * m_PrevY;
+			GetTransform()->SetLocalScale(scale);
+		}
+		else
+		{
+			GetTransform()->SetLocalRotation(0.0f);
+			GetTransform()->SetLocalScale(1.0f);
+		}
 	}
 	
 	const glm::ivec2 prevPosition{ m_Position };

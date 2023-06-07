@@ -23,6 +23,7 @@
 #include "Pooka.h"
 #include "Fygar.h"
 #include "FireBreath.h"
+#include "SpriteRenderer.h"
 
 // Managers
 #include "InputManager.h"
@@ -119,7 +120,7 @@ void digdug::LevelLoader::OnFrameStart()
 			if (enemyData)
 			{
 				that::GameObject* pEnemy{ GetOwner()->CreateGameObject("Enemy") };
-				pEnemy->AddComponent<that::TextureRenderer>();
+				pEnemy->AddComponent<that::SpriteRenderer>();
 				pEnemy->AddComponent<GridTransform>();
 				pEnemy->AddComponent<that::BoxCollider>();
 				pEnemy->GetComponent<that::Transform>()->SetLocalPosition(cellSize * x, cellSize * y);
@@ -154,7 +155,7 @@ that::GameObject* digdug::LevelLoader::CreatePlayer()
 	that::GameObject* pPlayer{ GetOwner()->CreateGameObject("Player") };
 	const auto& pPlayerTexture{ that::TextureManager::GetInstance().LoadTexture("MainCharacter.png") };
 	pPlayer->AddComponent<that::TextureRenderer>()->SetTexture(pPlayerTexture);
-	pPlayer->AddComponent<GridTransform>();
+	pPlayer->AddComponent<GridTransform>()->ShouldRotateWhenGoingUp(true);
 	pPlayer->AddComponent<that::BoxCollider>();
 	pPlayer->AddComponent<Player>();
 	that::AudioSource* pAudioSource{ pPlayer->AddComponent<that::AudioSource>() };

@@ -23,6 +23,7 @@ namespace that
 		void RenderTexture(const Texture2D& texture, float x, float y, float scaleX, float scaleY, float rotation) const;
 		void RenderTexture(const Texture2D& texture, const SDL_Rect& srcRect, float x, float y) const;
 		void RenderTexture(const Texture2D& texture, const SDL_Rect& srcRect, float x, float y, float scaleX, float scaleY, float rotation) const;
+		void RenderTexture(const Texture2D& texture, const SDL_Rect& srcRect, SDL_Rect dstRect, float rotation) const;
 
 		void DrawRect(const SDL_Rect& rect, const SDL_Color& color);
 

@@ -2,7 +2,7 @@
 
 #include "GameObject.h"
 
-#include "TextureRenderer.h"
+#include "SpriteRenderer.h"
 
 #include "FygarRoamingState.h"
 #include "TextureManager.h"
@@ -23,7 +23,7 @@ std::unique_ptr<digdug::FygarState> digdug::FygarAttackState::Update()
 void digdug::FygarAttackState::StateEnter()
 {
 	const auto& pTexture{ that::TextureManager::GetInstance().LoadTexture("Fygar/Attack.png") };
-	m_pFygarObj->GetComponent<that::TextureRenderer>()->SetTexture(pTexture);
+	m_pFygarObj->GetComponent<that::SpriteRenderer>()->SetSprite(pTexture, 2, 1, 0.1f);
 
 	m_pFire = m_pFygarObj->GetChild(0);
 	m_pFire->SetActive(true);

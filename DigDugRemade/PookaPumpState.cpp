@@ -3,7 +3,7 @@
 #include "GameObject.h"
 
 #include "HealthComponent.h"
-#include "TextureRenderer.h"
+#include "SpriteRenderer.h"
 #include "BoxCollider.h"
 #include "Transform.h"
 
@@ -41,7 +41,7 @@ void digdug::PookaPumpState::StateEnter()
 	m_pPookaObj->GetComponent<HealthComponent>()->OnHealthUpdate().AddListener(this);
 
 	const auto& pTexture{ that::TextureManager::GetInstance().LoadTexture("Pooka/Pumped.png") };
-	m_pPookaObj->GetComponent<that::TextureRenderer>()->SetTexture(pTexture);
+	m_pPookaObj->GetComponent<that::SpriteRenderer>()->SetSprite(pTexture, 4, 1);
 
 	m_pPookaObj->GetComponent<that::BoxCollider>()->SetEnabled(false);
 }
@@ -57,6 +57,10 @@ void digdug::PookaPumpState::Notify(const HealthComponent& health)
 {
 	m_DeflateTime = 0.0f;
 
-	if(health.GetMaxHealth() != health.GetHealth())
-		m_pPookaObj->GetTransform()->SetLocalScale(1.0f + (health.GetMaxHealth() - health.GetHealth() - 1) / 2.0f);
+	if (health.GetMaxHealth() != health.GetHealth())
+	{
+		const int tileIdx{ health.GetMaxHealth() - health.GetHealth() };
+		m_pPookaObj->GetComponent<that::SpriteRenderer>()->SetTile(tileIdx);
+		m_pPookaObj->GetTransform()->SetLocalScale(1.0f + (tileIdx - 1) / 2.0f);
+	}
 }
