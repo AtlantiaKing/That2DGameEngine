@@ -29,6 +29,7 @@
 #include "InputManager.h"
 #include "ResourceManager.h"
 #include "TextureManager.h"
+#include "Window.h"
 
 // Commands
 #include "GridMoveCommand.h"
@@ -80,6 +81,13 @@ void digdug::LevelLoader::Init()
 			pGridComponent->SetTile(x, y, pTile->AddComponent<WorldTile>());
 		}
 	}
+
+	const glm::ivec2 m_MapSize{ pGridComponent->GetSize() * static_cast<int>(pGridComponent->GetCellSize()) };
+	const auto& windowSize{ that::Window::GetInstance().GetSize() };
+
+	const float scale{ static_cast<float>(windowSize.y) / m_MapSize.y };
+	GetTransform()->SetWorldScale(scale);
+	GetTransform()->Translate(cellSize / 2.0f * scale, cellSize / 2.0f * scale);
 }
 
 void digdug::LevelLoader::OnFrameStart()

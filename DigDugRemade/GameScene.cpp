@@ -7,18 +7,20 @@
 // Components
 #include "Transform.h"
 #include "LevelLoader.h"
+#include "GridComponent.h"
 
-// Std includes
+// Engine includes
+#include "Window.h"
+
+// Library includes
 #include <iostream>
+#include "glm/vec2.hpp"
 
 void digdug::GameScene::Load(that::Scene& scene)
 {
 	// Grid
 	that::GameObject* pGrid{ scene.CreateGameObject("Grid") };
 	pGrid->AddComponent<LevelLoader>()->SetLevel("Levels/Level1.png");
-
-	pGrid->GetTransform()->SetWorldScale(2.0f);
-	pGrid->GetTransform()->Translate(40.0f, 40.0f);
 
 	PrintControls();
 }
