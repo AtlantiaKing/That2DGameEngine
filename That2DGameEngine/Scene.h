@@ -18,9 +18,10 @@ namespace that
 		void UpdateCleanup();
 		void Render() const;
 		void OnGUI();
+		void Destroy();
 
 		Scene() = default;
-		~Scene();
+		~Scene() = default;
 		Scene(const Scene& other) = delete;
 		Scene(Scene&& other) = delete;
 		Scene& operator=(const Scene& other) = delete;

@@ -50,3 +50,8 @@ void that::SceneManager::OnGUI()
 {
 	m_pScene->OnGUI();
 }
+
+void that::SceneManager::Destroy()
+{
+	m_pScene->Destroy();
+}

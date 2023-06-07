@@ -126,4 +126,6 @@ void that::Engine::Run(const std::function<void()>& setup)
 		const auto sleepTime{ std::chrono::milliseconds(static_cast<int>(desiredFrameTime)) - frameTime };
 		std::this_thread::sleep_for(sleepTime);
 	}
+
+	sceneManager.Destroy();
 }

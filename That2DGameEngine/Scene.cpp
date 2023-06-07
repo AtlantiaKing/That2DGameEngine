@@ -113,8 +113,8 @@ void that::Scene::OnGUI()
 	}
 }
 
-that::Scene::~Scene()
-{	
+void that::Scene::Destroy()
+{
 	// Call the OnDestroy method of every to-be-destroyed object
 	for (const auto& pGameObject : m_pObjects)
 	{

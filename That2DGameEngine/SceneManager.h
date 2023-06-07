@@ -20,6 +20,7 @@ namespace that
 		void UpdateCleanup();
 		void Render();
 		void OnGUI();
+		void Destroy();
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;
