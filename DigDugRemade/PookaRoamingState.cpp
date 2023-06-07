@@ -50,17 +50,118 @@ void digdug::PookaRoamingState::UpdateMovement()
 	auto pTransform{ m_pPookaObj->GetComponent<GridTransform>() };
 
 	// Try to move
-	if (pTransform->Move(m_Direction.x, m_Direction.y, true)) return;
+	if (pTransform->Move(m_Direction.x, m_Direction.y, true))
+	{
+		if (m_Direction.x)
+		{
+			const bool canMoveUp{ pTransform->CanMoveInDirection({ 0, 1 }) };
+			const bool canMoveDown{ pTransform->CanMoveInDirection({ 0, -1 }) };
+
+			if (canMoveDown && canMoveUp)
+			{
+				switch (rand() % 3)
+				{
+				case 0:
+					break;
+				case 1:
+					m_Direction.x = 0;
+					m_Direction.y = 1;
+					break;
+				case 2:
+					m_Direction.x = 0;
+					m_Direction.y = -1;
+					break;
+				}
+			}
+			else if (canMoveUp)
+			{
+				if (rand() % 2)
+				{
+					m_Direction.x = 0;
+					m_Direction.y = 1;
+				}
+			}
+			else if(canMoveDown)
+			{
+				if (rand() % 2)
+				{
+					m_Direction.x = 0;
+					m_Direction.y = -1;
+				}
+			}
+		}
+		else
+		{
+			const bool canMoveRight{ pTransform->CanMoveInDirection({ 1, 0 }) };
+			const bool canMoveLeft{ pTransform->CanMoveInDirection({ -1, 0 }) };
+
+			if (canMoveLeft && canMoveRight)
+			{
+				switch (rand() % 3)
+				{
+				case 0:
+					break;
+				case 1:
+					m_Direction.x = 1;
+					m_Direction.y = 0;
+					break;
+				case 2:
+					m_Direction.x = -1;
+					m_Direction.y = 0;
+					break;
+				}
+			}
+			else if (canMoveRight)
+			{
+				if (rand() % 2)
+				{
+					m_Direction.x = 1;
+					m_Direction.y = 0;
+				}
+			}
+			else if (canMoveLeft)
+			{
+				if (rand() % 2)
+				{
+					m_Direction.x = -1;
+					m_Direction.y = 0;
+				}
+			}
+		}
+		return;
+	}
 
 	// Change direction if moving fails
-	if (rand() % 1001 / 1000.0f > 0.3f)
+	if (m_Direction.y)
 	{
-		m_Direction.x = rand() % 1001 / 1000.0f > 0.5f ? -1 : 1;
+		const bool canMoveRight{ pTransform->CanMoveInDirection({ 1, 0 }) };
+		const bool canMoveLeft{ pTransform->CanMoveInDirection({ -1, 0 }) };
+
 		m_Direction.y = 0;
+
+		if (canMoveLeft && canMoveRight)
+		{
+			m_Direction.x = rand() % 2;
+		}
+		else
+		{
+			m_Direction.x = canMoveLeft ? -1 : 1;
+		}
 	}
 	else
 	{
-		m_Direction.y = rand() % 1001 / 1000.0f > 0.5f ? -1 : 1;
+		const bool canMoveUp{ pTransform->CanMoveInDirection({ 0, 1 }) };
+		const bool canMoveDown{ pTransform->CanMoveInDirection({ 0, -1 }) };
+
 		m_Direction.x = 0;
+
+		if (canMoveDown && canMoveUp)
+		{
+			m_Direction.y = rand() % 2;
+		}
+		else
+		{
+			m_Direction.y = canMoveDown ? -1 : 1;
+		}
 	}
 }

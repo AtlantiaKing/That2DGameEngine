@@ -49,6 +49,24 @@ void digdug::WorldTile::Init()
 	m_pTopMask->SetPercentage(true, 0.0f);
 }
 
+void digdug::WorldTile::Update()
+{
+	const float bottomMask{ m_pBottomMask->GetMask().x };
+	const float topMask{ m_pTopMask->GetMask().x };
+	if (bottomMask + topMask >= 1.0f || bottomMask >= 1.0f || topMask >= 1.0f)
+	{
+		m_pBottomMask->SetPercentage(true, 1.0f);
+		m_pTopMask->SetPercentage(true, 1.0f);
+	}
+	const float leftMask{ m_pLeftMask->GetMask().x };
+	const float rightMask{ m_pRightMask->GetMask().x };
+	if (leftMask + rightMask >= 1.0f || leftMask >= 1.0f || rightMask >= 1.0f)
+	{
+		m_pLeftMask->SetPercentage(true, 1.0f);
+		m_pRightMask->SetPercentage(true, 1.0f);
+	}
+}
+
 void digdug::WorldTile::UpdatePlayer(const glm::ivec2& /*playerCell*/, const glm::ivec2& playerPosition, const glm::ivec2& direction, float playerSize)
 {
 	const int cellSize{ static_cast<int>(m_pGrid->GetCellSize()) };
@@ -139,20 +157,31 @@ bool digdug::WorldTile::IsValidPosition(const glm::vec2& position, const glm::iv
 	const auto& tilePos{ GetTransform()->GetLocalPosition() };
 	const auto& textureSize{ GetOwner()->GetComponent<that::TextureRenderer>()->GetTextureSize() };
 
-	constexpr float epsilon{ 0.01f };
-	if (position.x + size < tilePos.x + epsilon || position.x + epsilon > tilePos.x + textureSize.x) 
+	if (position.x + size / 2.0f <= tilePos.x - textureSize.x / 2.0f || position.x - size / 2.0f >= tilePos.x + textureSize.x / 2.0f) 
 		return true;
-	if (position.y + size < tilePos.y + epsilon || position.y + epsilon > tilePos.y + textureSize.y) 
+	if (position.y + size / 2.0f <= tilePos.y - textureSize.y / 2.0f || position.y - size / 2.0f >= tilePos.y + textureSize.x / 2.0f)
 		return true;
 
 	if (direction.x > 0)
-		return position.x + size >= tilePos.x + textureSize.x || position.x + size <= tilePos.x + m_pLeftMask->GetMask().x * textureSize.x;
+	{
+		bool help{ position.x + size / 2.0f >= tilePos.x + textureSize.x / 2.0f || position.x + size / 2.0f <= tilePos.x - textureSize.x / 2.0f + m_pLeftMask->GetMask().x * textureSize.x };
+		return help;
+	}
 	else if (direction.x < 0)
-		return position.x <= tilePos.x || position.x >= tilePos.x + textureSize.x - m_pRightMask->GetMask().x * textureSize.x;
+	{
+		bool help{ position.x - size / 2.0f <= tilePos.x - textureSize.x / 2.0f || position.x - size / 2.0f >= tilePos.x + textureSize.x / 2.0f - m_pRightMask->GetMask().x * textureSize.x };
+		return help;
+	}
 	else if (direction.y > 0)
-		return position.y + size >= tilePos.y + textureSize.y || position.y + size <= tilePos.y + m_pTopMask->GetMask().x * textureSize.y;
+	{
+		bool help{ position.y + size / 2.0f >= tilePos.y + textureSize.y / 2.0f || position.y + size / 2.0f <= tilePos.y - textureSize.y / 2.0f + m_pTopMask->GetMask().x * textureSize.y };
+		return help;
+	}
 	else if (direction.y < 0)
-		return position.y <= tilePos.y || position.y >= tilePos.y + textureSize.y - m_pBottomMask->GetMask().x * textureSize.y;
+	{
+		bool help{ position.y - size / 2.0f <= tilePos.y - textureSize.y / 2.0f || position.y - size / 2.0f >= tilePos.y + textureSize.y / 2.0f - m_pBottomMask->GetMask().x * textureSize.y };
+		return help;
+	}
 
 	return false;
 }

@@ -48,8 +48,8 @@ void digdug::GridTransform::SnapToGrid()
 	const auto& position{ GetTransform()->GetLocalPosition() };
 
 	// Set the position in pixels
-	m_Position.x = static_cast<int>(position.x / cellSize) * stepsPerCell;
-	m_Position.y = static_cast<int>(position.y / cellSize) * stepsPerCell;
+	m_Position.x = static_cast<int>((position.x + stepsPerCell / 2) / cellSize) * stepsPerCell;
+	m_Position.y = static_cast<int>((position.y + stepsPerCell / 2) / cellSize) * stepsPerCell;
 
 	// Set the position in floating point values
 	m_FloatPosition.x = static_cast<float>(m_Position.x);
@@ -64,23 +64,31 @@ bool digdug::GridTransform::Move(int xSteps, int ySteps, bool checkWorld)
 
 	glm::vec2 prevPos{ m_FloatPosition };
 
-	const int posInTileX{ m_Position.x % static_cast<int>(m_pGrid->GetStepsPerCell()) };
-	const int posInTileY{ m_Position.y % static_cast<int>(m_pGrid->GetStepsPerCell()) };
+	const int cellSteps{ m_pGrid->GetStepsPerCell() };
+	const int posInTileX{ m_Position.x % static_cast<int>(cellSteps) };
+	const int posInTileY{ m_Position.y % static_cast<int>(cellSteps) };
 
-	const bool canMoveVertical{ (checkWorld && (posInTileX <= m_ChangeDirectionEpsilon || posInTileX >= m_pGrid->GetStepsPerCell() - m_ChangeDirectionEpsilon) || !checkWorld && posInTileX == 0) };
-	const bool canMoveHorizontal{ (checkWorld && (posInTileY <= m_ChangeDirectionEpsilon || posInTileY >= m_pGrid->GetStepsPerCell() - m_ChangeDirectionEpsilon) || !checkWorld && posInTileY == 0) };
+	const bool canMoveVertical{ checkWorld ? posInTileX < m_IsInTileEpsilon || posInTileX > cellSteps - (m_IsInTileEpsilon+1) : posInTileX == 0};
+	const bool canMoveHorizontal{ checkWorld ? posInTileY < m_IsInTileEpsilon || posInTileY > cellSteps - (m_IsInTileEpsilon+1) : posInTileY == 0};
 
 	if (abs(ySteps) > 0 && canMoveVertical)
 	{
-		m_FloatPosition.x = static_cast<float>(m_Position.x / static_cast<int>(m_pGrid->GetStepsPerCell()) * static_cast<int>(m_pGrid->GetStepsPerCell()));
-		// There is Y input and has space on grid to move vertically, move the transform on the Y axis
+		if (posInTileX < m_IsInTileEpsilon)
+			m_FloatPosition.x = static_cast<float>(m_Position.x - posInTileX);
+		else
+			m_FloatPosition.x = static_cast<float>(m_Position.x + cellSteps - posInTileX);
+
 		m_FloatPosition.y += ySteps * moveSpeed * that::Timer::GetInstance().GetElapsed();
 		m_PrevX = 0;
 		m_PrevY = ySteps;
 	}
 	else if (abs(xSteps) > 0 && canMoveHorizontal)
 	{
-		m_FloatPosition.y = static_cast<float>(m_Position.y / static_cast<int>(m_pGrid->GetStepsPerCell()) * static_cast<int>(m_pGrid->GetStepsPerCell()));
+		if (posInTileY < m_IsInTileEpsilon)
+			m_FloatPosition.y = static_cast<float>(m_Position.y - posInTileY);
+		else
+			m_FloatPosition.y = static_cast<float>(m_Position.y + cellSteps - posInTileY);
+
 		// There is X input and has space on grid to move horizontally, move the transform on the X axis
 		m_FloatPosition.x += xSteps * moveSpeed * that::Timer::GetInstance().GetElapsed();
 		m_PrevY = 0;
@@ -225,6 +233,26 @@ void digdug::GridTransform::SetPosition(int x, int y)
 
 	m_FloatPosition.x = static_cast<float>(x * steps);
 	m_FloatPosition.y = static_cast<float>(y * steps);
+}
+
+bool digdug::GridTransform::CanMoveInDirection(const glm::ivec2& direction) const
+{
+	const int cellSteps{ m_pGrid->GetStepsPerCell() };
+	const int posInTileX{ m_Position.x % static_cast<int>(cellSteps) };
+	const int posInTileY{ m_Position.y % static_cast<int>(cellSteps) };
+
+	const bool canMoveVertical{ posInTileX == 0 };
+	const bool canMoveHorizontal{ posInTileY == 0 };
+
+	if (direction.x && !canMoveHorizontal) return false;
+	if (direction.y && !canMoveVertical) return false;
+
+	if (canMoveHorizontal && canMoveVertical)
+	{
+		return m_pGrid->IsValidPosition(m_Position + direction, direction, true);
+	}
+
+	return false;
 }
 
 glm::ivec2 digdug::GridTransform::GetCellPosition() const

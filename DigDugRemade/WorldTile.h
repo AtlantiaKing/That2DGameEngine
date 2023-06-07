@@ -27,6 +27,7 @@ namespace digdug
 		WorldTile& operator=(WorldTile&& other) = delete;
 
 		virtual void Init() override;
+		virtual void Update() override;
 
 		void UpdatePlayer(const glm::ivec2& playerCell, const glm::ivec2& playerPosition, const glm::ivec2& direction, float playerSize);
 		void SetMasks(float left, float right, float bottom, float top);

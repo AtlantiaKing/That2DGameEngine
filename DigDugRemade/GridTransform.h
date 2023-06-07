@@ -35,6 +35,7 @@ namespace digdug
 		bool Move(int xSteps, int ySteps, bool checkWorld = false);
 		void SetPosition(int x, int y);
 
+		bool CanMoveInDirection(const glm::ivec2& direction) const;
 		glm::ivec2 GetCellPosition() const;
 		glm::ivec2 GetPosition() const { return m_Position; }
 		glm::ivec2 GetDirection() const { return { m_PrevX, m_PrevY }; }
@@ -52,6 +53,7 @@ namespace digdug
 		bool m_RotateIfUp{ false };
 
 		const int m_ChangeDirectionEpsilon{ 3 };
+		const int m_IsInTileEpsilon{ 6 };
 
 		GridComponent* m_pGrid{};
 		that::TextureRenderer* m_pTexture{};

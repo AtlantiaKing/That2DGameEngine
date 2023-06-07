@@ -31,7 +31,7 @@ namespace digdug
 		glm::ivec2 m_GoToTile{};
 
 		float m_WaitForCheck{};
-		const float m_WaitTime{ 3.0f };
+		const float m_WaitTime{ 1.0f };
 
 		const float m_MoveSpeed{ 25.0f };
 
