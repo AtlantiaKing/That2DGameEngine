@@ -14,6 +14,8 @@ void that::SpriteRenderer::SetSprite(std::shared_ptr<Texture2D> pTexture, int ti
 	m_TimeBetweenTiles = timePerTile;
 
 	Reset();
+
+	RecalculateSrcRect();
 }
 
 void that::SpriteRenderer::SetTexture(std::shared_ptr<Texture2D> pTexture)

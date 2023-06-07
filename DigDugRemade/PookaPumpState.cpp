@@ -59,8 +59,7 @@ void digdug::PookaPumpState::Notify(const HealthComponent& health)
 
 	if (health.GetMaxHealth() != health.GetHealth())
 	{
-		const int tileIdx{ health.GetMaxHealth() - health.GetHealth() };
+		const int tileIdx{ health.GetMaxHealth() - health.GetHealth() - 1 };
 		m_pPookaObj->GetComponent<that::SpriteRenderer>()->SetTile(tileIdx);
-		m_pPookaObj->GetTransform()->SetLocalScale(1.0f + (tileIdx - 1) / 2.0f);
 	}
 }
