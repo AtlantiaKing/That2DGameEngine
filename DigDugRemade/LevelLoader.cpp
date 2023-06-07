@@ -56,7 +56,6 @@ void digdug::LevelLoader::Init()
 	pGridComponent->SetSize(levelSize.x, levelSize.y);
 
 	const float cellSize{ pGridComponent->GetCellSize() };
-	const auto& pWorldTileTexture{ that::TextureManager::GetInstance().LoadTexture("WorldTile.png") };
 
 	// SURFACE PASS 1
 	// Create all world tiles
@@ -71,6 +70,10 @@ void digdug::LevelLoader::Init()
 
 			pTile->GetTransform()->SetLocalPosition(static_cast<float>(x * cellSize), static_cast<float>(y * cellSize));
 
+			std::stringstream tileFilePath{};
+			tileFilePath << "Tiles/WorldTile" << (y - 1) / 3 << ".png";
+
+			const auto& pWorldTileTexture{ that::TextureManager::GetInstance().LoadTexture(tileFilePath.str()) };
 			auto pTexture{ pTile->AddComponent<that::TextureRenderer>() };
 			pTexture->SetTexture(pWorldTileTexture);
 
