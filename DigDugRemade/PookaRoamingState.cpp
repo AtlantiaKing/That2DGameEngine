@@ -7,7 +7,7 @@
 
 #include "PookaGhostState.h"
 
-#include "ResourceManager.h"
+#include "TextureManager.h"
 #include "Timer.h"
 
 digdug::PookaRoamingState::PookaRoamingState(that::GameObject* pPooka, that::GameObject* pPlayer)
@@ -33,7 +33,7 @@ void digdug::PookaRoamingState::StateEnter()
 	pGridTransform->SetEnabled(true);
 	pGridTransform->SnapToGrid();
 
-	const auto& pTexture{ that::ResourceManager::GetInstance().LoadTexture("Pooka/Default.png") };
+	const auto& pTexture{ that::TextureManager::GetInstance().LoadTexture("Pooka/Default.png") };
 	m_pPookaObj->GetComponent<that::TextureRenderer>()->SetTexture(pTexture);
 
 	m_RoamTime = 0.0f;

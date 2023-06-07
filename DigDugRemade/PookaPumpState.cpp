@@ -10,7 +10,7 @@
 #include "PookaRoamingState.h"
 
 #include "Timer.h"
-#include "ResourceManager.h"
+#include "TextureManager.h"
 
 digdug::PookaPumpState::PookaPumpState(that::GameObject* pPooka, that::GameObject* pPlayer)
 	: m_pPookaObj{ pPooka }
@@ -40,7 +40,7 @@ void digdug::PookaPumpState::StateEnter()
 {
 	m_pPookaObj->GetComponent<HealthComponent>()->OnHealthUpdate().AddListener(this);
 
-	const auto& pTexture{ that::ResourceManager::GetInstance().LoadTexture("Pooka/Pumped.png") };
+	const auto& pTexture{ that::TextureManager::GetInstance().LoadTexture("Pooka/Pumped.png") };
 	m_pPookaObj->GetComponent<that::TextureRenderer>()->SetTexture(pTexture);
 
 	m_pPookaObj->GetComponent<that::BoxCollider>()->SetEnabled(false);

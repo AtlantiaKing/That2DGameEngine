@@ -1,12 +1,15 @@
 #include "WorldTile.h"
 
 #include "GameObject.h"
+
 #include "TextureRenderer.h"
-#include "ResourceManager.h"
 #include "TextureMask.h"
 #include "Transform.h"
 #include "GridTransform.h"
 #include "GridComponent.h"
+
+#include "TextureManager.h"
+
 #include <iostream>
 
 void digdug::WorldTile::Init()
@@ -23,24 +26,24 @@ void digdug::WorldTile::Init()
 	that::GameObject* pTopMask{ pOwner->CreateGameObject("BottomMask") };
 
 	auto pLeftTexture{ pLeftMask->AddComponent<that::TextureRenderer>() };
-	pLeftTexture->SetTexture(that::ResourceManager::GetInstance().LoadTexture("DiggedAreaLeft.png"));
+	pLeftTexture->SetTexture(that::TextureManager::GetInstance().LoadTexture("DiggedAreaLeft.png"));
 	m_pLeftMask = pLeftMask->AddComponent<that::TextureMask>();
 	m_pLeftMask->SetPercentage(true, 0.0f);
 
 	auto pRightTexture{ pRightMask->AddComponent<that::TextureRenderer>() };
-	pRightTexture->SetTexture(that::ResourceManager::GetInstance().LoadTexture("DiggedAreaRight.png"));
+	pRightTexture->SetTexture(that::TextureManager::GetInstance().LoadTexture("DiggedAreaRight.png"));
 	pRightMask->GetTransform()->Rotate(180.0f);
 	m_pRightMask = pRightMask->AddComponent<that::TextureMask>();
 	m_pRightMask->SetPercentage(true, 0.0f);
 
 	auto pBottomTexture{ pBottomMask->AddComponent<that::TextureRenderer>() };
-	pBottomTexture->SetTexture(that::ResourceManager::GetInstance().LoadTexture("DiggedAreaLeft.png"));
+	pBottomTexture->SetTexture(that::TextureManager::GetInstance().LoadTexture("DiggedAreaLeft.png"));
 	pBottomMask->GetTransform()->Rotate(-90.0f);
 	m_pBottomMask = pBottomMask->AddComponent<that::TextureMask>();
 	m_pBottomMask->SetPercentage(true, 0.0f);
 
 	auto pTopTexture{ pTopMask->AddComponent<that::TextureRenderer>() };
-	pTopTexture->SetTexture(that::ResourceManager::GetInstance().LoadTexture("DiggedAreaRight.png"));
+	pTopTexture->SetTexture(that::TextureManager::GetInstance().LoadTexture("DiggedAreaRight.png"));
 	pTopMask->GetTransform()->Rotate(90.0f);
 	m_pTopMask = pTopMask->AddComponent<that::TextureMask>();
 	m_pTopMask->SetPercentage(true, 0.0f);

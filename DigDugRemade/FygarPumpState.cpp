@@ -10,7 +10,7 @@
 #include "FygarRoamingState.h"
 
 #include "Timer.h"
-#include "ResourceManager.h"
+#include "TextureManager.h"
 
 digdug::FygarPumpState::FygarPumpState(that::GameObject* pFygar, that::GameObject* pPlayer)
 	: m_pFygarObj{ pFygar }
@@ -40,7 +40,7 @@ void digdug::FygarPumpState::StateEnter()
 {
 	m_pFygarObj->GetComponent<HealthComponent>()->OnHealthUpdate().AddListener(this);
 
-	const auto& pTexture{ that::ResourceManager::GetInstance().LoadTexture("Fygar/Pumped.png") };
+	const auto& pTexture{ that::TextureManager::GetInstance().LoadTexture("Fygar/Pumped.png") };
 	m_pFygarObj->GetComponent<that::TextureRenderer>()->SetTexture(pTexture);
 
 	m_pFygarObj->GetComponent<that::BoxCollider>()->SetEnabled(false);

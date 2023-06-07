@@ -9,7 +9,7 @@
 #include "FygarGhostState.h"
 #include "FygarAttackState.h"
 
-#include "ResourceManager.h"
+#include "TextureManager.h"
 #include "Timer.h"
 
 digdug::FygarRoamingState::FygarRoamingState(that::GameObject* pFygar, that::GameObject* pPlayer)
@@ -43,7 +43,7 @@ void digdug::FygarRoamingState::StateEnter()
 	GridTransform* pGridTransform{ m_pFygarObj->GetComponent<GridTransform>() };
 	pGridTransform->SnapToGrid();
 
-	const auto& pTexture{ that::ResourceManager::GetInstance().LoadTexture("Fygar/Default.png") };
+	const auto& pTexture{ that::TextureManager::GetInstance().LoadTexture("Fygar/Default.png") };
 	m_pFygarObj->GetComponent<that::TextureRenderer>()->SetTexture(pTexture);
 
 	m_RoamTime = 0.0f;

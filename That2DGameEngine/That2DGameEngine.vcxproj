@@ -248,6 +248,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClInclude Include="Surface2D.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="Texture2D.h" />
+    <ClInclude Include="TextureManager.h" />
     <ClInclude Include="TextureMask.h" />
     <ClInclude Include="TextureRenderer.h" />
     <ClInclude Include="Timer.h" />
@@ -305,6 +306,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClCompile Include="Surface2D.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="Texture2D.cpp" />
+    <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="TextureMask.cpp" />
     <ClCompile Include="TextureRenderer.cpp" />
     <ClCompile Include="Timer.cpp" />

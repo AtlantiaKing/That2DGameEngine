@@ -27,6 +27,7 @@
 // Managers
 #include "InputManager.h"
 #include "ResourceManager.h"
+#include "TextureManager.h"
 
 // Commands
 #include "GridMoveCommand.h"
@@ -51,7 +52,7 @@ void digdug::LevelLoader::Init()
 	pGridComponent->SetSize(levelSize.x, levelSize.y);
 
 	const float cellSize{ pGridComponent->GetCellSize() };
-	const auto& pWorldTileTexture{ that::ResourceManager::GetInstance().LoadTexture("WorldTile.png") };
+	const auto& pWorldTileTexture{ that::TextureManager::GetInstance().LoadTexture("WorldTile.png") };
 
 	// SURFACE PASS 1
 	// Create all world tiles
@@ -133,7 +134,7 @@ void digdug::LevelLoader::OnFrameStart()
 
 					that::GameObject* pFire{ pEnemy->CreateGameObject("FireBreath") };
 					that::TextureRenderer* pFireRenderer{ pFire->AddComponent<that::TextureRenderer>() };
-					pFireRenderer->SetTexture(that::ResourceManager::GetInstance().LoadTexture("Fygar/FireBreath.png"));
+					pFireRenderer->SetTexture(that::TextureManager::GetInstance().LoadTexture("Fygar/FireBreath.png"));
 					pFire->GetTransform()->SetLocalPosition((pPlayer->GetComponent<that::TextureRenderer>()->GetTextureSize().x + pFireRenderer->GetTextureSize().x) / 2.0f, 0.0f);
 					pFire->AddComponent<FireBreath>();
 					pFire->AddComponent<that::TextureMask>()->SetPercentage(true, 0.0f);
@@ -151,7 +152,7 @@ that::GameObject* digdug::LevelLoader::CreatePlayer()
 {
 	// Player
 	that::GameObject* pPlayer{ GetOwner()->CreateGameObject("Player") };
-	const auto& pPlayerTexture{ that::ResourceManager::GetInstance().LoadTexture("MainCharacter.png") };
+	const auto& pPlayerTexture{ that::TextureManager::GetInstance().LoadTexture("MainCharacter.png") };
 	pPlayer->AddComponent<that::TextureRenderer>()->SetTexture(pPlayerTexture);
 	pPlayer->AddComponent<GridTransform>();
 	pPlayer->AddComponent<that::BoxCollider>();
@@ -170,7 +171,7 @@ that::GameObject* digdug::LevelLoader::CreatePlayer()
 	// Pump
 	that::GameObject* pPump{ pPlayer->CreateGameObject("Pump") };
 	auto pPumpRenderer{ pPump->AddComponent<that::TextureRenderer>() };
-	const auto& pPumpTexture{ that::ResourceManager::GetInstance().LoadTexture("Pump.png") };
+	const auto& pPumpTexture{ that::TextureManager::GetInstance().LoadTexture("Pump.png") };
 	pPumpRenderer->SetTexture(pPumpTexture);
 	pPump->AddComponent<that::BoxCollider>();
 	pPump->AddComponent<Pump>();

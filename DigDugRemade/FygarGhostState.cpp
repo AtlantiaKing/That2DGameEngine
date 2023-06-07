@@ -9,7 +9,7 @@
 
 #include "FygarRoamingState.h"
 
-#include "ResourceManager.h"
+#include "TextureManager.h"
 #include "Timer.h"
 
 digdug::FygarGhostState::FygarGhostState(that::GameObject* pFygar, that::GameObject* pPlayer)
@@ -48,7 +48,7 @@ std::unique_ptr<digdug::FygarState> digdug::FygarGhostState::Update()
 
 void digdug::FygarGhostState::StateEnter()
 {
-    const auto& pTexture{ that::ResourceManager::GetInstance().LoadTexture("Fygar/Ghost.png") };
+    const auto& pTexture{ that::TextureManager::GetInstance().LoadTexture("Fygar/Ghost.png") };
     m_pFygarObj->GetComponent<that::TextureRenderer>()->SetTexture(pTexture);
 
     m_pGrid = m_pFygarObj->GetParent()->GetComponent<GridComponent>();

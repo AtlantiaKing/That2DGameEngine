@@ -9,7 +9,7 @@
 
 #include "PookaRoamingState.h"
 
-#include "ResourceManager.h"
+#include "TextureManager.h"
 #include "Timer.h"
 
 digdug::PookaGhostState::PookaGhostState(that::GameObject* pPooka, that::GameObject* pPlayer)
@@ -48,7 +48,7 @@ std::unique_ptr<digdug::PookaState> digdug::PookaGhostState::Update()
 
 void digdug::PookaGhostState::StateEnter()
 {
-    const auto& pTexture{ that::ResourceManager::GetInstance().LoadTexture("Pooka/Ghost.png") };
+    const auto& pTexture{ that::TextureManager::GetInstance().LoadTexture("Pooka/Ghost.png") };
     m_pPookaObj->GetComponent<that::TextureRenderer>()->SetTexture(pTexture);
 
     m_pGrid = m_pPookaObj->GetParent()->GetComponent<GridComponent>();

@@ -4,7 +4,7 @@
 #include "Transform.h"
 
 #include "Window.h"
-#include "ResourceManager.h"
+#include "TextureManager.h"
 #include "GameModeChooser.h"
 #include <iostream>
 #include "MainMenuFadeIn.h"
@@ -15,7 +15,7 @@ void digdug::MainMenuScene::Load(that::Scene& scene)
 
 	// BACKGROUND
 	that::GameObject* pBackground{ scene.CreateGameObject("Background") };
-	const auto& pBackgroundTexture{ that::ResourceManager::GetInstance().LoadTexture("MainMenu/Background.png") };
+	const auto& pBackgroundTexture{ that::TextureManager::GetInstance().LoadTexture("MainMenu/Background.png") };
 	const auto pBackgroundRenderer{ pBackground->AddComponent<that::TextureRenderer>() };
 	pBackgroundRenderer->SetTexture(pBackgroundTexture);
 
@@ -24,7 +24,7 @@ void digdug::MainMenuScene::Load(that::Scene& scene)
 
 	// MARKER
 	that::GameObject* pMarker{ pBackground->CreateGameObject("Marker")};
-	const auto& pMarkerTexture{ that::ResourceManager::GetInstance().LoadTexture("MainMenu/Marker.png") };
+	const auto& pMarkerTexture{ that::TextureManager::GetInstance().LoadTexture("MainMenu/Marker.png") };
 	const auto pMarkerRenderer{ pMarker->AddComponent<that::TextureRenderer>() };
 	pMarkerRenderer->SetTexture(pMarkerTexture);
 	const float markerPosX{ -45.0f };

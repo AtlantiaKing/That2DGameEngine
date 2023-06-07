@@ -224,6 +224,9 @@
     <ClInclude Include="Surface2D.h">
       <Filter>Seperate Objects</Filter>
     </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">
@@ -343,6 +346,9 @@
     </ClCompile>
     <ClCompile Include="Surface2D.cpp">
       <Filter>Seperate Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>Managers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
