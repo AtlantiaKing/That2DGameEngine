@@ -223,9 +223,6 @@
     <ClInclude Include="PookaGhostState.h">
       <Filter>States\Pooka</Filter>
     </ClInclude>
-    <ClInclude Include="PookaState.h">
-      <Filter>States\Pooka</Filter>
-    </ClInclude>
     <ClInclude Include="Pooka.h">
       <Filter>Components\Game\Entities\Pooka</Filter>
     </ClInclude>
@@ -237,9 +234,6 @@
     </ClInclude>
     <ClInclude Include="PookaPumpState.h">
       <Filter>States\Pooka</Filter>
-    </ClInclude>
-    <ClInclude Include="FygarState.h">
-      <Filter>States\Fygar</Filter>
     </ClInclude>
     <ClInclude Include="FygarRoamingState.h">
       <Filter>States\Fygar</Filter>
@@ -267,6 +261,9 @@
     </ClInclude>
     <ClInclude Include="ScorePrefab.h">
       <Filter>Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>States</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

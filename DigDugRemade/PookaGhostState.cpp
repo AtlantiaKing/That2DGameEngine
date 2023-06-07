@@ -18,7 +18,7 @@ digdug::PookaGhostState::PookaGhostState(that::GameObject* pPooka, that::GameObj
 {
 }
 
-std::unique_ptr<digdug::PookaState> digdug::PookaGhostState::Update()
+std::unique_ptr<digdug::State> digdug::PookaGhostState::Update()
 {
     that::Transform* pTransform{ m_pPookaObj->GetTransform() };
     const auto& pos{ pTransform->GetLocalPosition() };

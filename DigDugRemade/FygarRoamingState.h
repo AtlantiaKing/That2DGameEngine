@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FygarState.h"
+#include "State.h"
 
 #include "glm/vec2.hpp"
 
@@ -11,13 +11,13 @@ namespace that
 
 namespace digdug
 {
-	class FygarRoamingState final : public FygarState
+	class FygarRoamingState final : public State
 	{
 	public:
 		FygarRoamingState(that::GameObject* pFygar, that::GameObject* pPlayer);
 		virtual ~FygarRoamingState() = default;
 
-		virtual std::unique_ptr<digdug::FygarState> Update() override;
+		virtual std::unique_ptr<digdug::State> Update() override;
 		virtual void StateEnter() override;
 		virtual void StateEnd() override;
 

@@ -18,7 +18,7 @@ digdug::PookaPumpState::PookaPumpState(that::GameObject* pPooka, that::GameObjec
 {
 }
 
-std::unique_ptr<digdug::PookaState> digdug::PookaPumpState::Update()
+std::unique_ptr<digdug::State> digdug::PookaPumpState::Update()
 {
 	m_DeflateTime += that::Timer::GetInstance().GetElapsed();
 	if (m_DeflateTime > m_TimeUntilDeflate)

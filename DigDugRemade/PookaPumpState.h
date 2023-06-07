@@ -1,6 +1,6 @@
 #pragma once
 
-#include "PookaState.h"
+#include "State.h"
 #include "Observer.h"
 
 namespace that
@@ -12,13 +12,13 @@ namespace digdug
 {
 	class HealthComponent;
 
-	class PookaPumpState : public PookaState, public that::Observer<HealthComponent>
+	class PookaPumpState : public State, public that::Observer<HealthComponent>
 	{
 	public:
 		PookaPumpState(that::GameObject* pPooka, that::GameObject* pPlayer);
 		virtual ~PookaPumpState() = default;
 
-		virtual std::unique_ptr<PookaState> Update() override;
+		virtual std::unique_ptr<State> Update() override;
 		virtual void StateEnter() override;
 		virtual void StateEnd() override;
 

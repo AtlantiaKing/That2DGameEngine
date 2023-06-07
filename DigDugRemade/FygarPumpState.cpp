@@ -18,7 +18,7 @@ digdug::FygarPumpState::FygarPumpState(that::GameObject* pFygar, that::GameObjec
 {
 }
 
-std::unique_ptr<digdug::FygarState> digdug::FygarPumpState::Update()
+std::unique_ptr<digdug::State> digdug::FygarPumpState::Update()
 {
 	m_DeflateTime += that::Timer::GetInstance().GetElapsed();
 	if (m_DeflateTime > m_TimeUntilDeflate)

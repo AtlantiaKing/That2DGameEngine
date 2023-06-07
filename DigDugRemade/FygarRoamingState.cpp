@@ -18,7 +18,7 @@ digdug::FygarRoamingState::FygarRoamingState(that::GameObject* pFygar, that::Gam
 {
 }
 
-std::unique_ptr<digdug::FygarState> digdug::FygarRoamingState::Update()
+std::unique_ptr<digdug::State> digdug::FygarRoamingState::Update()
 {
 	m_RoamTime += that::Timer::GetInstance().GetElapsed();
 	if (m_RoamTime > m_TimeUntilStateChange)

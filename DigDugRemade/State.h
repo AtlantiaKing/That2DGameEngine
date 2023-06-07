@@ -4,14 +4,13 @@
 
 namespace digdug
 {
-	class FygarState
+	class State
 	{
 	public:
-		virtual ~FygarState() = default;
+		virtual ~State() = default;
 
-		virtual std::unique_ptr<FygarState> Update() = 0;
+		virtual std::unique_ptr<State> Update() = 0;
 		virtual void StateEnter() = 0;
 		virtual void StateEnd() = 0;
 	};
 }
-

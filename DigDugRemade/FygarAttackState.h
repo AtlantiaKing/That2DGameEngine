@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FygarState.h"
+#include "State.h"
 
 namespace that
 {
@@ -9,13 +9,13 @@ namespace that
 
 namespace digdug
 {
-	class FygarAttackState : public FygarState
+	class FygarAttackState : public State
 	{
 	public:
 		FygarAttackState(that::GameObject* pFygar, that::GameObject* pPlayer);
 		virtual ~FygarAttackState() = default;
 
-		virtual std::unique_ptr<FygarState> Update() override;
+		virtual std::unique_ptr<State> Update() override;
 		virtual void StateEnter() override;
 		virtual void StateEnd() override;
 

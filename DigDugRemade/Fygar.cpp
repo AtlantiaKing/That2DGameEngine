@@ -14,7 +14,7 @@ void digdug::Fygar::Init()
 
 void digdug::Fygar::Update()
 {
-	std::unique_ptr<FygarState> pNewState{ m_pState->Update() };
+	std::unique_ptr<State> pNewState{ m_pState->Update() };
 
 	if (pNewState) ChangeState(std::move(pNewState));
 }
@@ -30,7 +30,7 @@ void digdug::Fygar::Start(that::GameObject* pPlayer)
 	ChangeState(std::make_unique<FygarRoamingState>(GetOwner(), pPlayer));
 }
 
-void digdug::Fygar::ChangeState(std::unique_ptr<digdug::FygarState> pState)
+void digdug::Fygar::ChangeState(std::unique_ptr<digdug::State> pState)
 {
 	if (m_pState) m_pState->StateEnd();
 

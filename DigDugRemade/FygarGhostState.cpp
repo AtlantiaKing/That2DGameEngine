@@ -18,7 +18,7 @@ digdug::FygarGhostState::FygarGhostState(that::GameObject* pFygar, that::GameObj
 {
 }
 
-std::unique_ptr<digdug::FygarState> digdug::FygarGhostState::Update()
+std::unique_ptr<digdug::State> digdug::FygarGhostState::Update()
 {
     that::Transform* pTransform{ m_pFygarObj->GetTransform() };
     const auto& pos{ pTransform->GetLocalPosition() };

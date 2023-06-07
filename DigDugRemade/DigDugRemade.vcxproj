@@ -223,7 +223,6 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClInclude Include="FygarGhostState.h" />
     <ClInclude Include="FygarPumpState.h" />
     <ClInclude Include="FygarRoamingState.h" />
-    <ClInclude Include="FygarState.h" />
     <ClInclude Include="GameModeChooser.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="GridCollider.h" />
@@ -246,7 +245,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClInclude Include="ScorePrefab.h" />
     <ClInclude Include="ShootPumpCommand.h" />
     <ClInclude Include="LevelLoader.h" />
-    <ClInclude Include="PookaState.h" />
+    <ClInclude Include="State.h" />
     <ClInclude Include="WorldTile.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
