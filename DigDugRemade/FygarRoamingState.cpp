@@ -41,6 +41,7 @@ std::unique_ptr<digdug::FygarState> digdug::FygarRoamingState::Update()
 void digdug::FygarRoamingState::StateEnter()
 {
 	GridTransform* pGridTransform{ m_pFygarObj->GetComponent<GridTransform>() };
+	pGridTransform->SetEnabled(true);
 	pGridTransform->SnapToGrid();
 
 	const auto& pTexture{ that::TextureManager::GetInstance().LoadTexture("Fygar/Default.png") };
@@ -52,6 +53,8 @@ void digdug::FygarRoamingState::StateEnter()
 
 void digdug::FygarRoamingState::StateEnd()
 {
+	GridTransform* pGridTransform{ m_pFygarObj->GetComponent<GridTransform>() };
+	pGridTransform->SetEnabled(false);
 }
 
 void digdug::FygarRoamingState::UpdateMovement()
