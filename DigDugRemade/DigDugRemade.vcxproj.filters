@@ -226,5 +226,26 @@
     <ClInclude Include="PookaPumpState.h">
       <Filter>States\Pooka</Filter>
     </ClInclude>
+    <ClInclude Include="FygarState.h">
+      <Filter>States\Fygar</Filter>
+    </ClInclude>
+    <ClInclude Include="FygarRoamingState.h">
+      <Filter>States\Fygar</Filter>
+    </ClInclude>
+    <ClInclude Include="FygarGhostState.h">
+      <Filter>States\Fygar</Filter>
+    </ClInclude>
+    <ClInclude Include="FygarPumpState.h">
+      <Filter>States\Fygar</Filter>
+    </ClInclude>
+    <ClInclude Include="FygarAttackState.h">
+      <Filter>States\Fygar</Filter>
+    </ClInclude>
+    <ClInclude Include="Fygar.h">
+      <Filter>Components\Game\Entities\Fygar</Filter>
+    </ClInclude>
+    <ClInclude Include="FireBreath.h">
+      <Filter>Components\Game\Entities\Fygar</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

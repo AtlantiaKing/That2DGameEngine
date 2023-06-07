@@ -10,8 +10,8 @@
 #include "ResourceManager.h"
 #include "Timer.h"
 
-digdug::PookaRoamingState::PookaRoamingState(that::GameObject* pFygar, that::GameObject* pPlayer)
-	: m_pFygarObj{ pFygar }
+digdug::PookaRoamingState::PookaRoamingState(that::GameObject* pPooka, that::GameObject* pPlayer)
+	: m_pPookaObj{ pPooka }
 	, m_pPlayer{ pPlayer }
 {
 }
@@ -20,7 +20,7 @@ digdug::PookaRoamingState::PookaRoamingState(that::GameObject* pFygar, that::Gam
 std::unique_ptr<digdug::PookaState> digdug::PookaRoamingState::Update()
 {
 	m_RoamTime += that::Timer::GetInstance().GetElapsed();
-	if (m_RoamTime > m_TimeUntilGhost) return std::make_unique<PookaGhostState>(m_pFygarObj, m_pPlayer);
+	if (m_RoamTime > m_TimeUntilGhost) return std::make_unique<PookaGhostState>(m_pPookaObj, m_pPlayer);
 
 	UpdateMovement();
 
@@ -29,12 +29,12 @@ std::unique_ptr<digdug::PookaState> digdug::PookaRoamingState::Update()
 
 void digdug::PookaRoamingState::StateEnter()
 {
-	GridTransform* pGridTransform{ m_pFygarObj->GetComponent<GridTransform>() };
+	GridTransform* pGridTransform{ m_pPookaObj->GetComponent<GridTransform>() };
 	pGridTransform->SetEnabled(true);
 	pGridTransform->SnapToGrid();
 
 	const auto& pTexture{ that::ResourceManager::GetInstance().LoadTexture("Pooka/Default.png") };
-	m_pFygarObj->GetComponent<that::TextureRenderer>()->SetTexture(pTexture);
+	m_pPookaObj->GetComponent<that::TextureRenderer>()->SetTexture(pTexture);
 
 	m_RoamTime = 0.0f;
 	m_TimeUntilGhost = static_cast<float>(rand()) / RAND_MAX * (m_MaxTimeUntilGhost - m_MinTimeUntilGhost) + m_MinTimeUntilGhost;
@@ -42,12 +42,12 @@ void digdug::PookaRoamingState::StateEnter()
 
 void digdug::PookaRoamingState::StateEnd()
 {
-	m_pFygarObj->GetComponent<GridTransform>()->SetEnabled(false);
+	m_pPookaObj->GetComponent<GridTransform>()->SetEnabled(false);
 }
 
 void digdug::PookaRoamingState::UpdateMovement()
 {
-	auto pTransform{ m_pFygarObj->GetComponent<GridTransform>() };
+	auto pTransform{ m_pPookaObj->GetComponent<GridTransform>() };
 
 	// Try to move
 	if (pTransform->Move(m_Direction.x, m_Direction.y, true)) return;

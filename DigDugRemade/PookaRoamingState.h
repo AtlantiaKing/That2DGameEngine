@@ -24,7 +24,7 @@ namespace digdug
 	private:
 		void UpdateMovement();
 
-		that::GameObject* m_pFygarObj{};
+		that::GameObject* m_pPookeObj{};
 		that::GameObject* m_pPlayer{};
 
 		glm::ivec2 m_Direction{ 1, 0 };
