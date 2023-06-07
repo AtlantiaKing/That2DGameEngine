@@ -38,6 +38,9 @@
 #include <sstream>
 #include <iostream>
 
+// Defines
+#include "ColliderLayers.h"
+
 void digdug::LevelLoader::SetLevel(const std::string& filePath)
 {
 	m_Level = filePath;
@@ -122,7 +125,7 @@ void digdug::LevelLoader::OnFrameStart()
 				that::GameObject* pEnemy{ GetOwner()->CreateGameObject("Enemy") };
 				pEnemy->AddComponent<that::SpriteRenderer>();
 				pEnemy->AddComponent<GridTransform>();
-				pEnemy->AddComponent<that::BoxCollider>();
+				pEnemy->AddComponent<that::BoxCollider>()->SetLayer(ENEMY_LAYER);
 				pEnemy->GetComponent<that::Transform>()->SetLocalPosition(cellSize * x, cellSize * y);
 				pEnemy->AddComponent<HealthComponent>()->SetMaxHealth(m_EnemyHealth);
 				if (enemyData == UINT8_MAX)

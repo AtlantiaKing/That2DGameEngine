@@ -34,6 +34,9 @@ namespace that
 		const glm::vec2& GetSize() const { return m_Size; }
 		glm::vec2 GetSizeWorld() const;
 
+		void SetLayer(unsigned int layer) { m_Layer = layer; }
+		unsigned int GetLayer() const { return m_Layer; }
+
 		Subject<CollisionData>& OnHitEvent() { return m_OnHitEvent; }
 	private:
 		friend Physics;
@@ -43,6 +46,8 @@ namespace that
 		glm::vec2 m_Center{};
 		glm::vec2 m_Size{ 1.0f, 1.0f };
 		bool m_DefaultSize{ true };
+
+		unsigned int m_Layer{};
 
 		Subject<CollisionData> m_OnHitEvent{};
 	};

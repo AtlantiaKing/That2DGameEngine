@@ -10,6 +10,8 @@
 
 #include "EventQueue.h"
 
+#include "ColliderLayers.h"
+
 void digdug::Player::Init()
 {
 	GetOwner()->GetComponent<that::BoxCollider>()->OnHitEvent().AddListener(this);
@@ -27,7 +29,7 @@ void digdug::Player::OnDestroy()
 
 void digdug::Player::Notify(const that::CollisionData& data)
 {
-	if (data.pOther->GetOwner()->GetComponent<EnemyMovement>())
+	if (data.pOther->GetLayer() == ENEMY_LAYER)
 	{
 		GetOwner()->GetComponent<GridTransform>()->SetPosition(0, 0);
 
