@@ -47,6 +47,9 @@ namespace that
 		void SetActive(bool isActive);
 		bool IsActive() const;
 
+		void SetTag(const std::string& tag) { m_Tag = tag; }
+		const std::string& GetTag() const { return m_Tag; }
+
 		void Destroy();
 		bool IsMarkedAsDead() const { return m_IsMarkedDead; };
 
@@ -81,6 +84,8 @@ namespace that
 		Transform* m_pTransform{};
 
 		Scene* m_pScene{};
+
+		std::string m_Tag{};
 
 		bool m_IsMarkedDead{};
 	};
