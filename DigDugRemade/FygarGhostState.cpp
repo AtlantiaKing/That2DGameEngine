@@ -52,7 +52,6 @@ void digdug::FygarGhostState::StateEnter()
     m_pFygarObj->GetComponent<that::SpriteRenderer>()->SetSprite(pTexture, 2, 1, 0.4f);
 
     m_pGrid = m_pFygarObj->GetParent()->GetComponent<GridComponent>();
-    m_GoToTile = m_pGrid->GetOpenTile()->GetGridPosition() * static_cast<int>(m_pGrid->GetCellSize());
 }
 
 void digdug::FygarGhostState::StateEnd()

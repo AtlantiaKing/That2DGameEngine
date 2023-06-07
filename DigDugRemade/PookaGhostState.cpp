@@ -57,7 +57,6 @@ void digdug::PookaGhostState::StateEnter()
     m_pPookaObj->GetComponent<that::SpriteRenderer>()->SetSprite(pTexture, 2, 1, 0.4f);
 
     m_pGrid = m_pPookaObj->GetParent()->GetComponent<GridComponent>();
-    m_GoToTile = m_pGrid->GetOpenTile()->GetGridPosition() * static_cast<int>(m_pGrid->GetCellSize());
 }
 
 void digdug::PookaGhostState::StateEnd()

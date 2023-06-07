@@ -28,7 +28,6 @@ namespace digdug
 		that::GameObject* m_pPlayer{};
 
 		GridComponent* m_pGrid{};
-		glm::ivec2 m_GoToTile{};
 
 		float m_WaitForCheck{};
 		const float m_WaitTime{ 3.0f };
