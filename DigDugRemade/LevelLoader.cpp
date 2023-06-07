@@ -131,10 +131,12 @@ void digdug::LevelLoader::OnFrameStart()
 				if (enemyData == UINT8_MAX)
 				{
 					pEnemy->AddComponent<Pooka>()->Start(pPlayer);
+					pEnemy->SetTag("Pooka");
 				}
 				else
 				{
 					pEnemy->AddComponent<Fygar>()->Start(pPlayer);
+					pEnemy->SetTag("Fygar");
 
 					that::GameObject* pFire{ pEnemy->CreateGameObject("FireBreath") };
 					that::TextureRenderer* pFireRenderer{ pFire->AddComponent<that::TextureRenderer>() };

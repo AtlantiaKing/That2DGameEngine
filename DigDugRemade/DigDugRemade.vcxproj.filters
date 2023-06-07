@@ -59,6 +59,12 @@
     <Filter Include="Components\Game\Entities\Fygar">
       <UniqueIdentifier>{19510b7c-ed5c-4eeb-92d3-9a084e8f56f9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\Game\Entities\FloatingScore">
+      <UniqueIdentifier>{2c6629b9-c886-4279-9d02-1ef2b661e5e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Prefabs">
+      <UniqueIdentifier>{df48532e-d93e-4a0f-9471-9b4bdb445261}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -148,6 +154,12 @@
     </ClCompile>
     <ClCompile Include="FireBreath.cpp">
       <Filter>Components\Game\Entities\Fygar</Filter>
+    </ClCompile>
+    <ClCompile Include="FloatingScore.cpp">
+      <Filter>Components\Game\Entities\FloatingScore</Filter>
+    </ClCompile>
+    <ClCompile Include="ScorePrefab.cpp">
+      <Filter>Prefabs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -246,6 +258,15 @@
     </ClInclude>
     <ClInclude Include="FireBreath.h">
       <Filter>Components\Game\Entities\Fygar</Filter>
+    </ClInclude>
+    <ClInclude Include="ColliderLayers.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FloatingScore.h">
+      <Filter>Components\Game\Entities\FloatingScore</Filter>
+    </ClInclude>
+    <ClInclude Include="ScorePrefab.h">
+      <Filter>Prefabs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

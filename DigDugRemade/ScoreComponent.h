@@ -1,11 +1,14 @@
 #pragma once
 
 #include "Component.h"
+#include "EventListener.h"
+#include "Events.h"
+
 #include "Subject.h"
 
 namespace digdug
 {
-	class ScoreComponent final : public that::Component
+	class ScoreComponent final : public that::Component, public that::EventListener<that::EntityDeathEvent>
 	{
 	public:
 		ScoreComponent() = default;
@@ -16,10 +19,17 @@ namespace digdug
 
 		int GetScore() const { return m_Score; }
 
-		that::Subject<ScoreComponent>& OnScoreChange() { return m_ScoreChangedListeners; }
+		virtual void Init() override;
+		virtual void OnDestroy() override;
+		virtual void OnEvent(that::EntityDeathEvent* e) override;
+
+		that::Subject<ScoreComponent> OnScoreChange{};
 	private:
-		that::Subject<ScoreComponent> m_ScoreChangedListeners{};
+		int GetScoreForLayer(int height) const;
+
 		int m_Score{};
+
+		const float m_FygarHorizontalEpsilon{ 8.0f };
 	};
 }
 

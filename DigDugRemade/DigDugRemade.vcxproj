@@ -178,6 +178,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClCompile Include="EnemyBehaviour.cpp" />
     <ClCompile Include="EnemyMovement.cpp" />
     <ClCompile Include="FireBreath.cpp" />
+    <ClCompile Include="FloatingScore.cpp" />
     <ClCompile Include="Fygar.cpp" />
     <ClCompile Include="FygarAttackState.cpp" />
     <ClCompile Include="FygarGhostState.cpp" />
@@ -202,6 +203,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClCompile Include="Pump.cpp" />
     <ClCompile Include="ScoreComponent.cpp" />
     <ClCompile Include="ScoreHUDComponent.cpp" />
+    <ClCompile Include="ScorePrefab.cpp" />
     <ClCompile Include="ShootPumpCommand.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="WorldTile.cpp" />
@@ -215,6 +217,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClInclude Include="EnemyBehaviour.h" />
     <ClInclude Include="EnemyMovement.h" />
     <ClInclude Include="FireBreath.h" />
+    <ClInclude Include="FloatingScore.h" />
     <ClInclude Include="Fygar.h" />
     <ClInclude Include="FygarAttackState.h" />
     <ClInclude Include="FygarGhostState.h" />
@@ -228,6 +231,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClInclude Include="GridMoveCommand.h" />
     <ClInclude Include="GridTransform.h" />
     <ClInclude Include="HealthComponent.h" />
+    <ClInclude Include="ColliderLayers.h" />
     <ClInclude Include="LivesHUDComponent.h" />
     <ClInclude Include="MainMenuFadeIn.h" />
     <ClInclude Include="MainMenuScene.h" />
@@ -239,6 +243,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClInclude Include="Pump.h" />
     <ClInclude Include="ScoreComponent.h" />
     <ClInclude Include="ScoreHUDComponent.h" />
+    <ClInclude Include="ScorePrefab.h" />
     <ClInclude Include="ShootPumpCommand.h" />
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="PookaState.h" />

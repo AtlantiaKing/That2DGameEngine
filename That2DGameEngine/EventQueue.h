@@ -61,6 +61,8 @@ namespace that
 	template<class T>
 	inline void EventQueue::RemoveListener(EventListener<T>* listener)
 	{
+		static_assert(std::is_base_of<that::Event, T>(), "T should derive from the base Event class");
+
 		auto& listeners{ m_Listeners[T{}] };
 		listeners.erase(std::find(begin(listeners), end(listeners), reinterpret_cast<EventListener<void>*>(listener)));
 	}

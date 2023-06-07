@@ -28,9 +28,17 @@ std::shared_ptr<that::Texture2D> that::ResourceManager::LoadTexture(const std::s
 	return std::make_shared<Texture2D>(texture);
 }
 
-std::shared_ptr<that::Font> that::ResourceManager::LoadFont(const std::string& file, unsigned int size) const
+std::shared_ptr<that::Font> that::ResourceManager::LoadFont(const std::string& file, unsigned int size)
 {
-	return std::make_shared<Font>(m_dataPath + file, size);
+	if (const auto pFontIt{ m_pFonts.find(file) }; pFontIt != end(m_pFonts))
+	{
+		return pFontIt->second;
+	}
+
+	auto pFont{ std::make_shared<Font>(m_dataPath + file, size) };
+	m_pFonts[file] = pFont;
+
+	return pFont;
 }
 
 std::shared_ptr<that::Surface2D> that::ResourceManager::LoadSurface(const std::string& file) const
