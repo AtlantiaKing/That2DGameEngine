@@ -29,17 +29,14 @@ namespace digdug
 
 		virtual void Init() override;
 		virtual void Update() override;
+		virtual void OnEnable() override;
 		virtual void OnDestroy() override;
 
 		virtual void Notify(const that::CollisionData& data) override;
 		void PumpToEnemy();
-		
-		void Enable();
-		bool IsActive() const { return m_IsActive; }
+
 	private:
 		void DisablePump();
-
-		bool m_IsActive{};
 
 		HealthComponent* m_pPumpTo{};
 		that::TextureRenderer* m_pTexture{};

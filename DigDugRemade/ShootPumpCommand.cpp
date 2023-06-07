@@ -4,13 +4,13 @@
 
 void digdug::ShootPumpCommand::Execute()
 {
-	Pump* pPump{ m_pPump->GetComponent<Pump>() };
-	if (pPump->IsActive())
+	if (m_pPump->IsActive())
 	{
+		Pump* pPump{ m_pPump->GetComponent<Pump>() };
 		pPump->PumpToEnemy();
 	}
 	else
 	{
-		pPump->Enable();
+		m_pPump->SetActive(true);
 	}
 }

@@ -31,7 +31,7 @@ void digdug::Pump::Init()
 void digdug::Pump::Update()
 {
 	// Do nothing if the pump is not active
-	if (!m_IsActive) return;
+	if (!GetOwner()->IsActive()) return;
 
 	// Decrease the alive timer only when there is nothing attached to the pump
 	if (!m_pPumpTo)
@@ -85,7 +85,7 @@ void digdug::Pump::OnDestroy()
 
 void digdug::Pump::Notify(const that::CollisionData& data)
 {
-	if (!m_IsActive) return;
+	if (!GetOwner()->IsActive()) return;
 	if (m_pPumpTo) return;
 	if (data.pOther->GetOwner()->HasComponent<Player>()) return;
 
@@ -100,13 +100,8 @@ void digdug::Pump::Notify(const that::CollisionData& data)
 	}
 }
 
-void digdug::Pump::Enable()
+void digdug::Pump::OnEnable()
 {
-	// If the pump is already active, don't reactivate
-	if (m_IsActive) return;
-
-	// Activate the pump
-	m_IsActive = true;
 	GetOwner()->GetComponent<that::TextureRenderer>()->SetEnabled(true);
 
 	// Disable the movement of the player
@@ -140,8 +135,7 @@ void digdug::Pump::PumpToEnemy()
 
 void digdug::Pump::DisablePump()
 {
-	// Disable the pump logic
-	m_IsActive = false;
+	GetOwner()->SetActive(false);
 	// Disable the renderer
 	GetOwner()->GetComponent<that::TextureRenderer>()->SetEnabled(false);
 	// Enable the player transform
