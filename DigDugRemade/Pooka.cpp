@@ -10,7 +10,12 @@
 
 void digdug::Pooka::Init()
 {
-	GetOwner()->GetComponent<HealthComponent>()->OnHealthUpdate().AddListener(this);
+	GetOwner()->GetComponent<HealthComponent>()->OnHealthUpdate.AddListener(this);
+}
+
+void digdug::Pooka::OnDestroy()
+{
+	GetOwner()->GetComponent<HealthComponent>()->OnHealthUpdate.RemoveListener(this);
 }
 
 void digdug::Pooka::Update()

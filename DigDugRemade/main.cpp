@@ -12,6 +12,7 @@
 //#include "DemoScene.h"
 #include "MainMenuScene.h"
 #include "GameScene.h"
+#include "HighScoreScene.h"
 
 #include <vector>
 
@@ -20,6 +21,7 @@ void Setup()
 	that::Window::GetInstance().SetWindowSize(610, 520);
 	that::SceneManager::GetInstance().AddScene(digdug::MainMenuScene::Load);
 	that::SceneManager::GetInstance().AddScene(digdug::GameScene::Load);
+	that::SceneManager::GetInstance().AddScene(digdug::HighScoreScene::Load);
 }
 
 int main(int, char* [])

@@ -21,6 +21,7 @@ namespace digdug
 		Fygar& operator=(Fygar&& other) = delete;
 
 		virtual void Init() override;
+		virtual void OnDestroy() override;
 		virtual void Update() override;
 		virtual void Notify(const HealthComponent& health) override;
 

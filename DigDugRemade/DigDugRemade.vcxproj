@@ -198,7 +198,11 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClCompile Include="GridMoveCommand.cpp" />
     <ClCompile Include="GridTransform.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
+    <ClCompile Include="HighScoreButton.cpp" />
     <ClCompile Include="HighScoreHUDComponent.cpp" />
+    <ClCompile Include="HighScoreInput.cpp" />
+    <ClCompile Include="HighScoreLetter.cpp" />
+    <ClCompile Include="HighScoreScene.cpp" />
     <ClCompile Include="LivesHUDComponent.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenuFadeIn.cpp" />
@@ -256,7 +260,11 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClInclude Include="GridTransform.h" />
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="ColliderLayers.h" />
+    <ClInclude Include="HighScoreButton.h" />
     <ClInclude Include="HighScoreHUDComponent.h" />
+    <ClInclude Include="HighScoreInput.h" />
+    <ClInclude Include="HighScoreLetter.h" />
+    <ClInclude Include="HighScoreScene.h" />
     <ClInclude Include="LivesHUDComponent.h" />
     <ClInclude Include="MainMenuFadeIn.h" />
     <ClInclude Include="MainMenuScene.h" />

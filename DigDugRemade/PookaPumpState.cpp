@@ -38,7 +38,7 @@ std::unique_ptr<digdug::EnemyState> digdug::PookaPumpState::Update()
 
 void digdug::PookaPumpState::StateEnter()
 {
-	m_pPookaObj->GetComponent<HealthComponent>()->OnHealthUpdate().AddListener(this);
+	m_pPookaObj->GetComponent<HealthComponent>()->OnHealthUpdate.AddListener(this);
 
 	const auto& pTexture{ that::TextureManager::GetInstance().LoadTexture("Pooka/Pumped.png") };
 	m_pPookaObj->GetComponent<that::SpriteRenderer>()->SetSprite(pTexture, 4, 1);
@@ -48,7 +48,7 @@ void digdug::PookaPumpState::StateEnter()
 
 void digdug::PookaPumpState::StateEnd()
 {
-	m_pPookaObj->GetComponent<HealthComponent>()->OnHealthUpdate().RemoveListener(this);
+	m_pPookaObj->GetComponent<HealthComponent>()->OnHealthUpdate.RemoveListener(this);
 
 	m_pPookaObj->GetComponent<that::BoxCollider>()->SetEnabled(true);
 }

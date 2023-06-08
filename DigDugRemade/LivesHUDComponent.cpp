@@ -38,7 +38,7 @@ void digdug::LivesHUDComponent::Notify(const HealthComponent& health)
 
 void digdug::LivesHUDComponent::OnDestroy()
 {
-	m_pHealth->OnHealthUpdate().RemoveListener(this);
+	m_pHealth->OnHealthUpdate.RemoveListener(this);
 }
 
 void digdug::LivesHUDComponent::SearchPlayer(that::GameObject* pPlayerParent)
@@ -49,7 +49,7 @@ void digdug::LivesHUDComponent::SearchPlayer(that::GameObject* pPlayerParent)
 void digdug::LivesHUDComponent::Display(that::GameObject* pPlayer)
 {
 	m_pHealth = pPlayer->GetComponent<HealthComponent>();
-	m_pHealth->OnHealthUpdate().AddListener(this);
+	m_pHealth->OnHealthUpdate.AddListener(this);
 
 	const auto& pTexture{ that::TextureManager::GetInstance().LoadTexture("HUD/Life.png") };
 	const int textureWidth{ pTexture->GetSize().x };

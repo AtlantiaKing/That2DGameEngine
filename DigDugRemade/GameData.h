@@ -9,17 +9,23 @@ namespace digdug
 	{
 	public:
 		int GetHighScore();
-		const std::string& GetHighScoreUser();
+		std::string& GetHighScoreUser();
 		int GetRoundNumber();
 
 		void ResetGame();
-		void TryNewHighScore(int score);
+		bool TryNewHighScore(int score);
+
+		int GetMainMenuScene() { return m_MainMenuScene; }
+		int GetHighScoreScene() { return m_HighScoreScene; }
 	private:
 		friend class Singleton<GameData>;
 		GameData();
 
 		int m_HighScore{ 0 };
 		std::string m_HighScoreUser{ "---" };
+
+		const int m_MainMenuScene{ 0 };
+		const int m_HighScoreScene{ 2 };
 
 		int m_RoundNumber{ 1 };
 	};

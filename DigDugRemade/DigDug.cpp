@@ -4,12 +4,15 @@
 
 #include "BoxCollider.h"
 #include "HealthComponent.h"
+#include "ScoreComponent.h"
 
 #include "DigDugWalkingState.h"
 #include "DigDugDeathState.h"
 #include "DigDugRockDeathState.h"
 
 #include "InputManager.h"
+#include "SceneManager.h"
+#include "GameData.h"
 
 #include "GridMoveCommand.h"
 #include "ShootPumpCommand.h"
@@ -27,11 +30,14 @@ void digdug::DigDug::Init()
 	that::InputManager::GetInstance().BindDigitalCommand(' ', that::InputManager::InputType::ONBUTTON, std::make_unique<PumpToEnemyCommand>(this));
 
 	GetOwner()->GetComponent<that::BoxCollider>()->OnHitEvent().AddListener(this);
+	GetOwner()->GetComponent<HealthComponent>()->OnDeath.AddListener(this);
 }
 
 void digdug::DigDug::OnDestroy()
 {
 	GetOwner()->GetComponent<that::BoxCollider>()->OnHitEvent().RemoveListener(this);
+	GetOwner()->GetComponent<HealthComponent>()->OnDeath.RemoveListener(this);
+	that::InputManager::GetInstance().Clear();
 }
 
 void digdug::DigDug::Update()
@@ -45,6 +51,20 @@ void digdug::DigDug::Notify(const that::CollisionData& collision)
 	{
 		GetOwner()->GetComponent<HealthComponent>()->Hit();
 		ChangeState(std::make_unique<DigDugDeathState>(GetOwner()));
+	}
+}
+
+void digdug::DigDug::Notify(const that::GameObject&)
+{
+	GameData& gameData{ GameData::GetInstance() };
+
+	if (gameData.TryNewHighScore(GetOwner()->GetComponent<ScoreComponent>()->GetScore()))
+	{
+		that::SceneManager::GetInstance().LoadScene(gameData.GetHighScoreScene());
+	}
+	else
+	{
+		that::SceneManager::GetInstance().LoadScene(gameData.GetMainMenuScene());
 	}
 }
 

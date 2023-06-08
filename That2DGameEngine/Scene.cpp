@@ -6,6 +6,15 @@
 
 using namespace that;
 
+that::Scene::~Scene()
+{
+	// Call the OnDestroy method of every object
+	for (const auto& pGameObject : m_pObjects)
+	{
+		pGameObject->OnDestroy();
+	}
+}
+
 GameObject* that::Scene::CreateGameObject(const std::string& name)
 {
 	auto pGameObject{ std::make_unique<GameObject>(this, name) };
@@ -114,15 +123,6 @@ void that::Scene::OnGUI()
 	for (const auto& object : m_pObjects)
 	{
 		object->OnGUI();
-	}
-}
-
-void that::Scene::Destroy()
-{
-	// Call the OnDestroy method of every to-be-destroyed object
-	for (const auto& pGameObject : m_pObjects)
-	{
-		pGameObject->OnDestroy();
 	}
 }
 

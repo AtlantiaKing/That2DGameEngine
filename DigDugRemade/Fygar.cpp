@@ -10,7 +10,12 @@
 
 void digdug::Fygar::Init()
 {
-	GetOwner()->GetComponent<HealthComponent>()->OnHealthUpdate().AddListener(this);
+	GetOwner()->GetComponent<HealthComponent>()->OnHealthUpdate.AddListener(this);
+}
+
+void digdug::Fygar::OnDestroy()
+{
+	GetOwner()->GetComponent<HealthComponent>()->OnHealthUpdate.RemoveListener(this);
 }
 
 void digdug::Fygar::Update()

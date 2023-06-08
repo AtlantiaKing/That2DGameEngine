@@ -7,9 +7,14 @@
 
 #include "DigDugState.h"
 
+namespace that
+{
+	class GameObject;
+}
+
 namespace digdug
 {
-	class DigDug final : public that::Component, public that::Observer<that::CollisionData>
+	class DigDug final : public that::Component, public that::Observer<that::CollisionData>, public that::Observer<that::GameObject>
 	{
 	public:
 		DigDug() = default;
@@ -25,6 +30,7 @@ namespace digdug
 		virtual void Update() override;
 
 		virtual void Notify(const that::CollisionData& collision) override;
+		virtual void Notify(const that::GameObject&) override;
 
 		void Move(const glm::vec2& movementInput);
 		void Pump(bool hold);

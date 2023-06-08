@@ -11,23 +11,24 @@ void digdug::HealthComponent::Hit()
 	
 	--m_Health;
 
-	m_HealthUpdateListeners.Notify(*this);
+	OnHealthUpdate.Notify(*this);
 
-	if (m_Health <= 0) Die();
+	if (m_Health <= 0) 
+		Die();
 }
 
 void digdug::HealthComponent::Heal()
 {
 	++m_Health;
 
-	m_HealthUpdateListeners.Notify(*this);
+	OnHealthUpdate.Notify(*this);
 }
 
 void digdug::HealthComponent::Kill()
 {
 	m_Health = 0;
 
-	m_HealthUpdateListeners.Notify(*this);
+	OnHealthUpdate.Notify(*this);
 
 	Die();
 }
@@ -37,15 +38,15 @@ void digdug::HealthComponent::SetMaxHealth(int health)
 	m_MaxHealth = health;
 	m_Health = health;
 
-	m_HealthUpdateListeners.Notify(*this);
+	OnHealthUpdate.Notify(*this);
 
-	if (m_Health <= 0) m_DeathListeners.Notify(*GetOwner());
+	if (m_Health <= 0) Die();
 }
 
 void digdug::HealthComponent::Die()
 {
 	// Notify direct listeners (observers)
-	m_DeathListeners.Notify(*GetOwner());
+	OnDeath.Notify(*GetOwner());
 	// Notify non-direct listeners (eventlisteners)
 	that::EventQueue::GetInstance().SendEvent(that::EntityDeathEvent{ GetOwner() });
 

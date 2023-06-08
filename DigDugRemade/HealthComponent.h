@@ -21,13 +21,11 @@ namespace digdug
 		int GetHealth() const { return m_Health; }
 		int GetMaxHealth() const { return m_MaxHealth; }
 
-		that::Subject<HealthComponent>& OnHealthUpdate() { return m_HealthUpdateListeners; }
-		that::Subject<that::GameObject> OnDeath() { return m_DeathListeners; }
+		that::Subject<HealthComponent> OnHealthUpdate{};
+		that::Subject<that::GameObject> OnDeath{};
 	private:
 		void Die();
 
-		that::Subject<HealthComponent> m_HealthUpdateListeners{};
-		that::Subject<that::GameObject> m_DeathListeners{};
 		int m_Health{};
 		int m_MaxHealth{};
 

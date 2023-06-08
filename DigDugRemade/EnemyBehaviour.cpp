@@ -11,7 +11,7 @@
 void digdug::EnemyBehaviour::Init()
 {
 	m_pHealth = GetOwner()->GetComponent<HealthComponent>();
-	m_pHealth->OnHealthUpdate().AddListener(this);
+	m_pHealth->OnHealthUpdate.AddListener(this);
 
 	m_pMovement = GetOwner()->GetComponent<EnemyMovement>();
 
@@ -33,7 +33,7 @@ void digdug::EnemyBehaviour::Update()
 
 void digdug::EnemyBehaviour::OnDestroy()
 {
-	m_pHealth->OnHealthUpdate().RemoveListener(this);
+	m_pHealth->OnHealthUpdate.RemoveListener(this);
 }
 
 void digdug::EnemyBehaviour::Notify(const HealthComponent& health)

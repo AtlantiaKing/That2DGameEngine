@@ -80,6 +80,9 @@
     <Filter Include="States\Enemies\Rock">
       <UniqueIdentifier>{fc1b5e32-4a68-4023-a74a-515718ba651d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\HighScore">
+      <UniqueIdentifier>{f8d47fe5-c9ae-44e9-83dd-215fbeb9150a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -223,6 +226,18 @@
     </ClCompile>
     <ClCompile Include="HighScoreHUDComponent.cpp">
       <Filter>Components\Game\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="HighScoreScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="HighScoreLetter.cpp">
+      <Filter>Components\HighScore</Filter>
+    </ClCompile>
+    <ClCompile Include="HighScoreInput.cpp">
+      <Filter>Components\HighScore</Filter>
+    </ClCompile>
+    <ClCompile Include="HighScoreButton.cpp">
+      <Filter>Components\HighScore</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -375,6 +390,18 @@
     </ClInclude>
     <ClInclude Include="HighScoreHUDComponent.h">
       <Filter>Components\Game\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="HighScoreScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="HighScoreLetter.h">
+      <Filter>Components\HighScore</Filter>
+    </ClInclude>
+    <ClInclude Include="HighScoreInput.h">
+      <Filter>Components\HighScore</Filter>
+    </ClInclude>
+    <ClInclude Include="HighScoreButton.h">
+      <Filter>Components\HighScore</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

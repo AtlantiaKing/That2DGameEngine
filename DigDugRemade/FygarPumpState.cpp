@@ -38,7 +38,7 @@ std::unique_ptr<digdug::EnemyState> digdug::FygarPumpState::Update()
 
 void digdug::FygarPumpState::StateEnter()
 {
-	m_pFygarObj->GetComponent<HealthComponent>()->OnHealthUpdate().AddListener(this);
+	m_pFygarObj->GetComponent<HealthComponent>()->OnHealthUpdate.AddListener(this);
 
 	const auto& pTexture{ that::TextureManager::GetInstance().LoadTexture("Fygar/Pumped.png") };
 	m_pFygarObj->GetComponent<that::SpriteRenderer>()->SetSprite(pTexture, 4, 1);
@@ -48,7 +48,7 @@ void digdug::FygarPumpState::StateEnter()
 
 void digdug::FygarPumpState::StateEnd()
 {
-	m_pFygarObj->GetComponent<HealthComponent>()->OnHealthUpdate().RemoveListener(this);
+	m_pFygarObj->GetComponent<HealthComponent>()->OnHealthUpdate.RemoveListener(this);
 
 	m_pFygarObj->GetComponent<that::BoxCollider>()->SetEnabled(true);
 }

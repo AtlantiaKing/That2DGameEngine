@@ -62,5 +62,5 @@ void that::SceneManager::OnGUI()
 
 void that::SceneManager::Destroy()
 {
-	m_pScene->Destroy();
+	m_pScene = nullptr;
 }
