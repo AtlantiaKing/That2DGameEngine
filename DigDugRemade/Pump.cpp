@@ -16,8 +16,6 @@
 
 #include "ColliderLayers.h"
 
-#include <iostream>
-
 void digdug::Pump::Init()
 {
 	m_pCollider = GetOwner()->GetComponent<that::BoxCollider>();

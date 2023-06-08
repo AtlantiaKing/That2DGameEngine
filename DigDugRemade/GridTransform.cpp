@@ -6,7 +6,6 @@
 #include "TextureRenderer.h"
 
 #include "Timer.h"
-#include <iostream>
 
 void digdug::GridTransform::Init()
 {

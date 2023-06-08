@@ -5,7 +5,6 @@
 
 #include "TextComponent.h"
 
-#include <iostream>
 #include <sstream>
 
 

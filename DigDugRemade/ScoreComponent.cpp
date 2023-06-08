@@ -10,13 +10,9 @@
 
 #include "ScorePrefab.h"
 
-#include <iostream>
-
 void digdug::ScoreComponent::AddScore(int score)
 {
 	m_Score += score;
-
-	std::cout << m_Score << "\n";
 
 	OnScoreChange.Notify(*this);
 }

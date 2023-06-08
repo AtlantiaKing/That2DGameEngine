@@ -10,8 +10,6 @@
 
 #include "TextureManager.h"
 
-#include <iostream>
-
 void digdug::WorldTile::Init()
 {
 	that::GameObject* pOwner{ GetOwner() };

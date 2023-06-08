@@ -6,7 +6,6 @@
 #include "Window.h"
 #include "TextureManager.h"
 #include "GameModeChooser.h"
-#include <iostream>
 #include "MainMenuFadeIn.h"
 
 void digdug::MainMenuScene::Load(that::Scene& scene)
