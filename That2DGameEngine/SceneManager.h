@@ -26,5 +26,6 @@ namespace that
 		SceneManager() = default;
 		std::vector<std::function<void(Scene&)>> m_SceneLoaders{};
 		std::shared_ptr<Scene> m_pScene{};
+		int m_NextScene{ -1 };
 	};
 }
