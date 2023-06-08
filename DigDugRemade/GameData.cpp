@@ -1,5 +1,10 @@
 #include "GameData.h"
 
+#include "Logger.h"
+
+#include <fstream>
+#include <filesystem>
+
 int digdug::GameData::GetHighScore()
 {
     return m_HighScore;
@@ -33,5 +38,48 @@ bool digdug::GameData::TryNewHighScore(int score)
 
 digdug::GameData::GameData()
 {
-    // LOAD HIGH SCORE DATA FROM FILE
+    // Write to file
+    if (std::ifstream binaryIn{ "../Data/Saves/highscore.that", std::ios::binary }; binaryIn.is_open())
+    {
+        // Read high score
+        char type{};
+        binaryIn.read(reinterpret_cast<char*>(&type), sizeof(int));
+
+        // Read high score user
+        for (char& c : m_HighScoreUser)
+        {
+            // Get the amount of data
+            char newChar{};
+            binaryIn.read(&newChar, sizeof(char));
+
+            c = newChar;
+        }
+    }
+}
+
+digdug::GameData::~GameData()
+{
+    std::string filePath = "../Data/Saves/highscore.that";
+
+    std::filesystem::path directoryPath = std::filesystem::path(filePath).parent_path();
+    if (!std::filesystem::exists(directoryPath))
+    {
+        if (std::filesystem::create_directories(directoryPath))
+            that::Logger::Log("Save file directory created");
+        else
+            that::Logger::LogError("Failed to create save file directory");
+    }
+
+    // Write to file
+    if (std::ofstream binaryOut{ filePath, std::ios::app | std::ios::binary }; binaryOut.is_open())
+    {
+        // Write high score
+        binaryOut.write(reinterpret_cast<const char*>(&m_HighScore), sizeof(int));
+
+        // Write high score user
+        for (char c : m_HighScoreUser)
+        {
+            binaryOut.put(c);
+        }
+    }
 }

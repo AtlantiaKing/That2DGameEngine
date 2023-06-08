@@ -20,6 +20,7 @@ namespace digdug
 	private:
 		friend class Singleton<GameData>;
 		GameData();
+		~GameData();
 
 		int m_HighScore{ 0 };
 		std::string m_HighScoreUser{ "---" };
