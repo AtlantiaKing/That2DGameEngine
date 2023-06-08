@@ -8,6 +8,7 @@
 #include "SceneManager.h"
 
 #include "Logger.h"
+#include "GameData.h"
 
 #include "SDL_keyboard.h"
 
@@ -70,6 +71,8 @@ void digdug::GameModeChooser::BindInput()
 		[this]() 
 		{
 			LoadScene();
+
+			GameData::GetInstance().ResetGame();
 		}
 	));
 

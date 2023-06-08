@@ -12,11 +12,13 @@
 #include "TextureRenderer.h"
 #include "ScoreHUDComponent.h"
 #include "LivesHUDComponent.h"
+#include "HighScoreHUDComponent.h"
 
 // Engine includes
 #include "Window.h"
 #include "TextureManager.h"
 #include "ResourceManager.h"
+#include "GameData.h"
 
 // Library includes
 #include <iostream>
@@ -51,7 +53,7 @@ void digdug::GameScene::Load(that::Scene& scene)
 		pScoreText->SetText("0");
 		pScore->GetTransform()->SetWorldPosition(static_cast<float>(windowSize.x), 0.0f);
 		pScore->GetTransform()->Translate(0.0f, pHighScoreHeader->GetTransform()->GetLocalPosition().y + pTextureSize.y);
-		pScore->AddComponent<ScoreHUDComponent>()->SearchPlayer(pGrid);
+		pScore->AddComponent<HighScoreHUDComponent>()->SearchPlayer(pGrid);
 	}
 	{
 		that::GameObject* pScoreHeader{ pHUD->CreateGameObject("ScoreHeader") };
@@ -77,6 +79,25 @@ void digdug::GameScene::Load(that::Scene& scene)
 		that::GameObject* pHealth{ pHUD->CreateGameObject("Health") };
 		pHealth->GetTransform()->SetLocalPosition(192.0f, 122.0f);
 		pHealth->AddComponent<LivesHUDComponent>()->SearchPlayer(pGrid);
+	}
+	{
+		that::GameObject* pRoundHeader{ pHUD->CreateGameObject("RoundHeader") };
+		const auto& pTexture{ that::TextureManager::GetInstance().LoadTexture("HUD/Round.png") };
+		const auto& pTextureSize{ pTexture->GetSize() };
+		const auto& pRenderer{ pRoundHeader->AddComponent<that::TextureRenderer>() };
+		pRenderer->SetTexture(pTexture);
+		pRenderer->SetPivot({ 1.0f, 0.5f });
+		pRoundHeader->GetTransform()->SetWorldPosition(static_cast<float>(windowSize.x), 0.0f);
+		pRoundHeader->GetTransform()->Translate(0.0f, 163.0f + pTextureSize.y / 2.0f);
+
+
+		that::GameObject* pRound{ pHUD->CreateGameObject("RoundNumber") };
+		pRound->AddComponent<that::TextureRenderer>()->SetPivot({ 1.0f, 0.5f });
+		that::TextComponent* pScoreText{ pRound->AddComponent<that::TextComponent>() };
+		pScoreText->SetFont(that::ResourceManager::GetInstance().LoadFont("Fonts/Arcade.ttf", 8));
+		pScoreText->SetText(std::to_string(GameData::GetInstance().GetRoundNumber()));
+		pRound->GetTransform()->SetWorldPosition(static_cast<float>(windowSize.x), 0.0f);
+		pRound->GetTransform()->Translate(0.0f, pRoundHeader->GetTransform()->GetLocalPosition().y + pTextureSize.y);
 	}
 
 	PrintControls();

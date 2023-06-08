@@ -218,6 +218,12 @@
     <ClCompile Include="PookaRockDeathState.cpp">
       <Filter>States\Enemies\Pooka</Filter>
     </ClCompile>
+    <ClCompile Include="GameData.cpp">
+      <Filter>Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="HighScoreHUDComponent.cpp">
+      <Filter>Components\Game\HUD</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameScene.h">
@@ -363,6 +369,12 @@
     </ClInclude>
     <ClInclude Include="PookaRockDeathState.h">
       <Filter>States\Enemies\Pooka</Filter>
+    </ClInclude>
+    <ClInclude Include="GameData.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="HighScoreHUDComponent.h">
+      <Filter>Components\Game\HUD</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

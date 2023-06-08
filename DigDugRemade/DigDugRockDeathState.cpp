@@ -5,6 +5,7 @@
 #include "SpriteRenderer.h"
 #include "GridTransform.h"
 #include "Transform.h"
+#include "HealthComponent.h"
 
 #include "TextureManager.h"
 #include "Timer.h"
@@ -39,6 +40,7 @@ void digdug::DigDugRockDeathState::StateEnter()
 {
 	const auto& pPlayerTexture{ that::TextureManager::GetInstance().LoadTexture("DigDug/DeathByRock.png") };
 	m_pPlayer->GetComponent<that::SpriteRenderer>()->SetSprite(pPlayerTexture, 1, 1);
+	m_pPlayer->GetComponent<HealthComponent>()->Hit();
 }
 
 void digdug::DigDugRockDeathState::StateEnd()

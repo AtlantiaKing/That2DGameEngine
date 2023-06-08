@@ -190,6 +190,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClCompile Include="FygarPumpState.cpp" />
     <ClCompile Include="FygarRoamingState.cpp" />
     <ClCompile Include="FygarRockDeathState.cpp" />
+    <ClCompile Include="GameData.cpp" />
     <ClCompile Include="GameModeChooser.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="GridCollider.cpp" />
@@ -197,6 +198,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClCompile Include="GridMoveCommand.cpp" />
     <ClCompile Include="GridTransform.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
+    <ClCompile Include="HighScoreHUDComponent.cpp" />
     <ClCompile Include="LivesHUDComponent.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenuFadeIn.cpp" />
@@ -245,6 +247,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClInclude Include="FygarPumpState.h" />
     <ClInclude Include="FygarRoamingState.h" />
     <ClInclude Include="FygarRockDeathState.h" />
+    <ClInclude Include="GameData.h" />
     <ClInclude Include="GameModeChooser.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="GridCollider.h" />
@@ -253,6 +256,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClInclude Include="GridTransform.h" />
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="ColliderLayers.h" />
+    <ClInclude Include="HighScoreHUDComponent.h" />
     <ClInclude Include="LivesHUDComponent.h" />
     <ClInclude Include="MainMenuFadeIn.h" />
     <ClInclude Include="MainMenuScene.h" />
