@@ -28,7 +28,7 @@ void digdug::LivesHUDComponent::Notify(const HealthComponent& health)
 	const size_t nrTextures{ GetOwner()->GetChildCount() };
 	const int healthLeft{ health.GetHealth() };
 
-	for (int i{}; i < nrTextures; ++i)
+	for (int i{}; i < static_cast<int>(nrTextures); ++i)
 	{
 		if (i < healthLeft - 1) continue;
 
