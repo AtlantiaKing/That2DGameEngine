@@ -5,6 +5,7 @@
 #include "BoxCollider.h"
 #include "HealthComponent.h"
 #include "ScoreComponent.h"
+#include "Transform.h"
 
 #include "DigDugWalkingState.h"
 #include "DigDugDeathState.h"
@@ -22,6 +23,8 @@
 
 void digdug::DigDug::Init()
 {
+	m_SpawnPoint = GetTransform()->GetLocalPosition();
+
 	ChangeState(std::make_unique<DigDugWalkingState>(GetOwner()));
 
 	// Input

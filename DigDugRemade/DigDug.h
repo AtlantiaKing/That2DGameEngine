@@ -7,6 +7,8 @@
 
 #include "DigDugState.h"
 
+#include "glm/vec2.hpp"
+
 namespace that
 {
 	class GameObject;
@@ -35,10 +37,14 @@ namespace digdug
 		void Move(const glm::vec2& movementInput);
 		void Pump(bool hold);
 		void RockAttack();
+
+		const glm::vec2& GetSpawnPoint() { return m_SpawnPoint; }
 	private:
 		void ChangeState(std::unique_ptr<DigDugState> pState);
 
 		const glm::vec2 m_DefaultMovement{};
+
+		glm::vec2 m_SpawnPoint{};
 
 		std::unique_ptr<DigDugState> m_pState{};
 	};

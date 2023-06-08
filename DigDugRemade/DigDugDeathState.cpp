@@ -6,6 +6,8 @@
 #include "GridTransform.h"
 #include "BoxCollider.h"
 #include "Transform.h"
+#include "DigDug.h"
+#include "GridComponent.h"
 
 #include "Timer.h"
 #include "TextureManager.h"
@@ -37,8 +39,12 @@ std::unique_ptr<digdug::DigDugState> digdug::DigDugDeathState::Update()
 
 		if (m_WaitTime > m_TimeTillRespawn)
 		{
-			m_pPlayer->GetComponent<GridTransform>()->SetPosition(0, 0);
-			m_pPlayer->GetTransform()->SetLocalPosition(0.0f, 0.0f);
+			GridComponent* pGrid{ m_pPlayer->GetParent()->GetComponent<GridComponent>() };
+			const float cellSize{ pGrid->GetCellSize() };
+			const glm::ivec2 gridSpawnPos{ m_pPlayer->GetComponent<DigDug>()->GetSpawnPoint() / cellSize };
+
+			m_pPlayer->GetComponent<GridTransform>()->SetPosition(gridSpawnPos.x, gridSpawnPos.y);
+			m_pPlayer->GetTransform()->SetLocalPosition(m_pPlayer->GetComponent<DigDug>()->GetSpawnPoint());
 			return std::make_unique<DigDugWalkingState>(m_pPlayer);
 		}
 	}

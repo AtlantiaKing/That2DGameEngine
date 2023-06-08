@@ -96,6 +96,7 @@ void digdug::LevelLoader::OnFrameStart()
 	const auto& levelSize{ pLevelData->GetSize() };
 
 	GridComponent* pGridComponent{ GetOwner()->GetComponent<GridComponent>() };
+	const float cellSize{ pGridComponent->GetCellSize() };
 
 	that::GameObject* pPlayer{ CreatePlayer() };
 	pGridComponent->BindPlayer(pPlayer->GetComponent<GridTransform>());
@@ -108,6 +109,8 @@ void digdug::LevelLoader::OnFrameStart()
 		for (int y{}; y < levelSize.y; ++y)
 		{
 			const auto& color{ pLevelData->GetPixel(x,y) };
+
+			if (!color.a) pPlayer->GetTransform()->SetLocalPosition(x * cellSize, y * cellSize);
 
 			const int mapData{ color.r };
 
@@ -129,7 +132,6 @@ void digdug::LevelLoader::OnFrameStart()
 			}
 
 			const int enemyData{ color.b };
-			const float cellSize{ pGridComponent->GetCellSize() };
 
 			if (enemyData)
 			{
