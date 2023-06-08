@@ -8,6 +8,7 @@
 #include "Transform.h"
 
 #include "PookaRoamingState.h"
+#include "PookaDeathState.h"
 
 #include "Timer.h"
 #include "TextureManager.h"
@@ -20,6 +21,8 @@ digdug::PookaPumpState::PookaPumpState(that::GameObject* pPooka, that::GameObjec
 
 std::unique_ptr<digdug::EnemyState> digdug::PookaPumpState::Update()
 {
+	if (m_Dead) return std::make_unique<PookaDeathState>(m_pPookaObj, m_pPlayer);
+
 	m_DeflateTime += that::Timer::GetInstance().GetElapsed();
 	if (m_DeflateTime > m_TimeUntilDeflate)
 	{
@@ -62,4 +65,6 @@ void digdug::PookaPumpState::Notify(const HealthComponent& health)
 		const int tileIdx{ health.GetMaxHealth() - health.GetHealth() - 1 };
 		m_pPookaObj->GetComponent<that::SpriteRenderer>()->SetTile(tileIdx);
 	}
+
+	if (health.GetHealth() == 0) m_Dead = true;
 }

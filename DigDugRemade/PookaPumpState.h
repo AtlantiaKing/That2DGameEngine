@@ -27,6 +27,7 @@ namespace digdug
 	private:
 		float m_DeflateTime{};
 		const float m_TimeUntilDeflate{ 1.0f };
+		bool m_Dead{};
 
 		that::GameObject* m_pPookaObj{};
 		that::GameObject* m_pPlayer{};

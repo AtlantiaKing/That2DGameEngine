@@ -9,11 +9,11 @@ namespace that
 
 namespace digdug
 {
-	class PookaRockDeathState final : public EnemyState
+	class PookaDeathState final : public EnemyState
 	{
 	public:
-		PookaRockDeathState(that::GameObject* pPooka, that::GameObject* pPlayer);
-		virtual ~PookaRockDeathState() = default;
+		PookaDeathState(that::GameObject* pPooka, that::GameObject* pPlayer);
+		virtual ~PookaDeathState() = default;
 
 		virtual std::unique_ptr<digdug::EnemyState> Update() override;
 		virtual void StateEnter() override;
@@ -21,7 +21,7 @@ namespace digdug
 
 	private:
 		float m_WaitTime{};
-		const float m_TimeTillDespawn{ 1.0f };
+		const float m_TimeTillDespawn{ 0.5f };
 
 		that::GameObject* m_pPookaObj{};
 		that::GameObject* m_pPlayer{};

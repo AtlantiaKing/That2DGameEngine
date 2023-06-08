@@ -140,7 +140,9 @@ void digdug::LevelLoader::OnFrameStart()
 				pCollider->SetLayer(ENEMY_LAYER);
 				pCollider->SetSize(cellSize, cellSize);
 				pEnemy->GetComponent<that::Transform>()->SetLocalPosition(cellSize * x, cellSize * y);
-				pEnemy->AddComponent<HealthComponent>()->SetMaxHealth(m_EnemyHealth);
+				HealthComponent* pHealth{ pEnemy->AddComponent<HealthComponent>() };
+				pHealth->SetMaxHealth(m_EnemyHealth);
+				pHealth->SetDestroyOnDeath(false);
 				if (enemyData == UINT8_MAX)
 				{
 					pEnemy->AddComponent<Pooka>()->Start(pPlayer);

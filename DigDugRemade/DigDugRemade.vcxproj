@@ -186,6 +186,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClCompile Include="FloatingScore.cpp" />
     <ClCompile Include="Fygar.cpp" />
     <ClCompile Include="FygarAttackState.cpp" />
+    <ClCompile Include="FygarDeathState.cpp" />
     <ClCompile Include="FygarGhostState.cpp" />
     <ClCompile Include="FygarPumpState.cpp" />
     <ClCompile Include="FygarRoamingState.cpp" />
@@ -209,6 +210,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClCompile Include="MainMenuScene.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Pooka.cpp" />
+    <ClCompile Include="PookaDeathState.cpp" />
     <ClCompile Include="PookaGhostState.cpp" />
     <ClCompile Include="PookaPumpState.cpp" />
     <ClCompile Include="PookaRoamingState.cpp" />
@@ -247,6 +249,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClInclude Include="FloatingScore.h" />
     <ClInclude Include="Fygar.h" />
     <ClInclude Include="FygarAttackState.h" />
+    <ClInclude Include="FygarDeathState.h" />
     <ClInclude Include="FygarGhostState.h" />
     <ClInclude Include="FygarPumpState.h" />
     <ClInclude Include="FygarRoamingState.h" />
@@ -270,6 +273,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClInclude Include="MainMenuScene.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Pooka.h" />
+    <ClInclude Include="PookaDeathState.h" />
     <ClInclude Include="PookaGhostState.h" />
     <ClInclude Include="PookaPumpState.h" />
     <ClInclude Include="PookaRoamingState.h" />

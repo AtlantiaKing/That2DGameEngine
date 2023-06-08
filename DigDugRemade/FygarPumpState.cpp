@@ -6,6 +6,7 @@
 #include "SpriteRenderer.h"
 #include "BoxCollider.h"
 #include "Transform.h"
+#include "FygarDeathState.h"
 
 #include "FygarRoamingState.h"
 
@@ -20,6 +21,8 @@ digdug::FygarPumpState::FygarPumpState(that::GameObject* pFygar, that::GameObjec
 
 std::unique_ptr<digdug::EnemyState> digdug::FygarPumpState::Update()
 {
+	if (m_Dead) return std::make_unique<FygarDeathState>(m_pFygarObj, m_pPlayer);
+
 	m_DeflateTime += that::Timer::GetInstance().GetElapsed();
 	if (m_DeflateTime > m_TimeUntilDeflate)
 	{
@@ -62,4 +65,6 @@ void digdug::FygarPumpState::Notify(const HealthComponent& health)
 		const int tileIdx{ health.GetMaxHealth() - health.GetHealth() - 1 };
 		m_pFygarObj->GetComponent<that::SpriteRenderer>()->SetTile(tileIdx);
 	}
+
+	if (health.GetHealth() == 0) m_Dead = true;
 }

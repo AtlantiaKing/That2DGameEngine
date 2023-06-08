@@ -239,6 +239,12 @@
     <ClCompile Include="HighScoreButton.cpp">
       <Filter>Components\HighScore</Filter>
     </ClCompile>
+    <ClCompile Include="PookaDeathState.cpp">
+      <Filter>States\Enemies\Pooka</Filter>
+    </ClCompile>
+    <ClCompile Include="FygarDeathState.cpp">
+      <Filter>States\Enemies\Fygar</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameScene.h">
@@ -402,6 +408,12 @@
     </ClInclude>
     <ClInclude Include="HighScoreButton.h">
       <Filter>Components\HighScore</Filter>
+    </ClInclude>
+    <ClInclude Include="PookaDeathState.h">
+      <Filter>States\Enemies\Pooka</Filter>
+    </ClInclude>
+    <ClInclude Include="FygarDeathState.h">
+      <Filter>States\Enemies\Fygar</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
