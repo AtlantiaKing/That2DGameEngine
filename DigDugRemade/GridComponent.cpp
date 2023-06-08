@@ -154,6 +154,14 @@ void digdug::GridComponent::Notify(const GridTransform& transform)
 	}
 }
 
+void digdug::GridComponent::OnSubjectDestroy()
+{
+	m_pPlayers.erase(std::remove_if(begin(m_pPlayers), end(m_pPlayers), [](const GridTransform* pTransform)
+		{
+			return pTransform->GetOwner()->IsMarkedAsDead();
+		}));
+}
+
 bool digdug::GridComponent::IsDisabledTile(float x, float y) const
 {
 	const glm::ivec2 gridPos{ glm::vec2{ x, y} / m_CellSize };

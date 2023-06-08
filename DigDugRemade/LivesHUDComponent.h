@@ -20,6 +20,7 @@ namespace digdug
 		virtual void Update() override;
 		virtual void Notify(const HealthComponent& health) override;
 		virtual void OnDestroy() override;
+		virtual void OnSubjectDestroy() override;
 
 		void SearchPlayer(that::GameObject* pPlayerParent);
 

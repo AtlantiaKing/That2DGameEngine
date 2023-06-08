@@ -21,6 +21,7 @@ namespace digdug
 
 		virtual void Update() override;
 		virtual void OnDestroy() override;
+		virtual void OnSubjectDestroy() override;
 
 		virtual void Notify(const ScoreComponent& score) override;
 	private:

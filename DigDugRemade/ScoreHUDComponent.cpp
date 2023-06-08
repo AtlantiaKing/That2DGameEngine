@@ -32,7 +32,12 @@ void digdug::ScoreHUDComponent::Update()
 
 void digdug::ScoreHUDComponent::OnDestroy()
 {
-	m_pScore->OnScoreChange.RemoveListener(this);
+	if(m_pScore) m_pScore->OnScoreChange.RemoveListener(this);
+}
+
+void digdug::ScoreHUDComponent::OnSubjectDestroy()
+{
+	m_pScore = nullptr;
 }
 
 void digdug::ScoreHUDComponent::Notify(const ScoreComponent& score)

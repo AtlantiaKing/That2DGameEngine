@@ -40,7 +40,12 @@ void digdug::HighScoreHUDComponent::Update()
 
 void digdug::HighScoreHUDComponent::OnDestroy()
 {
-	m_pScore->OnScoreChange.RemoveListener(this);
+	if(m_pScore) m_pScore->OnScoreChange.RemoveListener(this);
+}
+
+void digdug::HighScoreHUDComponent::OnSubjectDestroy()
+{
+	m_pScore = nullptr;
 }
 
 void digdug::HighScoreHUDComponent::Notify(const ScoreComponent& score)

@@ -38,7 +38,12 @@ void digdug::LivesHUDComponent::Notify(const HealthComponent& health)
 
 void digdug::LivesHUDComponent::OnDestroy()
 {
-	m_pHealth->OnHealthUpdate.RemoveListener(this);
+	if(m_pHealth) m_pHealth->OnHealthUpdate.RemoveListener(this);
+}
+
+void digdug::LivesHUDComponent::OnSubjectDestroy()
+{
+	m_pHealth = nullptr;
 }
 
 void digdug::LivesHUDComponent::SearchPlayer(that::GameObject* pPlayerParent)

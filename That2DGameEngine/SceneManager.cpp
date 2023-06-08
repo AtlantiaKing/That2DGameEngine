@@ -28,6 +28,9 @@ void that::SceneManager::OnFrameStart()
 		// Load the new scene
 		m_SceneLoaders[m_NextScene](*m_pScene);
 
+		// Save the current scene
+		m_CurrentScene = m_NextScene;
+
 		// Reset next scene
 		m_NextScene = -1;
 	}

@@ -13,6 +13,7 @@
 #include "ScoreHUDComponent.h"
 #include "LivesHUDComponent.h"
 #include "HighScoreHUDComponent.h"
+#include "GameState.h"
 
 // Engine includes
 #include "Window.h"
@@ -29,6 +30,7 @@ void digdug::GameScene::Load(that::Scene& scene)
 	// Grid
 	that::GameObject* pGrid{ scene.CreateGameObject("Grid") };
 	pGrid->AddComponent<LevelLoader>()->SetLevel("Levels/Level1.png");
+	pGrid->AddComponent<GameState>();
 
 	constexpr float referenceSize{ 240.0f };
 	const auto& windowSize{ that::Window::GetInstance().GetSize() };

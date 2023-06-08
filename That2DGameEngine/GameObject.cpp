@@ -293,6 +293,10 @@ std::vector<that::GameObject*> that::GameObject::GetChildren() const
 	{
 		pGameObjects.emplace_back(pChild.get());
 	}
+	for (const auto& pChild : m_pChildrenToAdd)
+	{
+		pGameObjects.emplace_back(pChild.get());
+	}
 
 	return pGameObjects;
 }

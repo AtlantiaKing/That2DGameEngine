@@ -21,11 +21,14 @@ namespace that
 		void Render();
 		void OnGUI();
 		void Destroy();
+
+		int GetCurrentSceneIndex() const { return m_CurrentScene; }
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;
 		std::vector<std::function<void(Scene&)>> m_SceneLoaders{};
 		std::shared_ptr<Scene> m_pScene{};
 		int m_NextScene{ -1 };
+		int m_CurrentScene{};
 	};
 }

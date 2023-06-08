@@ -194,6 +194,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClCompile Include="GameData.cpp" />
     <ClCompile Include="GameModeChooser.cpp" />
     <ClCompile Include="GameScene.cpp" />
+    <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GridCollider.cpp" />
     <ClCompile Include="GridComponent.cpp" />
     <ClCompile Include="GridMoveCommand.cpp" />
@@ -257,6 +258,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClInclude Include="GameData.h" />
     <ClInclude Include="GameModeChooser.h" />
     <ClInclude Include="GameScene.h" />
+    <ClInclude Include="GameState.h" />
     <ClInclude Include="GridCollider.h" />
     <ClInclude Include="GridComponent.h" />
     <ClInclude Include="GridMoveCommand.h" />

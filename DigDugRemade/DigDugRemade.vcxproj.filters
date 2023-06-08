@@ -245,6 +245,9 @@
     <ClCompile Include="FygarDeathState.cpp">
       <Filter>States\Enemies\Fygar</Filter>
     </ClCompile>
+    <ClCompile Include="GameState.cpp">
+      <Filter>Components\Game\World</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameScene.h">
@@ -414,6 +417,9 @@
     </ClInclude>
     <ClInclude Include="FygarDeathState.h">
       <Filter>States\Enemies\Fygar</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>Components\Game\World</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

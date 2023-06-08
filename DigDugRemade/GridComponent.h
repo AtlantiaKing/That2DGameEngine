@@ -47,6 +47,7 @@ namespace digdug
 		void BindPlayer(GridTransform* pPlayer);
 
 		virtual void Notify(const GridTransform& change) override;
+		virtual void OnSubjectDestroy() override;
 	private:
 		bool IsDisabledTile(float x, float y) const;
 
