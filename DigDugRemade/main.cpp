@@ -17,7 +17,7 @@
 
 void Setup()
 {
-	that::Window::GetInstance().SetWindowSize(694, 520);
+	that::Window::GetInstance().SetWindowSize(610, 520);
 	that::SceneManager::GetInstance().AddScene(digdug::MainMenuScene::Load);
 	that::SceneManager::GetInstance().AddScene(digdug::GameScene::Load);
 }

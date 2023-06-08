@@ -191,6 +191,7 @@ that::GameObject* digdug::LevelLoader::CreatePlayer()
 
 	// Player
 	that::GameObject* pPlayer{ GetOwner()->CreateGameObject("Player") };
+	pPlayer->SetTag("DigDug");
 	const auto& pPlayerTexture{ that::TextureManager::GetInstance().LoadTexture("MainCharacter.png") };
 	pPlayer->AddComponent<that::SpriteRenderer>();
 	pPlayer->AddComponent<GridTransform>()->ShouldRotateWhenGoingUp(true);
@@ -202,7 +203,7 @@ that::GameObject* digdug::LevelLoader::CreatePlayer()
 	pAudioSource->SetSound("walkmusic.wav");
 	pAudioSource->SetLooping(true);
 
-	constexpr int defaultHealth{ 3 };
+	constexpr int defaultHealth{ 4 };
 	HealthComponent* pPlayerHealth{ pPlayer->AddComponent<HealthComponent>() };
 	pPlayerHealth->SetMaxHealth(defaultHealth);
 	pPlayerHealth->SetDestroyOnDeath(false);

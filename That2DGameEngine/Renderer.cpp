@@ -101,20 +101,20 @@ void that::Renderer::RenderTexture(const Texture2D& texture, const SDL_Rect& src
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), hasSrcRect ? &srcRect : nullptr, &dst);
 }
 
-void that::Renderer::RenderTexture(const Texture2D& texture, const SDL_Rect& srcRect, float x, float y, float scaleX, float scaleY, float rotation) const
+void that::Renderer::RenderTexture(const Texture2D& texture, const SDL_Rect& srcRect, float x, float y, float scaleX, float scaleY, float rotation, const glm::vec2& pivot) const
 {
 	int textureWidth{};
 	int textureHeight{};
 	SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &textureWidth, &textureHeight);
 
 	SDL_Rect dst{};
-	dst.x = static_cast<int>(x);
-	dst.y = static_cast<int>(y);
+	dst.x = static_cast<int>(x - textureWidth * abs(scaleX) * pivot.x);
+	dst.y = static_cast<int>(y - textureHeight * abs(scaleY) * pivot.y);
 
 	dst.w = static_cast<int>(textureWidth * abs(scaleX));
 	dst.h = static_cast<int>(textureHeight * abs(scaleY));
 
-	const SDL_Point rotationCenter{ dst.w / 2, dst.h / 2 };
+	const SDL_Point rotationCenter{ static_cast<int>(dst.w * pivot.x), static_cast<int>(dst.h * pivot.y) };
 
 	const int flipState{ (scaleX < 0.0f ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE) | (scaleY < 0.0f ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE) };
 

@@ -1,7 +1,7 @@
 #pragma once
 #include <SDL.h>
 #include "Singleton.h"
-#include "TrashTheCache.h"
+#include "glm/vec2.hpp"
 
 namespace that
 {
@@ -22,7 +22,7 @@ namespace that
 		void RenderTexture(const Texture2D& texture, float x, float y) const;
 		void RenderTexture(const Texture2D& texture, float x, float y, float scaleX, float scaleY, float rotation) const;
 		void RenderTexture(const Texture2D& texture, const SDL_Rect& srcRect, float x, float y) const;
-		void RenderTexture(const Texture2D& texture, const SDL_Rect& srcRect, float x, float y, float scaleX, float scaleY, float rotation) const;
+		void RenderTexture(const Texture2D& texture, const SDL_Rect& srcRect, float x, float y, float scaleX, float scaleY, float rotation, const glm::vec2& pivot = { 0.5f, 0.5f }) const;
 		void RenderTexture(const Texture2D& texture, const SDL_Rect& srcRect, SDL_Rect dstRect, float rotation) const;
 
 		void DrawRect(const SDL_Rect& rect, const SDL_Color& color);

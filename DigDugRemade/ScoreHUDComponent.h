@@ -17,12 +17,16 @@ namespace digdug
 		ScoreHUDComponent& operator=(const ScoreHUDComponent& other) = delete;
 		ScoreHUDComponent& operator=(ScoreHUDComponent&& other) = delete;
 
-		void Display(that::GameObject* pPlayer);
+		void SearchPlayer(that::GameObject* pPlayerParent);
 
+		virtual void Update() override;
 		virtual void OnDestroy() override;
 
 		virtual void Notify(const ScoreComponent& score) override;
 	private:
+		void Display(that::GameObject* pPlayer);
+
+		that::GameObject* m_pParent{};
 		digdug::ScoreComponent* m_pScore{};
 	};
 }

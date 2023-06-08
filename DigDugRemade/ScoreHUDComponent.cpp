@@ -5,10 +5,29 @@
 
 #include <sstream>
 
+void digdug::ScoreHUDComponent::SearchPlayer(that::GameObject* pPlayerParent)
+{
+	m_pParent = pPlayerParent;
+}
+
 void digdug::ScoreHUDComponent::Display(that::GameObject* pPlayer)
 {
 	m_pScore = pPlayer->GetComponent<ScoreComponent>();
 	m_pScore->OnScoreChange.AddListener(this);
+}
+
+void digdug::ScoreHUDComponent::Update()
+{
+	if (!m_pParent) return;
+
+	for (that::GameObject* pChild : m_pParent->GetChildren())
+	{
+		if (pChild->GetTag() != "DigDug") continue;
+
+		Display(pChild);
+		m_pParent = nullptr;
+		return;
+	}
 }
 
 void digdug::ScoreHUDComponent::OnDestroy()
@@ -18,8 +37,5 @@ void digdug::ScoreHUDComponent::OnDestroy()
 
 void digdug::ScoreHUDComponent::Notify(const ScoreComponent& score)
 {
-	std::stringstream hudText{};
-	hudText << "Score: " << score.GetScore();
-
-	GetOwner()->GetComponent<that::TextComponent>()->SetText(hudText.str());
+	GetOwner()->GetComponent<that::TextComponent>()->SetText(std::to_string(score.GetScore()));
 }

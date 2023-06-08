@@ -28,12 +28,12 @@ void that::TextureRenderer::Render() const
 	const glm::vec2& pos = GetTransform()->GetWorldPosition();
 	const float rotation = GetTransform()->GetWorldRotation();
 	const auto& scale{ GetTransform()->GetWorldScale() };
-	const auto& textureSize{ m_pTexture->GetSize() };
 
 	Renderer::GetInstance().RenderTexture(
 		*m_pTexture, m_SrcRect, 
-		pos.x - textureSize.x * abs(scale.x) / 2.0f,
-		pos.y - textureSize.y * abs(scale.y) / 2.0f,
+		pos.x,
+		pos.y,
 		scale.x, scale.y,
-		rotation);
+		rotation,
+		m_Pivot);
 }
