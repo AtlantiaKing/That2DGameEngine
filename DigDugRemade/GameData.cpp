@@ -42,8 +42,7 @@ digdug::GameData::GameData()
     if (std::ifstream binaryIn{ "../Data/Saves/highscore.that", std::ios::binary }; binaryIn.is_open())
     {
         // Read high score
-        char type{};
-        binaryIn.read(reinterpret_cast<char*>(&type), sizeof(int));
+        binaryIn.read(reinterpret_cast<char*>(&m_HighScore), sizeof(int));
 
         // Read high score user
         for (char& c : m_HighScoreUser)
@@ -71,7 +70,7 @@ digdug::GameData::~GameData()
     }
 
     // Write to file
-    if (std::ofstream binaryOut{ filePath, std::ios::app | std::ios::binary }; binaryOut.is_open())
+    if (std::ofstream binaryOut{ filePath, std::ios::binary | std::ofstream::trunc }; binaryOut.is_open())
     {
         // Write high score
         binaryOut.write(reinterpret_cast<const char*>(&m_HighScore), sizeof(int));

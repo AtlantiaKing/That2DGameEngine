@@ -2,11 +2,16 @@
 
 #include "GameObject.h"
 
+#include "GridComponent.h"
+#include "Transform.h"
+
 #include "RockStaticState.h"
 
 void digdug::Rock::Init()
 {
-
+	GridComponent* pGrid{ GetOwner()->GetParent()->GetComponent<GridComponent>() };
+	
+	pGrid->DisableTile(GetTransform()->GetLocalPosition() / pGrid->GetCellSize());
 }
 
 void digdug::Rock::Update()
@@ -14,31 +19,6 @@ void digdug::Rock::Update()
 	std::unique_ptr<EnemyState> pNewState{ m_pState->Update() };
 
 	if (pNewState) ChangeState(std::move(pNewState));
-
-	//glm::vec2 underPos{ GetTransform()->GetLocalPosition() };
-
-	/*if (m_Static)
-	{
-		glm::ivec2 gridPos{ underPos };
-		gridPos /= static_cast<int>(m_pGrid->GetCellSize());
-		gridPos += 1;
-		underPos.y = gridPos.y * m_pGrid->GetCellSize();
-
-		if (!m_pGrid->IsOpenPosition(underPos)) return;
-
-		m_Static = false;
-		m_Rb->SetGravityEnabled(true);
-	}
-	else
-	{
-		underPos /= m_pGrid->GetCellSize();
-		underPos *= m_pGrid->GetStepsPerCell();
-		if (m_pGrid->IsValidPosition(underPos, {0.0f,-1.0f}, true)) return;
-
-		m_Static = true;
-		m_Rb->SetGravityEnabled(false);
-		m_Rb->Reset();
-	}*/
 }
 
 void digdug::Rock::Start(that::GameObject* pPlayer)

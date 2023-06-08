@@ -48,6 +48,7 @@ void digdug::RockFallingState::StateEnter()
 	m_pRock->GetComponent<that::Rigidbody>()->SetGravityEnabled(true);
 
 	m_pGrid = m_pRock->GetParent()->GetComponent<GridComponent>();
+	m_pGrid->EnableTile(m_pRock->GetTransform()->GetLocalPosition() / m_pGrid->GetCellSize());
 
 	m_pRock->GetComponent<that::BoxCollider>()->OnHitEvent().AddListener(this);
 }

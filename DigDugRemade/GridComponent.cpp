@@ -31,6 +31,23 @@ bool digdug::GridComponent::IsValidPosition(const glm::vec2& position, const glm
 	if (position.x > maxGridIdxX * m_CellSize || position.y > maxGridIdxY * m_CellSize)
 		return false;
 
+	if (direction.x > 0)
+	{
+		if (IsDisabledTile(position.x + m_CellSize - 1, position.y)) return false;
+	}
+	else if (direction.x < 0)
+	{
+		if (IsDisabledTile(position.x, position.y)) return false;
+	}
+	else if (direction.y > 0)
+	{
+		if (IsDisabledTile(position.x, position.y + m_CellSize - 1)) return false;
+	}
+	else if (direction.y < 0)
+	{
+		if (IsDisabledTile(position.x, position.y)) return false;
+	}
+
 	if (!checkWorld) return true;
 
 	for (const auto& tilePair : m_pTiles)
@@ -92,6 +109,16 @@ digdug::WorldTile* digdug::GridComponent::GetOpenTile() const
 	return pOpenTiles[rand() % pOpenTiles.size()];
 }
 
+void digdug::GridComponent::DisableTile(const glm::ivec2& tile)
+{
+	m_DisabledTiles.push_back(tile);
+}
+
+void digdug::GridComponent::EnableTile(const glm::ivec2& tile)
+{
+	m_DisabledTiles.erase(std::remove(begin(m_DisabledTiles), end(m_DisabledTiles), tile));
+}
+
 void digdug::GridComponent::SetSize(int x, int y)
 {
 	m_GridSize = { x,y };
@@ -125,4 +152,16 @@ void digdug::GridComponent::Notify(const GridTransform& transform)
 		};
 		pTile->UpdatePlayer(transform.GetCellPosition(), gridPos, transform.GetDirection(), m_CellSize);
 	}
+}
+
+bool digdug::GridComponent::IsDisabledTile(float x, float y) const
+{
+	const glm::ivec2 gridPos{ glm::vec2{ x, y} / m_CellSize };
+
+	for (const glm::ivec2& tile : m_DisabledTiles)
+	{
+		if (tile == gridPos) return true;
+	}
+
+	return false;
 }

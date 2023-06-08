@@ -40,14 +40,20 @@ namespace digdug
 		WorldTile* GetTile(int x, int y) const;
 		WorldTile* GetOpenTile() const;
 
+		void DisableTile(const glm::ivec2& tile);
+		void EnableTile(const glm::ivec2& tile);
 		void SetSize(int x, int y);
 		void SetTile(int x, int y, WorldTile* pWorldTile);
 		void BindPlayer(GridTransform* pPlayer);
 
 		virtual void Notify(const GridTransform& change) override;
 	private:
+		bool IsDisabledTile(float x, float y) const;
+
 		std::vector<std::pair<glm::ivec2, WorldTile*>> m_pTiles{};
 		std::vector<GridTransform*> m_pPlayers{};
+
+		std::vector<glm::ivec2> m_DisabledTiles{};
 
 		float m_CellSize{ 16 };
 		int m_StepsPerCell{ 16 };

@@ -47,8 +47,8 @@ void digdug::GridTransform::SnapToGrid()
 	const auto& position{ GetTransform()->GetLocalPosition() };
 
 	// Set the position in pixels
-	m_Position.x = static_cast<int>((position.x + stepsPerCell / 2) / cellSize) * stepsPerCell;
-	m_Position.y = static_cast<int>((position.y + stepsPerCell / 2) / cellSize) * stepsPerCell;
+	m_Position.x = static_cast<int>((position.x + stepsPerCell / 2.0f) / cellSize) * stepsPerCell;
+	m_Position.y = static_cast<int>((position.y + stepsPerCell / 2.0f) / cellSize) * stepsPerCell;
 
 	// Set the position in floating point values
 	m_FloatPosition.x = static_cast<float>(m_Position.x);
