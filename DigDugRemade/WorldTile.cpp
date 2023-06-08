@@ -162,23 +162,19 @@ bool digdug::WorldTile::IsValidPosition(const glm::vec2& position, const glm::iv
 
 	if (direction.x > 0)
 	{
-		bool help{ position.x + size / 2.0f >= tilePos.x + textureSize.x / 2.0f || position.x + size / 2.0f <= tilePos.x - textureSize.x / 2.0f + m_pLeftMask->GetMask().x * textureSize.x };
-		return help;
+		return position.x + size / 2.0f >= tilePos.x + textureSize.x / 2.0f || position.x + size / 2.0f <= tilePos.x - textureSize.x / 2.0f + m_pLeftMask->GetMask().x * textureSize.x;
 	}
 	else if (direction.x < 0)
 	{
-		bool help{ position.x - size / 2.0f <= tilePos.x - textureSize.x / 2.0f || position.x - size / 2.0f >= tilePos.x + textureSize.x / 2.0f - m_pRightMask->GetMask().x * textureSize.x };
-		return help;
+		return position.x - size / 2.0f <= tilePos.x - textureSize.x / 2.0f || position.x - size / 2.0f >= tilePos.x + textureSize.x / 2.0f - m_pRightMask->GetMask().x * textureSize.x;
 	}
 	else if (direction.y > 0)
 	{
-		bool help{ position.y + size / 2.0f >= tilePos.y + textureSize.y / 2.0f || position.y + size / 2.0f <= tilePos.y - textureSize.y / 2.0f + m_pTopMask->GetMask().x * textureSize.y };
-		return help;
+		return position.y + size / 2.0f >= tilePos.y + textureSize.y / 2.0f || position.y + size / 2.0f <= tilePos.y - textureSize.y / 2.0f + m_pTopMask->GetMask().x * textureSize.y;
 	}
 	else if (direction.y < 0)
 	{
-		bool help{ position.y - size / 2.0f <= tilePos.y - textureSize.y / 2.0f || position.y - size / 2.0f >= tilePos.y + textureSize.y / 2.0f - m_pBottomMask->GetMask().x * textureSize.y };
-		return help;
+		return position.y - size / 2.0f <= tilePos.y - textureSize.y / 2.0f || position.y - size / 2.0f >= tilePos.y + textureSize.y / 2.0f - m_pBottomMask->GetMask().x * textureSize.y;
 	}
 
 	return false;
@@ -188,8 +184,8 @@ bool digdug::WorldTile::IsOpen() const
 {
 	if (m_pBottomMask->GetMask().x > 0.5f && m_pTopMask->GetMask().x > 0.5f) return true;
 	if (m_pLeftMask->GetMask().x > 0.5f && m_pRightMask->GetMask().x > 0.5f) return true;
-	if (m_pBottomMask->GetMask().x > 0.9f || m_pTopMask->GetMask().x > 0.9f) return true;
-	if (m_pLeftMask->GetMask().x > 0.9f || m_pRightMask->GetMask().x > 0.9f) return true;
+	if (m_pBottomMask->GetMask().x >= 0.75f || m_pTopMask->GetMask().x >= 0.75f) return true;
+	if (m_pLeftMask->GetMask().x >= 0.75f || m_pRightMask->GetMask().x >= 0.75f) return true;
 
 	return false;
 }

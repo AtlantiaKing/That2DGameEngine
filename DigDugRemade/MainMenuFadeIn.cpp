@@ -32,11 +32,11 @@ void digdug::MainMenuFadeIn::Update()
 
 	// Get the current transform position
 	that::Transform* pTransform{ GetTransform() };
-	const auto& curPosition{ pTransform->GetWorldPosition() };
+	const auto& curPosition{ pTransform->GetLocalPosition() };
 
 	// Translate the main menu upwards
 	const float newY{ curPosition.y - m_FadeSpeed * that::Timer::GetInstance().GetElapsed() };
-	pTransform->SetWorldPosition(curPosition.x, newY);
+	pTransform->SetLocalPosition(curPosition.x, newY);
 
 	// End the fade in when the main menu surpasses the go to position
 	if(newY < goToY)
@@ -49,7 +49,7 @@ void digdug::MainMenuFadeIn::EndFade()
 {
 	// Reset the main menu to the middle of the screen
 	const auto& windowSize{ that::Window::GetInstance().GetSize() };
-	GetTransform()->SetWorldPosition(windowSize.x / 2.0f, windowSize.y / 2.0f);
+	GetTransform()->SetLocalPosition(windowSize.x / 2.0f, windowSize.y / 2.0f);
 
 	// Clear all bound input
 	that::InputManager::GetInstance().Clear();

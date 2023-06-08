@@ -41,6 +41,9 @@
     <Filter Include="Components\Game\World">
       <UniqueIdentifier>{003a933a-27d7-4ba6-8fc1-ec2c53b45991}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\Game\Entities\Rock">
+      <UniqueIdentifier>{d44dc38e-0080-456a-869c-b79e8663860e}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Components\MainMenu">
       <UniqueIdentifier>{e3f9d169-fb68-4b41-a7c6-22b8bd8caaee}</UniqueIdentifier>
     </Filter>
@@ -73,6 +76,9 @@
     </Filter>
     <Filter Include="Components\Game\Entities\DigDug">
       <UniqueIdentifier>{4eb0c2db-2a44-488d-bd96-74123792b7ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States\Enemies\Rock">
+      <UniqueIdentifier>{fc1b5e32-4a68-4023-a74a-515718ba651d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -115,6 +121,9 @@
     </ClCompile>
     <ClCompile Include="WorldTile.cpp">
       <Filter>Components\Game\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Rock.cpp">
+      <Filter>Components\Game\Entities\Rock</Filter>
     </ClCompile>
     <ClCompile Include="GameScene.cpp">
       <Filter>Scenes</Filter>
@@ -184,6 +193,30 @@
     </ClCompile>
     <ClCompile Include="PumpToEnemyCommand.cpp">
       <Filter>Commands\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="RockStaticState.cpp">
+      <Filter>States\Enemies\Rock</Filter>
+    </ClCompile>
+    <ClCompile Include="RockWaitForPlayerState.cpp">
+      <Filter>States\Enemies\Rock</Filter>
+    </ClCompile>
+    <ClCompile Include="RockBreakingFreeState.cpp">
+      <Filter>States\Enemies\Rock</Filter>
+    </ClCompile>
+    <ClCompile Include="RockFallingState.cpp">
+      <Filter>States\Enemies\Rock</Filter>
+    </ClCompile>
+    <ClCompile Include="RockDeathState.cpp">
+      <Filter>States\Enemies\Rock</Filter>
+    </ClCompile>
+    <ClCompile Include="DigDugRockDeathState.cpp">
+      <Filter>States\DigDug</Filter>
+    </ClCompile>
+    <ClCompile Include="FygarRockDeathState.cpp">
+      <Filter>States\Enemies\Fygar</Filter>
+    </ClCompile>
+    <ClCompile Include="PookaRockDeathState.cpp">
+      <Filter>States\Enemies\Pooka</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -306,6 +339,30 @@
     </ClInclude>
     <ClInclude Include="PumpToEnemyCommand.h">
       <Filter>Commands\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="RockStaticState.h">
+      <Filter>States\Enemies\Rock</Filter>
+    </ClInclude>
+    <ClInclude Include="RockWaitForPlayerState.h">
+      <Filter>States\Enemies\Rock</Filter>
+    </ClInclude>
+    <ClInclude Include="RockBreakingFreeState.h">
+      <Filter>States\Enemies\Rock</Filter>
+    </ClInclude>
+    <ClInclude Include="RockFallingState.h">
+      <Filter>States\Enemies\Rock</Filter>
+    </ClInclude>
+    <ClInclude Include="RockDeathState.h">
+      <Filter>States\Enemies\Rock</Filter>
+    </ClInclude>
+    <ClInclude Include="DigDugRockDeathState.h">
+      <Filter>States\DigDug</Filter>
+    </ClInclude>
+    <ClInclude Include="FygarRockDeathState.h">
+      <Filter>States\Enemies\Fygar</Filter>
+    </ClInclude>
+    <ClInclude Include="PookaRockDeathState.h">
+      <Filter>States\Enemies\Pooka</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -178,6 +178,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClCompile Include="DigDug.cpp" />
     <ClCompile Include="DigDugDeathState.cpp" />
     <ClCompile Include="DigDugPumpState.cpp" />
+    <ClCompile Include="DigDugRockDeathState.cpp" />
     <ClCompile Include="DigDugWalkingState.cpp" />
     <ClCompile Include="EnemyBehaviour.cpp" />
     <ClCompile Include="EnemyMovement.cpp" />
@@ -188,6 +189,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClCompile Include="FygarGhostState.cpp" />
     <ClCompile Include="FygarPumpState.cpp" />
     <ClCompile Include="FygarRoamingState.cpp" />
+    <ClCompile Include="FygarRockDeathState.cpp" />
     <ClCompile Include="GameModeChooser.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="GridCollider.cpp" />
@@ -204,8 +206,15 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClCompile Include="PookaGhostState.cpp" />
     <ClCompile Include="PookaPumpState.cpp" />
     <ClCompile Include="PookaRoamingState.cpp" />
+    <ClCompile Include="PookaRockDeathState.cpp" />
     <ClCompile Include="Pump.cpp" />
     <ClCompile Include="PumpToEnemyCommand.cpp" />
+    <ClCompile Include="Rock.cpp" />
+    <ClCompile Include="RockBreakingFreeState.cpp" />
+    <ClCompile Include="RockDeathState.cpp" />
+    <ClCompile Include="RockFallingState.cpp" />
+    <ClCompile Include="RockStaticState.cpp" />
+    <ClCompile Include="RockWaitForPlayerState.cpp" />
     <ClCompile Include="ScoreComponent.cpp" />
     <ClCompile Include="ScoreHUDComponent.cpp" />
     <ClCompile Include="ScorePrefab.cpp" />
@@ -222,6 +231,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClInclude Include="DigDug.h" />
     <ClInclude Include="DigDugDeathState.h" />
     <ClInclude Include="DigDugPumpState.h" />
+    <ClInclude Include="DigDugRockDeathState.h" />
     <ClInclude Include="DigDugState.h" />
     <ClInclude Include="DigDugWalkingState.h" />
     <ClInclude Include="EnemyBehaviour.h" />
@@ -234,6 +244,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClInclude Include="FygarGhostState.h" />
     <ClInclude Include="FygarPumpState.h" />
     <ClInclude Include="FygarRoamingState.h" />
+    <ClInclude Include="FygarRockDeathState.h" />
     <ClInclude Include="GameModeChooser.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="GridCollider.h" />
@@ -250,8 +261,15 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClInclude Include="PookaGhostState.h" />
     <ClInclude Include="PookaPumpState.h" />
     <ClInclude Include="PookaRoamingState.h" />
+    <ClInclude Include="PookaRockDeathState.h" />
     <ClInclude Include="Pump.h" />
     <ClInclude Include="PumpToEnemyCommand.h" />
+    <ClInclude Include="Rock.h" />
+    <ClInclude Include="RockBreakingFreeState.h" />
+    <ClInclude Include="RockDeathState.h" />
+    <ClInclude Include="RockFallingState.h" />
+    <ClInclude Include="RockStaticState.h" />
+    <ClInclude Include="RockWaitForPlayerState.h" />
     <ClInclude Include="ScoreComponent.h" />
     <ClInclude Include="ScoreHUDComponent.h" />
     <ClInclude Include="ScorePrefab.h" />

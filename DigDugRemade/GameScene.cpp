@@ -20,7 +20,7 @@ void digdug::GameScene::Load(that::Scene& scene)
 {
 	// Grid
 	that::GameObject* pGrid{ scene.CreateGameObject("Grid") };
-	pGrid->AddComponent<LevelLoader>()->SetLevel("Levels/Level1.png");
+	pGrid->AddComponent<LevelLoader>()->SetLevel("Levels/DemoLevel.png");
 
 	PrintControls();
 }

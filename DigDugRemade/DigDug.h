@@ -28,6 +28,7 @@ namespace digdug
 
 		void Move(const glm::vec2& movementInput);
 		void Pump(bool hold);
+		void RockAttack();
 	private:
 		void ChangeState(std::unique_ptr<DigDugState> pState);
 

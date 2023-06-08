@@ -6,6 +6,7 @@
 
 #include "PookaRoamingState.h"
 #include "PookaPumpState.h"
+#include "PookaRockDeathState.h"
 
 void digdug::Pooka::Init()
 {
@@ -28,6 +29,11 @@ void digdug::Pooka::Start(that::GameObject* pPlayer)
 {
 	m_pPlayer = pPlayer;
 	ChangeState(std::make_unique<PookaRoamingState>(GetOwner(), pPlayer));
+}
+
+void digdug::Pooka::RockAttack()
+{
+	ChangeState(std::make_unique<PookaRockDeathState>(GetOwner(), m_pPlayer));
 }
 
 void digdug::Pooka::ChangeState(std::unique_ptr<digdug::EnemyState> pState)

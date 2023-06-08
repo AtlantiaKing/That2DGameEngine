@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "imgui.h"
 #include <sstream>
+#include <algorithm>
 
 using namespace that;
 
@@ -75,15 +76,18 @@ void that::Scene::LateUpdate()
 }
 
 void that::Scene::UpdateCleanup()
-{
+
+{	// Call the OnDestroy method of every to-be-destroyed object
+	std::for_each(m_pObjects.begin(), m_pObjects.end(), [&](const auto& pGameObject) 
+	{
+		if (pGameObject->IsMarkedAsDead()) 
+		{
+			pGameObject->OnDestroy();
+		}
+	});
+
 	// Move all objects marked as dead to the end of the objects container
 	const auto& removeIt{ std::remove_if(begin(m_pObjects), end(m_pObjects), [](const auto& pGameObject) { return pGameObject->IsMarkedAsDead(); }) };
-
-	// Call the OnDestroy method of every to-be-destroyed object
-	for (auto it{ removeIt }; it < end(m_pObjects); ++it)
-	{
-		(*it)->OnDestroy();
-	}
 
 	// Remove gameobjects from their container if they are marked as dead
 	m_pObjects.erase(removeIt, end(m_pObjects));

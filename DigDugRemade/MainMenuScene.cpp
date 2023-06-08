@@ -37,7 +37,7 @@ void digdug::MainMenuScene::Load(that::Scene& scene)
 
 
 	// FADE
-	pBackground->GetTransform()->SetWorldPosition(screenSize.x / 2.0f, screenSize.y / 2.0f * 3.0f); // Spawn the background outside of the screen
+	pBackground->GetTransform()->SetLocalPosition(screenSize.x / 2.0f, screenSize.y / 2.0f * 3.0f); // Spawn the background outside of the screen
 	pBackground->AddComponent<MainMenuFadeIn>()->OnFadeComplete.AddListener([=](const MainMenuFadeIn&) 
 		{ 
 			pMarker->SetActive(true); 

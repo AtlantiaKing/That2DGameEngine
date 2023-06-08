@@ -62,6 +62,8 @@ int that::SpriteRenderer::GetTile() const
 
 void that::SpriteRenderer::Update()
 {
+	if (m_NrTiles == 0) return;
+
 	m_CurTime += that::Timer::GetInstance().GetElapsed();
 	if (m_CurTime > m_TimeBetweenTiles)
 	{

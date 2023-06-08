@@ -40,6 +40,7 @@
 
 // Defines
 #include "ColliderLayers.h"
+#include "Rock.h"
 
 void digdug::LevelLoader::SetLevel(const std::string& filePath)
 {
@@ -159,6 +160,24 @@ void digdug::LevelLoader::OnFrameStart()
 					pFire->SetActive(false);
 				}
 			}
+
+			const int rockData{ color.g };
+
+			if (rockData)
+			{
+				that::GameObject* pRock{ GetOwner()->CreateGameObject("Rock") };
+				pRock->AddComponent<that::SpriteRenderer>();
+				pRock->GetTransform()->SetLocalPosition(x * cellSize, y * cellSize);
+				that::BoxCollider* pCollider{ pRock->AddComponent<that::BoxCollider>() };
+				pCollider->SetLayer(ROCK_LAYER);
+				pCollider->SetSize(cellSize * 1.5f, cellSize * 1.5f);
+				that::Rigidbody* pRb{ pRock->AddComponent<that::Rigidbody>() };
+				pRb->SetGravityEnabled(false);
+				pRb->SetConstantGravity(true);
+				pRb->SetCollisionCorrection(false);
+				pRb->SetGravity(300);
+				pRock->AddComponent<Rock>()->Start(pPlayer);
+			}
 		}
 	}
 
@@ -175,7 +194,9 @@ that::GameObject* digdug::LevelLoader::CreatePlayer()
 	const auto& pPlayerTexture{ that::TextureManager::GetInstance().LoadTexture("MainCharacter.png") };
 	pPlayer->AddComponent<that::SpriteRenderer>();
 	pPlayer->AddComponent<GridTransform>()->ShouldRotateWhenGoingUp(true);
-	pPlayer->AddComponent<that::BoxCollider>()->SetSize(cellSize, cellSize);;
+	that::BoxCollider* pCollider{ pPlayer->AddComponent<that::BoxCollider>() };
+	pCollider->SetSize(cellSize, cellSize);
+	pCollider->SetLayer(DIGDUG_LAYER);
 	pPlayer->AddComponent<DigDug>();
 	that::AudioSource* pAudioSource{ pPlayer->AddComponent<that::AudioSource>() };
 	pAudioSource->SetSound("walkmusic.wav");

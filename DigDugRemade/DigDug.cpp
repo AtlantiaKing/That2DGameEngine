@@ -7,6 +7,7 @@
 
 #include "DigDugWalkingState.h"
 #include "DigDugDeathState.h"
+#include "DigDugRockDeathState.h"
 
 #include "InputManager.h"
 
@@ -55,6 +56,11 @@ void digdug::DigDug::Move(const glm::vec2& movementInput)
 void digdug::DigDug::Pump(bool hold)
 {
 	ChangeState(m_pState->HandleInput(m_DefaultMovement, true, hold));
+}
+
+void digdug::DigDug::RockAttack()
+{
+	ChangeState(std::make_unique<DigDugRockDeathState>(GetOwner()));
 }
 
 void digdug::DigDug::ChangeState(std::unique_ptr<DigDugState> pState)

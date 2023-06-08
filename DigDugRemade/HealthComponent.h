@@ -13,6 +13,7 @@ namespace digdug
 
 		void Hit();
 		void Heal();
+		void Kill();
 
 		void SetDestroyOnDeath(bool shouldDestroyOnDeath) { m_ShouldDestroyOnDeath = shouldDestroyOnDeath; }
 		void SetMaxHealth(int health);

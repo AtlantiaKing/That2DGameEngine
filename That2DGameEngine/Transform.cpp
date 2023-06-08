@@ -67,15 +67,36 @@ void that::Transform::SetLocalPosition(const glm::vec2& position)
 
 void that::Transform::SetWorldPosition(const glm::vec2& position)
 {
-	m_LocalPosition += position - GetWorldPosition();
-	EnableChangedFlag();
+	SetWorldPosition(position.x, position.y);
 }
 
 void that::Transform::SetWorldPosition(float x, float y)
 {
-	const auto& worldPos{ GetWorldPosition() };
-	m_LocalPosition.x += x - worldPos.x;
-	m_LocalPosition.y += y - worldPos.y;
+	// Retrieve the parent object
+	const auto pParent{ GetOwner()->GetParent() };
+
+	// If no parent exist, use the local position as world position
+	if (!pParent)
+	{
+		m_LocalPosition.x = x;
+		m_LocalPosition.y = y;
+	}
+	else
+	{
+		Transform* pParentTransform{ pParent->GetTransform() };
+		const auto& parentPosition{ pParentTransform->GetWorldPosition() };
+		const auto& parentScale{ pParentTransform->GetWorldScale() };
+		const float parentRot{ pParentTransform->GetWorldRotation(false) };
+
+		const float cosAngle = std::cos(-parentRot);
+		const float sinAngle = std::sin(-parentRot);
+
+		const float displacementX{ x - parentPosition.x };
+		const float displacementY{ y - parentPosition.y };
+
+		m_LocalPosition.x = (displacementX * cosAngle - displacementY * sinAngle) / parentScale.x;
+		m_LocalPosition.y = (displacementX * sinAngle + displacementY * cosAngle) / parentScale.y;
+	}
 
 	EnableChangedFlag();
 }

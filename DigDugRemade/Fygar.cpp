@@ -6,6 +6,7 @@
 
 #include "FygarRoamingState.h"
 #include "FygarPumpState.h"
+#include "FygarRockDeathState.h"
 
 void digdug::Fygar::Init()
 {
@@ -28,6 +29,11 @@ void digdug::Fygar::Start(that::GameObject* pPlayer)
 {
 	m_pPlayer = pPlayer;
 	ChangeState(std::make_unique<FygarRoamingState>(GetOwner(), pPlayer));
+}
+
+void digdug::Fygar::RockAttack()
+{
+	ChangeState(std::make_unique<FygarRockDeathState>(GetOwner(), m_pPlayer));
 }
 
 void digdug::Fygar::ChangeState(std::unique_ptr<digdug::EnemyState> pState)

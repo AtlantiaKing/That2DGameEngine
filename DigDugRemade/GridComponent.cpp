@@ -33,15 +33,13 @@ bool digdug::GridComponent::IsValidPosition(const glm::vec2& position, const glm
 
 	if (!checkWorld) return true;
 
-	const glm::vec2 gridPos{ position / static_cast<float>(m_StepsPerCell) * m_CellSize };
-
 	for (const auto& tilePair : m_pTiles)
 	{
 		WorldTile* pTile{ tilePair.second };
 
 		if (!pTile) continue;
 
-		if (!pTile->IsValidPosition(gridPos, direction, m_CellSize)) 
+		if (!pTile->IsValidPosition(position, direction, m_CellSize))
 			return false;
 	}
 

@@ -25,6 +25,7 @@ namespace digdug
 		virtual void Notify(const HealthComponent& health) override;
 
 		void Start(that::GameObject* pPlayer);
+		void RockAttack();
 	private:
 		void ChangeState(std::unique_ptr<digdug::EnemyState> pState);
 
