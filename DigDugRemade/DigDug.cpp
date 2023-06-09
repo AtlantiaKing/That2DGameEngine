@@ -31,6 +31,7 @@ void digdug::DigDug::Init()
 void digdug::DigDug::OnDestroy()
 {
 	GetOwner()->GetComponent<that::BoxCollider>()->OnHitEvent().RemoveListener(this);
+	GetOwner()->GetComponent<HealthComponent>()->OnHealthUpdate.RemoveListener(this);
 	that::InputManager::GetInstance().Clear();
 }
 

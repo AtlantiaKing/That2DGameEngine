@@ -55,6 +55,11 @@ void digdug::FireBreath::OnEnable()
 	m_pMask->SetPercentage(true, 0.0f);
 }
 
+void digdug::FireBreath::OnDestroy()
+{
+	m_pCollider->OnHitEvent().RemoveListener(this);
+}
+
 void digdug::FireBreath::Notify(const that::CollisionData& collision)
 {
 	if (collision.pOther->GetLayer() == DIGDUG_LAYER)
