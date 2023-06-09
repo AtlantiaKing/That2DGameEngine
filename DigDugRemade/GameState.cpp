@@ -4,6 +4,7 @@
 
 #include "HealthComponent.h"
 #include "WorldTile.h"
+#include "GameData.h"
 
 #include "Timer.h"
 #include <SceneManager.h>
@@ -89,6 +90,7 @@ void digdug::GameState::OnDestroy()
 	{
 		pHealth->OnDeath.RemoveListener(this);
 	}
+	GameData::GetInstance().IncrementRoundNumber();
 }
 
 void digdug::GameState::Notify(const that::GameObject& pEntity)

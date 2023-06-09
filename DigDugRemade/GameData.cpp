@@ -20,6 +20,11 @@ int digdug::GameData::GetRoundNumber()
     return m_RoundNumber;
 }
 
+void digdug::GameData::IncrementRoundNumber()
+{
+    ++m_RoundNumber;
+}
+
 void digdug::GameData::ResetGame()
 {
     m_RoundNumber = 1;

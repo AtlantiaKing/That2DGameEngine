@@ -15,6 +15,7 @@ void digdug::ScoreHUDComponent::Display(that::GameObject* pPlayer)
 {
 	m_pScore = pPlayer->GetComponent<ScoreComponent>();
 	m_pScore->OnScoreChange.AddListener(this);
+	Notify(*m_pScore);
 }
 
 void digdug::ScoreHUDComponent::Update()

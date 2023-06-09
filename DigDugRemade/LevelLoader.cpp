@@ -103,7 +103,7 @@ void digdug::LevelLoader::OnFrameStart()
 
 	for (int i{}; i < m_NrPlayers; ++i)
 	{
-		that::GameObject* pPlayer{ CreatePlayer() };
+		that::GameObject* pPlayer{ CreatePlayer(i) };
 		pGridComponent->BindPlayer(pPlayer->GetComponent<GridTransform>());
 		pPlayers.push_back(pPlayer);
 	}
@@ -216,7 +216,7 @@ void digdug::LevelLoader::OnFrameStart()
 	Destroy();
 }
 
-that::GameObject* digdug::LevelLoader::CreatePlayer()
+that::GameObject* digdug::LevelLoader::CreatePlayer(int index)
 {
 	const float cellSize{ GetOwner()->GetComponent<GridComponent>()->GetCellSize()};
 
@@ -229,7 +229,7 @@ that::GameObject* digdug::LevelLoader::CreatePlayer()
 	that::BoxCollider* pCollider{ pPlayer->AddComponent<that::BoxCollider>() };
 	pCollider->SetSize(cellSize, cellSize);
 	pCollider->SetLayer(DIGDUG_LAYER);
-	pPlayer->AddComponent<DigDug>();
+	pPlayer->AddComponent<DigDug>()->SetPlayerIndex(index);
 	that::AudioSource* pAudioSource{ pPlayer->AddComponent<that::AudioSource>() };
 	pAudioSource->SetSound("walkmusic.wav");
 	pAudioSource->SetLooping(true);

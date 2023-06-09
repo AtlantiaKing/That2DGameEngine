@@ -30,6 +30,10 @@ void digdug::ScoreComponent::RemoveScore(int score)
 void digdug::ScoreComponent::Init()
 {
 	that::EventQueue::GetInstance().AddListener(this);
+
+	m_Score = GameData::GetInstance().GetCurrentScores(GetOwner()->GetComponent<DigDug>()->GetPlayerIndex());
+
+	OnScoreChange.Notify(*this);
 }
 
 void digdug::ScoreComponent::OnDestroy()

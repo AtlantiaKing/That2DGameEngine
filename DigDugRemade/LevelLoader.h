@@ -29,7 +29,7 @@ namespace digdug
 		virtual void OnFrameStart() override;
 
 	private:
-		that::GameObject* CreatePlayer();
+		that::GameObject* CreatePlayer(int index);
 
 		std::string m_Level{};
 		int m_NrPlayers{};

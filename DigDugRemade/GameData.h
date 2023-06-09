@@ -12,6 +12,7 @@ namespace digdug
 		int GetHighScore();
 		std::string& GetHighScoreUser();
 		int GetRoundNumber();
+		void IncrementRoundNumber();
 
 		void ResetGame();
 		bool TryNewHighScore(int score);
