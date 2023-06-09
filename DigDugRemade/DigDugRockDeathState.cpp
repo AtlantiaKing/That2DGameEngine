@@ -45,10 +45,11 @@ void digdug::DigDugRockDeathState::StateEnter()
 
 	m_pPlayer->GetComponent<that::BoxCollider>()->SetEnabled(false);
 
-	m_pPlayer->GetTransform()->SetWorldRotation(0);
+	m_pPlayer->GetTransform()->SetLocalRotation(0);
 	m_pPlayer->GetTransform()->SetLocalScale(1.0f);
 }
 
 void digdug::DigDugRockDeathState::StateEnd()
 {
+	m_pPlayer->GetComponent<that::BoxCollider>()->SetEnabled(true);
 }
