@@ -32,12 +32,15 @@ namespace digdug
 
 	private:
 		void InitEnemies();
+		void InitPlayers();
 
 		bool m_Init{};
 
 		std::vector<HealthComponent*> m_pEnemies{};
+		std::vector<HealthComponent*> m_pPlayers{};
 
 		bool m_Victory{};
+		bool m_GameOver{};
 		float m_WaitTimer{};
 		const float m_TimeTillNextLevel{ 2.0f };
 	};

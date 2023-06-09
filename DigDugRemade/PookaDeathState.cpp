@@ -9,9 +9,8 @@
 #include "Timer.h"
 #include "TextureManager.h"
 
-digdug::PookaDeathState::PookaDeathState(that::GameObject* pPooka, that::GameObject* pPlayer)
+digdug::PookaDeathState::PookaDeathState(that::GameObject* pPooka)
 	: m_pPookaObj{ pPooka }
-	, m_pPlayer{ pPlayer }
 {
 }
 

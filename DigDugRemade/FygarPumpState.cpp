@@ -12,15 +12,14 @@
 #include "Timer.h"
 #include "TextureManager.h"
 
-digdug::FygarPumpState::FygarPumpState(that::GameObject* pFygar, that::GameObject* pPlayer)
+digdug::FygarPumpState::FygarPumpState(that::GameObject* pFygar)
 	: m_pFygarObj{ pFygar }
-	, m_pPlayer{ pPlayer }
 {
 }
 
 std::unique_ptr<digdug::EnemyState> digdug::FygarPumpState::Update()
 {
-	if (m_Dead) return std::make_unique<FygarDeathState>(m_pFygarObj, m_pPlayer);
+	if (m_Dead) return std::make_unique<FygarDeathState>(m_pFygarObj);
 
 	m_DeflateTime += that::Timer::GetInstance().GetElapsed();
 	if (m_DeflateTime > m_TimeUntilDeflate)
@@ -31,7 +30,7 @@ std::unique_ptr<digdug::EnemyState> digdug::FygarPumpState::Update()
 
 		if (pHealth->GetHealth() == pHealth->GetMaxHealth())
 		{
-			return std::make_unique<FygarRoamingState>(m_pFygarObj, m_pPlayer);
+			return std::make_unique<FygarRoamingState>(m_pFygarObj);
 		}
 	}
 

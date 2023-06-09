@@ -4,14 +4,14 @@
 
 #include "Transform.h"
 #include "GridComponent.h"
+#include "Rock.h"
 
 #include "glm/vec2.hpp"
 
 #include "RockBreakingFreeState.h"
 
-digdug::RockWaitForPlayerState::RockWaitForPlayerState(that::GameObject* pRock, that::GameObject* pPlayer)
+digdug::RockWaitForPlayerState::RockWaitForPlayerState(that::GameObject* pRock)
     : m_pRock{ pRock }
-    , m_pPlayer{ pPlayer }
 {
 }
 
@@ -23,7 +23,7 @@ std::unique_ptr<digdug::EnemyState> digdug::RockWaitForPlayerState::Update()
 
     if (playerGridPos.x < rockGridPos.x - m_GridEpsilonX || playerGridPos.x > rockGridPos.x + m_GridEpsilonX || playerGridPos.y > rockGridPos.y + m_GridEpsilonY)
     {
-        return std::make_unique<RockBreakingFreeState>(m_pRock, m_pPlayer);
+        return std::make_unique<RockBreakingFreeState>(m_pRock);
     }
 
     return nullptr;
@@ -32,6 +32,8 @@ std::unique_ptr<digdug::EnemyState> digdug::RockWaitForPlayerState::Update()
 void digdug::RockWaitForPlayerState::StateEnter()
 {
     m_pGrid = m_pRock->GetParent()->GetComponent<GridComponent>();
+
+    m_pPlayer = m_pRock->GetComponent<Rock>()->GetDiggingPlayer();
 }
 
 void digdug::RockWaitForPlayerState::StateEnd()

@@ -12,15 +12,14 @@
 #include "Timer.h"
 #include "TextureManager.h"
 
-digdug::PookaPumpState::PookaPumpState(that::GameObject* pPooka, that::GameObject* pPlayer)
+digdug::PookaPumpState::PookaPumpState(that::GameObject* pPooka)
 	: m_pPookaObj{ pPooka }
-	, m_pPlayer{ pPlayer }
 {
 }
 
 std::unique_ptr<digdug::EnemyState> digdug::PookaPumpState::Update()
 {
-	if (m_Dead) return std::make_unique<PookaDeathState>(m_pPookaObj, m_pPlayer);
+	if (m_Dead) return std::make_unique<PookaDeathState>(m_pPookaObj);
 
 	m_DeflateTime += that::Timer::GetInstance().GetElapsed();
 	if (m_DeflateTime > m_TimeUntilDeflate)
@@ -31,7 +30,7 @@ std::unique_ptr<digdug::EnemyState> digdug::PookaPumpState::Update()
 
 		if (pHealth->GetHealth() == pHealth->GetMaxHealth())
 		{
-			return std::make_unique<PookaRoamingState>(m_pPookaObj, m_pPlayer);
+			return std::make_unique<PookaRoamingState>(m_pPookaObj);
 		}
 	}
 

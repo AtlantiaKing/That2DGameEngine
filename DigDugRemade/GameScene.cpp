@@ -29,7 +29,7 @@ void digdug::GameScene::Load(that::Scene& scene)
 {
 	// Grid
 	that::GameObject* pGrid{ scene.CreateGameObject("Grid") };
-	pGrid->AddComponent<LevelLoader>()->SetLevel("Levels/Level1.png");
+	pGrid->AddComponent<LevelLoader>()->SetLevel("Levels/Level1_1.png", 1);
 	pGrid->AddComponent<GameState>();
 
 	constexpr float referenceSize{ 240.0f };
@@ -101,20 +101,4 @@ void digdug::GameScene::Load(that::Scene& scene)
 		pRound->GetTransform()->SetWorldPosition(static_cast<float>(windowSize.x), 0.0f);
 		pRound->GetTransform()->Translate(0.0f, pRoundHeader->GetTransform()->GetLocalPosition().y + pTextureSize.y);
 	}
-
-	PrintControls();
-}
-
-void digdug::GameScene::PrintControls()
-{
-	std::cout << "\n";
-	std::cout << "Controls for DigDug Remade\n";
-	std::cout << "\n";
-	std::cout << "Move: WASD\n";
-	std::cout << "Shoot pump: Space bar\n";
-	std::cout << "\n";
-	std::cout << "Sounds in the current game:\n";
-	std::cout << "Music while walking\n";
-	std::cout << "Sounds when you hit an enemy and a different sound when you kill the enemy\n";
-	std::cout << "\n";
 }

@@ -19,9 +19,8 @@
 
 #include "ColliderLayers.h"
 
-digdug::RockFallingState::RockFallingState(that::GameObject* pRock, that::GameObject* pPlayer)
+digdug::RockFallingState::RockFallingState(that::GameObject* pRock)
 	: m_pRock{ pRock }
-	, m_pPlayer{ pPlayer }
 {
 }
 
@@ -35,7 +34,7 @@ std::unique_ptr<digdug::EnemyState> digdug::RockFallingState::Update()
 	
 	if (m_StartPos == rockGridPos) return nullptr;
 
-	if (!m_pGrid->IsValidPosition(position, { 0, 1 }, true)) return std::make_unique<RockDeathState>(m_pRock, m_pPlayer);
+	if (!m_pGrid->IsValidPosition(position, { 0, 1 }, true)) return std::make_unique<RockDeathState>(m_pRock);
 
 	return nullptr;
 }

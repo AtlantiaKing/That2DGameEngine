@@ -9,14 +9,9 @@
 
 #include "glm/vec2.hpp"
 
-namespace that
-{
-	class GameObject;
-}
-
 namespace digdug
 {
-	class DigDug final : public that::Component, public that::Observer<that::CollisionData>, public that::Observer<that::GameObject>
+	class DigDug final : public that::Component, public that::Observer<that::CollisionData>
 	{
 	public:
 		DigDug() = default;
@@ -32,11 +27,13 @@ namespace digdug
 		virtual void Update() override;
 
 		virtual void Notify(const that::CollisionData& collision) override;
-		virtual void Notify(const that::GameObject&) override;
 
 		void Move(const glm::vec2& movementInput);
 		void Pump(bool hold);
 		void RockAttack();
+
+		void SetPlayerIndex(int index);
+		int GetPlayerIndex() const;
 
 		const glm::vec2& GetSpawnPoint() { return m_SpawnPoint; }
 	private:
@@ -47,5 +44,7 @@ namespace digdug
 		glm::vec2 m_SpawnPoint{};
 
 		std::unique_ptr<DigDugState> m_pState{};
+
+		int m_PlayerIndex{};
 	};
 }

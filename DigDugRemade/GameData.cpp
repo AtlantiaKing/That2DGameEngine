@@ -23,6 +23,7 @@ int digdug::GameData::GetRoundNumber()
 void digdug::GameData::ResetGame()
 {
     m_RoundNumber = 1;
+    m_CurrentScores.clear();
 }
 
 bool digdug::GameData::TryNewHighScore(int score)
@@ -34,6 +35,23 @@ bool digdug::GameData::TryNewHighScore(int score)
     }
 
     return false;
+}
+
+void digdug::GameData::SetCurrentScore(int index, int score)
+{
+    if (m_CurrentScores.size() <= index)
+    {
+        m_CurrentScores.resize(index + 1);
+    }
+
+    m_CurrentScores[index] = score;
+}
+
+int digdug::GameData::GetCurrentScores(int index) const
+{
+    if (m_CurrentScores.size() <= index) return 0;
+
+    return m_CurrentScores[index];
 }
 
 digdug::GameData::GameData()

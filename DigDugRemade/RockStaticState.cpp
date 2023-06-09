@@ -10,9 +10,8 @@
 
 #include "RockWaitForPlayerState.h"
 
-digdug::RockStaticState::RockStaticState(that::GameObject* pRock, that::GameObject* pPlayer)
+digdug::RockStaticState::RockStaticState(that::GameObject* pRock)
 	: m_pRock{ pRock }
-	, m_pPlayer{ pPlayer }
 {
 }
 
@@ -26,7 +25,7 @@ std::unique_ptr<digdug::EnemyState> digdug::RockStaticState::Update()
 
 	if (!m_pGrid->IsOpenPosition(underPos)) return nullptr;
 
-	return std::make_unique<RockWaitForPlayerState>(m_pRock, m_pPlayer);
+	return std::make_unique<RockWaitForPlayerState>(m_pRock);
 }
 
 void digdug::RockStaticState::StateEnter()

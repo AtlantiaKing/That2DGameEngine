@@ -5,8 +5,11 @@
 
 #include "Transform.h"
 #include "GridTransform.h"
+#include "Pump.h"
+#include "DigDug.h"
 
 #include "EventQueue.h"
+#include "GameData.h"
 
 #include "ScorePrefab.h"
 
@@ -31,11 +34,18 @@ void digdug::ScoreComponent::Init()
 
 void digdug::ScoreComponent::OnDestroy()
 {
+	GameData::GetInstance().SetCurrentScore(GetOwner()->GetComponent<DigDug>()->GetPlayerIndex(), m_Score);
 	that::EventQueue::GetInstance().RemoveListener(this);
 }
 
 void digdug::ScoreComponent::OnEvent(that::EntityDeathEvent* e)
 {
+	Pump* pPump{ GetOwner()->GetChild(0)->GetComponent<Pump>() };
+	that::GameObject* pTarget{ pPump->GetTarget() };
+
+	if (!pTarget) return;
+	if (pPump->GetTarget() != e->pEntity) return;
+
 	const float entityY{ e->pEntity->GetTransform()->GetLocalPosition().y };
 	const int layerScore{ GetScoreForLayer(e->pEntity->GetComponent<GridTransform>()->GetCellPosition().y) };
 

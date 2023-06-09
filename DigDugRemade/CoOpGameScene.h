@@ -9,9 +9,10 @@ namespace that
 
 namespace digdug
 {
-	class GameScene final
+	class CoOpGameScene final
 	{
 	public:
 		static void Load(that::Scene& scene);
+	private:
 	};
 }

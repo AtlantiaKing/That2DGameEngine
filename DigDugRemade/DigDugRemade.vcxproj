@@ -175,8 +175,10 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CoOpGameScene.cpp" />
     <ClCompile Include="DigDug.cpp" />
     <ClCompile Include="DigDugDeathState.cpp" />
+    <ClCompile Include="DigDugNoLivesState.cpp" />
     <ClCompile Include="DigDugPumpState.cpp" />
     <ClCompile Include="DigDugRockDeathState.cpp" />
     <ClCompile Include="DigDugWalkingState.cpp" />
@@ -237,8 +239,10 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CoOpGameScene.h" />
     <ClInclude Include="DigDug.h" />
     <ClInclude Include="DigDugDeathState.h" />
+    <ClInclude Include="DigDugNoLivesState.h" />
     <ClInclude Include="DigDugPumpState.h" />
     <ClInclude Include="DigDugRockDeathState.h" />
     <ClInclude Include="DigDugState.h" />

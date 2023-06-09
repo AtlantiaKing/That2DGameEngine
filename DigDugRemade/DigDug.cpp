@@ -33,13 +33,11 @@ void digdug::DigDug::Init()
 	that::InputManager::GetInstance().BindDigitalCommand(' ', that::InputManager::InputType::ONBUTTON, std::make_unique<PumpToEnemyCommand>(this));
 
 	GetOwner()->GetComponent<that::BoxCollider>()->OnHitEvent().AddListener(this);
-	GetOwner()->GetComponent<HealthComponent>()->OnDeath.AddListener(this);
 }
 
 void digdug::DigDug::OnDestroy()
 {
 	GetOwner()->GetComponent<that::BoxCollider>()->OnHitEvent().RemoveListener(this);
-	GetOwner()->GetComponent<HealthComponent>()->OnDeath.RemoveListener(this);
 	that::InputManager::GetInstance().Clear();
 }
 
@@ -57,20 +55,6 @@ void digdug::DigDug::Notify(const that::CollisionData& collision)
 	}
 }
 
-void digdug::DigDug::Notify(const that::GameObject&)
-{
-	GameData& gameData{ GameData::GetInstance() };
-
-	if (gameData.TryNewHighScore(GetOwner()->GetComponent<ScoreComponent>()->GetScore()))
-	{
-		that::SceneManager::GetInstance().LoadScene(gameData.GetHighScoreScene());
-	}
-	else
-	{
-		that::SceneManager::GetInstance().LoadScene(gameData.GetMainMenuScene());
-	}
-}
-
 void digdug::DigDug::Move(const glm::vec2& movementInput)
 {
 	ChangeState(m_pState->HandleInput(movementInput, false, false));
@@ -84,6 +68,16 @@ void digdug::DigDug::Pump(bool hold)
 void digdug::DigDug::RockAttack()
 {
 	ChangeState(std::make_unique<DigDugRockDeathState>(GetOwner()));
+}
+
+void digdug::DigDug::SetPlayerIndex(int index)
+{
+	m_PlayerIndex = index;
+}
+
+int digdug::DigDug::GetPlayerIndex() const
+{
+	return m_PlayerIndex;
 }
 
 void digdug::DigDug::ChangeState(std::unique_ptr<DigDugState> pState)

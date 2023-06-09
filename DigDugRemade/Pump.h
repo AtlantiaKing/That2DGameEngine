@@ -33,7 +33,8 @@ namespace digdug
 		virtual void OnDisable() override;
 		virtual void OnDestroy() override;
 
-		bool IsPumpedInEnemy() { return m_pPumpTo; }
+		bool IsPumpedInEnemy() const { return m_pPumpTo; }
+		that::GameObject* GetTarget() const;
 
 		virtual void Notify(const that::CollisionData& data) override;
 		void PumpToEnemy();

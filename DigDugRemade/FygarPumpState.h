@@ -15,7 +15,7 @@ namespace digdug
 	class FygarPumpState : public EnemyState, public that::Observer<HealthComponent>
 	{
 	public:
-		FygarPumpState(that::GameObject* pFygar, that::GameObject* pPlayer);
+		FygarPumpState(that::GameObject* pFygar);
 		virtual ~FygarPumpState() = default;
 
 		virtual std::unique_ptr<EnemyState> Update() override;
@@ -31,6 +31,5 @@ namespace digdug
 		bool m_Dead{};
 
 		that::GameObject* m_pFygarObj{};
-		that::GameObject* m_pPlayer{};
 	};
 }

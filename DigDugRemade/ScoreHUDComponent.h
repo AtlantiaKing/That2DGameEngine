@@ -17,7 +17,7 @@ namespace digdug
 		ScoreHUDComponent& operator=(const ScoreHUDComponent& other) = delete;
 		ScoreHUDComponent& operator=(ScoreHUDComponent&& other) = delete;
 
-		void SearchPlayer(that::GameObject* pPlayerParent);
+		void SearchPlayer(that::GameObject* pPlayerParent, int playerIdx = 0);
 
 		virtual void Update() override;
 		virtual void OnDestroy() override;
@@ -28,6 +28,7 @@ namespace digdug
 		void Display(that::GameObject* pPlayer);
 
 		that::GameObject* m_pParent{};
+		int m_PlayerIdx{};
 		digdug::ScoreComponent* m_pScore{};
 	};
 }

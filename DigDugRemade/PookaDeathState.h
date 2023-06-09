@@ -12,7 +12,7 @@ namespace digdug
 	class PookaDeathState final : public EnemyState
 	{
 	public:
-		PookaDeathState(that::GameObject* pPooka, that::GameObject* pPlayer);
+		PookaDeathState(that::GameObject* pPooka);
 		virtual ~PookaDeathState() = default;
 
 		virtual std::unique_ptr<digdug::EnemyState> Update() override;
@@ -24,6 +24,5 @@ namespace digdug
 		const float m_TimeTillDespawn{ 0.5f };
 
 		that::GameObject* m_pPookaObj{};
-		that::GameObject* m_pPlayer{};
 	};
 }

@@ -42,9 +42,10 @@
 #include "ColliderLayers.h"
 #include "Rock.h"
 
-void digdug::LevelLoader::SetLevel(const std::string& filePath)
+void digdug::LevelLoader::SetLevel(const std::string& filePath, int nrPlayers)
 {
 	m_Level = filePath;
+	m_NrPlayers = nrPlayers;
 }
 
 void digdug::LevelLoader::Init()
@@ -98,10 +99,38 @@ void digdug::LevelLoader::OnFrameStart()
 	GridComponent* pGridComponent{ GetOwner()->GetComponent<GridComponent>() };
 	const float cellSize{ pGridComponent->GetCellSize() };
 
-	that::GameObject* pPlayer{ CreatePlayer() };
-	pGridComponent->BindPlayer(pPlayer->GetComponent<GridTransform>());
+	std::vector<that::GameObject*> pPlayers{};
+
+	for (int i{}; i < m_NrPlayers; ++i)
+	{
+		that::GameObject* pPlayer{ CreatePlayer() };
+		pGridComponent->BindPlayer(pPlayer->GetComponent<GridTransform>());
+		pPlayers.push_back(pPlayer);
+	}
 
 	// SURFACE PASS 2
+	// Move all players
+	int curPlayer{};
+	for (int x{}; x < levelSize.x; ++x)
+	{
+		for (int y{}; y < levelSize.y; ++y)
+		{
+			const auto& color{ pLevelData->GetPixel(x,y) };
+
+			if (!color.a)
+			{
+				pPlayers[curPlayer]->GetTransform()->SetLocalPosition(x * cellSize, y * cellSize);
+
+				++curPlayer;
+
+				if (curPlayer >= pPlayers.size()) break;
+			}
+		}
+		if (curPlayer >= pPlayers.size()) break;
+	}
+
+
+	// SURFACE PASS 3
 	// Create all entities
 	// Set world tile masks
 	for (int x{}; x < levelSize.x; ++x)
@@ -109,8 +138,6 @@ void digdug::LevelLoader::OnFrameStart()
 		for (int y{}; y < levelSize.y; ++y)
 		{
 			const auto& color{ pLevelData->GetPixel(x,y) };
-
-			if (!color.a) pPlayer->GetTransform()->SetLocalPosition(x * cellSize, y * cellSize);
 
 			const int mapData{ color.r };
 
@@ -147,12 +174,12 @@ void digdug::LevelLoader::OnFrameStart()
 				pHealth->SetDestroyOnDeath(false);
 				if (enemyData == UINT8_MAX)
 				{
-					pEnemy->AddComponent<Pooka>()->Start(pPlayer);
+					pEnemy->AddComponent<Pooka>()->Start(pPlayers);
 					pEnemy->SetTag("Pooka");
 				}
 				else
 				{
-					pEnemy->AddComponent<Fygar>()->Start(pPlayer);
+					pEnemy->AddComponent<Fygar>()->Start(pPlayers);
 					pEnemy->SetTag("Fygar");
 
 					that::GameObject* pFire{ pEnemy->CreateGameObject("FireBreath") };
@@ -180,7 +207,7 @@ void digdug::LevelLoader::OnFrameStart()
 				pRb->SetConstantGravity(true);
 				pRb->SetCollisionCorrection(false);
 				pRb->SetGravity(300);
-				pRock->AddComponent<Rock>()->Start(pPlayer);
+				pRock->AddComponent<Rock>()->Start(pPlayers);
 			}
 		}
 	}

@@ -27,18 +27,31 @@ void digdug::Pooka::Update()
 
 void digdug::Pooka::Notify(const HealthComponent&)
 {
-	if (dynamic_cast<PookaPumpState*>(m_pState.get()) == nullptr) ChangeState(std::make_unique<PookaPumpState>(GetOwner(), m_pPlayer));
+	if (dynamic_cast<PookaPumpState*>(m_pState.get()) == nullptr && dynamic_cast<PookaRockDeathState*>(m_pState.get()) == nullptr) ChangeState(std::make_unique<PookaPumpState>(GetOwner()));
 }
 
-void digdug::Pooka::Start(that::GameObject* pPlayer)
+void digdug::Pooka::Start(const std::vector<that::GameObject*>& pPlayers)
 {
-	m_pPlayer = pPlayer;
-	ChangeState(std::make_unique<PookaRoamingState>(GetOwner(), pPlayer));
+	m_pPlayers = pPlayers;
+	m_FollowingPlayerIdx = rand() % static_cast<int>(m_pPlayers.size());
+	ChangeState(std::make_unique<PookaRoamingState>(GetOwner()));
+}
+
+that::GameObject* digdug::Pooka::GetPlayer()
+{
+	that::GameObject* pPlayer{ m_pPlayers[m_FollowingPlayerIdx] };
+	while(!pPlayer->IsActive())
+	{
+		m_FollowingPlayerIdx = rand() % static_cast<int>(m_pPlayers.size());
+		pPlayer = m_pPlayers[m_FollowingPlayerIdx];
+	}
+
+	return m_pPlayers[m_FollowingPlayerIdx];
 }
 
 void digdug::Pooka::RockAttack()
 {
-	ChangeState(std::make_unique<PookaRockDeathState>(GetOwner(), m_pPlayer));
+	ChangeState(std::make_unique<PookaRockDeathState>(GetOwner()));
 }
 
 void digdug::Pooka::ChangeState(std::unique_ptr<digdug::EnemyState> pState)

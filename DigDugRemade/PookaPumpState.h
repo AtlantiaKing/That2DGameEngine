@@ -15,7 +15,7 @@ namespace digdug
 	class PookaPumpState : public EnemyState, public that::Observer<HealthComponent>
 	{
 	public:
-		PookaPumpState(that::GameObject* pPooka, that::GameObject* pPlayer);
+		PookaPumpState(that::GameObject* pPooka);
 		virtual ~PookaPumpState() = default;
 
 		virtual std::unique_ptr<EnemyState> Update() override;
@@ -30,6 +30,5 @@ namespace digdug
 		bool m_Dead{};
 
 		that::GameObject* m_pPookaObj{};
-		that::GameObject* m_pPlayer{};
 	};
 }

@@ -5,6 +5,14 @@
 
 #include "EnemyState.h"
 
+#include <vector>
+#include <memory>
+
+namespace that
+{
+	class GameObject;
+}
+
 namespace digdug
 {
 	class HealthComponent;
@@ -25,12 +33,15 @@ namespace digdug
 		virtual void Update() override;
 		virtual void Notify(const HealthComponent& health) override;
 
-		void Start(that::GameObject* pPlayer);
+		void Start(const std::vector<that::GameObject*>& pPlayers);
+		that::GameObject* GetPlayer();
+
 		void RockAttack();
 	private:
 		void ChangeState(std::unique_ptr<digdug::EnemyState> pState);
 
-		that::GameObject* m_pPlayer{};
+		std::vector<that::GameObject*> m_pPlayers{};
+		int m_FollowingPlayerIdx{};
 			
 		std::unique_ptr<EnemyState> m_pState{};
 	};

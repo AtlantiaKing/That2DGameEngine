@@ -11,12 +11,13 @@ namespace that
 
 namespace digdug
 {
+	class Fygar;
 	class GridComponent;
 
 	class FygarGhostState : public EnemyState
 	{
 	public:
-		FygarGhostState(that::GameObject* pFygar, that::GameObject* pPlayer);
+		FygarGhostState(that::GameObject* pFygar);
 		virtual ~FygarGhostState() = default;
 
 		virtual std::unique_ptr<EnemyState> Update() override;
@@ -25,7 +26,7 @@ namespace digdug
 
 	private:
 		that::GameObject* m_pFygarObj{};
-		that::GameObject* m_pPlayer{};
+		Fygar* m_pFygar{};
 
 		GridComponent* m_pGrid{};
 

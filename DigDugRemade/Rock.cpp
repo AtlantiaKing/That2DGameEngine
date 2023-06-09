@@ -21,9 +21,29 @@ void digdug::Rock::Update()
 	if (pNewState) ChangeState(std::move(pNewState));
 }
 
-void digdug::Rock::Start(that::GameObject* pPlayer)
+void digdug::Rock::Start(const std::vector<that::GameObject*>& pPlayers)
 {
-	ChangeState(std::make_unique<RockStaticState>(GetOwner(), pPlayer));
+	m_pPlayers = pPlayers;
+	ChangeState(std::make_unique<RockStaticState>(GetOwner()));
+}
+
+that::GameObject* digdug::Rock::GetDiggingPlayer()
+{
+	GridComponent* pGrid{ GetOwner()->GetParent()->GetComponent<GridComponent>() };
+	const float cellSize{ pGrid->GetCellSize() };
+	const glm::vec2 rockGridPos{ GetTransform()->GetLocalPosition() / cellSize };
+
+	for (that::GameObject* pPlayer : m_pPlayers)
+	{
+		const glm::vec2 playerGridPos{ pPlayer->GetTransform()->GetLocalPosition() / cellSize };
+
+		if (playerGridPos.x >= rockGridPos.x - m_GridEpsilonX && playerGridPos.x <= rockGridPos.x + m_GridEpsilonX && playerGridPos.y <= rockGridPos.y + m_GridEpsilonY)
+		{
+			return pPlayer;
+		}
+	}
+
+	return nullptr;
 }
 
 void digdug::Rock::ChangeState(std::unique_ptr<digdug::EnemyState> pState)

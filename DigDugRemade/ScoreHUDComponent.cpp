@@ -5,9 +5,10 @@
 
 #include <sstream>
 
-void digdug::ScoreHUDComponent::SearchPlayer(that::GameObject* pPlayerParent)
+void digdug::ScoreHUDComponent::SearchPlayer(that::GameObject* pPlayerParent, int playerIdx)
 {
 	m_pParent = pPlayerParent;
+	m_PlayerIdx = playerIdx;
 }
 
 void digdug::ScoreHUDComponent::Display(that::GameObject* pPlayer)
@@ -20,9 +21,16 @@ void digdug::ScoreHUDComponent::Update()
 {
 	if (!m_pParent) return;
 
+	int curPlayerIdx{};
 	for (that::GameObject* pChild : m_pParent->GetChildren())
 	{
 		if (pChild->GetTag() != "DigDug") continue;
+
+		if (curPlayerIdx != m_PlayerIdx)
+		{
+			++curPlayerIdx;
+			continue;
+		}
 
 		Display(pChild);
 		m_pParent = nullptr;

@@ -13,9 +13,16 @@ void digdug::LivesHUDComponent::Update()
 {
 	if (!m_pParent) return;
 
+	int curPlayerIdx{};
 	for (that::GameObject* pChild : m_pParent->GetChildren())
 	{
 		if (pChild->GetTag() != "DigDug") continue;
+
+		if (curPlayerIdx != m_PlayerIdx)
+		{
+			++curPlayerIdx;
+			continue;
+		}
 
 		Display(pChild);
 		m_pParent = nullptr;
@@ -46,9 +53,10 @@ void digdug::LivesHUDComponent::OnSubjectDestroy()
 	m_pHealth = nullptr;
 }
 
-void digdug::LivesHUDComponent::SearchPlayer(that::GameObject* pPlayerParent)
+void digdug::LivesHUDComponent::SearchPlayer(that::GameObject* pPlayerParent, int playerIdx)
 {
 	m_pParent = pPlayerParent;
+	m_PlayerIdx = playerIdx;
 }
 
 void digdug::LivesHUDComponent::Display(that::GameObject* pPlayer)

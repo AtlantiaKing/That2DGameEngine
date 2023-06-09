@@ -11,12 +11,13 @@ namespace that
 
 namespace digdug
 {
+	class Pooka;
 	class GridComponent;
 
 	class PookaGhostState : public EnemyState
 	{
 	public:
-		PookaGhostState(that::GameObject* pPooka, that::GameObject* pPlayer);
+		PookaGhostState(that::GameObject* pPooka);
 		virtual ~PookaGhostState() = default;
 
 		virtual std::unique_ptr<EnemyState> Update() override;
@@ -25,7 +26,7 @@ namespace digdug
 
 	private:
 		that::GameObject* m_pPookaObj{};
-		that::GameObject* m_pPlayer{};
+		Pooka* m_pPooka{};
 
 		GridComponent* m_pGrid{};
 

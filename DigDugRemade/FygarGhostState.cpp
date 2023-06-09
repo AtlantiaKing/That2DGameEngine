@@ -6,15 +6,15 @@
 #include "GridComponent.h"
 #include "WorldTile.h"
 #include "Transform.h"
+#include "Fygar.h"
 
 #include "FygarRoamingState.h"
 
 #include "TextureManager.h"
 #include "Timer.h"
 
-digdug::FygarGhostState::FygarGhostState(that::GameObject* pFygar, that::GameObject* pPlayer)
+digdug::FygarGhostState::FygarGhostState(that::GameObject* pFygar)
     : m_pFygarObj{ pFygar }
-    , m_pPlayer{ pPlayer }
 {
 }
 
@@ -22,14 +22,14 @@ std::unique_ptr<digdug::EnemyState> digdug::FygarGhostState::Update()
 {
     that::Transform* pTransform{ m_pFygarObj->GetTransform() };
     const auto& pos{ pTransform->GetLocalPosition() };
-    const auto& playerPos{ m_pPlayer->GetTransform()->GetLocalPosition() };
+    const auto& playerPos{ m_pFygar->GetPlayer()->GetTransform()->GetLocalPosition()};
 
     const glm::vec2 direction{ playerPos - pos };
 
     const float elapsedSec{ that::Timer::GetInstance().GetElapsed() };
 
     pTransform->Translate(glm::normalize(direction) * m_MoveSpeed * elapsedSec);
-
+    
     if (m_WaitForCheck < m_WaitTime) m_WaitForCheck += elapsedSec;
     else
     {
@@ -43,7 +43,7 @@ std::unique_ptr<digdug::EnemyState> digdug::FygarGhostState::Update()
         {
             if (m_pGrid->IsOpenPosition({ posInt.x + steps / 2, posInt.y + steps / 2 }))
             {
-                return std::make_unique<FygarRoamingState>(m_pFygarObj, m_pPlayer);
+                return std::make_unique<FygarRoamingState>(m_pFygarObj);
             }
         }
     }
@@ -57,6 +57,8 @@ void digdug::FygarGhostState::StateEnter()
     m_pFygarObj->GetComponent<that::SpriteRenderer>()->SetSprite(pTexture, 2, 1, 0.4f);
 
     m_pGrid = m_pFygarObj->GetParent()->GetComponent<GridComponent>();
+
+    m_pFygar = m_pFygarObj->GetComponent<Fygar>();
 }
 
 void digdug::FygarGhostState::StateEnd()

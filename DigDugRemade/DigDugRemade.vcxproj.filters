@@ -248,6 +248,12 @@
     <ClCompile Include="GameState.cpp">
       <Filter>Components\Game\World</Filter>
     </ClCompile>
+    <ClCompile Include="CoOpGameScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="DigDugNoLivesState.cpp">
+      <Filter>States\DigDug</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameScene.h">
@@ -420,6 +426,12 @@
     </ClInclude>
     <ClInclude Include="GameState.h">
       <Filter>Components\Game\World</Filter>
+    </ClInclude>
+    <ClInclude Include="CoOpGameScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="DigDugNoLivesState.h">
+      <Filter>States\DigDug</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

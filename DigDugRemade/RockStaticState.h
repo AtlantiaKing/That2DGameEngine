@@ -14,7 +14,7 @@ namespace digdug
 	class RockStaticState : public EnemyState
 	{
 	public:
-		RockStaticState(that::GameObject* pRock, that::GameObject* pPlayer);
+		RockStaticState(that::GameObject* pRock);
 		virtual ~RockStaticState() = default;
 
 		virtual std::unique_ptr<EnemyState> Update() override;
@@ -22,7 +22,6 @@ namespace digdug
 		virtual void StateEnd() override;
 	private:
 		that::GameObject* m_pRock{};
-		that::GameObject* m_pPlayer{};
 
 		GridComponent* m_pGrid{};
 	};

@@ -12,9 +12,8 @@
 #include "TextureManager.h"
 #include "Timer.h"
 
-digdug::FygarRoamingState::FygarRoamingState(that::GameObject* pFygar, that::GameObject* pPlayer)
+digdug::FygarRoamingState::FygarRoamingState(that::GameObject* pFygar)
 	: m_pFygarObj{ pFygar }
-	, m_pPlayer{ pPlayer }
 {
 }
 
@@ -25,11 +24,11 @@ std::unique_ptr<digdug::EnemyState> digdug::FygarRoamingState::Update()
 	{
 		if (static_cast<float>(rand()) / RAND_MAX < m_AttackChance)
 		{
-			return std::make_unique<FygarAttackState>(m_pFygarObj, m_pPlayer);
+			return std::make_unique<FygarAttackState>(m_pFygarObj);
 		}
 		else
 		{
-			return std::make_unique<FygarGhostState>(m_pFygarObj, m_pPlayer);
+			return std::make_unique<FygarGhostState>(m_pFygarObj);
 		}
 	}
 

@@ -8,9 +8,8 @@
 #include "TextureManager.h"
 #include "Timer.h"
 
-digdug::FygarRockDeathState::FygarRockDeathState(that::GameObject* pFygar, that::GameObject* pPlayer)
+digdug::FygarRockDeathState::FygarRockDeathState(that::GameObject* pFygar)
 	: m_pFygarObj{ pFygar }
-	, m_pPlayer{ pPlayer }
 {
 }
 

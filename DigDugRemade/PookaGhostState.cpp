@@ -6,15 +6,15 @@
 #include "GridComponent.h"
 #include "WorldTile.h"
 #include "Transform.h"
+#include "Pooka.h"
 
 #include "PookaRoamingState.h"
 
 #include "TextureManager.h"
 #include "Timer.h"
 
-digdug::PookaGhostState::PookaGhostState(that::GameObject* pPooka, that::GameObject* pPlayer)
+digdug::PookaGhostState::PookaGhostState(that::GameObject* pPooka)
     : m_pPookaObj{ pPooka }
-    , m_pPlayer{ pPlayer }
 {
 }
 
@@ -22,7 +22,7 @@ std::unique_ptr<digdug::EnemyState> digdug::PookaGhostState::Update()
 {
     that::Transform* pTransform{ m_pPookaObj->GetTransform() };
     const auto& pos{ pTransform->GetLocalPosition() };
-    const auto& playerPos{ m_pPlayer->GetTransform()->GetLocalPosition() };
+    const auto& playerPos{ m_pPooka->GetPlayer()->GetTransform()->GetLocalPosition() };
 
     const glm::vec2 direction{ playerPos - pos };
 
@@ -43,7 +43,7 @@ std::unique_ptr<digdug::EnemyState> digdug::PookaGhostState::Update()
         {
             if (m_pGrid->IsOpenPosition({ posInt.x + steps / 2, posInt.y + steps / 2 }))
             {
-                return std::make_unique<PookaRoamingState>(m_pPookaObj, m_pPlayer);
+                return std::make_unique<PookaRoamingState>(m_pPookaObj);
             }
         }
     }
@@ -57,6 +57,7 @@ void digdug::PookaGhostState::StateEnter()
     m_pPookaObj->GetComponent<that::SpriteRenderer>()->SetSprite(pTexture, 2, 1, 0.4f);
 
     m_pGrid = m_pPookaObj->GetParent()->GetComponent<GridComponent>();
+    m_pPooka = m_pPookaObj->GetComponent<Pooka>();
 }
 
 void digdug::PookaGhostState::StateEnd()

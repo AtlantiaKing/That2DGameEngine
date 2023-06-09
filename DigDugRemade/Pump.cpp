@@ -67,6 +67,13 @@ void digdug::Pump::OnDestroy()
 	GetOwner()->GetComponent<that::BoxCollider>()->OnHitEvent().RemoveListener(this);
 }
 
+that::GameObject* digdug::Pump::GetTarget() const
+{
+	if (!m_pPumpTo) return nullptr;
+
+	return m_pPumpTo->GetOwner();
+}
+
 void digdug::Pump::Notify(const that::CollisionData& data)
 {
 	if (!GetOwner()->IsActive()) return;
@@ -88,14 +95,15 @@ void digdug::Pump::OnEnable()
 	GetOwner()->GetComponent<that::TextureRenderer>()->SetEnabled(true);
 
 	m_AccuAliveTime = m_AliveTime;
+
+	// Remove any attached enemy
+	m_pPumpTo = nullptr;
 }
 
 void digdug::Pump::OnDisable()
 {
 	// Disable the renderer
 	GetOwner()->GetComponent<that::TextureRenderer>()->SetEnabled(false);
-	// Remove any attached enemy
-	m_pPumpTo = nullptr;
 }
 
 void digdug::Pump::PumpToEnemy()

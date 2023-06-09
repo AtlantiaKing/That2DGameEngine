@@ -7,9 +7,8 @@
 #include "FygarRoamingState.h"
 #include "TextureManager.h"
 
-digdug::FygarAttackState::FygarAttackState(that::GameObject* pFygar, that::GameObject* pPlayer)
+digdug::FygarAttackState::FygarAttackState(that::GameObject* pFygar)
 	: m_pFygarObj{ pFygar }
-	, m_pPlayer{ pPlayer }
 {
 }
 
@@ -17,7 +16,7 @@ std::unique_ptr<digdug::EnemyState> digdug::FygarAttackState::Update()
 {
 	if (m_pFire->IsActive()) return nullptr;
 
-	return std::make_unique<FygarRoamingState>(m_pFygarObj, m_pPlayer);
+	return std::make_unique<FygarRoamingState>(m_pFygarObj);
 }
 
 void digdug::FygarAttackState::StateEnter()

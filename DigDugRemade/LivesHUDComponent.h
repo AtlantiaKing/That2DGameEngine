@@ -22,12 +22,13 @@ namespace digdug
 		virtual void OnDestroy() override;
 		virtual void OnSubjectDestroy() override;
 
-		void SearchPlayer(that::GameObject* pPlayerParent);
+		void SearchPlayer(that::GameObject* pPlayerParent, int playerIdx = 0);
 
 	private:
 		void Display(that::GameObject* pPlayer);
 
 		that::GameObject* m_pParent{};
+		int m_PlayerIdx{};
 		digdug::HealthComponent* m_pHealth{};
 	};
 }

@@ -14,7 +14,7 @@ namespace digdug
 	class FygarRoamingState final : public EnemyState
 	{
 	public:
-		FygarRoamingState(that::GameObject* pFygar, that::GameObject* pPlayer);
+		FygarRoamingState(that::GameObject* pFygar);
 		virtual ~FygarRoamingState() = default;
 
 		virtual std::unique_ptr<digdug::EnemyState> Update() override;
@@ -25,7 +25,6 @@ namespace digdug
 		void UpdateMovement();
 
 		that::GameObject* m_pFygarObj{};
-		that::GameObject* m_pPlayer{};
 
 		glm::ivec2 m_Direction{ 1, 0 };
 

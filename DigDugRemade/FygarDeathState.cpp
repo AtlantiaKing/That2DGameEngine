@@ -9,9 +9,8 @@
 #include "Timer.h"
 #include "TextureManager.h"
 
-digdug::FygarDeathState::FygarDeathState(that::GameObject* pFygar, that::GameObject* pPlayer)
+digdug::FygarDeathState::FygarDeathState(that::GameObject* pFygar)
 	: m_pFygarObj{ pFygar }
-	, m_pPlayer{ pPlayer }
 {
 }
 

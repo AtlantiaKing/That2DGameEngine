@@ -8,11 +8,15 @@
 #include "Transform.h"
 #include "DigDug.h"
 #include "GridComponent.h"
+#include "HealthComponent.h"
 
 #include "Timer.h"
 #include "TextureManager.h"
+#include "GameData.h"
+#include "SceneManager.h"
 
 #include "DigDugWalkingState.h"
+#include "DigDugNoLivesState.h"
 
 digdug::DigDugDeathState::DigDugDeathState(that::GameObject* pPlayer)
 	: m_pPlayer{ pPlayer }
@@ -28,6 +32,12 @@ std::unique_ptr<digdug::DigDugState> digdug::DigDugDeathState::Update()
 {
 	if (!m_WaitingForRespawn && m_pSprite->GetTile() == 3)
 	{
+		if (m_pPlayer->GetComponent<HealthComponent>()->GetHealth() == 0)
+		{
+			if (GameData::GetInstance().GetCoOpPlayerScene() == that::SceneManager::GetInstance().GetCurrentSceneIndex())
+				return std::make_unique<DigDugNoLivesState>(m_pPlayer);
+		}
+
 		m_WaitingForRespawn = true;
 	}
 
@@ -60,7 +70,7 @@ void digdug::DigDugDeathState::StateEnter()
 
 	m_pPlayer->GetComponent<that::BoxCollider>()->SetEnabled(false);
 
-	m_pPlayer->GetTransform()->SetWorldRotation(0);
+	m_pPlayer->GetTransform()->SetLocalRotation(0);
 	m_pPlayer->GetTransform()->SetLocalScale(1.0f);
 }
 

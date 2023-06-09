@@ -27,18 +27,30 @@ void digdug::Fygar::Update()
 
 void digdug::Fygar::Notify(const HealthComponent&)
 {
-	if (dynamic_cast<FygarPumpState*>(m_pState.get()) == nullptr) ChangeState(std::make_unique<FygarPumpState>(GetOwner(), m_pPlayer));
+	if (dynamic_cast<FygarPumpState*>(m_pState.get()) == nullptr) ChangeState(std::make_unique<FygarPumpState>(GetOwner()));
 }
 
-void digdug::Fygar::Start(that::GameObject* pPlayer)
+void digdug::Fygar::Start(const std::vector<that::GameObject*>& pPlayers)
 {
-	m_pPlayer = pPlayer;
-	ChangeState(std::make_unique<FygarRoamingState>(GetOwner(), pPlayer));
+	m_pPlayers = pPlayers;
+	m_FollowingPlayerIdx = rand() % static_cast<int>(m_pPlayers.size());
+	ChangeState(std::make_unique<FygarRoamingState>(GetOwner()));
+}
+
+that::GameObject* digdug::Fygar::GetPlayer()
+{
+	that::GameObject* pPlayer{ m_pPlayers[m_FollowingPlayerIdx] };
+	while (!pPlayer->IsActive())
+	{
+		m_FollowingPlayerIdx = rand() % static_cast<int>(m_pPlayers.size());
+	}
+
+	return m_pPlayers[m_FollowingPlayerIdx];
 }
 
 void digdug::Fygar::RockAttack()
 {
-	ChangeState(std::make_unique<FygarRockDeathState>(GetOwner(), m_pPlayer));
+	ChangeState(std::make_unique<FygarRockDeathState>(GetOwner()));
 }
 
 void digdug::Fygar::ChangeState(std::unique_ptr<digdug::EnemyState> pState)

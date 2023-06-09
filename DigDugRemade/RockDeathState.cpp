@@ -6,9 +6,8 @@
 
 #include "TextureManager.h"
 
-digdug::RockDeathState::RockDeathState(that::GameObject* pRock, that::GameObject* pPlayer)
+digdug::RockDeathState::RockDeathState(that::GameObject* pRock)
 	: m_pRock{ pRock }
-	, m_pPlayer{ pPlayer }
 {
 }
 

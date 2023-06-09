@@ -14,7 +14,7 @@ namespace digdug
 	class PookaRoamingState final : public EnemyState
 	{
 	public:
-		PookaRoamingState(that::GameObject* pPooka, that::GameObject* pPlayer);
+		PookaRoamingState(that::GameObject* pPooka);
 		virtual ~PookaRoamingState() = default;
 
 		virtual std::unique_ptr<digdug::EnemyState> Update() override;
@@ -25,7 +25,6 @@ namespace digdug
 		void UpdateMovement();
 
 		that::GameObject* m_pPookaObj{};
-		that::GameObject* m_pPlayer{};
 
 		glm::ivec2 m_Direction{ 1, 0 };
 

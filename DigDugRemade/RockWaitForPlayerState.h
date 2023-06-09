@@ -14,7 +14,7 @@ namespace digdug
 	class RockWaitForPlayerState : public EnemyState
 	{
 	public:
-		RockWaitForPlayerState(that::GameObject* pRock, that::GameObject* pPlayer);
+		RockWaitForPlayerState(that::GameObject* pRock);
 		virtual ~RockWaitForPlayerState() = default;
 
 		virtual std::unique_ptr<EnemyState> Update() override;

@@ -19,7 +19,7 @@ namespace digdug
 	class RockFallingState : public EnemyState, public that::Observer<that::CollisionData>
 	{
 	public:
-		RockFallingState(that::GameObject* pRock, that::GameObject* pPlayer);
+		RockFallingState(that::GameObject* pRock);
 		virtual ~RockFallingState() = default;
 
 		virtual std::unique_ptr<EnemyState> Update() override;
@@ -28,7 +28,6 @@ namespace digdug
 		virtual void Notify(const that::CollisionData& collision) override;
 	private:
 		that::GameObject* m_pRock{};
-		that::GameObject* m_pPlayer{};
 
 		glm::ivec2 m_StartPos{};
 

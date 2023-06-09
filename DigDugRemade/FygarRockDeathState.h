@@ -12,7 +12,7 @@ namespace digdug
 	class FygarRockDeathState final : public EnemyState
 	{
 	public:
-		FygarRockDeathState(that::GameObject* pFygar, that::GameObject* pPlayer);
+		FygarRockDeathState(that::GameObject* pFygar);
 		virtual ~FygarRockDeathState() = default;
 
 		virtual std::unique_ptr<digdug::EnemyState> Update() override;
@@ -24,6 +24,5 @@ namespace digdug
 		const float m_TimeTillRespawn{ 1.0f };
 
 		that::GameObject* m_pFygarObj{};
-		that::GameObject* m_pPlayer{};
 	};
 }
