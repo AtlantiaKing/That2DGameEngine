@@ -80,6 +80,7 @@ namespace that
 		std::vector<std::unique_ptr<GameObject>> m_pChildrenToAdd{};
 		std::vector<std::unique_ptr<GameObject>> m_pChildren{};
 
+		std::vector<std::unique_ptr<Component>> m_pComponentsToAdd{};
 		std::vector<std::unique_ptr<Component>> m_pComponents{};
 		Transform* m_pTransform{};
 
@@ -88,6 +89,7 @@ namespace that
 		std::string m_Tag{};
 
 		bool m_IsMarkedDead{};
+		bool m_Initialized{};
 	};
 
 	template<class T>
@@ -96,6 +98,12 @@ namespace that
 		static_assert(std::is_base_of<Component, T>(), "T needs to be derived from the Component class");
 		
 		for (const auto& pComponent : m_pComponents)
+		{
+			T* derivedComponent{ dynamic_cast<T*>(pComponent.get()) };
+
+			if (derivedComponent) return derivedComponent;
+		}
+		for (const auto& pComponent : m_pComponentsToAdd)
 		{
 			T* derivedComponent{ dynamic_cast<T*>(pComponent.get()) };
 
@@ -146,8 +154,16 @@ namespace that
 		// Get the actual pointer to the new component
 		T* pComponentPtr{ pComponent.get() };
 
-		// Add this component to the container of components
-		m_pComponents.push_back(std::move(pComponent));
+		if (!m_Initialized)
+		{
+			// Add this component to the container of components
+			m_pComponents.push_back(std::move(pComponent));
+		}
+		else
+		{
+			// Add this component to the container of components of the next frame
+			m_pComponentsToAdd.push_back(std::move(pComponent));
+		}
 
 		// Return the new component
 		return pComponentPtr;

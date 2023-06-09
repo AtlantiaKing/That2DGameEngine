@@ -34,12 +34,25 @@ void that::GameObject::Init()
 	{
 		pComponent->Init();
 	}
+
+	m_Initialized = true;
 }
 
 void that::GameObject::OnFrameStart()
 {
 	// Don't update if the gameobject is not active
 	if (!m_IsActive) return;
+
+	if (!m_pComponentsToAdd.empty())
+	{
+		std::vector<std::unique_ptr<Component>> pNewComponents{ std::move(m_pComponentsToAdd) };
+
+		for (auto& pComponent : pNewComponents)
+		{
+			pComponent->Init();
+			m_pComponents.push_back(std::move(pComponent));
+		}
+	}
 
 	for (auto& pChild : m_pChildrenToAdd)
 	{
