@@ -6,6 +6,7 @@
 #include "GridTransform.h"
 #include "Transform.h"
 #include "HealthComponent.h"
+#include "BoxCollider.h"
 
 #include "TextureManager.h"
 #include "Timer.h"
@@ -41,6 +42,11 @@ void digdug::DigDugRockDeathState::StateEnter()
 	const auto& pPlayerTexture{ that::TextureManager::GetInstance().LoadTexture("DigDug/DeathByRock.png") };
 	m_pPlayer->GetComponent<that::SpriteRenderer>()->SetSprite(pPlayerTexture, 1, 1);
 	m_pPlayer->GetComponent<HealthComponent>()->Hit();
+
+	m_pPlayer->GetComponent<that::BoxCollider>()->SetEnabled(false);
+
+	m_pPlayer->GetTransform()->SetWorldRotation(0);
+	m_pPlayer->GetTransform()->SetLocalScale(1.0f);
 }
 
 void digdug::DigDugRockDeathState::StateEnd()

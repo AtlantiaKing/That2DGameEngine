@@ -59,6 +59,9 @@ void digdug::DigDugDeathState::StateEnter()
 	m_pSprite->SetSprite(pPlayerTexture, 4, 1, 0.2f);
 
 	m_pPlayer->GetComponent<that::BoxCollider>()->SetEnabled(false);
+
+	m_pPlayer->GetTransform()->SetWorldRotation(0);
+	m_pPlayer->GetTransform()->SetLocalScale(1.0f);
 }
 
 void digdug::DigDugDeathState::StateEnd()

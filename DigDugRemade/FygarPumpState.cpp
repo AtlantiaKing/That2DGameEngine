@@ -5,7 +5,6 @@
 #include "HealthComponent.h"
 #include "SpriteRenderer.h"
 #include "BoxCollider.h"
-#include "Transform.h"
 #include "FygarDeathState.h"
 
 #include "FygarRoamingState.h"
