@@ -30,13 +30,15 @@ std::shared_ptr<that::Texture2D> that::ResourceManager::LoadTexture(const std::s
 
 std::shared_ptr<that::Font> that::ResourceManager::LoadFont(const std::string& file, unsigned int size)
 {
-	if (const auto pFontIt{ m_pFonts.find(file) }; pFontIt != end(m_pFonts))
+	FontData fontPair{ std::make_pair(file,size) };
+
+	if (const auto pFontIt{ std::find_if(begin(m_pFonts), end(m_pFonts), [&](const auto& fontData) { return fontData.first == fontPair; })}; pFontIt != end(m_pFonts))
 	{
 		return pFontIt->second;
 	}
 
 	auto pFont{ std::make_shared<Font>(m_dataPath + file, size) };
-	m_pFonts[file] = pFont;
+	m_pFonts.push_back(std::make_pair(fontPair, pFont));
 
 	return pFont;
 }

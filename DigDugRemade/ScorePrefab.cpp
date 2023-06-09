@@ -18,7 +18,7 @@ void digdug::SpawnScore(that::Scene* pScene, const glm::vec2& position, int scor
 	pScore->AddComponent<that::TextureRenderer>();
 	that::TextComponent* pText{ pScore->AddComponent<that::TextComponent>() };
 	pText->SetText(std::to_string(score));
-	pText->SetFont(that::ResourceManager::GetInstance().LoadFont("Fonts/Arcade.ttf", 16));
+	pText->SetFont(that::ResourceManager::GetInstance().LoadFont("Fonts/Arcade.ttf", 12));
 
 	pScore->GetTransform()->SetWorldPosition(position);
 }

@@ -18,10 +18,12 @@ namespace that
 		std::shared_ptr<Font> LoadFont(const std::string& file, unsigned int size);
 		std::shared_ptr<Surface2D> LoadSurface(const std::string& file) const;
 	private:
+		typedef std::pair<std::string, int> FontData;
+
 		friend class Singleton<ResourceManager>;
 		ResourceManager() = default;
 		std::string m_dataPath;
 
-		std::unordered_map<std::string, std::shared_ptr<Font>> m_pFonts{};
+		std::vector<std::pair<FontData, std::shared_ptr<Font>>> m_pFonts{};
 	};
 }
