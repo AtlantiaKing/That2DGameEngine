@@ -39,7 +39,7 @@ bool digdug::GameData::TryNewHighScore(int score)
 
 void digdug::GameData::SetCurrentScore(int index, int score)
 {
-    if (m_CurrentScores.size() <= index)
+    if (static_cast<int>(m_CurrentScores.size()) <= index)
     {
         m_CurrentScores.resize(index + 1);
     }
@@ -49,7 +49,7 @@ void digdug::GameData::SetCurrentScore(int index, int score)
 
 int digdug::GameData::GetCurrentScores(int index) const
 {
-    if (m_CurrentScores.size() <= index) return 0;
+    if (static_cast<int>(m_CurrentScores.size()) <= index) return 0;
 
     return m_CurrentScores[index];
 }

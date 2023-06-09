@@ -123,10 +123,10 @@ void digdug::LevelLoader::OnFrameStart()
 
 				++curPlayer;
 
-				if (curPlayer >= pPlayers.size()) break;
+				if (curPlayer >= static_cast<int>(pPlayers.size())) break;
 			}
 		}
-		if (curPlayer >= pPlayers.size()) break;
+		if (curPlayer >= static_cast<int>(pPlayers.size())) break;
 	}
 
 
