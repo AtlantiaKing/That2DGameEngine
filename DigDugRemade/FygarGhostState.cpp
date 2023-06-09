@@ -8,6 +8,10 @@
 #include "Transform.h"
 #include "Fygar.h"
 
+#include "FygarLogic.h"
+#include "FygarGhostAI.h"
+#include "FygarGhostPlayer.h"
+
 #include "FygarRoamingState.h"
 
 #include "TextureManager.h"
@@ -20,15 +24,10 @@ digdug::FygarGhostState::FygarGhostState(that::GameObject* pFygar)
 
 std::unique_ptr<digdug::EnemyState> digdug::FygarGhostState::Update()
 {
-    that::Transform* pTransform{ m_pFygarObj->GetTransform() };
-    const auto& pos{ pTransform->GetLocalPosition() };
-    const auto& playerPos{ m_pFygar->GetPlayer()->GetTransform()->GetLocalPosition()};
-
-    const glm::vec2 direction{ playerPos - pos };
+    m_pLogic->Update();
 
     const float elapsedSec{ that::Timer::GetInstance().GetElapsed() };
-
-    pTransform->Translate(glm::normalize(direction) * m_MoveSpeed * elapsedSec);
+    const auto& pos{ m_pFygarObj->GetTransform()->GetLocalPosition()};
     
     if (m_WaitForCheck < m_WaitTime) m_WaitForCheck += elapsedSec;
     else
@@ -59,6 +58,9 @@ void digdug::FygarGhostState::StateEnter()
     m_pGrid = m_pFygarObj->GetParent()->GetComponent<GridComponent>();
 
     m_pFygar = m_pFygarObj->GetComponent<Fygar>();
+
+    //m_pLogic = std::make_unique<FygarGhostAI>(m_pFygarObj);
+    m_pLogic = std::make_unique<FygarGhostPlayer>(m_pFygarObj);
 }
 
 void digdug::FygarGhostState::StateEnd()

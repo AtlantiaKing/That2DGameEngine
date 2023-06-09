@@ -189,8 +189,12 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClCompile Include="Fygar.cpp" />
     <ClCompile Include="FygarAttackState.cpp" />
     <ClCompile Include="FygarDeathState.cpp" />
+    <ClCompile Include="FygarGhostAI.cpp" />
+    <ClCompile Include="FygarGhostPlayer.cpp" />
     <ClCompile Include="FygarGhostState.cpp" />
     <ClCompile Include="FygarPumpState.cpp" />
+    <ClCompile Include="FygarRoamingAI.cpp" />
+    <ClCompile Include="FygarRoamingPlayer.cpp" />
     <ClCompile Include="FygarRoamingState.cpp" />
     <ClCompile Include="FygarRockDeathState.cpp" />
     <ClCompile Include="GameData.cpp" />
@@ -211,6 +215,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenuFadeIn.cpp" />
     <ClCompile Include="MainMenuScene.cpp" />
+    <ClCompile Include="MoveCommand.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Pooka.cpp" />
     <ClCompile Include="PookaDeathState.cpp" />
@@ -255,8 +260,13 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClInclude Include="Fygar.h" />
     <ClInclude Include="FygarAttackState.h" />
     <ClInclude Include="FygarDeathState.h" />
+    <ClInclude Include="FygarGhostAI.h" />
+    <ClInclude Include="FygarGhostPlayer.h" />
     <ClInclude Include="FygarGhostState.h" />
+    <ClInclude Include="FygarLogic.h" />
     <ClInclude Include="FygarPumpState.h" />
+    <ClInclude Include="FygarRoamingAI.h" />
+    <ClInclude Include="FygarRoamingPlayer.h" />
     <ClInclude Include="FygarRoamingState.h" />
     <ClInclude Include="FygarRockDeathState.h" />
     <ClInclude Include="GameData.h" />
@@ -277,6 +287,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClInclude Include="LivesHUDComponent.h" />
     <ClInclude Include="MainMenuFadeIn.h" />
     <ClInclude Include="MainMenuScene.h" />
+    <ClInclude Include="MoveCommand.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Pooka.h" />
     <ClInclude Include="PookaDeathState.h" />

@@ -15,10 +15,6 @@
 #include "SceneManager.h"
 #include "GameData.h"
 
-#include "GridMoveCommand.h"
-#include "ShootPumpCommand.h"
-#include "PumpToEnemyCommand.h"
-
 #include "ColliderLayers.h"
 
 void digdug::DigDug::Init()
@@ -26,11 +22,6 @@ void digdug::DigDug::Init()
 	m_SpawnPoint = GetTransform()->GetLocalPosition();
 
 	ChangeState(std::make_unique<DigDugWalkingState>(GetOwner()));
-
-	// Input
-	that::InputManager::GetInstance().BindDigital2DAxisCommand({ 'd', 'a', 'w', 's' }, std::make_unique<GridMoveCommand>(this));
-	that::InputManager::GetInstance().BindDigitalCommand(' ', that::InputManager::InputType::ONBUTTONDOWN, std::make_unique<ShootPumpCommand>(this));
-	that::InputManager::GetInstance().BindDigitalCommand(' ', that::InputManager::InputType::ONBUTTON, std::make_unique<PumpToEnemyCommand>(this));
 
 	GetOwner()->GetComponent<that::BoxCollider>()->OnHitEvent().AddListener(this);
 

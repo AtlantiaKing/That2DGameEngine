@@ -4,6 +4,8 @@
 
 #include "glm/vec2.hpp"
 
+#include <memory>
+
 namespace that
 {
 	class GameObject;
@@ -13,6 +15,7 @@ namespace digdug
 {
 	class Fygar;
 	class GridComponent;
+	class FygarLogic;
 
 	class FygarGhostState : public EnemyState
 	{
@@ -25,6 +28,8 @@ namespace digdug
 		virtual void StateEnd() override;
 
 	private:
+		std::unique_ptr<FygarLogic> m_pLogic{};
+
 		that::GameObject* m_pFygarObj{};
 		Fygar* m_pFygar{};
 
@@ -32,8 +37,6 @@ namespace digdug
 
 		float m_WaitForCheck{};
 		const float m_WaitTime{ 3.0f };
-
-		const float m_MoveSpeed{ 25.0f };
 
 		const float m_GridEpsilon{ 4.0f };
 	};

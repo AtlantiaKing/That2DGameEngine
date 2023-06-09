@@ -34,6 +34,7 @@
 // Commands
 #include "GridMoveCommand.h"
 #include "ShootPumpCommand.h"
+#include "PumpToEnemyCommand.h"
 
 // STD includes
 #include <sstream>
@@ -50,7 +51,7 @@ void digdug::LevelLoader::SetLevel(const std::string& filePath, int nrPlayers)
 
 void digdug::LevelLoader::Init()
 {
-	auto pGridComponent{ GetOwner()->AddComponent<digdug::GridComponent>()};
+	auto pGridComponent{ GetOwner()->AddComponent<digdug::GridComponent>() };
 
 	const auto& pLevelData{ that::ResourceManager::GetInstance().LoadSurface(m_Level) };
 	const auto& levelSize{ pLevelData->GetSize() };
@@ -76,8 +77,7 @@ void digdug::LevelLoader::Init()
 			tileFilePath << "Tiles/WorldTile" << (y - 1) / 3 << ".png";
 
 			const auto& pWorldTileTexture{ that::TextureManager::GetInstance().LoadTexture(tileFilePath.str()) };
-			auto pTexture{ pTile->AddComponent<that::TextureRenderer>() };
-			pTexture->SetTexture(pWorldTileTexture);
+			pTile->AddComponent<that::TextureRenderer>()->SetTexture(pWorldTileTexture);
 
 			pGridComponent->SetTile(x, y, pTile->AddComponent<WorldTile>());
 		}

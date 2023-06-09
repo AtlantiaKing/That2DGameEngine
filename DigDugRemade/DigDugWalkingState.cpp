@@ -4,11 +4,16 @@
 
 #include "SpriteRenderer.h"
 #include "GridTransform.h"	
+#include "DigDug.h"
 
 #include "InputManager.h"
 #include "TextureManager.h"
 
 #include "DigDugPumpState.h"
+
+#include "GridMoveCommand.h"
+#include "ShootPumpCommand.h"
+#include "PumpToEnemyCommand.h"
 
 digdug::DigDugWalkingState::DigDugWalkingState(that::GameObject* pPlayer)
 	: m_pPlayer{ pPlayer }
@@ -42,8 +47,17 @@ void digdug::DigDugWalkingState::StateEnter()
 {
 	const auto& pPlayerTexture{ that::TextureManager::GetInstance().LoadTexture("DigDug/Walking.png") };
 	m_pPlayer->GetComponent<that::SpriteRenderer>()->SetSprite(pPlayerTexture, 2, 1);
+
+	m_pMoveCommand = that::InputManager::GetInstance().BindDigital2DAxisCommand({ 'd', 'a', 'w', 's' }, std::make_unique<GridMoveCommand>(m_pTransform));
+
+	DigDug* pDigDug{ m_pPlayer->GetComponent<DigDug>() };
+	m_pShootPumpCommand = that::InputManager::GetInstance().BindDigitalCommand(' ', that::InputManager::InputType::ONBUTTONDOWN, std::make_unique<ShootPumpCommand>(pDigDug));
+	m_pPumpEnemyCommand = that::InputManager::GetInstance().BindDigitalCommand(' ', that::InputManager::InputType::ONBUTTON, std::make_unique<PumpToEnemyCommand>(pDigDug));
 }
 
 void digdug::DigDugWalkingState::StateEnd()
 {
+	that::InputManager::GetInstance().Unbind(m_pMoveCommand);
+	that::InputManager::GetInstance().Unbind(m_pShootPumpCommand);
+	that::InputManager::GetInstance().Unbind(m_pPumpEnemyCommand);
 }

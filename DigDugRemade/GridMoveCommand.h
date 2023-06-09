@@ -5,16 +5,17 @@
 
 namespace digdug
 {
-	class DigDug;
+	class GridTransform;
 
 	class GridMoveCommand final : public that::DataCommand<glm::vec2>
 	{
 	public:
-		GridMoveCommand(digdug::DigDug* pPlayer) : m_pPlayer{ pPlayer } {}
+		GridMoveCommand(GridTransform* pTransform, bool checkWorld = false) : m_pTransform{ pTransform }, m_CheckWorld{ checkWorld } {}
 		virtual ~GridMoveCommand() = default;
 
 		virtual void Execute() override;
 	private:
-		digdug::DigDug* m_pPlayer{};
+		GridTransform* m_pTransform{};
+		bool m_CheckWorld{};
 	};
 }

@@ -156,22 +156,34 @@ bool that::InputManager::TryInput(const that::InputManager::InputDigital& inputK
 }
 
 #pragma region BindCommandFunctions
-void that::InputManager::BindDigitalCommand(unsigned int controller, GamepadButton button, InputType inputType, std::unique_ptr<Command> pCommand)
+that::Command* that::InputManager::BindDigitalCommand(unsigned int controller, GamepadButton button, InputType inputType, std::unique_ptr<Command> pCommand)
 {
 	// Add controllers if the controllerIdx is higher then the amount of controllers available
 	AddControllersIfNeeded(controller);
 
+	// Retrieve the raw pointer of the command
+	auto pRawCommand{ pCommand.get() };
+
 	// Create a new command
 	m_pBindedDigitalCommands.push_back(std::make_pair(std::move(pCommand), std::vector<InputDigital>{ InputDigital{ false, controller, static_cast<unsigned int>(button), inputType } }));
+
+	// Return the raw pointer
+	return pRawCommand;
 }
 
-void that::InputManager::BindDigitalCommand(unsigned int keyboardKey, InputType inputType, std::unique_ptr<Command> pCommand)
+that::Command* that::InputManager::BindDigitalCommand(unsigned int keyboardKey, InputType inputType, std::unique_ptr<Command> pCommand)
 {
+	// Retrieve the raw pointer of the command
+	auto pRawCommand{ pCommand.get() };
+
 	// Create a new command
 	m_pBindedDigitalCommands.push_back(std::make_pair(std::move(pCommand), std::vector<InputDigital>{ InputDigital{ true, 0, keyboardKey, inputType } }));
+
+	// Return the raw pointer
+	return pRawCommand;
 }
 
-void that::InputManager::BindDigital2DAxisCommand(unsigned int controller, const std::vector<GamepadButton>& buttons, std::unique_ptr<DataCommand<glm::vec2>> pCommand)
+that::Command* that::InputManager::BindDigital2DAxisCommand(unsigned int controller, const std::vector<GamepadButton>& buttons, std::unique_ptr<DataCommand<glm::vec2>> pCommand)
 {
 	// Add controllers if the controllerIdx is higher then the amount of controllers available
 	AddControllersIfNeeded(controller);
@@ -183,11 +195,17 @@ void that::InputManager::BindDigital2DAxisCommand(unsigned int controller, const
 		inputKeys.push_back(InputDigital{ false, controller, static_cast<unsigned int>(button), InputType::ONBUTTON });
 	}
 
+	// Retrieve the raw pointer of the command
+	auto pRawCommand{ pCommand.get() };
+
 	// Create a new command
 	m_pBindedDigitalCommands.push_back(std::make_pair(std::move(pCommand), inputKeys));
+
+	// Return the raw pointer
+	return pRawCommand;
 }
 
-void that::InputManager::BindDigital2DAxisCommand(const std::vector<unsigned int>& keyboardKeys, std::unique_ptr<DataCommand<glm::vec2>> pCommand)
+that::Command* that::InputManager::BindDigital2DAxisCommand(const std::vector<unsigned int>& keyboardKeys, std::unique_ptr<DataCommand<glm::vec2>> pCommand)
 {
 	// Create a vector of input keys with the given controller and buttons
 	std::vector<InputDigital> inputKeys{};
@@ -195,12 +213,18 @@ void that::InputManager::BindDigital2DAxisCommand(const std::vector<unsigned int
 	{
 		inputKeys.push_back(InputDigital{ true, 0, key, InputType::ONBUTTON });
 	}
-
+	
+	// Retrieve the raw pointer of the command
+	auto pRawCommand{ pCommand.get() };
+	
 	// Create a new command
 	m_pBindedDigitalCommands.push_back(std::make_pair(std::move(pCommand), inputKeys));
+
+	// Return the raw pointer
+	return pRawCommand;
 }
 
-void that::InputManager::BindAnalog2DAxisCommand(unsigned int controller, bool left, std::unique_ptr<DataCommand<glm::vec2>> pCommand)
+that::Command* that::InputManager::BindAnalog2DAxisCommand(unsigned int controller, bool left, std::unique_ptr<DataCommand<glm::vec2>> pCommand)
 {
 	// Add controllers if the controllerIdx is higher then the amount of controllers available
 	AddControllersIfNeeded(controller);
@@ -214,26 +238,44 @@ void that::InputManager::BindAnalog2DAxisCommand(unsigned int controller, bool l
 		InputAnalog{ controller, button, false }
 	};
 
+	// Retrieve the raw pointer of the command
+	auto pRawCommand{ pCommand.get() };
+
 	// Create a new command
 	m_pBindedAnalogCommands.push_back(std::make_pair(std::move(pCommand), inputKeys));
+
+	// Return the raw pointer
+	return pRawCommand;
 }
 
-void that::InputManager::BindAxisCommand(unsigned int controller, GamepadAxis button, bool isHorizontalAxis, std::unique_ptr<DataCommand<float>> pCommand)
+that::Command* that::InputManager::BindAxisCommand(unsigned int controller, GamepadAxis button, bool isHorizontalAxis, std::unique_ptr<DataCommand<float>> pCommand)
 {
 	// Add controllers if the controllerIdx is higher then the amount of controllers available
 	AddControllersIfNeeded(controller);
+
+	// Retrieve the raw pointer of the command
+	auto pRawCommand{ pCommand.get() };
 
 	// Create a new command
 	m_pBindedAnalogCommands.push_back(std::make_pair(std::move(pCommand), std::vector<InputAnalog>{ InputAnalog{ controller, static_cast<unsigned int>(button), isHorizontalAxis } }));
+
+	// Return the raw pointer
+	return pRawCommand;
 }
 
-void that::InputManager::BindAxisCommand(unsigned int controller, GamepadAxis button, std::unique_ptr<DataCommand<float>> pCommand)
+that::Command* that::InputManager::BindAxisCommand(unsigned int controller, GamepadAxis button, std::unique_ptr<DataCommand<float>> pCommand)
 {
 	// Add controllers if the controllerIdx is higher then the amount of controllers available
 	AddControllersIfNeeded(controller);
 
+	// Retrieve the raw pointer of the command
+	auto pRawCommand{ pCommand.get() };
+
 	// Create a new command
 	m_pBindedAnalogCommands.push_back(std::make_pair(std::move(pCommand), std::vector<InputAnalog>{ InputAnalog{ controller, static_cast<unsigned int>(button) } }));
+
+	// Return the raw pointer
+	return pRawCommand;
 }
 
 #pragma endregion
@@ -242,6 +284,12 @@ void that::InputManager::Clear()
 {
 	m_pBindedAnalogCommands.clear();
 	m_pBindedDigitalCommands.clear();
+}
+
+void that::InputManager::Unbind(that::Command* pCommand)
+{
+	m_pBindedAnalogCommands.erase(std::remove_if(begin(m_pBindedAnalogCommands), end(m_pBindedAnalogCommands), [pCommand](const auto& pCmd) { return pCmd.first.get() == pCommand; }), end(m_pBindedAnalogCommands));
+	m_pBindedDigitalCommands.erase(std::remove_if(begin(m_pBindedDigitalCommands), end(m_pBindedDigitalCommands), [pCommand](const auto& pCmd) { return pCmd.first.get() == pCommand; }), end(m_pBindedDigitalCommands));
 }
 
 void that::InputManager::AddControllersIfNeeded(unsigned int controller)

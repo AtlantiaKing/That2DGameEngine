@@ -5,6 +5,7 @@
 namespace that
 {
 	class GameObject;
+	class Command;
 }
 
 namespace digdug
@@ -29,5 +30,9 @@ namespace digdug
 
 		that::GameObject* m_pPlayer{};
 		GridTransform* m_pTransform{};
+
+		that::Command* m_pMoveCommand{};
+		that::Command* m_pShootPumpCommand{};
+		that::Command* m_pPumpEnemyCommand{};
 	};
 }

@@ -3,6 +3,7 @@
 #include "EnemyState.h"
 
 #include "glm/vec2.hpp"
+#include "FygarLogic.h"
 
 namespace that
 {
@@ -22,17 +23,7 @@ namespace digdug
 		virtual void StateEnd() override;
 
 	private:
-		void UpdateMovement();
-
+		std::unique_ptr<FygarLogic> m_pLogic{};
 		that::GameObject* m_pFygarObj{};
-
-		glm::ivec2 m_Direction{ 1, 0 };
-
-		float m_RoamTime{};
-		float m_TimeUntilStateChange{};
-		float m_AttackChance{ 0.8f };
-
-		const float m_MinTimeUntilState{ 2.0f };
-		const float m_MaxTimeUntilState{ 7.0f };
 	};
 }

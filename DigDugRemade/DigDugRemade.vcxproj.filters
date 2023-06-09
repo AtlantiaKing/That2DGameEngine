@@ -83,6 +83,9 @@
     <Filter Include="Components\HighScore">
       <UniqueIdentifier>{f8d47fe5-c9ae-44e9-83dd-215fbeb9150a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Misc\FygarLogic">
+      <UniqueIdentifier>{b9af7075-61e3-420e-9cdf-a222c2657a86}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -253,6 +256,21 @@
     </ClCompile>
     <ClCompile Include="DigDugNoLivesState.cpp">
       <Filter>States\DigDug</Filter>
+    </ClCompile>
+    <ClCompile Include="FygarRoamingAI.cpp">
+      <Filter>Misc\FygarLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="FygarRoamingPlayer.cpp">
+      <Filter>Misc\FygarLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="FygarGhostAI.cpp">
+      <Filter>Misc\FygarLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="FygarGhostPlayer.cpp">
+      <Filter>Misc\FygarLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveCommand.cpp">
+      <Filter>Commands\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -432,6 +450,24 @@
     </ClInclude>
     <ClInclude Include="DigDugNoLivesState.h">
       <Filter>States\DigDug</Filter>
+    </ClInclude>
+    <ClInclude Include="FygarRoamingAI.h">
+      <Filter>Misc\FygarLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="FygarRoamingPlayer.h">
+      <Filter>Misc\FygarLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="FygarLogic.h">
+      <Filter>Misc\FygarLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="FygarGhostAI.h">
+      <Filter>Misc\FygarLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="FygarGhostPlayer.h">
+      <Filter>Misc\FygarLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveCommand.h">
+      <Filter>Commands\Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
