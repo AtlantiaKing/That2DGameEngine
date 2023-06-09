@@ -23,7 +23,7 @@ namespace digdug
 		LevelLoader& operator=(const LevelLoader& other) = delete;
 		LevelLoader& operator=(LevelLoader&& other) = delete;
 
-		void SetLevel(const std::string& filePath, int nrPlayers);
+		void SetLevel(const std::string& filePath, int nrPlayers, bool playerFygar);
 
 		virtual void Init() override;
 		virtual void OnFrameStart() override;
@@ -33,6 +33,8 @@ namespace digdug
 
 		std::string m_Level{};
 		int m_NrPlayers{};
+
+		bool m_PlayerIsFygar{};
 
 		const int m_NoMapValue{ 1 };
 		const int m_EnemyHealth{ 4 };

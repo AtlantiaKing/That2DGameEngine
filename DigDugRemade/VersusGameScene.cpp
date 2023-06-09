@@ -1,4 +1,4 @@
-#include "GameScene.h"
+#include "VersusGameScene.h"
 
 // Objects
 #include "Scene.h"
@@ -25,11 +25,11 @@
 #include <iostream>
 #include "glm/vec2.hpp"
 
-void digdug::GameScene::Load(that::Scene& scene)
+void digdug::VersusGameScene::Load(that::Scene& scene)
 {
 	// Grid
 	that::GameObject* pGrid{ scene.CreateGameObject("Grid") };
-	pGrid->AddComponent<LevelLoader>()->SetLevel("Levels/Level1_1.png", 1, false);
+	pGrid->AddComponent<LevelLoader>()->SetLevel("Levels/Level1_1.png", 1, true);
 	pGrid->AddComponent<GameState>();
 
 	constexpr float referenceSize{ 240.0f };
@@ -37,26 +37,6 @@ void digdug::GameScene::Load(that::Scene& scene)
 	const float scale{ windowSize.x / referenceSize };
 	that::GameObject* pHUD{ scene.CreateGameObject("HUD") };
 	pHUD->GetTransform()->SetWorldScale(scale * pGrid->GetTransform()->GetWorldScale().x);
-	{
-		that::GameObject* pHighScoreHeader{ pHUD->CreateGameObject("HighScoreHeader") };
-		const auto& pTexture{ that::TextureManager::GetInstance().LoadTexture("HUD/HighScore.png") };
-		const auto& pTextureSize{ pTexture->GetSize() };
-		const auto& pRenderer{ pHighScoreHeader->AddComponent<that::TextureRenderer>() };
-		pRenderer->SetTexture(pTexture);
-		pRenderer->SetPivot({ 1.0f, 0.5f });
-		pHighScoreHeader->GetTransform()->SetWorldPosition(static_cast<float>(windowSize.x), 0.0f);
-		pHighScoreHeader->GetTransform()->Translate(0.0f, 2.0f + pTextureSize.y / 2.0f);
-
-
-		that::GameObject* pScore{ pHUD->CreateGameObject("HighScore") };
-		pScore->AddComponent<that::TextureRenderer>()->SetPivot({ 1.0f, 0.5f });
-		that::TextComponent* pScoreText{ pScore->AddComponent<that::TextComponent>() };
-		pScoreText->SetFont(that::ResourceManager::GetInstance().LoadFont("Fonts/Arcade.ttf", 8));
-		pScoreText->SetText("0");
-		pScore->GetTransform()->SetWorldPosition(static_cast<float>(windowSize.x), 0.0f);
-		pScore->GetTransform()->Translate(0.0f, pHighScoreHeader->GetTransform()->GetLocalPosition().y + pTextureSize.y);
-		pScore->AddComponent<HighScoreHUDComponent>()->SearchPlayer(pGrid);
-	}
 	{
 		that::GameObject* pScoreHeader{ pHUD->CreateGameObject("ScoreHeader") };
 		const auto& pHeaderTexture{ that::TextureManager::GetInstance().LoadTexture("HUD/Score.png") };
@@ -74,7 +54,7 @@ void digdug::GameScene::Load(that::Scene& scene)
 		pScoreText->SetFont(that::ResourceManager::GetInstance().LoadFont("Fonts/Arcade.ttf", 8));
 		pScoreText->SetText("0");
 		pScore->GetTransform()->SetWorldPosition(static_cast<float>(windowSize.x), 0.0f);
-		pScore->GetTransform()->Translate(0.0f , pScoreHeader->GetTransform()->GetLocalPosition().y + pTextureSize.y);
+		pScore->GetTransform()->Translate(0.0f, pScoreHeader->GetTransform()->GetLocalPosition().y + pTextureSize.y);
 		pScore->AddComponent<ScoreHUDComponent>()->SearchPlayer(pGrid);
 	}
 	{

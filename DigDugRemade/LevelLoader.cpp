@@ -43,10 +43,11 @@
 #include "ColliderLayers.h"
 #include "Rock.h"
 
-void digdug::LevelLoader::SetLevel(const std::string& filePath, int nrPlayers)
+void digdug::LevelLoader::SetLevel(const std::string& filePath, int nrPlayers, bool playerFygar)
 {
 	m_Level = filePath;
 	m_NrPlayers = nrPlayers;
+	m_PlayerIsFygar = playerFygar;
 }
 
 void digdug::LevelLoader::Init()
@@ -179,7 +180,11 @@ void digdug::LevelLoader::OnFrameStart()
 				}
 				else
 				{
-					pEnemy->AddComponent<Fygar>()->Start(pPlayers);
+					pEnemy->AddComponent<Fygar>()->Start(pPlayers, m_PlayerIsFygar);
+
+					// Disable player is fygar flag so the next fygar is an AI
+					m_PlayerIsFygar = false;
+
 					pEnemy->SetTag("Fygar");
 
 					that::GameObject* pFire{ pEnemy->CreateGameObject("FireBreath") };

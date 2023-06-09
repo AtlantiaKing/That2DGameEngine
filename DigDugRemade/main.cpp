@@ -12,6 +12,7 @@
 //#include "DemoScene.h"
 #include "MainMenuScene.h"
 #include "GameScene.h"
+#include "VersusGameScene.h"
 #include "CoOpGameScene.h"
 #include "HighScoreScene.h"
 
@@ -22,7 +23,7 @@ void Setup()
 	that::Window::GetInstance().SetWindowSize(610, 520);
 	that::SceneManager::GetInstance().AddScene(digdug::MainMenuScene::Load);
 	that::SceneManager::GetInstance().AddScene(digdug::GameScene::Load);
-	that::SceneManager::GetInstance().AddScene(digdug::CoOpGameScene::Load);
+	that::SceneManager::GetInstance().AddScene(digdug::VersusGameScene::Load);
 	that::SceneManager::GetInstance().AddScene(digdug::CoOpGameScene::Load);
 	that::SceneManager::GetInstance().AddScene(digdug::HighScoreScene::Load);
 }

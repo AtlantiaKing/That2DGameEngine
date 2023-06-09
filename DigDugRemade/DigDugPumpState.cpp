@@ -4,11 +4,15 @@
 
 #include "Pump.h"
 #include "SpriteRenderer.h"
+#include "DigDug.h"
 
 #include "DigDugWalkingState.h"
 
+#include "PumpToEnemyCommand.h"
+
 #include "Timer.h"
 #include "TextureManager.h"
+#include "InputManager.h"
 
 digdug::DigDugPumpState::DigDugPumpState(that::GameObject* pPlayer)
 	: m_pPlayer{ pPlayer }
@@ -69,9 +73,13 @@ void digdug::DigDugPumpState::StateEnter()
 	const auto& pPlayerTexture{ that::TextureManager::GetInstance().LoadTexture("DigDug/Pumping.png") };
 	m_pSprite = m_pPlayer->GetComponent<that::SpriteRenderer>();
 	m_pSprite->SetSprite(pPlayerTexture, 2, 1);
+
+	m_pPumpEnemyCommand = that::InputManager::GetInstance().BindDigitalCommand(' ', that::InputManager::InputType::ONBUTTON, std::make_unique<PumpToEnemyCommand>(m_pPlayer->GetComponent<DigDug>()));
 }
 
 void digdug::DigDugPumpState::StateEnd()
 {
 	m_pPlayer->GetChild(0)->SetActive(false);
+
+	that::InputManager::GetInstance().Unbind(m_pPumpEnemyCommand);
 }

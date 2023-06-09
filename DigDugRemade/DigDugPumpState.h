@@ -6,6 +6,7 @@ namespace that
 {
 	class GameObject;
 	class SpriteRenderer;
+	class Command;
 }
 
 namespace digdug
@@ -33,5 +34,7 @@ namespace digdug
 		that::GameObject* m_pPlayer{};
 		Pump* m_pPump{};
 		that::SpriteRenderer* m_pSprite{};
+
+		that::Command* m_pPumpEnemyCommand{};
 	};
 }

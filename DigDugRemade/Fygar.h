@@ -28,8 +28,10 @@ namespace digdug
 		virtual void Update() override;
 		virtual void Notify(const HealthComponent& health) override;
 
-		void Start(const std::vector<that::GameObject*>& pPlayers);
+		void Start(const std::vector<that::GameObject*>& pPlayers, bool isPlayerController);
 		that::GameObject* GetPlayer();
+
+		bool IsPlayerControlled() const { return m_IsPlayerControlled; }
 
 		void RockAttack();
 	private:
@@ -37,6 +39,8 @@ namespace digdug
 
 		std::vector<that::GameObject*> m_pPlayers{};
 		int m_FollowingPlayerIdx{};
+
+		bool m_IsPlayerControlled{};
 
 		std::unique_ptr<EnemyState> m_pState{};
 	};

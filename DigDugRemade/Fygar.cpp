@@ -30,10 +30,11 @@ void digdug::Fygar::Notify(const HealthComponent&)
 	if (dynamic_cast<FygarPumpState*>(m_pState.get()) == nullptr) ChangeState(std::make_unique<FygarPumpState>(GetOwner()));
 }
 
-void digdug::Fygar::Start(const std::vector<that::GameObject*>& pPlayers)
+void digdug::Fygar::Start(const std::vector<that::GameObject*>& pPlayers, bool isPlayerControlled)
 {
 	m_pPlayers = pPlayers;
 	m_FollowingPlayerIdx = rand() % static_cast<int>(m_pPlayers.size());
+	m_IsPlayerControlled = isPlayerControlled;
 	ChangeState(std::make_unique<FygarRoamingState>(GetOwner()));
 }
 

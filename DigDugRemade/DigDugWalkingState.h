@@ -33,6 +33,5 @@ namespace digdug
 
 		that::Command* m_pMoveCommand{};
 		that::Command* m_pShootPumpCommand{};
-		that::Command* m_pPumpEnemyCommand{};
 	};
 }

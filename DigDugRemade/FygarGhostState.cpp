@@ -59,8 +59,15 @@ void digdug::FygarGhostState::StateEnter()
 
     m_pFygar = m_pFygarObj->GetComponent<Fygar>();
 
-    //m_pLogic = std::make_unique<FygarGhostAI>(m_pFygarObj);
-    m_pLogic = std::make_unique<FygarGhostPlayer>(m_pFygarObj);
+
+    if (m_pFygarObj->GetComponent<Fygar>()->IsPlayerControlled())
+    {
+        m_pLogic = std::make_unique<FygarGhostPlayer>(m_pFygarObj);
+    }
+    else
+    {
+        m_pLogic = std::make_unique<FygarGhostAI>(m_pFygarObj);
+    }
 }
 
 void digdug::FygarGhostState::StateEnd()

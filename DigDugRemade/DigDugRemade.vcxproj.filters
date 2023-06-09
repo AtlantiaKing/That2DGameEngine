@@ -272,6 +272,9 @@
     <ClCompile Include="MoveCommand.cpp">
       <Filter>Commands\Input</Filter>
     </ClCompile>
+    <ClCompile Include="VersusGameScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameScene.h">
@@ -468,6 +471,9 @@
     </ClInclude>
     <ClInclude Include="MoveCommand.h">
       <Filter>Commands\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="VersusGameScene.h">
+      <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -5,6 +5,7 @@
 
 #include "SpriteRenderer.h"
 #include "GridTransform.h"
+#include "Fygar.h"
 
 #include "FygarGhostState.h"
 #include "FygarAttackState.h"
@@ -34,8 +35,14 @@ void digdug::FygarRoamingState::StateEnter()
 	const auto& pTexture{ that::TextureManager::GetInstance().LoadTexture("Fygar/Default.png") };
 	m_pFygarObj->GetComponent<that::SpriteRenderer>()->SetSprite(pTexture, 2, 1, 0.2f);
 
-	//m_pLogic = std::make_unique<FygarRoamingAI>(m_pFygarObj);
-	m_pLogic = std::make_unique<FygarRoamingPlayer>(m_pFygarObj);
+	if (m_pFygarObj->GetComponent<Fygar>()->IsPlayerControlled())
+	{
+		m_pLogic = std::make_unique<FygarRoamingPlayer>(m_pFygarObj);
+	}
+	else
+	{
+		m_pLogic = std::make_unique<FygarRoamingAI>(m_pFygarObj);
+	}
 }
 
 void digdug::FygarRoamingState::StateEnd()

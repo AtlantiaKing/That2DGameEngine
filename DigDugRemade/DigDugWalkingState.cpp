@@ -52,12 +52,10 @@ void digdug::DigDugWalkingState::StateEnter()
 
 	DigDug* pDigDug{ m_pPlayer->GetComponent<DigDug>() };
 	m_pShootPumpCommand = that::InputManager::GetInstance().BindDigitalCommand(' ', that::InputManager::InputType::ONBUTTONDOWN, std::make_unique<ShootPumpCommand>(pDigDug));
-	m_pPumpEnemyCommand = that::InputManager::GetInstance().BindDigitalCommand(' ', that::InputManager::InputType::ONBUTTON, std::make_unique<PumpToEnemyCommand>(pDigDug));
 }
 
 void digdug::DigDugWalkingState::StateEnd()
 {
 	that::InputManager::GetInstance().Unbind(m_pMoveCommand);
 	that::InputManager::GetInstance().Unbind(m_pShootPumpCommand);
-	that::InputManager::GetInstance().Unbind(m_pPumpEnemyCommand);
 }
