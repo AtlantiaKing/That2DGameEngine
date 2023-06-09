@@ -187,6 +187,7 @@ void digdug::LevelLoader::OnFrameStart()
 					pFireRenderer->SetTexture(that::TextureManager::GetInstance().LoadTexture("Fygar/FireBreath.png"));
 					pFire->GetTransform()->SetLocalPosition((cellSize + pFireRenderer->GetTextureSize().x) / 2.0f, 0.0f);
 					pFire->AddComponent<FireBreath>();
+					pFire->AddComponent<that::BoxCollider>();
 					pFire->AddComponent<that::TextureMask>()->SetPercentage(true, 0.0f);
 					pFire->SetActive(false);
 				}

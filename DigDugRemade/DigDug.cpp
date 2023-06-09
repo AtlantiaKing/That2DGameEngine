@@ -33,6 +33,8 @@ void digdug::DigDug::Init()
 	that::InputManager::GetInstance().BindDigitalCommand(' ', that::InputManager::InputType::ONBUTTON, std::make_unique<PumpToEnemyCommand>(this));
 
 	GetOwner()->GetComponent<that::BoxCollider>()->OnHitEvent().AddListener(this);
+
+	GetOwner()->GetComponent<HealthComponent>()->OnHealthUpdate.AddListener(this);
 }
 
 void digdug::DigDug::OnDestroy()
@@ -51,8 +53,12 @@ void digdug::DigDug::Notify(const that::CollisionData& collision)
 	if (collision.pOther->GetLayer() == ENEMY_LAYER)
 	{
 		GetOwner()->GetComponent<HealthComponent>()->Hit();
-		ChangeState(std::make_unique<DigDugDeathState>(GetOwner()));
 	}
+}
+
+void digdug::DigDug::Notify(const HealthComponent&)
+{
+	ChangeState(std::make_unique<DigDugDeathState>(GetOwner()));
 }
 
 void digdug::DigDug::Move(const glm::vec2& movementInput)

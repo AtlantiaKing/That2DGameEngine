@@ -99,7 +99,7 @@ void digdug::GameState::Notify(const that::GameObject& pEntity)
 
 	for (HealthComponent* pHealth : m_pEnemies)
 	{
-		if (pEntity.GetComponent<HealthComponent>() == pHealth)
+		if (&pEntity == pHealth->GetOwner())
 		{
 			pHealth->OnDeath.RemoveListener(this);
 			m_pEnemies.erase(std::remove(begin(m_pEnemies), end(m_pEnemies), pHealth));
@@ -108,7 +108,7 @@ void digdug::GameState::Notify(const that::GameObject& pEntity)
 	}
 	for (HealthComponent* pHealth : m_pPlayers)
 	{
-		if (pEntity.GetComponent<HealthComponent>() == pHealth)
+		if (&pEntity == pHealth->GetOwner())
 		{
 			pHealth->OnDeath.RemoveListener(this);
 			m_pPlayers.erase(std::remove(begin(m_pPlayers), end(m_pPlayers), pHealth));

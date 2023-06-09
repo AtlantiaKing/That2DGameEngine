@@ -1,14 +1,21 @@
 #pragma once
 
 #include "Component.h"
+#include "Observer.h"
 
 #include "Subject.h"
+#include "PhysicsData.h"
 
-#include "TextureMask.h"
+namespace that
+{
+	class TextureMask;
+	class TextureRenderer;
+	class BoxCollider;
+}
 
 namespace digdug
 {
-	class FireBreath final : public that::Component
+	class FireBreath final : public that::Component, public that::Observer<that::CollisionData>
 	{
 	public:
 		FireBreath() = default;
@@ -22,6 +29,7 @@ namespace digdug
 		virtual void Init() override;
 		virtual void Update() override;
 		virtual void OnEnable() override;
+		virtual void Notify(const that::CollisionData& collision);
 
 		that::Subject<FireBreath> OnDisable{};
 	private:
@@ -31,5 +39,7 @@ namespace digdug
 		float m_UnmaskSpeed{ 1.0f };
 
 		that::TextureMask* m_pMask{};
+		that::TextureRenderer* m_pTexture{};
+		that::BoxCollider* m_pCollider{};
 	};
 }
