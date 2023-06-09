@@ -39,11 +39,17 @@ that::GameObject* digdug::Rock::GetDiggingPlayer()
 
 		if (playerGridPos.x >= rockGridPos.x - m_GridEpsilonX && playerGridPos.x <= rockGridPos.x + m_GridEpsilonX && playerGridPos.y <= rockGridPos.y + m_GridEpsilonY)
 		{
+			m_pLastPlayer = pPlayer;
 			return pPlayer;
 		}
 	}
 
 	return nullptr;
+}
+
+that::GameObject* digdug::Rock::GetLastPlayer() const
+{
+	return m_pLastPlayer;
 }
 
 void digdug::Rock::ChangeState(std::unique_ptr<digdug::EnemyState> pState)

@@ -29,7 +29,7 @@ void digdug::GameScene::Load(that::Scene& scene)
 {
 	// Grid
 	that::GameObject* pGrid{ scene.CreateGameObject("Grid") };
-	pGrid->AddComponent<LevelLoader>()->SetLevel("Levels/Level1_1.png", 1);
+	pGrid->AddComponent<LevelLoader>()->SetLevel("Levels/DemoLevel.png", 1);
 	pGrid->AddComponent<GameState>();
 
 	constexpr float referenceSize{ 240.0f };

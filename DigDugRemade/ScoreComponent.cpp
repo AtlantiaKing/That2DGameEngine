@@ -13,11 +13,16 @@
 
 #include "ScorePrefab.h"
 
-void digdug::ScoreComponent::AddScore(int score)
+void digdug::ScoreComponent::AddScore(int score, const glm::vec2& position)
 {
 	m_Score += score;
 
 	OnScoreChange.Notify(*this);
+
+	if (position.x > 0.0f || position.y > 0.0f)
+	{
+		SpawnScore(GetOwner()->GetScene(), position, score);
+	}
 }
 
 void digdug::ScoreComponent::RemoveScore(int score)

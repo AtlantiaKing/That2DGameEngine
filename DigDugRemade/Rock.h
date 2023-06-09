@@ -31,10 +31,12 @@ namespace digdug
 
 		void Start(const std::vector<that::GameObject*>& pPlayers);
 		that::GameObject* GetDiggingPlayer();
+		that::GameObject* GetLastPlayer() const;
 	private:
 		void ChangeState(std::unique_ptr<digdug::EnemyState> pState);
 
 		std::vector<that::GameObject*> m_pPlayers{};
+		that::GameObject* m_pLastPlayer{};
 
 		std::unique_ptr<EnemyState> m_pState{};
 

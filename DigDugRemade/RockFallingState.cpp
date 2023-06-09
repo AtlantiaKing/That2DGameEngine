@@ -10,6 +10,7 @@
 #include "Pooka.h"
 #include "Fygar.h"
 #include "DigDug.h"
+#include "Rock.h"
 
 #include "TextureManager.h"
 
@@ -18,6 +19,7 @@
 #include "RockDeathState.h"
 
 #include "ColliderLayers.h"
+#include "ScoreComponent.h"
 
 digdug::RockFallingState::RockFallingState(that::GameObject* pRock)
 	: m_pRock{ pRock }
@@ -59,6 +61,9 @@ void digdug::RockFallingState::StateEnd()
 	pRb->Reset();
 
 	m_pRock->GetComponent<that::BoxCollider>()->OnHitEvent().RemoveListener(this);
+
+	if(m_EnemiesKilled > 0)
+		m_pRock->GetComponent<Rock>()->GetLastPlayer()->GetComponent<ScoreComponent>()->AddScore(CalculateScore(), m_pRock->GetTransform()->GetWorldPosition());
 }
 
 void digdug::RockFallingState::Notify(const that::CollisionData& collision)
@@ -73,9 +78,36 @@ void digdug::RockFallingState::Notify(const that::CollisionData& collision)
 		{
 			collision.pOther->GetOwner()->GetComponent<Fygar>()->RockAttack();
 		}
+		++m_EnemiesKilled;
 	}
 	else if (collision.pOther->GetLayer() == DIGDUG_LAYER)
 	{
 		collision.pOther->GetOwner()->GetComponent<DigDug>()->RockAttack();
 	}
+}
+
+int digdug::RockFallingState::CalculateScore()
+{
+
+	switch (m_EnemiesKilled)
+	{
+	case 1:
+		return 1000;
+	case 2:
+		return 2500;
+	case 3:
+		return 4000;
+	case 4:
+		return 6000;
+	case 5:
+		return 8000;
+	case 6:
+		return 10000;
+	case 7:
+		return 12000;
+	case 8:
+		return 15000;
+	}
+
+	return 0;
 }

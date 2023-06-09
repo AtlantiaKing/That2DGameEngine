@@ -27,9 +27,13 @@ namespace digdug
 		virtual void StateEnd() override;
 		virtual void Notify(const that::CollisionData& collision) override;
 	private:
+		int CalculateScore();
+
 		that::GameObject* m_pRock{};
 
 		glm::ivec2 m_StartPos{};
+
+		int m_EnemiesKilled{};
 
 		GridComponent* m_pGrid{};
 	};

@@ -6,6 +6,8 @@
 
 #include "Subject.h"
 
+#include "glm/vec2.hpp"
+
 namespace digdug
 {
 	class ScoreComponent final : public that::Component, public that::EventListener<that::EntityDeathEvent>
@@ -14,7 +16,7 @@ namespace digdug
 		ScoreComponent() = default;
 		virtual ~ScoreComponent() = default;
 
-		void AddScore(int score);
+		void AddScore(int score, const glm::vec2& position = {});
 		void RemoveScore(int score);
 
 		int GetScore() const { return m_Score; }
