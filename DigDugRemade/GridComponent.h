@@ -35,6 +35,7 @@ namespace digdug
 		const glm::vec2& GetPivot() const;
 		float GetCellSize() const { return m_CellSize; }
 		bool IsValidPosition(const glm::vec2& position, const glm::ivec2& direction, bool checkWorld = false) const;
+		bool IsValidPixel(const glm::vec2& position) const;
 		bool IsOpenPosition(const glm::ivec2& position) const;
 		const glm::ivec2& GetSize() const { return m_GridSize; }
 		WorldTile* GetTile(int x, int y) const;

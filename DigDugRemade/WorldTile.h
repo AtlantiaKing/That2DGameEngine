@@ -33,6 +33,7 @@ namespace digdug
 		void SetMasks(float left, float right, float bottom, float top);
 
 		bool IsValidPosition(const glm::vec2& position, const glm::ivec2& direction, float size) const;
+		bool IsValidPixel(const glm::vec2& position) const;
 		bool IsOpen() const;
 		glm::ivec2 GetGridPosition() const;
 

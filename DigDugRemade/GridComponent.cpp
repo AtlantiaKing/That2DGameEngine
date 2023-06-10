@@ -63,6 +63,29 @@ bool digdug::GridComponent::IsValidPosition(const glm::vec2& position, const glm
 	return true;
 }
 
+bool digdug::GridComponent::IsValidPixel(const glm::vec2& position) const
+{
+	if (position.x < 0.0f || position.y < 0.0f)
+		return false;
+
+	const int maxGridIdxX{ m_GridSize.x - 1 };
+	const int maxGridIdxY{ m_GridSize.y - 1 };
+	if (position.x > maxGridIdxX * m_CellSize || position.y > maxGridIdxY * m_CellSize)
+		return false;
+
+	for (const auto& tilePair : m_pTiles)
+	{
+		WorldTile* pTile{ tilePair.second };
+
+		if (!pTile) continue;
+
+		if (!pTile->IsValidPixel(position))
+			return false;
+	}
+
+	return true;
+}
+
 bool digdug::GridComponent::IsOpenPosition(const glm::ivec2& position) const
 {
 	if (position.x < 0.0f || position.y < 0.0f)

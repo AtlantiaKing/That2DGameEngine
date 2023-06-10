@@ -180,6 +180,24 @@ bool digdug::WorldTile::IsValidPosition(const glm::vec2& position, const glm::iv
 	return false;
 }
 
+bool digdug::WorldTile::IsValidPixel(const glm::vec2& position) const
+{
+	const auto& tilePos{ GetTransform()->GetLocalPosition() };
+	const auto& textureSize{ GetOwner()->GetComponent<that::TextureRenderer>()->GetTextureSize() };
+
+	if (position.x <= tilePos.x - textureSize.x / 2.0f || position.x >= tilePos.x + textureSize.x / 2.0f)
+		return true;
+	if (position.y <= tilePos.y - textureSize.y / 2.0f || position.y >= tilePos.y + textureSize.x / 2.0f)
+		return true;
+
+	const bool leftOk{ position.x >= tilePos.x + textureSize.x / 2.0f - m_pRightMask->GetMask().x * textureSize.x };
+	const bool rightOk{ position.x <= tilePos.x - textureSize.x / 2.0f + m_pLeftMask->GetMask().x * textureSize.x };
+	const bool upOk{ position.y <= tilePos.y - textureSize.y / 2.0f + m_pTopMask->GetMask().x * textureSize.y };
+	const bool downOk{ position.y >= tilePos.y + textureSize.y / 2.0f - m_pBottomMask->GetMask().x * textureSize.y };
+
+	return leftOk || rightOk || upOk || downOk;
+}
+
 bool digdug::WorldTile::IsOpen() const
 {
 	if (m_pBottomMask->GetMask().x > 0.5f && m_pTopMask->GetMask().x > 0.5f) return true;

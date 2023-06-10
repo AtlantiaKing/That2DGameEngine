@@ -42,6 +42,7 @@
 // Defines
 #include "ColliderLayers.h"
 #include "Rock.h"
+#include "DisableOnGroundHit.h"
 
 void digdug::LevelLoader::SetLevel(const std::string& filePath, int nrPlayers, bool playerFygar)
 {
@@ -195,6 +196,8 @@ void digdug::LevelLoader::OnFrameStart()
 					pFire->AddComponent<that::BoxCollider>();
 					pFire->AddComponent<that::TextureMask>()->SetPercentage(true, 0.0f);
 					pFire->SetActive(false);
+					that::GameObject* pCollisionDetector{ pFire->CreateGameObject("CollisionDetection") };
+					pCollisionDetector->AddComponent<DisableOnGroundHit>();
 				}
 			}
 
@@ -257,6 +260,8 @@ that::GameObject* digdug::LevelLoader::CreatePlayer(int index)
 	pPump->AddComponent<that::TextureMask>()->SetPercentage(true, 1.0f);
 	// Move the pump one cell to the right
 	pPump->GetComponent<that::Transform>()->Translate((pPlayerTexture->GetSize().x + pPumpTexture->GetSize().x) / 2.0f, 0.0f);
+	that::GameObject* pCollisionDetector{ pPump->CreateGameObject("CollisionDetection") };
+	pCollisionDetector->AddComponent<DisableOnGroundHit>();
 
 	return pPlayer;
 }

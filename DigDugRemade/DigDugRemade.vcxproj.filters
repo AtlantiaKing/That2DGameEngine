@@ -272,6 +272,9 @@
     <ClCompile Include="VersusGameScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="DisableOnGroundHit.cpp">
+      <Filter>Components\Game\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameScene.h">
@@ -468,6 +471,9 @@
     </ClInclude>
     <ClInclude Include="VersusGameScene.h">
       <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="DisableOnGroundHit.h">
+      <Filter>Components\Game\Entities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
