@@ -2,11 +2,14 @@
 
 #include "TextureRenderer.h"
 #include "Transform.h"
+#include "TextComponent.h"
+#include "MainMenuFadeIn.h"
+#include "GameModeChooser.h"
 
 #include "Window.h"
 #include "TextureManager.h"
-#include "GameModeChooser.h"
-#include "MainMenuFadeIn.h"
+#include "GameData.h"
+#include "ResourceManager.h"
 
 void digdug::MainMenuScene::Load(that::Scene& scene)
 {
@@ -20,6 +23,25 @@ void digdug::MainMenuScene::Load(that::Scene& scene)
 
 	const float uiScale{ static_cast<float>(screenSize.y) / pBackgroundTexture->GetSize().y};
 	pBackground->GetTransform()->SetWorldScale(uiScale);
+
+
+	// HIGH SCORE
+	const auto& pFont{ that::ResourceManager::GetInstance().LoadFont("Fonts/Arcade.ttf", 8) };
+
+	that::GameObject* pHighScore{ pBackground->CreateGameObject("HighScore") };
+	pHighScore->AddComponent<that::TextureRenderer>()->SetPivot({ 1.0f, 0.5f });
+	that::TextComponent* pHighScoreText{ pHighScore->AddComponent<that::TextComponent>() };
+	pHighScoreText->SetFont(pFont);
+	pHighScoreText->SetText(std::to_string(GameData::GetInstance().GetHighScore()));
+	pHighScoreText->GetTransform()->SetLocalPosition(7.0f, -85.0f);
+
+	that::GameObject* pHighScoreUser{ pBackground->CreateGameObject("HighScoreUser") };
+	pHighScoreUser->AddComponent<that::TextureRenderer>()->SetPivot({ 1.0f, 0.5f });
+	that::TextComponent* pHighScoreUserText{ pHighScoreUser->AddComponent<that::TextComponent>() };
+	pHighScoreUserText->SetFont(pFont);
+	pHighScoreUserText->SetText(GameData::GetInstance().GetHighScoreUser());
+	pHighScoreUserText->GetTransform()->SetLocalPosition(74.0f, -85.0f);
+
 
 	// MARKER
 	that::GameObject* pMarker{ pBackground->CreateGameObject("Marker")};

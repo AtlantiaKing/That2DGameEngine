@@ -74,6 +74,7 @@ digdug::HighScoreLetter* digdug::HighScoreScene::CreateLetterEditor(that::GameOb
 	pLetter->GetTransform()->SetLocalPosition(letterXPos, letterYPos);
 	HighScoreLetter* pLetterScript{ pLetter->AddComponent<HighScoreLetter>() };
 	if(index > 0) pLetterScript->SetEnabled(false);
+	pLetterScript->SetIndex(index);
 
 	that::GameObject* pMarkerUp{ pParent->CreateGameObject("MarkerUp") };
 	pMarkerUp->AddComponent<that::TextureRenderer>()->SetTexture(that::TextureManager::GetInstance().LoadTexture("HighScoreScreen/MarkerUp.png"));
