@@ -24,11 +24,12 @@ namespace digdug
 		virtual void Update() override;
 		virtual void OnEnable() override;
 		virtual void OnDisable() override;
-		virtual void OnDestroy() override;
 
 		void SetIndex(int index);
 		void MarkerUp();
 		void MarkerDown();
+
+		char GetLetter() const;
 	private:
 		float m_BlinkTime{};
 		const float m_TimeBetweenBlinks{ 0.1f };

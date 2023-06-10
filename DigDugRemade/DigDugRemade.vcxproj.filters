@@ -278,6 +278,9 @@
     <ClCompile Include="DisablePumpCommand.cpp">
       <Filter>Commands\Input</Filter>
     </ClCompile>
+    <ClCompile Include="HighScoreSaver.cpp">
+      <Filter>Components\HighScore</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameScene.h">
@@ -480,6 +483,9 @@
     </ClInclude>
     <ClInclude Include="DisablePumpCommand.h">
       <Filter>Commands\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="HighScoreSaver.h">
+      <Filter>Components\HighScore</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

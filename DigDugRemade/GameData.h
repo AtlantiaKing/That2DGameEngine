@@ -3,25 +3,27 @@
 #include "Singleton.h"
 #include <string>
 #include <vector>
+#include <map>
 
 namespace digdug
 {
 	class GameData final : public that::Singleton<GameData>
 	{
 	public:
-		int GetHighScore();
-		std::string& GetHighScoreUser();
-		int GetRoundNumber();
+		int GetHighScore() const;
+		const std::string& GetHighScoreUser() const;
+		int GetRoundNumber() const;
 		void IncrementRoundNumber();
 
 		void ResetGame();
-		bool TryNewHighScore(int score);
+		bool TryNewHighScore(int score) const;
+		void ApplyHighScore(int score, std::string user);
 
-		int GetMainMenuScene() { return m_MainMenuScene; }
-		int GetHighScoreScene() { return m_HighScoreScene; }
-		int GetSinglePlayerScene() { return m_SinglePlayerScene; }
-		int GetVersusPlayerScene() { return m_VersusPlayerScene; }
-		int GetCoOpPlayerScene() { return m_CoOpPlayerScene; }
+		int GetMainMenuScene() const { return m_MainMenuScene; }
+		int GetHighScoreScene() const { return m_HighScoreScene; }
+		int GetSinglePlayerScene() const { return m_SinglePlayerScene; }
+		int GetVersusPlayerScene() const { return m_VersusPlayerScene; }
+		int GetCoOpPlayerScene() const { return m_CoOpPlayerScene; }
 
 		void SetCurrentScore(int index, int score);
 		int GetCurrentScores(int index) const;
@@ -30,8 +32,9 @@ namespace digdug
 		GameData();
 		~GameData();
 
-		int m_HighScore{ 0 };
-		std::string m_HighScoreUser{ "---" };
+		const int m_NrHighScores{ 10 };
+		const int m_NameSize{ 3 };
+		std::multimap<int, std::string> m_HighScores{};
 
 		std::vector<int> m_CurrentScores{};
 

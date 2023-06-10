@@ -11,6 +11,7 @@
 #include "HighScoreLetter.h"
 #include "HighScoreButton.h"
 #include "HighScoreInput.h"
+#include "HighScoreSaver.h"
 
 #include "TextureManager.h"
 #include "ResourceManager.h"
@@ -39,13 +40,15 @@ void digdug::HighScoreScene::Load(that::Scene& scene)
 	pScore->AddComponent<that::TextureRenderer>();
 	that::TextComponent* pScoreText{ pScore->AddComponent<that::TextComponent>() };
 	pScoreText->SetFont(pFont);
-	pScoreText->SetText(std::to_string(GameData::GetInstance().GetHighScore()));
+	pScoreText->SetText(std::to_string(GameData::GetInstance().GetCurrentScores(0)));
 
 	std::vector<HighScoreLetter*> pLetters{};
 	for (size_t i{}; i < GameData::GetInstance().GetHighScoreUser().size(); ++i)
 	{
 		pLetters.push_back(CreateLetterEditor(pBackground, pFont, static_cast<int>(i)));
 	}
+
+	pScore->AddComponent<HighScoreSaver>()->SetLetters(pLetters);
 
 	that::GameObject* pButtonObj{ pBackground->CreateGameObject("ReadyButton") };
 	pButtonObj->AddComponent<that::TextureRenderer>()->SetTexture(that::TextureManager::GetInstance().LoadTexture("HighScoreScreen/Ready.png"));

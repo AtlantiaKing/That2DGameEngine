@@ -34,11 +34,6 @@ void digdug::HighScoreLetter::OnDisable()
 	if(m_pRenderer) m_pRenderer->SetEnabled(true);
 }
 
-void digdug::HighScoreLetter::OnDestroy()
-{
-	GameData::GetInstance().GetHighScoreUser()[m_Index] = m_Letter;
-}
-
 void digdug::HighScoreLetter::SetIndex(int index)
 {
 	m_Index = index;
@@ -56,4 +51,9 @@ void digdug::HighScoreLetter::MarkerDown()
 	--m_Letter;
 	if (m_Letter < 'A') m_Letter = 'Z';
 	GetOwner()->GetComponent<that::TextComponent>()->SetText({ m_Letter });
+}
+
+char digdug::HighScoreLetter::GetLetter() const
+{
+	return m_Letter;
 }

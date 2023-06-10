@@ -212,6 +212,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClCompile Include="HighScoreHUDComponent.cpp" />
     <ClCompile Include="HighScoreInput.cpp" />
     <ClCompile Include="HighScoreLetter.cpp" />
+    <ClCompile Include="HighScoreSaver.cpp" />
     <ClCompile Include="HighScoreScene.cpp" />
     <ClCompile Include="LivesHUDComponent.cpp" />
     <ClCompile Include="main.cpp" />
@@ -287,6 +288,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClInclude Include="HighScoreHUDComponent.h" />
     <ClInclude Include="HighScoreInput.h" />
     <ClInclude Include="HighScoreLetter.h" />
+    <ClInclude Include="HighScoreSaver.h" />
     <ClInclude Include="HighScoreScene.h" />
     <ClInclude Include="LivesHUDComponent.h" />
     <ClInclude Include="MainMenuFadeIn.h" />
