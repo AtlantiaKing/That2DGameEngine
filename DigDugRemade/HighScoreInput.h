@@ -21,6 +21,8 @@ namespace digdug
 		HighScoreInput& operator=(HighScoreInput&& other) = delete;
 
 		virtual void Init() override;
+		void HandleInputHorizontal(bool left);
+		void HandleInputVertical(bool up);
 		virtual void OnDestroy() override;
 
 		void InputUp();

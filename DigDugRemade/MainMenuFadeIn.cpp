@@ -18,10 +18,30 @@ void digdug::MainMenuFadeIn::Init()
 		SDLK_RETURN,
 		that::InputManager::InputType::ONBUTTONDOWN,
 		std::make_unique<that::LambdaCommand>(
-		[this]()
-		{
-			EndFade();
-		})
+			[this]()
+			{
+				EndFade();
+			})
+	);
+	that::InputManager::GetInstance().BindDigitalCommand
+	(
+		0, that::InputManager::GamepadButton::A,
+		that::InputManager::InputType::ONBUTTONDOWN,
+		std::make_unique<that::LambdaCommand>(
+			[this]()
+			{
+				EndFade();
+			})
+	);
+	that::InputManager::GetInstance().BindDigitalCommand
+	(
+		1, that::InputManager::GamepadButton::A,
+		that::InputManager::InputType::ONBUTTONDOWN,
+		std::make_unique<that::LambdaCommand>(
+			[this]()
+			{
+				EndFade();
+			})
 	);
 }
 

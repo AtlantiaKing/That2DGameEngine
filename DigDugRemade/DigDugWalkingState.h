@@ -2,6 +2,8 @@
 
 #include "DigDugState.h"
 
+#include <vector>
+
 namespace that
 {
 	class GameObject;
@@ -31,7 +33,7 @@ namespace digdug
 		that::GameObject* m_pPlayer{};
 		GridTransform* m_pTransform{};
 
-		that::Command* m_pMoveCommand{};
-		that::Command* m_pShootPumpCommand{};
+		std::vector<that::Command*> m_pMoveCommands{};
+		std::vector<that::Command*> m_pShootPumpCommands{};
 	};
 }

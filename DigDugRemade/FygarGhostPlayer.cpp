@@ -9,7 +9,8 @@
 digdug::FygarGhostPlayer::FygarGhostPlayer(that::GameObject* pFygar)
 	: m_pFygarObj{ pFygar }
 {
-	m_pMoveCommand = that::InputManager::GetInstance().BindDigital2DAxisCommand({'d','a','w','s'}, std::make_unique<MoveCommand>(m_pFygarObj->GetTransform(), m_MoveSpeed));
+	//m_pMoveCommand = that::InputManager::GetInstance().BindDigital2DAxisCommand({ 'd','a','w','s' }, std::make_unique<MoveCommand>(m_pFygarObj->GetTransform(), m_MoveSpeed));
+	m_pMoveCommand = that::InputManager::GetInstance().BindAnalog2DAxisCommand(0, true, std::make_unique<MoveCommand>(m_pFygarObj->GetTransform(), m_MoveSpeed));
 }
 
 digdug::FygarGhostPlayer::~FygarGhostPlayer()

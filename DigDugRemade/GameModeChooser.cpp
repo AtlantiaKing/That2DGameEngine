@@ -75,6 +75,30 @@ void digdug::GameModeChooser::BindInput()
 			GameData::GetInstance().ResetGame();
 		}
 	));
+	that::InputManager::GetInstance().BindDigitalCommand
+	(
+		0, that::InputManager::GamepadButton::A,
+		that::InputManager::InputType::ONBUTTONDOWN,
+		std::make_unique<that::LambdaCommand>(
+			[this]()
+			{
+				LoadScene();
+
+				GameData::GetInstance().ResetGame();
+			}
+	));
+	that::InputManager::GetInstance().BindDigitalCommand
+	(
+		1, that::InputManager::GamepadButton::A,
+		that::InputManager::InputType::ONBUTTONDOWN,
+		std::make_unique<that::LambdaCommand>(
+			[this]()
+			{
+				LoadScene();
+
+				GameData::GetInstance().ResetGame();
+			}
+	));
 
 	// Bind the arrow keys to marker changes
 	that::InputManager::GetInstance().BindDigitalCommand
@@ -89,7 +113,48 @@ void digdug::GameModeChooser::BindInput()
 	));
 	that::InputManager::GetInstance().BindDigitalCommand
 	(
+		0, that::InputManager::GamepadButton::DPAD_UP,
+		that::InputManager::InputType::ONBUTTONDOWN,
+		std::make_unique<that::LambdaCommand>(
+			[this]()
+			{
+				MarkerUp();
+			}
+	));
+	that::InputManager::GetInstance().BindDigitalCommand
+	(
+		1, that::InputManager::GamepadButton::DPAD_UP,
+		that::InputManager::InputType::ONBUTTONDOWN,
+		std::make_unique<that::LambdaCommand>(
+			[this]()
+			{
+				MarkerUp();
+			}
+	));
+
+	that::InputManager::GetInstance().BindDigitalCommand
+	(
 		SDLK_DOWN,
+		that::InputManager::InputType::ONBUTTONDOWN,
+		std::make_unique<that::LambdaCommand>(
+			[this]()
+			{
+				MarkerDown();
+			}
+	));
+	that::InputManager::GetInstance().BindDigitalCommand
+	(
+		0, that::InputManager::GamepadButton::DPAD_DOWN,
+		that::InputManager::InputType::ONBUTTONDOWN,
+		std::make_unique<that::LambdaCommand>(
+			[this]()
+			{
+				MarkerDown();
+			}
+	));
+	that::InputManager::GetInstance().BindDigitalCommand
+	(
+		1, that::InputManager::GamepadButton::DPAD_DOWN,
 		that::InputManager::InputType::ONBUTTONDOWN,
 		std::make_unique<that::LambdaCommand>(
 			[this]()

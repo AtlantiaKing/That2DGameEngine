@@ -33,13 +33,13 @@ bool that::InputManager::ProcessInput()
 				auto pCommand{ analogCommand.first.get() };
 
 				// If the command is a datacommand of type float or vec2, pass on the axis values
-				if constexpr (std::is_base_of<DataCommand<float>*, decltype(pCommand)>())
+				if (auto pAxisCommand{ dynamic_cast<DataCommand<float>*>(pCommand) })
 				{
-					static_cast<DataCommand<float>*>(pCommand)->GetData() = axisValue;
+					pAxisCommand->GetData() = axisValue;
 				}
-				else if constexpr (std::is_base_of<DataCommand<glm::vec2>*, decltype(pCommand)>())
+				else if (auto p2DCommand{ dynamic_cast<DataCommand<glm::vec2>*>(pCommand) })
 				{
-					static_cast<DataCommand<glm::vec2>*>(pCommand)->GetData() = GetTwoDirectionalAxis(inputList);
+					p2DCommand->GetData() = GetTwoDirectionalAxis(inputList);
 				}
 
 				// Execute the command
@@ -64,11 +64,11 @@ bool that::InputManager::ProcessInput()
 				auto pCommand{ buttonCommand.first.get() };
 
 				// If the command is a datacommand of type float or vec2, pass on the axis values
-				if (auto pAxisCommand{ dynamic_cast<DataCommand<float>*>(pCommand) }; pAxisCommand)
+				if (auto pAxisCommand{ dynamic_cast<DataCommand<float>*>(pCommand) })
 				{
 					pAxisCommand->GetData() = GetAxis(inputList);
 				}
-				else if (auto p2DCommand{ dynamic_cast<DataCommand<glm::vec2>*>(pCommand) }; p2DCommand)
+				else if (auto p2DCommand{ dynamic_cast<DataCommand<glm::vec2>*>(pCommand) })
 				{
 					p2DCommand->GetData() = GetTwoDirectionalAxis(inputList);
 				}

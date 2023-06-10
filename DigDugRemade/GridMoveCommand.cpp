@@ -9,7 +9,7 @@
 
 void digdug::GridMoveCommand::Execute()
 {
-	auto& input{ GetData() };
+	glm::vec2 input{ GetData() };
 
 	input.y *= -1.0f;
 

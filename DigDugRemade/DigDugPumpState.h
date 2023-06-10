@@ -2,6 +2,8 @@
 
 #include "DigDugState.h"
 
+#include <vector>
+
 namespace that
 {
 	class GameObject;
@@ -35,7 +37,7 @@ namespace digdug
 		Pump* m_pPump{};
 		that::SpriteRenderer* m_pSprite{};
 
-		that::Command* m_pPumpEnemyCommand{};
-		that::Command* m_pStopPumpCommand{};
+		std::vector<that::Command*> m_pPumpEnemyCommands{};
+		std::vector<that::Command*> m_pStopPumpCommands{};
 	};
 }

@@ -14,6 +14,8 @@
 #include "Timer.h"
 #include "TextureManager.h"
 #include "InputManager.h"
+#include "SceneManager.h"
+#include "GameData.h"
 
 digdug::DigDugPumpState::DigDugPumpState(that::GameObject* pPlayer)
 	: m_pPlayer{ pPlayer }
@@ -76,14 +78,34 @@ void digdug::DigDugPumpState::StateEnter()
 	m_pSprite->SetSprite(pPlayerTexture, 2, 1);
 
 	DigDug* pDigDug{ m_pPlayer->GetComponent<DigDug>() };
-	m_pPumpEnemyCommand = that::InputManager::GetInstance().BindDigitalCommand(' ', that::InputManager::InputType::ONBUTTON, std::make_unique<PumpToEnemyCommand>(pDigDug));
-	m_pStopPumpCommand = that::InputManager::GetInstance().BindDigital2DAxisCommand({ 'd', 'a', 'w', 's' }, std::make_unique<DisablePumpCommand>(pDigDug));
+
+	if (pDigDug->GetPlayerIndex())
+	{
+		m_pPumpEnemyCommands.push_back(that::InputManager::GetInstance().BindDigitalCommand(0, that::InputManager::GamepadButton::A, that::InputManager::InputType::ONBUTTON, std::make_unique<PumpToEnemyCommand>(pDigDug)));
+		m_pStopPumpCommands.push_back(that::InputManager::GetInstance().BindAnalog2DAxisCommand(0, true, std::make_unique<DisablePumpCommand>(pDigDug)));
+	}
+	else
+	{
+		m_pPumpEnemyCommands.push_back(that::InputManager::GetInstance().BindDigitalCommand(' ', that::InputManager::InputType::ONBUTTON, std::make_unique<PumpToEnemyCommand>(pDigDug)));
+		m_pStopPumpCommands.push_back(that::InputManager::GetInstance().BindDigital2DAxisCommand({ 'd', 'a', 'w', 's' }, std::make_unique<DisablePumpCommand>(pDigDug)));
+
+		const int isMultiplayer{ that::SceneManager::GetInstance().GetCurrentSceneIndex() != GameData::GetInstance().GetSinglePlayerScene() };
+
+		m_pPumpEnemyCommands.push_back(that::InputManager::GetInstance().BindDigitalCommand(isMultiplayer, that::InputManager::GamepadButton::A, that::InputManager::InputType::ONBUTTON, std::make_unique<PumpToEnemyCommand>(pDigDug)));
+		m_pStopPumpCommands.push_back(that::InputManager::GetInstance().BindAnalog2DAxisCommand(isMultiplayer, true, std::make_unique<DisablePumpCommand>(pDigDug)));
+	}
 }
 
 void digdug::DigDugPumpState::StateEnd()
 {
 	m_pPlayer->GetChild(0)->SetActive(false);
 
-	that::InputManager::GetInstance().Unbind(m_pPumpEnemyCommand);
-	that::InputManager::GetInstance().Unbind(m_pStopPumpCommand);
+	for (auto pCommand : m_pPumpEnemyCommands)
+	{
+		that::InputManager::GetInstance().Unbind(pCommand);
+	}
+	for (auto pCommand : m_pStopPumpCommands)
+	{
+		that::InputManager::GetInstance().Unbind(pCommand);
+	}
 }

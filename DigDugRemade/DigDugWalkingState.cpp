@@ -8,9 +8,11 @@
 
 #include "InputManager.h"
 #include "TextureManager.h"
+#include "SceneManager.h"
 
 #include "DigDugPumpState.h"
 
+#include "GameData.h"
 #include "GridMoveCommand.h"
 #include "ShootPumpCommand.h"
 #include "PumpToEnemyCommand.h"
@@ -48,14 +50,34 @@ void digdug::DigDugWalkingState::StateEnter()
 	const auto& pPlayerTexture{ that::TextureManager::GetInstance().LoadTexture("DigDug/Walking.png") };
 	m_pPlayer->GetComponent<that::SpriteRenderer>()->SetSprite(pPlayerTexture, 2, 1);
 
-	m_pMoveCommand = that::InputManager::GetInstance().BindDigital2DAxisCommand({ 'd', 'a', 'w', 's' }, std::make_unique<GridMoveCommand>(m_pTransform));
-
 	DigDug* pDigDug{ m_pPlayer->GetComponent<DigDug>() };
-	m_pShootPumpCommand = that::InputManager::GetInstance().BindDigitalCommand(' ', that::InputManager::InputType::ONBUTTONDOWN, std::make_unique<ShootPumpCommand>(pDigDug));
+
+
+	if (pDigDug->GetPlayerIndex())
+	{
+		m_pMoveCommands.push_back(that::InputManager::GetInstance().BindAnalog2DAxisCommand(0, true, std::make_unique<GridMoveCommand>(m_pTransform)));
+		m_pShootPumpCommands.push_back(that::InputManager::GetInstance().BindDigitalCommand(0, that::InputManager::GamepadButton::A, that::InputManager::InputType::ONBUTTONDOWN, std::make_unique<ShootPumpCommand>(pDigDug)));
+	}
+	else
+	{
+		m_pMoveCommands.push_back(that::InputManager::GetInstance().BindDigital2DAxisCommand({ 'd', 'a', 'w', 's' }, std::make_unique<GridMoveCommand>(m_pTransform)));
+		m_pShootPumpCommands.push_back(that::InputManager::GetInstance().BindDigitalCommand(' ', that::InputManager::InputType::ONBUTTONDOWN, std::make_unique<ShootPumpCommand>(pDigDug)));
+
+		const int isMultiplayer{ that::SceneManager::GetInstance().GetCurrentSceneIndex() != GameData::GetInstance().GetSinglePlayerScene() };
+
+		m_pMoveCommands.push_back(that::InputManager::GetInstance().BindAnalog2DAxisCommand(isMultiplayer, true, std::make_unique<GridMoveCommand>(m_pTransform)));
+		m_pShootPumpCommands.push_back(that::InputManager::GetInstance().BindDigitalCommand(isMultiplayer, that::InputManager::GamepadButton::A, that::InputManager::InputType::ONBUTTONDOWN, std::make_unique<ShootPumpCommand>(pDigDug)));
+	}
 }
 
 void digdug::DigDugWalkingState::StateEnd()
 {
-	that::InputManager::GetInstance().Unbind(m_pMoveCommand);
-	that::InputManager::GetInstance().Unbind(m_pShootPumpCommand);
+	for (auto pCommand : m_pMoveCommands)
+	{
+		that::InputManager::GetInstance().Unbind(pCommand);
+	}
+	for (auto pCommand : m_pShootPumpCommands)
+	{
+		that::InputManager::GetInstance().Unbind(pCommand);
+	}
 }
