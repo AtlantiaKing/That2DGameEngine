@@ -7,11 +7,14 @@
 #include "Transform.h"
 #include "HealthComponent.h"
 #include "BoxCollider.h"
+#include "DigDug.h"
+#include "GridComponent.h"
 
 #include "TextureManager.h"
 #include "Timer.h"
 
 #include "DigDugWalkingState.h"
+#include "DigDugNoLivesState.h"
 
 digdug::DigDugRockDeathState::DigDugRockDeathState(that::GameObject* pPlayer)
 	: m_pPlayer{ pPlayer }
@@ -29,8 +32,14 @@ std::unique_ptr<digdug::DigDugState> digdug::DigDugRockDeathState::Update()
 
 	if (m_WaitTime > m_TimeTillRespawn)
 	{
-		m_pPlayer->GetComponent<GridTransform>()->SetPosition(0, 0);
-		m_pPlayer->GetTransform()->SetLocalPosition(0.0f, 0.0f);
+		if (m_pPlayer->GetComponent<HealthComponent>()->GetHealth() == 0) return std::make_unique<DigDugNoLivesState>(m_pPlayer);
+
+		GridComponent* pGrid{ m_pPlayer->GetParent()->GetComponent<GridComponent>() };
+		const float cellSize{ pGrid->GetCellSize() };
+		const glm::ivec2 gridSpawnPos{ m_pPlayer->GetComponent<DigDug>()->GetSpawnPoint() / cellSize };
+
+		m_pPlayer->GetComponent<GridTransform>()->SetPosition(gridSpawnPos.x, gridSpawnPos.y);
+		m_pPlayer->GetTransform()->SetLocalPosition(m_pPlayer->GetComponent<DigDug>()->GetSpawnPoint());
 		return std::make_unique<DigDugWalkingState>(m_pPlayer);
 	}
 
@@ -39,7 +48,10 @@ std::unique_ptr<digdug::DigDugState> digdug::DigDugRockDeathState::Update()
 
 void digdug::DigDugRockDeathState::StateEnter()
 {
-	const auto& pPlayerTexture{ that::TextureManager::GetInstance().LoadTexture("DigDug/DeathByRock.png") };
+	std::stringstream texturePath{};
+	texturePath << "DigDug" << m_pPlayer->GetComponent<DigDug>()->GetPlayerIndex() << "/DeathByRock.png";
+
+	const auto& pPlayerTexture{ that::TextureManager::GetInstance().LoadTexture(texturePath.str()) };
 	m_pPlayer->GetComponent<that::SpriteRenderer>()->SetSprite(pPlayerTexture, 1, 1);
 	m_pPlayer->GetComponent<HealthComponent>()->Hit();
 

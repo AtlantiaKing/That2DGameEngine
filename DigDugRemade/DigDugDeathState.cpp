@@ -64,7 +64,10 @@ std::unique_ptr<digdug::DigDugState> digdug::DigDugDeathState::Update()
 
 void digdug::DigDugDeathState::StateEnter()
 {
-	const auto& pPlayerTexture{ that::TextureManager::GetInstance().LoadTexture("DigDug/Death.png") };
+	std::stringstream texturePath{};
+	texturePath << "DigDug" << m_pPlayer->GetComponent<DigDug>()->GetPlayerIndex() << "/Death.png";
+
+	const auto& pPlayerTexture{ that::TextureManager::GetInstance().LoadTexture(texturePath.str()) };
 	m_pSprite = m_pPlayer->GetComponent<that::SpriteRenderer>();
 	m_pSprite->SetSprite(pPlayerTexture, 4, 1, 0.2f);
 

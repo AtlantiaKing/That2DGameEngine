@@ -17,6 +17,8 @@
 #include "ShootPumpCommand.h"
 #include "PumpToEnemyCommand.h"
 
+#include <sstream>
+
 digdug::DigDugWalkingState::DigDugWalkingState(that::GameObject* pPlayer)
 	: m_pPlayer{ pPlayer }
 	, m_pTransform{ m_pPlayer->GetComponent<GridTransform>() }
@@ -47,11 +49,13 @@ std::unique_ptr<digdug::DigDugState> digdug::DigDugWalkingState::Update()
 
 void digdug::DigDugWalkingState::StateEnter()
 {
-	const auto& pPlayerTexture{ that::TextureManager::GetInstance().LoadTexture("DigDug/Walking.png") };
-	m_pPlayer->GetComponent<that::SpriteRenderer>()->SetSprite(pPlayerTexture, 2, 1);
-
 	DigDug* pDigDug{ m_pPlayer->GetComponent<DigDug>() };
 
+	std::stringstream texturePath{};
+	texturePath << "DigDug" << pDigDug->GetPlayerIndex() << "/Walking.png";
+
+	const auto& pPlayerTexture{ that::TextureManager::GetInstance().LoadTexture(texturePath.str()) };
+	m_pPlayer->GetComponent<that::SpriteRenderer>()->SetSprite(pPlayerTexture, 2, 1);
 
 	if (pDigDug->GetPlayerIndex())
 	{

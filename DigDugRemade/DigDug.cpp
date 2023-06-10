@@ -50,6 +50,8 @@ void digdug::DigDug::Notify(const that::CollisionData& collision)
 
 void digdug::DigDug::Notify(const HealthComponent&)
 {
+	if (dynamic_cast<DigDugRockDeathState*>(m_pState.get())) return;
+
 	ChangeState(std::make_unique<DigDugDeathState>(GetOwner()));
 }
 

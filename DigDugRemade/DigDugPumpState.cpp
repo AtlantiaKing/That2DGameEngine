@@ -73,11 +73,14 @@ void digdug::DigDugPumpState::StateEnter()
 	m_pPump = pPumpObj->GetComponent<Pump>();
 	pPumpObj->SetActive(true);
 
-	const auto& pPlayerTexture{ that::TextureManager::GetInstance().LoadTexture("DigDug/Pumping.png") };
+	DigDug* pDigDug{ m_pPlayer->GetComponent<DigDug>() };
+
+	std::stringstream texturePath{};
+	texturePath << "DigDug" << pDigDug->GetPlayerIndex() << "/Pumping.png";
+
+	const auto& pPlayerTexture{ that::TextureManager::GetInstance().LoadTexture(texturePath.str()) };
 	m_pSprite = m_pPlayer->GetComponent<that::SpriteRenderer>();
 	m_pSprite->SetSprite(pPlayerTexture, 2, 1);
-
-	DigDug* pDigDug{ m_pPlayer->GetComponent<DigDug>() };
 
 	if (pDigDug->GetPlayerIndex())
 	{
