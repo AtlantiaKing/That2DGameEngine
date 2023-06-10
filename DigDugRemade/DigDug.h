@@ -34,6 +34,7 @@ namespace digdug
 		void Move(const glm::vec2& movementInput);
 		void Pump(bool hold);
 		void RockAttack();
+		void DisablePump();
 
 		void SetPlayerIndex(int index);
 		int GetPlayerIndex() const;

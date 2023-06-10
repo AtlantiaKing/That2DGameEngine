@@ -9,6 +9,7 @@
 #include "DigDugWalkingState.h"
 
 #include "PumpToEnemyCommand.h"
+#include "DisablePumpCommand.h"
 
 #include "Timer.h"
 #include "TextureManager.h"
@@ -74,7 +75,9 @@ void digdug::DigDugPumpState::StateEnter()
 	m_pSprite = m_pPlayer->GetComponent<that::SpriteRenderer>();
 	m_pSprite->SetSprite(pPlayerTexture, 2, 1);
 
-	m_pPumpEnemyCommand = that::InputManager::GetInstance().BindDigitalCommand(' ', that::InputManager::InputType::ONBUTTON, std::make_unique<PumpToEnemyCommand>(m_pPlayer->GetComponent<DigDug>()));
+	DigDug* pDigDug{ m_pPlayer->GetComponent<DigDug>() };
+	m_pPumpEnemyCommand = that::InputManager::GetInstance().BindDigitalCommand(' ', that::InputManager::InputType::ONBUTTON, std::make_unique<PumpToEnemyCommand>(pDigDug));
+	m_pStopPumpCommand = that::InputManager::GetInstance().BindDigital2DAxisCommand({ 'd', 'a', 'w', 's' }, std::make_unique<DisablePumpCommand>(pDigDug));
 }
 
 void digdug::DigDugPumpState::StateEnd()
@@ -82,4 +85,5 @@ void digdug::DigDugPumpState::StateEnd()
 	m_pPlayer->GetChild(0)->SetActive(false);
 
 	that::InputManager::GetInstance().Unbind(m_pPumpEnemyCommand);
+	that::InputManager::GetInstance().Unbind(m_pStopPumpCommand);
 }

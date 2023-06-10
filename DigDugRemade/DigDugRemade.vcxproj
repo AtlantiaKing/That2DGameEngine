@@ -183,6 +183,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClCompile Include="DigDugRockDeathState.cpp" />
     <ClCompile Include="DigDugWalkingState.cpp" />
     <ClCompile Include="DisableOnGroundHit.cpp" />
+    <ClCompile Include="DisablePumpCommand.cpp" />
     <ClCompile Include="EnemyBehaviour.cpp" />
     <ClCompile Include="EnemyMovement.cpp" />
     <ClCompile Include="FireBreath.cpp" />
@@ -254,6 +255,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClInclude Include="DigDugState.h" />
     <ClInclude Include="DigDugWalkingState.h" />
     <ClInclude Include="DisableOnGroundHit.h" />
+    <ClInclude Include="DisablePumpCommand.h" />
     <ClInclude Include="EnemyBehaviour.h" />
     <ClInclude Include="EnemyMovement.h" />
     <ClInclude Include="EnemyState.h" />

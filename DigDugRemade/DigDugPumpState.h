@@ -36,5 +36,6 @@ namespace digdug
 		that::SpriteRenderer* m_pSprite{};
 
 		that::Command* m_pPumpEnemyCommand{};
+		that::Command* m_pStopPumpCommand{};
 	};
 }

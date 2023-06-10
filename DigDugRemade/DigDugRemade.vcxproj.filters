@@ -275,6 +275,9 @@
     <ClCompile Include="DisableOnGroundHit.cpp">
       <Filter>Components\Game\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="DisablePumpCommand.cpp">
+      <Filter>Commands\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameScene.h">
@@ -474,6 +477,9 @@
     </ClInclude>
     <ClInclude Include="DisableOnGroundHit.h">
       <Filter>Components\Game\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="DisablePumpCommand.h">
+      <Filter>Commands\Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

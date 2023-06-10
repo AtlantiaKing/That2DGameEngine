@@ -68,6 +68,11 @@ void digdug::DigDug::RockAttack()
 	ChangeState(std::make_unique<DigDugRockDeathState>(GetOwner()));
 }
 
+void digdug::DigDug::DisablePump()
+{
+	ChangeState(std::make_unique<DigDugWalkingState>(GetOwner()));
+}
+
 void digdug::DigDug::SetPlayerIndex(int index)
 {
 	m_PlayerIndex = index;
