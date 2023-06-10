@@ -104,9 +104,6 @@
     <ClCompile Include="GridTransform.cpp">
       <Filter>Components\Game\Grid</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Components\Game\Entities\Player</Filter>
-    </ClCompile>
     <ClCompile Include="LivesHUDComponent.cpp">
       <Filter>Components\Game\HUD</Filter>
     </ClCompile>
@@ -294,9 +291,6 @@
     </ClInclude>
     <ClInclude Include="GridTransform.h">
       <Filter>Components\Game\Grid</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Components\Game\Entities\Player</Filter>
     </ClInclude>
     <ClInclude Include="LivesHUDComponent.h">
       <Filter>Components\Game\HUD</Filter>

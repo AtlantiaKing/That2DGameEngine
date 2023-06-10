@@ -11,6 +11,11 @@ namespace digdug
 		HealthComponent() = default;
 		virtual ~HealthComponent() = default;
 
+		HealthComponent(const HealthComponent& other) = delete;
+		HealthComponent(HealthComponent&& other) = delete;
+		HealthComponent& operator=(const HealthComponent& other) = delete;
+		HealthComponent& operator=(HealthComponent&& other) = delete;
+
 		void Hit();
 		void Heal();
 		void Kill();

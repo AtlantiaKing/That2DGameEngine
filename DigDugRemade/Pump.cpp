@@ -4,9 +4,9 @@
 #include "TextureRenderer.h"
 #include "TextureMask.h"
 #include "GridTransform.h"
-#include "Player.h"
 #include "ScoreComponent.h"
 #include "BoxCollider.h"
+#include "HealthComponent.h"
 
 #include "GameObject.h"
 
