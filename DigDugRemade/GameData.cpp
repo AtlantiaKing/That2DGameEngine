@@ -129,22 +129,24 @@ digdug::GameData::GameData()
         for (int i{}; i < m_NrHighScores; ++i)
         {
             int highScore{};
-            std::stringstream highScoreUser{};
+            std::string highScoreUser{};
+            highScoreUser.resize(m_NameSize);
 
             // Read high score
             binaryIn.read(reinterpret_cast<char*>(&highScore), sizeof(int));
 
-            // Read high score user
-            for (int charIdx{}; charIdx < m_NameSize; ++charIdx)
-            {
-                // Get the amount of data
-                char newChar{};
-                binaryIn.read(&newChar, sizeof(char));
+            //// Read high score user
+            //for (int charIdx{}; charIdx < m_NameSize; ++charIdx)
+            //{
+            //    // Get the amount of data
+            //    char newChar{};
+            //    binaryIn.read(&newChar, sizeof(char));
 
-                highScoreUser << newChar;
-            }
+            //    highScoreUser << newChar;
+            //}
+            binaryIn.read(highScoreUser.data(), sizeof(char) * m_NameSize);
 
-            m_HighScores.insert(std::make_pair(highScore, highScoreUser.str()));
+            m_HighScores.insert(std::make_pair(highScore, highScoreUser));
         }
     }
     else
@@ -179,10 +181,7 @@ digdug::GameData::~GameData()
             binaryOut.write(reinterpret_cast<const char*>(&highScorePair.first), sizeof(int));
 
             // Write high score user
-            for (char c : highScorePair.second)
-            {
-                binaryOut.put(c);
-            }
+            binaryOut.write(highScorePair.second.data(), sizeof(char) * highScorePair.second.size());
         }
     }
 }
