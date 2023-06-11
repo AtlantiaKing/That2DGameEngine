@@ -136,14 +136,6 @@ digdug::GameData::GameData()
             binaryIn.read(reinterpret_cast<char*>(&highScore), sizeof(int));
 
             //// Read high score user
-            //for (int charIdx{}; charIdx < m_NameSize; ++charIdx)
-            //{
-            //    // Get the amount of data
-            //    char newChar{};
-            //    binaryIn.read(&newChar, sizeof(char));
-
-            //    highScoreUser << newChar;
-            //}
             binaryIn.read(highScoreUser.data(), sizeof(char) * m_NameSize);
 
             m_HighScores.insert(std::make_pair(highScore, highScoreUser));
