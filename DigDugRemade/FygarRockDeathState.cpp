@@ -4,6 +4,7 @@
 
 #include "SpriteRenderer.h"
 #include "HealthComponent.h"
+#include "BoxCollider.h"
 
 #include "TextureManager.h"
 #include "Timer.h"
@@ -29,6 +30,8 @@ void digdug::FygarRockDeathState::StateEnter()
 {
 	const auto& pTexture{ that::TextureManager::GetInstance().LoadTexture("Fygar/DeathByRock.png") };
 	m_pFygarObj->GetComponent<that::SpriteRenderer>()->SetSprite(pTexture, 1, 1);
+
+	m_pFygarObj->GetComponent<that::BoxCollider>()->SetEnabled(false);
 }
 
 void digdug::FygarRockDeathState::StateEnd()
