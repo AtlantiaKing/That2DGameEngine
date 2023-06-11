@@ -36,6 +36,8 @@ namespace that
 
 		void SetLayer(unsigned int layer) { m_Layer = layer; }
 		unsigned int GetLayer() const { return m_Layer; }
+		void SetIgnoreGroup(unsigned int ignoreGroup) { m_IgnoreGroup = ignoreGroup; }
+		unsigned int GetIgnoreGroup() const { return m_IgnoreGroup; }
 
 		Subject<CollisionData>& OnHitEvent() { return m_OnHitEvent; }
 	private:
@@ -48,6 +50,7 @@ namespace that
 		bool m_DefaultSize{ true };
 
 		unsigned int m_Layer{};
+		unsigned int m_IgnoreGroup{};
 
 		Subject<CollisionData> m_OnHitEvent{};
 	};

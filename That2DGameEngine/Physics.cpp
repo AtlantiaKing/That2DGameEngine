@@ -30,6 +30,12 @@ void that::Physics::Update()
 			// Don't try collision with itself
 			if (pChild == pOther) continue;
 
+			// Don't try collision if one collider 
+			//	is in the ignore group of the other box collider
+			if (pChild->GetIgnoreGroup() & pOther->GetLayer()) continue;
+			if (pOther->GetIgnoreGroup() & pChild->GetLayer()) continue;
+
+			// Try collision
 			if (DoOverlap(pChild, pOther)) pChild->Hit(pOther);
 		}
 	}
