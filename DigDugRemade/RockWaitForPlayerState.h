@@ -25,7 +25,7 @@ namespace digdug
 		that::GameObject* m_pPlayer{};
 
 		const float m_GridEpsilonX{ 0.5f };
-		const float m_GridEpsilonY{ 1.0f };
+		const float m_GridEpsilonY{ 1.25f };
 
 		GridComponent* m_pGrid{};
 	};
