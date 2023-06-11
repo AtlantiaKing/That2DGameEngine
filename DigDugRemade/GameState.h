@@ -43,6 +43,8 @@ namespace digdug
 		bool m_GameOver{};
 		float m_WaitTimer{};
 		const float m_TimeTillNextLevel{ 2.0f };
+
+		const int m_NrRounds{ 4 };
 	};
 }
 

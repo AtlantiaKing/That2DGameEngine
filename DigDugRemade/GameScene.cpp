@@ -34,7 +34,7 @@ void digdug::GameScene::Load(that::Scene& scene)
 	std::stringstream levelFile{};
 	levelFile << "Levels/Level" << GameData::GetInstance().GetRoundNumber() << "_1.png";
 
-	pGrid->AddComponent<LevelLoader>()->SetLevel(/*levelFile.str(*/"Levels/DemoLevel.png", 1, false);
+	pGrid->AddComponent<LevelLoader>()->SetLevel(levelFile.str(), 1, false);
 	pGrid->AddComponent<GameState>();
 
 	constexpr float referenceSize{ 240.0f };

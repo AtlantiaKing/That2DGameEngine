@@ -49,7 +49,16 @@ void digdug::GameState::Update()
 			
 			if (m_Victory)
 			{
-				sceneManager.LoadScene(sceneManager.GetCurrentSceneIndex());
+				if (GameData::GetInstance().GetRoundNumber() == m_NrRounds)
+				{
+
+					sceneManager.LoadScene(GameData::GetInstance().GetHighScoreScene());
+				}
+				else
+				{
+
+					sceneManager.LoadScene(sceneManager.GetCurrentSceneIndex());
+				}
 			}
 			else
 			{
