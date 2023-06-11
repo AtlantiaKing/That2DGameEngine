@@ -358,10 +358,14 @@ std::vector<that::GameObject*> that::GameObject::GetChildren() const
 {
 	// Create a new list of gameobjects
 	std::vector<GameObject*> pGameObjects{};
-	pGameObjects.reserve(m_pChildren.size());
+	pGameObjects.reserve(m_pChildren.size() + m_pChildrenToAdd.size());
 
-	// Add all the raw pointers to the children
+	// Add all the raw pointers to the children and the children to be added
 	for (const auto& pChild : m_pChildren)
+	{
+		pGameObjects.emplace_back(pChild.get());
+	}
+	for (const auto& pChild : m_pChildrenToAdd)
 	{
 		pGameObjects.emplace_back(pChild.get());
 	}
@@ -373,10 +377,14 @@ std::vector<that::Component*> that::GameObject::GetComponents() const
 {
 	// Create a new list of components
 	std::vector<Component*> pComponents{};
-	pComponents.reserve(m_pComponents.size());
+	pComponents.reserve(m_pComponents.size() + m_pComponentsToAdd.size());
 
 	// Add all the raw pointers to the components
 	for (const auto& pComponent : m_pComponents)
+	{
+		pComponents.emplace_back(pComponent.get());
+	}
+	for (const auto& pComponent : m_pComponentsToAdd)
 	{
 		pComponents.emplace_back(pComponent.get());
 	}
