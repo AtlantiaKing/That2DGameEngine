@@ -60,10 +60,15 @@ void that::SceneManager::Render()
 
 void that::SceneManager::OnGUI()
 {
-	m_pScene->OnGUI();
+	m_pScene->OnGUI(m_DrawSceneHierarchy);
 }
 
 void that::SceneManager::Destroy()
 {
 	m_pScene = nullptr;
+}
+
+void that::SceneManager::DrawSceneHierarchy(bool drawDebug)
+{
+	m_DrawSceneHierarchy = drawDebug;
 }

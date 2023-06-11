@@ -134,10 +134,10 @@ void Scene::Render() const
 	}
 }
 
-void that::Scene::OnGUI()
+void that::Scene::OnGUI(bool renderHierarchy)
 {
 	// Render the scenegraph
-	//RenderScenegraph();
+	if(renderHierarchy) RenderScenegraph();
 
 	// Call OnGui on every child
 	for (const auto& object : m_pObjects)
@@ -205,6 +205,6 @@ void that::Scene::RenderScenegraphComponents(GameObject* pGameObject)
 {
 	for (auto pComponent : pGameObject->GetComponents())
 	{
-		ImGui::TextColored(ImVec4{ 0.0f, 1.0f, 0.0f, 1.0f }, typeid(pComponent).name());
+		ImGui::TextColored(ImVec4{ 0.0f, 1.0f, 0.0f, 1.0f }, typeid(*pComponent).name());
 	}
 }

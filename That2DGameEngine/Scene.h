@@ -17,7 +17,7 @@ namespace that
 		void LateUpdate();
 		void UpdateCleanup();
 		void Render() const;
-		void OnGUI();
+		void OnGUI(bool renderHierarchy);
 
 		Scene() = default;
 		~Scene();

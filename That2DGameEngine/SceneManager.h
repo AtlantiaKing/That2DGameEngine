@@ -23,6 +23,9 @@ namespace that
 		void Destroy();
 
 		int GetCurrentSceneIndex() const { return m_CurrentScene; }
+		
+		void DrawSceneHierarchy(bool drawDebug);
+
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;
@@ -30,5 +33,7 @@ namespace that
 		std::shared_ptr<Scene> m_pScene{};
 		int m_NextScene{ -1 };
 		int m_CurrentScene{};
+
+		bool m_DrawSceneHierarchy{};
 	};
 }
