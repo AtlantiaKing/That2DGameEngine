@@ -21,7 +21,9 @@
 
 void Setup()
 {
+	that::Window::GetInstance().SetTitle("Programming 4 assignment");
 	that::Window::GetInstance().SetWindowSize(610, 520);
+
 	that::SceneManager::GetInstance().AddScene(digdug::MainMenuScene::Load);
 	that::SceneManager::GetInstance().AddScene(digdug::GameScene::Load);
 	that::SceneManager::GetInstance().AddScene(digdug::VersusGameScene::Load);
