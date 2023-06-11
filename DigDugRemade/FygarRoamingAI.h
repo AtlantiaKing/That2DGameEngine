@@ -27,9 +27,9 @@ namespace digdug
 
 		float m_RoamTime{};
 		float m_TimeUntilStateChange{};
-		float m_AttackChance{ 0.8f };
+		float m_AttackChance{ 0.7f };
 
 		const float m_MinTimeUntilState{ 2.0f };
-		const float m_MaxTimeUntilState{ 7.0f };
+		const float m_MaxTimeUntilState{ 4.0f };
 	};
 }

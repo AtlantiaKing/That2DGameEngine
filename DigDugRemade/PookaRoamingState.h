@@ -31,7 +31,7 @@ namespace digdug
 		float m_RoamTime{};
 		float m_TimeUntilGhost{};
 
-		const float m_MinTimeUntilGhost{ 10.0f };
-		const float m_MaxTimeUntilGhost{ 30.0f };
+		const float m_MinTimeUntilGhost{ 4.0f };
+		const float m_MaxTimeUntilGhost{ 15.0f };
 	};
 }

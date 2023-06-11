@@ -30,4 +30,5 @@ void digdug::FygarAttackState::StateEnter()
 
 void digdug::FygarAttackState::StateEnd()
 {
+	m_pFire->SetActive(false);
 }

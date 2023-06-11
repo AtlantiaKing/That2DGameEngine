@@ -35,9 +35,9 @@ namespace digdug
 		that::Subject<FireBreath> OnDisable{};
 	private:
 		float m_PreAttackTime{};
-		float m_TimeUntilAttack{ 2.0f };
+		float m_TimeUntilAttack{ 0.7f };
 
-		float m_UnmaskSpeed{ 1.0f };
+		float m_UnmaskSpeed{ 2.0f };
 
 		that::TextureMask* m_pMask{};
 		that::TextureRenderer* m_pTexture{};
