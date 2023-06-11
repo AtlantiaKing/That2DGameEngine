@@ -13,6 +13,8 @@
 #include "GameData.h"
 #include "ScoreComponent.h"
 #include "InputManager.h"
+#include "ServiceLocator.h"
+#include "AudioSystem.h"
 
 #include "LambdaCommand.h"
 
@@ -161,6 +163,7 @@ void digdug::GameState::Notify(const that::GameObject& pEntity)
 	if (m_pEnemies.size() == 0)
 	{
 		m_Victory = true;
+		that::ServiceLocator::GetAudio().Play("Sounds/Victory.wav", 1.0f);
 	}
 
 	if (m_pPlayers.size() == 0)
@@ -181,6 +184,7 @@ void digdug::GameState::Notify(const that::GameObject& pEntity)
 		}
 
 		m_GameOver = true;
+		that::ServiceLocator::GetAudio().Play("Sounds/GameOver.wav", 1.0f);
 	}
 
 	if (m_Victory || m_GameOver)

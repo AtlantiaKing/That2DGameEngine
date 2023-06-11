@@ -47,7 +47,7 @@ namespace digdug
 		bool m_Victory{};
 		bool m_GameOver{};
 		float m_WaitTimer{};
-		const float m_TimeTillNextLevel{ 2.0f };
+		const float m_TimeTillNextLevel{ 2.5f };
 
 		that::Command* m_pSkipLevelCommand{};
 
