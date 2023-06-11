@@ -55,6 +55,8 @@ namespace that
 		template <class T>
 		Command* BindDigitalCommand(unsigned int keyboardKey, InputType inputType, GameObject* pGameObject);
 		Command* BindDigitalCommand(unsigned int keyboardKey, InputType inputType, std::unique_ptr<Command> pCommand);
+		Command* BindAnyDigitalKeyboardCommand(InputType inputType, std::unique_ptr<Command> pCommand);
+		Command* BindAnyDigitalGamepadCommand(unsigned int controller, InputType inputType, std::unique_ptr<Command> pCommand);
 
 		/*
 		 Bind a 2D axis command to 4 digital buttons

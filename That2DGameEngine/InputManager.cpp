@@ -127,28 +127,31 @@ bool that::InputManager::ReadSDLInput()
 
 bool that::InputManager::TryInput(const that::InputManager::InputDigital& inputKey)
 {
+
 	if (inputKey.keyboard)
 	{
 		switch (inputKey.inputType)
 		{
 		case InputType::ONBUTTONDOWN:
-			return m_KeyboardDownInput.find(inputKey.button) != m_KeyboardDownInput.end();
+			return inputKey.button ? m_KeyboardDownInput.find(inputKey.button) != m_KeyboardDownInput.end() : !m_KeyboardDownInput.empty();
 		case InputType::ONBUTTONUP:
-			return m_KeyboardUpInput.find(inputKey.button) != m_KeyboardUpInput.end();
+			return inputKey.button ? m_KeyboardUpInput.find(inputKey.button) != m_KeyboardUpInput.end() : !m_KeyboardUpInput.empty();
 		case InputType::ONBUTTON:
-			return m_KeyboardInput.find(inputKey.button) != m_KeyboardInput.end();
+			return inputKey.button ? m_KeyboardInput.find(inputKey.button) != m_KeyboardInput.end() : !m_KeyboardInput.empty();
 		}
 	}
 	else
 	{
+		if (m_pControllers.size() <= inputKey.controllerIdx) return false;
+
 		switch (inputKey.inputType)
 		{
 		case InputType::ONBUTTONDOWN:
-			return m_pControllers[inputKey.controllerIdx]->OnButtonDown(inputKey.button);
+			return m_pControllers[inputKey.controllerIdx]->OnButtonDown(inputKey.button ? inputKey.button : UINT_MAX);
 		case InputType::ONBUTTONUP:
-			return m_pControllers[inputKey.controllerIdx]->OnButtonUp(inputKey.button);
+			return m_pControllers[inputKey.controllerIdx]->OnButtonUp(inputKey.button ? inputKey.button : UINT_MAX);
 		case InputType::ONBUTTON:
-			return m_pControllers[inputKey.controllerIdx]->OnButton(inputKey.button);
+			return m_pControllers[inputKey.controllerIdx]->OnButton(inputKey.button ? inputKey.button : UINT_MAX);
 		}
 	}
 
@@ -178,6 +181,33 @@ that::Command* that::InputManager::BindDigitalCommand(unsigned int keyboardKey, 
 
 	// Create a new command
 	m_pBindedDigitalCommands.push_back(std::make_pair(std::move(pCommand), std::vector<InputDigital>{ InputDigital{ true, 0, keyboardKey, inputType } }));
+
+	// Return the raw pointer
+	return pRawCommand;
+}
+
+that::Command* that::InputManager::BindAnyDigitalKeyboardCommand(InputType inputType, std::unique_ptr<Command> pCommand)
+{
+	// Retrieve the raw pointer of the command
+	auto pRawCommand{ pCommand.get() };
+
+	// Create a new command
+	m_pBindedDigitalCommands.push_back(std::make_pair(std::move(pCommand), std::vector<InputDigital>{ InputDigital{ true, 0, 0, inputType } }));
+
+	// Return the raw pointer
+	return pRawCommand;
+}
+
+that::Command* that::InputManager::BindAnyDigitalGamepadCommand(unsigned int controller, InputType inputType, std::unique_ptr<Command> pCommand)
+{
+	// Add controllers if the controllerIdx is higher then the amount of controllers available
+	AddControllersIfNeeded(controller);
+
+	// Retrieve the raw pointer of the command
+	auto pRawCommand{ pCommand.get() };
+
+	// Create a new command
+	m_pBindedDigitalCommands.push_back(std::make_pair(std::move(pCommand), std::vector<InputDigital>{ InputDigital{ false, controller, 0, inputType } }));
 
 	// Return the raw pointer
 	return pRawCommand;

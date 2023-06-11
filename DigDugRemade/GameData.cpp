@@ -75,6 +75,11 @@ void digdug::GameData::ApplyHighScore(int score, std::string user)
     m_HighScores.erase(smallest);
 }
 
+const std::multimap<int, std::string> digdug::GameData::GetHighScores() const
+{
+    return m_HighScores;
+}
+
 void digdug::GameData::SetCurrentScore(int index, int score)
 {
     if (static_cast<int>(m_CurrentScores.size()) <= index)

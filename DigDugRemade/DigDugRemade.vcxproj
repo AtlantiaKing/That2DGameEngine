@@ -175,6 +175,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BackToMainMenu.cpp" />
     <ClCompile Include="CoOpGameScene.cpp" />
     <ClCompile Include="DigDug.cpp" />
     <ClCompile Include="DigDugDeathState.cpp" />
@@ -214,6 +215,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClCompile Include="HighScoreLetter.cpp" />
     <ClCompile Include="HighScoreSaver.cpp" />
     <ClCompile Include="HighScoreScene.cpp" />
+    <ClCompile Include="HighScoreTableScene.cpp" />
     <ClCompile Include="LivesHUDComponent.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenuFadeIn.cpp" />
@@ -247,6 +249,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BackToMainMenu.h" />
     <ClInclude Include="CoOpGameScene.h" />
     <ClInclude Include="DigDug.h" />
     <ClInclude Include="DigDugDeathState.h" />
@@ -290,6 +293,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClInclude Include="HighScoreLetter.h" />
     <ClInclude Include="HighScoreSaver.h" />
     <ClInclude Include="HighScoreScene.h" />
+    <ClInclude Include="HighScoreTableScene.h" />
     <ClInclude Include="LivesHUDComponent.h" />
     <ClInclude Include="MainMenuFadeIn.h" />
     <ClInclude Include="MainMenuScene.h" />

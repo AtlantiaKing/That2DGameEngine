@@ -84,17 +84,17 @@ void digdug::HighScoreInput::Init()
 	that::InputManager::GetInstance().BindDigitalCommand(' ', that::InputManager::InputType::ONBUTTONDOWN,
 		std::make_unique<that::LambdaCommand>([this]()
 			{
-				if (m_CurLetter == static_cast<int>(m_pLetters.size())) that::SceneManager::GetInstance().LoadScene(GameData::GetInstance().GetMainMenuScene());
+				if (m_CurLetter == static_cast<int>(m_pLetters.size())) that::SceneManager::GetInstance().LoadScene(GameData::GetInstance().GetHighScoreTableScene());
 			}));
 	that::InputManager::GetInstance().BindDigitalCommand(0, that::InputManager::GamepadButton::A, that::InputManager::InputType::ONBUTTONDOWN,
 		std::make_unique<that::LambdaCommand>([this]()
 			{
-				if (m_CurLetter == static_cast<int>(m_pLetters.size())) that::SceneManager::GetInstance().LoadScene(GameData::GetInstance().GetMainMenuScene());
+				if (m_CurLetter == static_cast<int>(m_pLetters.size())) that::SceneManager::GetInstance().LoadScene(GameData::GetInstance().GetHighScoreTableScene());
 			}));
 	that::InputManager::GetInstance().BindDigitalCommand(1, that::InputManager::GamepadButton::A, that::InputManager::InputType::ONBUTTONDOWN,
 		std::make_unique<that::LambdaCommand>([this]()
 			{
-				if (m_CurLetter == static_cast<int>(m_pLetters.size())) that::SceneManager::GetInstance().LoadScene(GameData::GetInstance().GetMainMenuScene());
+				if (m_CurLetter == static_cast<int>(m_pLetters.size())) that::SceneManager::GetInstance().LoadScene(GameData::GetInstance().GetHighScoreTableScene());
 			}));
 }
 

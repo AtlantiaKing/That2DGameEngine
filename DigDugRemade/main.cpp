@@ -15,6 +15,7 @@
 #include "VersusGameScene.h"
 #include "CoOpGameScene.h"
 #include "HighScoreScene.h"
+#include "HighScoreTableScene.h"
 
 #include <vector>
 
@@ -26,6 +27,7 @@ void Setup()
 	that::SceneManager::GetInstance().AddScene(digdug::VersusGameScene::Load);
 	that::SceneManager::GetInstance().AddScene(digdug::CoOpGameScene::Load);
 	that::SceneManager::GetInstance().AddScene(digdug::HighScoreScene::Load);
+	that::SceneManager::GetInstance().AddScene(digdug::HighScoreTable::Load);
 }
 
 int main(int, char* [])
