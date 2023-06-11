@@ -10,6 +10,7 @@
 #include "TextureManager.h"
 #include "SceneManager.h"
 #include "Transform.h"
+#include "AudioSource.h"
 
 #include "DigDugPumpState.h"
 
@@ -43,6 +44,7 @@ std::unique_ptr<digdug::DigDugState> digdug::DigDugWalkingState::Update()
 	if (m_IsWalking != isWalking)
 	{
 		m_pPlayer->GetComponent<that::SpriteRenderer>()->SetTimePerTile(isWalking ? m_SpriteTime : FLT_MAX);
+		m_pPlayer->GetComponent<that::AudioSource>()->ChangePlayState(!isWalking);
 	}
 
 	m_IsWalking = isWalking;
@@ -88,4 +90,6 @@ void digdug::DigDugWalkingState::StateEnd()
 	{
 		that::InputManager::GetInstance().Unbind(pCommand);
 	}
+
+	m_pPlayer->GetComponent<that::AudioSource>()->ChangePlayState(true);
 }
