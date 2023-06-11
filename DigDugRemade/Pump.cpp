@@ -117,10 +117,10 @@ void digdug::Pump::PumpToEnemy()
 	if (m_pPumpTo->GetHealth() <= 0)
 	{
 		GetOwner()->SetActive(false);
-		that::ServiceLocator::GetAudio().Play("EnemyDeath.wav", 1.0f);
+		that::ServiceLocator::GetAudio().Play("Sounds/EnemyDeath.wav", 1.0f);
 	}
 	else
 	{
-		that::ServiceLocator::GetAudio().Play("PumpToEnemy.wav", 1.0f);
+		that::ServiceLocator::GetAudio().Play("Sounds/PumpToEnemy.wav", 1.0f);
 	}
 }

@@ -108,7 +108,7 @@ void digdug::LevelLoader::OnFrameStart()
 
 	that::GameObject* pPlayerAudio{ GetOwner()->CreateGameObject("PlayerAudio") };	
 	that::AudioSource* pAudioSource{ pPlayerAudio->AddComponent<that::AudioSource>() };
-	pAudioSource->SetSound("walkmusic.wav");
+	pAudioSource->SetSound("Sounds/walkmusic.wav");
 	pAudioSource->SetLooping(true);
 	DigDugAudio* pDigDugAudio{ pPlayerAudio->AddComponent<DigDugAudio>() };
 
@@ -243,7 +243,6 @@ that::GameObject* digdug::LevelLoader::CreatePlayer(int index, DigDugAudio* pDig
 	// Player
 	that::GameObject* pPlayer{ GetOwner()->CreateGameObject("Player") };
 	pPlayer->SetTag("DigDug");
-	const auto& pPlayerTexture{ that::TextureManager::GetInstance().LoadTexture("MainCharacter.png") };
 	pPlayer->AddComponent<that::SpriteRenderer>();
 	pPlayer->AddComponent<GridTransform>()->ShouldRotateWhenGoingUp(true);
 	that::BoxCollider* pCollider{ pPlayer->AddComponent<that::BoxCollider>() };
@@ -271,7 +270,7 @@ that::GameObject* digdug::LevelLoader::CreatePlayer(int index, DigDugAudio* pDig
 	pPump->AddComponent<Pump>();
 	pPump->AddComponent<that::TextureMask>()->SetPercentage(true, 1.0f);
 	// Move the pump one cell to the right
-	pPump->GetComponent<that::Transform>()->Translate((pPlayerTexture->GetSize().x + pPumpTexture->GetSize().x) / 2.0f, 0.0f);
+	pPump->GetComponent<that::Transform>()->Translate((cellSize + pPumpTexture->GetSize().x) / 2.0f, 0.0f);
 	that::GameObject* pCollisionDetector{ pPump->CreateGameObject("CollisionDetection") };
 	pCollisionDetector->AddComponent<DisableOnGroundHit>();
 
