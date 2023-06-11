@@ -14,7 +14,7 @@ digdug::FygarDeathState::FygarDeathState(that::GameObject* pFygar)
 {
 }
 
-std::unique_ptr<digdug::EnemyState> digdug::FygarDeathState::Update()
+std::unique_ptr<digdug::State> digdug::FygarDeathState::Update()
 {
 	m_WaitTime += that::Timer::GetInstance().GetElapsed();
 

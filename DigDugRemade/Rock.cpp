@@ -16,7 +16,7 @@ void digdug::Rock::Init()
 
 void digdug::Rock::Update()
 {
-	std::unique_ptr<EnemyState> pNewState{ m_pState->Update() };
+	std::unique_ptr<State> pNewState{ m_pState->Update() };
 
 	if (pNewState) ChangeState(std::move(pNewState));
 }
@@ -52,7 +52,7 @@ that::GameObject* digdug::Rock::GetLastPlayer() const
 	return m_pLastPlayer;
 }
 
-void digdug::Rock::ChangeState(std::unique_ptr<digdug::EnemyState> pState)
+void digdug::Rock::ChangeState(std::unique_ptr<digdug::State> pState)
 {
 	if (m_pState) m_pState->StateEnd();
 

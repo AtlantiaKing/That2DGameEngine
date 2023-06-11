@@ -23,7 +23,7 @@ void digdug::Fygar::OnDestroy()
 
 void digdug::Fygar::Update()
 {
-	std::unique_ptr<EnemyState> pNewState{ m_pState->Update() };
+	std::unique_ptr<State> pNewState{ m_pState->Update() };
 
 	if (pNewState) ChangeState(std::move(pNewState));
 }
@@ -63,7 +63,7 @@ void digdug::Fygar::Reset()
 	Start(m_pPlayers, m_IsPlayerControlled);
 }
 
-void digdug::Fygar::ChangeState(std::unique_ptr<digdug::EnemyState> pState)
+void digdug::Fygar::ChangeState(std::unique_ptr<digdug::State> pState)
 {
 	if (m_pState) m_pState->StateEnd();
 

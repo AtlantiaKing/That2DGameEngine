@@ -18,7 +18,7 @@ digdug::FygarGhostPlayer::~FygarGhostPlayer()
 	that::InputManager::GetInstance().Unbind(m_pMoveCommand);
 }
 
-std::unique_ptr<digdug::EnemyState> digdug::FygarGhostPlayer::Update()
+std::unique_ptr<digdug::State> digdug::FygarGhostPlayer::Update()
 {
 	return nullptr;
 }

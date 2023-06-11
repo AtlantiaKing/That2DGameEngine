@@ -1,6 +1,6 @@
 #pragma once
 
-#include "EnemyState.h"
+#include "State.h"
 
 namespace digdug
 {
@@ -8,6 +8,6 @@ namespace digdug
 	{
 	public:
 		virtual ~FygarLogic() = default;
-		virtual std::unique_ptr<EnemyState> Update() = 0;
+		virtual std::unique_ptr<State> Update() = 0;
 	};
 }

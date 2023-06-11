@@ -5,6 +5,7 @@
 #include "SpriteRenderer.h"
 #include "GridTransform.h"	
 #include "DigDug.h"
+#include "GameState.h"
 
 #include "InputManager.h"
 #include "TextureManager.h"
@@ -29,6 +30,8 @@ digdug::DigDugWalkingState::DigDugWalkingState(that::GameObject* pPlayer)
 
 std::unique_ptr<digdug::DigDugState> digdug::DigDugWalkingState::HandleInput(const glm::ivec2&, bool pumping, bool pumpHold)
 {
+	if (!m_pGame->IsInGame()) return nullptr;
+
 	if (pumping && !pumpHold) return std::make_unique<DigDugPumpState>(m_pPlayer);
 
 	return nullptr;
@@ -36,6 +39,8 @@ std::unique_ptr<digdug::DigDugState> digdug::DigDugWalkingState::HandleInput(con
 
 std::unique_ptr<digdug::DigDugState> digdug::DigDugWalkingState::Update()
 {
+	if (!m_pGame->IsInGame()) return nullptr;
+
 	const auto& curPosition{ m_pPlayer->GetTransform()->GetLocalPosition() };
 
 	if (abs(m_PrevPosition.x) < FLT_EPSILON && abs(m_PrevPosition.y) < FLT_EPSILON)
@@ -86,6 +91,8 @@ void digdug::DigDugWalkingState::StateEnter()
 		m_pMoveCommands.push_back(that::InputManager::GetInstance().BindAnalog2DAxisCommand(isMultiplayer, true, std::make_unique<GridMoveCommand>(m_pTransform)));
 		m_pShootPumpCommands.push_back(that::InputManager::GetInstance().BindDigitalCommand(isMultiplayer, that::InputManager::GamepadButton::A, that::InputManager::InputType::ONBUTTONDOWN, std::make_unique<ShootPumpCommand>(pDigDug)));
 	}
+
+	m_pGame = m_pPlayer->GetParent()->GetComponent<GameState>();
 }
 
 void digdug::DigDugWalkingState::StateEnd()

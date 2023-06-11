@@ -31,7 +31,7 @@ digdug::FygarRoamingPlayer::~FygarRoamingPlayer()
     that::InputManager::GetInstance().Unbind(m_pMoveCommand);
 }
 
-std::unique_ptr<digdug::EnemyState> digdug::FygarRoamingPlayer::Update()
+std::unique_ptr<digdug::State> digdug::FygarRoamingPlayer::Update()
 {
     if (m_ActivateFire) return std::make_unique<FygarAttackState>(m_pFygarObj);
 

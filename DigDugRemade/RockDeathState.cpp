@@ -11,7 +11,7 @@ digdug::RockDeathState::RockDeathState(that::GameObject* pRock)
 {
 }
 
-std::unique_ptr<digdug::EnemyState> digdug::RockDeathState::Update()
+std::unique_ptr<digdug::State> digdug::RockDeathState::Update()
 {
 	if (m_pSprite->GetTile() == 2) m_pRock->Destroy();
 

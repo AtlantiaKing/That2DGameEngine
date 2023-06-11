@@ -15,7 +15,7 @@ digdug::RockWaitForPlayerState::RockWaitForPlayerState(that::GameObject* pRock)
 {
 }
 
-std::unique_ptr<digdug::EnemyState> digdug::RockWaitForPlayerState::Update()
+std::unique_ptr<digdug::State> digdug::RockWaitForPlayerState::Update()
 {
     const float cellSize{ m_pGrid->GetCellSize() };
     const glm::vec2 rockGridPos{ m_pRock->GetTransform()->GetLocalPosition() / cellSize };

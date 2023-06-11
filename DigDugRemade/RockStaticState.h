@@ -1,6 +1,6 @@
 #pragma once
 
-#include "EnemyState.h"
+#include "State.h"
 
 namespace that
 {
@@ -11,13 +11,13 @@ namespace digdug
 {
 	class GridComponent;
 
-	class RockStaticState : public EnemyState
+	class RockStaticState : public State
 	{
 	public:
 		RockStaticState(that::GameObject* pRock);
 		virtual ~RockStaticState() = default;
 
-		virtual std::unique_ptr<EnemyState> Update() override;
+		virtual std::unique_ptr<State> Update() override;
 		virtual void StateEnter() override;
 		virtual void StateEnd() override;
 	private:

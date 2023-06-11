@@ -89,6 +89,9 @@
     <Filter Include="Components\Game\Audio">
       <UniqueIdentifier>{c02159e3-0f80-4395-b431-fb40a331dd19}</UniqueIdentifier>
     </Filter>
+    <Filter Include="States\GameStates">
+      <UniqueIdentifier>{596fa394-cdef-4d1a-b4be-5421b036cabf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -299,6 +302,15 @@
     <ClCompile Include="MuteCommand.cpp">
       <Filter>Commands\Input</Filter>
     </ClCompile>
+    <ClCompile Include="EndRoundState.cpp">
+      <Filter>States\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="InGameState.cpp">
+      <Filter>States\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="StartRoundState.cpp">
+      <Filter>States\GameStates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameScene.h">
@@ -399,9 +411,6 @@
     </ClInclude>
     <ClInclude Include="DigDugWalkingState.h">
       <Filter>States\DigDug</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyState.h">
-      <Filter>States\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="DigDugState.h">
       <Filter>States\DigDug</Filter>
@@ -519,6 +528,18 @@
     </ClInclude>
     <ClInclude Include="MuteCommand.h">
       <Filter>Commands\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="EndRoundState.h">
+      <Filter>States\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="InGameState.h">
+      <Filter>States\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="StartRoundState.h">
+      <Filter>States\GameStates</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

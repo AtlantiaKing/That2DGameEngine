@@ -1,9 +1,11 @@
 #pragma once
 
 #include "Component.h"
-#include "Observer.h"
+
+#include "State.h"
 
 #include <vector>
+#include <memory>
 
 namespace that
 {
@@ -15,7 +17,7 @@ namespace digdug
 {
 	class HealthComponent;
 
-	class GameState final : public that::Component, public that::Observer<that::GameObject>
+	class GameState final : public that::Component
 	{
 	public:
 		GameState() = default;
@@ -30,24 +32,28 @@ namespace digdug
 		virtual void Update() override;
 		virtual void LateUpdate() override;
 		virtual void OnDestroy() override;
-		virtual void Notify(const that::GameObject& pEnemy);
 
-		void RestartRound() const;
+		void RestartRound();
+		void GoToNextRound() const;
+
+		std::vector<HealthComponent*>& GetEnemies();
+		std::vector<HealthComponent*>& GetPlayers();
+
+		void Clear();
+
+		bool IsInGame() const;
 
 	private:
+		void ChangeState(std::unique_ptr<State> pState);
 		void InitEnemies();
 		void InitPlayers();
-		void GoToNextRound() const;
+
+		std::unique_ptr<State> m_pState{};
 
 		bool m_Init{};
 
 		std::vector<HealthComponent*> m_pEnemies{};
 		std::vector<HealthComponent*> m_pPlayers{};
-
-		bool m_Victory{};
-		bool m_GameOver{};
-		float m_WaitTimer{};
-		const float m_TimeTillNextLevel{ 2.5f };
 
 		that::Command* m_pSkipLevelCommand{};
 

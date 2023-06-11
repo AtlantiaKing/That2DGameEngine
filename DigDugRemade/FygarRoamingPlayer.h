@@ -18,7 +18,7 @@ namespace digdug
 		FygarRoamingPlayer(that::GameObject* pFygar);
 		virtual ~FygarRoamingPlayer();
 
-		virtual std::unique_ptr<EnemyState> Update() override;
+		virtual std::unique_ptr<State> Update() override;
 
 	private:
 		that::GameObject* m_pFygarObj{};

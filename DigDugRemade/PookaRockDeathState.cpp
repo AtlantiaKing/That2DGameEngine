@@ -14,7 +14,7 @@ digdug::PookaRockDeathState::PookaRockDeathState(that::GameObject* pPooka)
 {
 }
 
-std::unique_ptr<digdug::EnemyState> digdug::PookaRockDeathState::Update()
+std::unique_ptr<digdug::State> digdug::PookaRockDeathState::Update()
 {
 	m_WaitTime += that::Timer::GetInstance().GetElapsed();
 

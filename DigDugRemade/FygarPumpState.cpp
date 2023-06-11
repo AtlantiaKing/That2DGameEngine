@@ -19,7 +19,7 @@ digdug::FygarPumpState::FygarPumpState(that::GameObject* pFygar)
 {
 }
 
-std::unique_ptr<digdug::EnemyState> digdug::FygarPumpState::Update()
+std::unique_ptr<digdug::State> digdug::FygarPumpState::Update()
 {
 	if (m_Dead) return std::make_unique<FygarDeathState>(m_pFygarObj);
 

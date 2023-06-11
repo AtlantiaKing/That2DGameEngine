@@ -1,6 +1,6 @@
 #pragma once
 
-#include "EnemyState.h"
+#include "State.h"
 
 #include "glm/vec2.hpp"
 
@@ -14,13 +14,13 @@ namespace digdug
 	class Pooka;
 	class GridComponent;
 
-	class PookaGhostState : public EnemyState
+	class PookaGhostState : public State
 	{
 	public:
 		PookaGhostState(that::GameObject* pPooka);
 		virtual ~PookaGhostState() = default;
 
-		virtual std::unique_ptr<EnemyState> Update() override;
+		virtual std::unique_ptr<State> Update() override;
 		virtual void StateEnter() override;
 		virtual void StateEnd() override;
 

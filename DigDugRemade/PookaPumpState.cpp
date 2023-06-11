@@ -19,7 +19,7 @@ digdug::PookaPumpState::PookaPumpState(that::GameObject* pPooka)
 {
 }
 
-std::unique_ptr<digdug::EnemyState> digdug::PookaPumpState::Update()
+std::unique_ptr<digdug::State> digdug::PookaPumpState::Update()
 {
 	if (m_Dead) return std::make_unique<PookaDeathState>(m_pPookaObj);
 

@@ -4,6 +4,7 @@
 
 #include "SpriteRenderer.h"
 #include "GridTransform.h"
+#include "GameState.h"
 
 #include "PookaGhostState.h"
 
@@ -16,8 +17,10 @@ digdug::PookaRoamingState::PookaRoamingState(that::GameObject* pPooka)
 }
 
 
-std::unique_ptr<digdug::EnemyState> digdug::PookaRoamingState::Update()
+std::unique_ptr<digdug::State> digdug::PookaRoamingState::Update()
 {
+	if (!m_pGame->IsInGame()) return nullptr;
+
 	m_RoamTime += that::Timer::GetInstance().GetElapsed();
 	if (m_RoamTime > m_TimeUntilGhost) return std::make_unique<PookaGhostState>(m_pPookaObj);
 
@@ -37,6 +40,8 @@ void digdug::PookaRoamingState::StateEnter()
 
 	m_RoamTime = 0.0f;
 	m_TimeUntilGhost = static_cast<float>(rand()) / RAND_MAX * (m_MaxTimeUntilGhost - m_MinTimeUntilGhost) + m_MinTimeUntilGhost;
+
+	m_pGame = m_pPookaObj->GetParent()->GetComponent<GameState>();
 }
 
 void digdug::PookaRoamingState::StateEnd()

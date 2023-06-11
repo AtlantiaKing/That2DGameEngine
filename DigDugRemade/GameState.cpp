@@ -18,7 +18,18 @@
 
 #include "LambdaCommand.h"
 
+#include "StartRoundState.h"
+#include "State.h"
+
 #include "SDL_keyboard.h"
+
+void digdug::GameState::ChangeState(std::unique_ptr<State> pState)
+{
+	if (m_pState) m_pState->StateEnd();
+
+	m_pState = std::move(pState);
+	if(m_pState) m_pState->StateEnter();
+}
 
 void digdug::GameState::InitEnemies()
 {
@@ -28,7 +39,6 @@ void digdug::GameState::InitEnemies()
 		if (pHealth && pChild->GetTag() != "DigDug")
 		{
 			m_pEnemies.push_back(pHealth);
-			pHealth->OnDeath.AddListener(this);
 		}
 	}
 }
@@ -41,7 +51,6 @@ void digdug::GameState::InitPlayers()
 		if (pHealth && pChild->GetTag() == "DigDug")
 		{
 			m_pPlayers.push_back(pHealth);
-			pHealth->OnDeath.AddListener(this);
 		}
 	}
 }
@@ -53,7 +62,7 @@ void digdug::GameState::GoToNextRound() const
 
 	const bool isSinglePlayerScene{ sceneManager.GetCurrentSceneIndex() == gameData.GetSinglePlayerScene() };
 
-	if (GameData::GetInstance().GetRoundNumber() == m_NrRounds)
+	if (GameData::GetInstance().GetRoundNumber() == GameData::GetInstance().GetAmountRounds())
 	{
 		if (isSinglePlayerScene)
 		{
@@ -72,6 +81,27 @@ void digdug::GameState::GoToNextRound() const
 	GameData::GetInstance().IncrementRoundNumber();
 }
 
+std::vector<digdug::HealthComponent*>& digdug::GameState::GetEnemies()
+{
+	return m_pEnemies;
+}
+
+std::vector<digdug::HealthComponent*>& digdug::GameState::GetPlayers()
+{
+	return m_pPlayers;
+}
+
+void digdug::GameState::Clear()
+{
+	m_pEnemies.clear();
+	m_pPlayers.clear();
+}
+
+bool digdug::GameState::IsInGame() const
+{
+	return dynamic_cast<StartRoundState*>(m_pState.get()) == nullptr;
+}
+
 void digdug::GameState::Init()
 {
 	m_pSkipLevelCommand = that::InputManager::GetInstance().BindDigitalCommand(SDLK_PAGEUP, that::InputManager::InputType::ONBUTTONDOWN,
@@ -83,34 +113,13 @@ void digdug::GameState::Init()
 
 void digdug::GameState::Update()
 {
-	if (m_Victory || m_GameOver)
-	{
-		m_WaitTimer += that::Timer::GetInstance().GetElapsed();
+	if (m_pState == nullptr) return;
 
-		if (m_WaitTimer > m_TimeTillNextLevel)
-		{
-			if (m_Victory)
-			{
-				GoToNextRound();
-			}
-			else
-			{
-				auto& sceneManager{ that::SceneManager::GetInstance() };
-				GameData& gameData{ GameData::GetInstance() };
+	std::unique_ptr<State> pNewState{ m_pState->Update() };
+	
+	if (pNewState == nullptr) return;
 
-				const bool isSinglePlayerScene{ sceneManager.GetCurrentSceneIndex() == gameData.GetSinglePlayerScene() };
-
-				if (isSinglePlayerScene && gameData.TryNewHighScore(gameData.GetCurrentScores(0)))
-				{
-					sceneManager.LoadScene(gameData.GetHighScoreScene());
-				}
-				else
-				{
-					sceneManager.LoadScene(gameData.GetMainMenuScene());
-				}
-			}
-		}
-	}
+	ChangeState(std::move(pNewState));
 }
 
 void digdug::GameState::LateUpdate()
@@ -120,88 +129,17 @@ void digdug::GameState::LateUpdate()
 		m_Init = true;
 		InitEnemies();
 		InitPlayers();
+		ChangeState(std::make_unique<StartRoundState>(this));
 	}
 }
 
 void digdug::GameState::OnDestroy()
 {
-	for (HealthComponent* pHealth : m_pEnemies)
-	{
-		pHealth->OnDeath.RemoveListener(this);
-	}
-	for (HealthComponent* pHealth : m_pPlayers)
-	{
-		pHealth->OnDeath.RemoveListener(this);
-	}
-
 	that::InputManager::GetInstance().Unbind(m_pSkipLevelCommand);
+	ChangeState(nullptr);
 }
 
-void digdug::GameState::Notify(const that::GameObject& pEntity)
-{
-	if (m_Victory || m_GameOver) return;
-
-	for (HealthComponent* pHealth : m_pEnemies)
-	{
-		if (&pEntity == pHealth->GetOwner())
-		{
-			pHealth->OnDeath.RemoveListener(this);
-			m_pEnemies.erase(std::remove(begin(m_pEnemies), end(m_pEnemies), pHealth));
-			break;
-		}
-	}
-	for (HealthComponent* pHealth : m_pPlayers)
-	{
-		if (&pEntity == pHealth->GetOwner())
-		{
-			pHealth->OnDeath.RemoveListener(this);
-			m_pPlayers.erase(std::remove(begin(m_pPlayers), end(m_pPlayers), pHealth));
-			break;
-		}
-	}
-
-	if (m_pEnemies.size() == 0)
-	{
-		m_Victory = true;
-		that::ServiceLocator::GetAudio().Play("Sounds/Victory.wav", 1.0f);
-	}
-
-	if (m_pPlayers.size() == 0)
-	{
-		const bool isCoOpScene{ that::SceneManager::GetInstance().GetCurrentSceneIndex() == GameData::GetInstance().GetCoOpPlayerScene()};
-
-		if (isCoOpScene)
-		{
-			for (that::GameObject* pChild : GetOwner()->GetChildren())
-			{
-				if (pChild == &pEntity) continue;
-
-				if (pChild->GetTag() == "DigDug")
-				{
-					if (pChild->IsActive()) return;
-				}
-			}
-		}
-
-		m_GameOver = true;
-		that::ServiceLocator::GetAudio().Play("Sounds/GameOver.wav", 1.0f);
-	}
-
-	if (m_Victory || m_GameOver)
-	{
-		for (that::GameObject* pChild : GetOwner()->GetChildren())
-		{
-			if (pChild->HasComponent<WorldTile>()) continue;
-
-			pChild->Destroy();
-		}
-
-		m_pEnemies.clear();
-		m_pPlayers.clear();
-	}
-}
-
-void digdug::GameState::RestartRound() const
+void digdug::GameState::RestartRound()
 {
 	for (auto pEnemyHealth : m_pEnemies)
 	{
@@ -215,4 +153,6 @@ void digdug::GameState::RestartRound() const
 			pEnemyHealth->GetOwner()->GetComponent<Fygar>()->Reset();
 		}
 	}
+
+	ChangeState(std::make_unique<StartRoundState>(this));
 }

@@ -18,7 +18,7 @@ namespace digdug
 		FygarGhostPlayer(that::GameObject* pFygar);
 		virtual ~FygarGhostPlayer();
 
-		virtual std::unique_ptr<EnemyState> Update() override;
+		virtual std::unique_ptr<State> Update() override;
 
 	private:
 		that::GameObject* m_pFygarObj{};

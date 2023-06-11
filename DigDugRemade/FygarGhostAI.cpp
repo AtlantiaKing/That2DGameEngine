@@ -13,7 +13,7 @@ digdug::FygarGhostAI::FygarGhostAI(that::GameObject* pFygar)
 {
 }
 
-std::unique_ptr<digdug::EnemyState> digdug::FygarGhostAI::Update()
+std::unique_ptr<digdug::State> digdug::FygarGhostAI::Update()
 {
     that::Transform* pTransform{ m_pFygarObj->GetTransform() };
     const auto& pos{ pTransform->GetLocalPosition() };

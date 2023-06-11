@@ -15,7 +15,7 @@ digdug::RockStaticState::RockStaticState(that::GameObject* pRock)
 {
 }
 
-std::unique_ptr<digdug::EnemyState> digdug::RockStaticState::Update()
+std::unique_ptr<digdug::State> digdug::RockStaticState::Update()
 {
 	glm::vec2 underPos{ m_pRock->GetTransform()->GetLocalPosition() };
 	glm::ivec2 gridPos{ m_pRock->GetTransform()->GetLocalPosition() };

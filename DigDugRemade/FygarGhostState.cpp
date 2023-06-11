@@ -22,7 +22,7 @@ digdug::FygarGhostState::FygarGhostState(that::GameObject* pFygar)
 {
 }
 
-std::unique_ptr<digdug::EnemyState> digdug::FygarGhostState::Update()
+std::unique_ptr<digdug::State> digdug::FygarGhostState::Update()
 {
     m_pLogic->Update();
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "EnemyState.h"
+#include "State.h"
 
 namespace that
 {
@@ -9,13 +9,13 @@ namespace that
 
 namespace digdug
 {
-	class PookaDeathState final : public EnemyState
+	class PookaDeathState final : public State
 	{
 	public:
 		PookaDeathState(that::GameObject* pPooka);
 		virtual ~PookaDeathState() = default;
 
-		virtual std::unique_ptr<digdug::EnemyState> Update() override;
+		virtual std::unique_ptr<digdug::State> Update() override;
 		virtual void StateEnter() override;
 		virtual void StateEnd() override;
 

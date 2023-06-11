@@ -3,7 +3,7 @@
 #include "Component.h"
 #include "Observer.h"
 
-#include "EnemyState.h"
+#include "State.h"
 
 #include <vector>
 #include <memory>
@@ -42,12 +42,12 @@ namespace digdug
 
 		void Reset();
 	private:
-		void ChangeState(std::unique_ptr<digdug::EnemyState> pState);
+		void ChangeState(std::unique_ptr<digdug::State> pState);
 
 		std::vector<that::GameObject*> m_pPlayers{};
 		int m_FollowingPlayerIdx{};
 			
-		std::unique_ptr<EnemyState> m_pState{};
+		std::unique_ptr<State> m_pState{};
 
 		glm::vec2 m_Spawnpoint{};
 	};

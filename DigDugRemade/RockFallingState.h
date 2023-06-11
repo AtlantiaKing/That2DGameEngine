@@ -1,6 +1,6 @@
 #pragma once
 
-#include "EnemyState.h"
+#include "State.h"
 #include "Observer.h"
 
 #include "glm/vec2.hpp"
@@ -16,13 +16,13 @@ namespace digdug
 {
 	class GridComponent;
 
-	class RockFallingState : public EnemyState, public that::Observer<that::CollisionData>
+	class RockFallingState : public State, public that::Observer<that::CollisionData>
 	{
 	public:
 		RockFallingState(that::GameObject* pRock);
 		virtual ~RockFallingState() = default;
 
-		virtual std::unique_ptr<EnemyState> Update() override;
+		virtual std::unique_ptr<State> Update() override;
 		virtual void StateEnter() override;
 		virtual void StateEnd() override;
 		virtual void Notify(const that::CollisionData& collision) override;

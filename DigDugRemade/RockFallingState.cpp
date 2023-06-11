@@ -28,7 +28,7 @@ digdug::RockFallingState::RockFallingState(that::GameObject* pRock)
 {
 }
 
-std::unique_ptr<digdug::EnemyState> digdug::RockFallingState::Update()
+std::unique_ptr<digdug::State> digdug::RockFallingState::Update()
 {
 	const float cellSize{ m_pGrid->GetCellSize() };
 	const auto& position{ m_pRock->GetTransform()->GetLocalPosition() };

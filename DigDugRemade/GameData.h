@@ -32,6 +32,8 @@ namespace digdug
 
 		void SetCurrentScore(int index, int score);
 		int GetCurrentScores(int index) const;
+
+		int GetAmountRounds() const;
 	private:
 		friend class Singleton<GameData>;
 		GameData();
@@ -43,6 +45,8 @@ namespace digdug
 
 		std::vector<int> m_CurrentScores{};
 		std::vector<int> m_CurrentLives{};
+
+		const int m_NrRounds{ 4 };
 
 		const int m_MainMenuScene{ 0 };
 		const int m_SinglePlayerScene{ 1 };

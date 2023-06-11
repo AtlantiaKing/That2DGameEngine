@@ -17,7 +17,7 @@ namespace digdug
 		FygarRoamingAI(that::GameObject* pFygar);
 		virtual ~FygarRoamingAI() = default;
 
-		virtual std::unique_ptr<EnemyState> Update() override;
+		virtual std::unique_ptr<State> Update() override;
 	private:
 		void UpdateMovement();
 

@@ -14,7 +14,7 @@ digdug::RockBreakingFreeState::RockBreakingFreeState(that::GameObject* pRock)
 {
 }
 
-std::unique_ptr<digdug::EnemyState> digdug::RockBreakingFreeState::Update()
+std::unique_ptr<digdug::State> digdug::RockBreakingFreeState::Update()
 {
 	m_CurTime += that::Timer::GetInstance().GetElapsed();
 	if (m_CurTime > m_TimeUntilFall) return std::make_unique<RockFallingState>(m_pRock);

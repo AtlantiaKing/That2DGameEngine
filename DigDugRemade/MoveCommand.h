@@ -13,7 +13,7 @@ namespace digdug
 	class MoveCommand final : public that::DataCommand<glm::vec2>
 	{
 	public:
-		MoveCommand(that::Transform* pTransform, float moveSpeed) : m_pTransform{ pTransform }, m_MoveSpeed{ moveSpeed } {}
+		MoveCommand(that::Transform* pTransform, float moveSpeed);
 		virtual ~MoveCommand() = default;
 
 		virtual void Execute() override;

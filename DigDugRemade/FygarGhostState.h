@@ -1,6 +1,6 @@
 #pragma once
 
-#include "EnemyState.h"
+#include "State.h"
 
 #include "glm/vec2.hpp"
 
@@ -17,13 +17,13 @@ namespace digdug
 	class GridComponent;
 	class FygarLogic;
 
-	class FygarGhostState : public EnemyState
+	class FygarGhostState : public State
 	{
 	public:
 		FygarGhostState(that::GameObject* pFygar);
 		virtual ~FygarGhostState() = default;
 
-		virtual std::unique_ptr<EnemyState> Update() override;
+		virtual std::unique_ptr<State> Update() override;
 		virtual void StateEnter() override;
 		virtual void StateEnd() override;
 

@@ -23,7 +23,7 @@ void digdug::Pooka::OnDestroy()
 
 void digdug::Pooka::Update()
 {
-	std::unique_ptr<EnemyState> pNewState{ m_pState->Update() };
+	std::unique_ptr<State> pNewState{ m_pState->Update() };
 
 	if (pNewState) ChangeState(std::move(pNewState));
 }
@@ -63,7 +63,7 @@ void digdug::Pooka::Reset()
 	Start(m_pPlayers);
 }
 
-void digdug::Pooka::ChangeState(std::unique_ptr<digdug::EnemyState> pState)
+void digdug::Pooka::ChangeState(std::unique_ptr<digdug::State> pState)
 {
 	if (m_pState) m_pState->StateEnd();
 

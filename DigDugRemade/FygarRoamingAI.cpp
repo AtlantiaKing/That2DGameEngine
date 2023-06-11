@@ -16,7 +16,7 @@ digdug::FygarRoamingAI::FygarRoamingAI(that::GameObject* pFygar)
 	m_TimeUntilStateChange = static_cast<float>(rand()) / RAND_MAX * (m_MaxTimeUntilState - m_MinTimeUntilState) + m_MinTimeUntilState;
 }
 
-std::unique_ptr<digdug::EnemyState> digdug::FygarRoamingAI::Update()
+std::unique_ptr<digdug::State> digdug::FygarRoamingAI::Update()
 {
 	m_RoamTime += that::Timer::GetInstance().GetElapsed();
 	if (m_RoamTime > m_TimeUntilStateChange)

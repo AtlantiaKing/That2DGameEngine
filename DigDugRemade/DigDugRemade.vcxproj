@@ -187,6 +187,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClCompile Include="DigDugWalkingState.cpp" />
     <ClCompile Include="DisableOnGroundHit.cpp" />
     <ClCompile Include="DisablePumpCommand.cpp" />
+    <ClCompile Include="EndRoundState.cpp" />
     <ClCompile Include="EnemyBehaviour.cpp" />
     <ClCompile Include="EnemyMovement.cpp" />
     <ClCompile Include="FireBreath.cpp" />
@@ -218,6 +219,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClCompile Include="HighScoreSaver.cpp" />
     <ClCompile Include="HighScoreScene.cpp" />
     <ClCompile Include="HighScoreTableScene.cpp" />
+    <ClCompile Include="InGameState.cpp" />
     <ClCompile Include="LivesHUDComponent.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenuFadeIn.cpp" />
@@ -243,6 +245,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClCompile Include="ScorePrefab.cpp" />
     <ClCompile Include="ShootPumpCommand.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
+    <ClCompile Include="StartRoundState.cpp" />
     <ClCompile Include="VersusGameScene.cpp" />
     <ClCompile Include="WorldTile.cpp" />
   </ItemGroup>
@@ -265,9 +268,12 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClInclude Include="DigDugWalkingState.h" />
     <ClInclude Include="DisableOnGroundHit.h" />
     <ClInclude Include="DisablePumpCommand.h" />
+    <ClInclude Include="EndRoundState.h" />
     <ClInclude Include="EnemyBehaviour.h" />
     <ClInclude Include="EnemyMovement.h" />
-    <ClInclude Include="EnemyState.h" />
+    <ClInclude Include="InGameState.h" />
+    <ClInclude Include="StartRoundState.h" />
+    <ClInclude Include="State.h" />
     <ClInclude Include="FireBreath.h" />
     <ClInclude Include="FloatingScore.h" />
     <ClInclude Include="Fygar.h" />

@@ -13,6 +13,7 @@ namespace that
 namespace digdug
 {
 	class GridTransform;
+	class GameState;
 
 	class DigDugWalkingState final : public DigDugState
 	{
@@ -35,5 +36,7 @@ namespace digdug
 
 		std::vector<that::Command*> m_pMoveCommands{};
 		std::vector<that::Command*> m_pShootPumpCommands{};
+
+		GameState* m_pGame{};
 	};
 }

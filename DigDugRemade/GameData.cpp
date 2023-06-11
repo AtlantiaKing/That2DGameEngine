@@ -115,6 +115,11 @@ int digdug::GameData::GetCurrentScores(int index) const
     return m_CurrentScores[index];
 }
 
+int digdug::GameData::GetAmountRounds() const
+{
+    return m_NrRounds;
+}
+
 digdug::GameData::GameData()
 {
     // Write to file

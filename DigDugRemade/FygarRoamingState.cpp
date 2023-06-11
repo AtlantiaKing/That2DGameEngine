@@ -6,6 +6,7 @@
 #include "SpriteRenderer.h"
 #include "GridTransform.h"
 #include "Fygar.h"
+#include "GameState.h"
 
 #include "FygarGhostState.h"
 #include "FygarAttackState.h"
@@ -21,8 +22,10 @@ digdug::FygarRoamingState::FygarRoamingState(that::GameObject* pFygar)
 {
 }
 
-std::unique_ptr<digdug::EnemyState> digdug::FygarRoamingState::Update()
+std::unique_ptr<digdug::State> digdug::FygarRoamingState::Update()
 {
+	if (!m_pGame->IsInGame()) return nullptr;
+
 	return m_pLogic->Update();
 }
 
@@ -43,6 +46,8 @@ void digdug::FygarRoamingState::StateEnter()
 	{
 		m_pLogic = std::make_unique<FygarRoamingAI>(m_pFygarObj);
 	}
+
+	m_pGame = m_pFygarObj->GetParent()->GetComponent<GameState>();
 }
 
 void digdug::FygarRoamingState::StateEnd()

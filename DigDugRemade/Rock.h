@@ -2,7 +2,7 @@
 
 #include "Component.h"
 
-#include "EnemyState.h"
+#include "State.h"
 
 #include <vector>
 
@@ -33,12 +33,12 @@ namespace digdug
 		that::GameObject* GetDiggingPlayer();
 		that::GameObject* GetLastPlayer() const;
 	private:
-		void ChangeState(std::unique_ptr<digdug::EnemyState> pState);
+		void ChangeState(std::unique_ptr<digdug::State> pState);
 
 		std::vector<that::GameObject*> m_pPlayers{};
 		that::GameObject* m_pLastPlayer{};
 
-		std::unique_ptr<EnemyState> m_pState{};
+		std::unique_ptr<State> m_pState{};
 
 		const float m_GridEpsilonX{ 0.5f };
 		const float m_GridEpsilonY{ 1.5f };
