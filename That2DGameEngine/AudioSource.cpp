@@ -40,10 +40,7 @@ void that::AudioSource::Play()
 	if (!CheckSoundExist()) return;
 
 	audio.SetLooping(m_Id, m_ShouldLoop);
-	if (m_Enabled && GetOwner()->IsActive())
-	{
-		audio.Play(m_Id, m_Volume);
-	}
+	audio.Play(m_Id, m_Volume);
 }
 
 bool that::AudioSource::CheckSoundExist()
@@ -81,8 +78,6 @@ void that::AudioSource::ChangePlayState(bool paused)
 		if (!CheckSoundExist()) return;
 	}
 
-	if (!CheckSoundExist()) return;
-
 	if (paused)
 	{
 		ServiceLocator::GetAudio().Pause(m_Id);
@@ -103,7 +98,7 @@ void that::AudioSource::SetLooping(bool shouldLoop)
 
 void that::AudioSource::OnEnable()
 {
-	if (m_IsPlaying) ChangePlayState(true);
+	if (m_IsPlaying) ChangePlayState(false);
 }
 
 void that::AudioSource::Update()
@@ -115,16 +110,13 @@ void that::AudioSource::Update()
 		if (!CheckSoundExist()) return;
 
 		audio.SetLooping(m_Id, m_ShouldLoop);
-		if (m_Enabled && GetOwner()->IsActive())
-		{
-			audio.Play(m_Id, m_Volume);
-		}
+		audio.Play(m_Id, m_Volume);
 	}
 }
 
 void that::AudioSource::OnDisable()
 {
-	if (m_IsPlaying) ChangePlayState(false);
+	if (m_IsPlaying) ChangePlayState(true);
 }
 
 void that::AudioSource::OnDestroy()
