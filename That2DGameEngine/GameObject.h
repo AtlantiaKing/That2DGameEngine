@@ -31,8 +31,8 @@ namespace that
 		void LateUpdate();
 		void UpdateCleanup();
 		void Render() const;
-		void OnDestroy();
-		void OnGUI();
+		void OnDestroy() const;
+		void OnGUI() const;
 
 		void SetParent(GameObject* pParent);
 		GameObject* GetParent() const { return m_pParent; };
@@ -55,7 +55,7 @@ namespace that
 		T* GetComponent() const;
 		template <class T>
 		std::vector<T*> GetComponents() const;
-		const std::vector<std::unique_ptr<Component>>& GetComponents() const { return m_pComponents; };
+		std::vector<Component*> GetComponents() const;
 		template <class T>
 		T* AddComponent();
 		template <class T>
@@ -69,8 +69,8 @@ namespace that
 		Scene* GetScene() const { return m_pScene; }
 
 	private:
-		void OnEnable();
-		void OnDisable();
+		void OnEnable() const;
+		void OnDisable() const;
 		bool Destroy(Component* pComponent);
 
 		std::string m_Name{};

@@ -15,27 +15,33 @@ that::GameObject::~GameObject() = default;
 
 that::GameObject* that::GameObject::CreateGameObject(const std::string& name)
 {
+	// Create a new gameobject
 	auto pGameObject{ std::make_unique<GameObject>(m_pScene, name) };
 
-	if (m_pTransform->IsDirty()) pGameObject->GetTransform()->EnableChangedFlag();
+	// Enable the dirty flag
+	pGameObject->GetTransform()->EnableChangedFlag();
 
+	// Store the raw pointer
 	auto pGameObjectPtr{ pGameObject.get() };
 
+	// Set the parent and add the gameobject to the children list
 	pGameObject->m_pParent = this;
 	m_pChildrenToAdd.push_back(std::move(pGameObject));
 
+	// Return the raw pointer to the new gameobject
 	return pGameObjectPtr;
 }
 
 void that::GameObject::Init()
 {
+	// Set the initialized flag
+	m_Initialized = true;
+
 	// Initialize every component
 	for (const auto& pComponent : m_pComponents)
 	{
 		pComponent->Init();
 	}
-
-	m_Initialized = true;
 }
 
 void that::GameObject::OnFrameStart()
@@ -43,6 +49,7 @@ void that::GameObject::OnFrameStart()
 	// Don't update if the gameobject is not active
 	if (!m_IsActive) return;
 
+	// Add any new components that have been added last frame
 	if (!m_pComponentsToAdd.empty())
 	{
 		std::vector<std::unique_ptr<Component>> pNewComponents{ std::move(m_pComponentsToAdd) };
@@ -54,20 +61,25 @@ void that::GameObject::OnFrameStart()
 		}
 	}
 
-	for (auto& pChild : m_pChildrenToAdd)
+	// Add any new children that have been added last frame
+	if (!m_pChildrenToAdd.empty())
 	{
-		pChild->Init();
-		m_pChildren.push_back(std::move(pChild));
-	}
-	m_pChildrenToAdd.clear();
+		std::vector<std::unique_ptr<GameObject>> pNewChildren{ std::move(m_pChildrenToAdd) };
 
-	// Update every component
+		for (auto& pChild : pNewChildren)
+		{
+			pChild->Init();
+			m_pChildren.push_back(std::move(pChild));
+		}
+	}
+
+	// Call OnFrameStart on every component
 	for (const auto& pComponent : m_pComponents)
 	{
 		if (pComponent->IsEnabled()) pComponent->OnFrameStart();
 	}
 
-	// Update every child
+	// Call OnFrameStart on every child
 	for (const auto& pChild : m_pChildren)
 	{
 		pChild->OnFrameStart();
@@ -203,7 +215,7 @@ void that::GameObject::Render() const
 	}
 }
 
-void that::GameObject::OnDestroy()
+void that::GameObject::OnDestroy() const
 {
 	// OnDestroy every component
 	for (const auto& pComponent : m_pComponents)
@@ -218,7 +230,7 @@ void that::GameObject::OnDestroy()
 	}
 }
 
-void that::GameObject::OnGUI()
+void that::GameObject::OnGUI() const
 {
 	// Don't render if the gameobject is not active
 	if (!m_IsActive) return;
@@ -236,7 +248,7 @@ void that::GameObject::OnGUI()
 	}
 }
 
-void that::GameObject::OnEnable()
+void that::GameObject::OnEnable() const
 {
 	// Don't call OnDisable and OnEnable when inside the update loop
 	if (m_IsUpdating) return;
@@ -254,7 +266,7 @@ void that::GameObject::OnEnable()
 	}
 }
 
-void that::GameObject::OnDisable()
+void that::GameObject::OnDisable() const
 {
 	// Don't call OnDisable and OnEnable when inside the update loop
 	if (m_IsUpdating) return;
@@ -344,14 +356,12 @@ that::GameObject* that::GameObject::GetChild(int index) const
 
 std::vector<that::GameObject*> that::GameObject::GetChildren() const
 {
+	// Create a new list of gameobjects
 	std::vector<GameObject*> pGameObjects{};
-	pGameObjects.reserve(m_pChildren.size() + m_pChildrenToAdd.size());
+	pGameObjects.reserve(m_pChildren.size());
 
+	// Add all the raw pointers to the children
 	for (const auto& pChild : m_pChildren)
-	{
-		pGameObjects.emplace_back(pChild.get());
-	}
-	for (const auto& pChild : m_pChildrenToAdd)
 	{
 		pGameObjects.emplace_back(pChild.get());
 	}
@@ -359,12 +369,30 @@ std::vector<that::GameObject*> that::GameObject::GetChildren() const
 	return pGameObjects;
 }
 
+std::vector<that::Component*> that::GameObject::GetComponents() const
+{
+	// Create a new list of components
+	std::vector<Component*> pComponents{};
+	pComponents.reserve(m_pComponents.size());
+
+	// Add all the raw pointers to the components
+	for (const auto& pComponent : m_pComponents)
+	{
+		pComponents.emplace_back(pComponent.get());
+	}
+
+	return pComponents;
+}
+
 void that::GameObject::SetActive(bool isActive)
 {
+	// Don't call any methods when the active flag stayed the same
 	if (m_IsActive == isActive) return;
 
+	// Save the current active flag
 	m_IsActive = isActive;
 
+	// Call OnEnable/OnDisable
 	if (m_IsActive)
 		OnEnable();
 	else
@@ -378,9 +406,10 @@ bool that::GameObject::IsActive() const
 
 void that::GameObject::Destroy()
 {
+	// Mark this gameobject as destroyed
 	m_IsMarkedDead = true;
 
-	// Destroy all children
+	// Mark all children as destroyed
 	for (const auto& child : m_pChildren)
 	{
 		child->Destroy();
