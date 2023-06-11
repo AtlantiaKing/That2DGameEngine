@@ -4,8 +4,10 @@
 
 #include "HealthComponent.h"
 #include "WorldTile.h"
-#include "GameData.h"
+#include "Pooka.h"
+#include "Fygar.h"
 
+#include "GameData.h"
 #include "Timer.h"
 #include "SceneManager.h"
 #include "GameData.h"
@@ -62,9 +64,10 @@ void digdug::GameState::GoToNextRound() const
 	}
 	else
 	{
-
 		sceneManager.LoadScene(sceneManager.GetCurrentSceneIndex());
 	}
+
+	GameData::GetInstance().IncrementRoundNumber();
 }
 
 void digdug::GameState::Init()
@@ -128,7 +131,6 @@ void digdug::GameState::OnDestroy()
 	{
 		pHealth->OnDeath.RemoveListener(this);
 	}
-	GameData::GetInstance().IncrementRoundNumber();
 
 	that::InputManager::GetInstance().Unbind(m_pSkipLevelCommand);
 }
@@ -192,5 +194,21 @@ void digdug::GameState::Notify(const that::GameObject& pEntity)
 
 		m_pEnemies.clear();
 		m_pPlayers.clear();
+	}
+}
+
+void digdug::GameState::RestartRound() const
+{
+	for (auto pEnemyHealth : m_pEnemies)
+	{
+		Pooka* pPooka{ pEnemyHealth->GetOwner()->GetComponent<Pooka>() };
+		if (pPooka)
+		{
+			pPooka->Reset();
+		}
+		else
+		{
+			pEnemyHealth->GetOwner()->GetComponent<Fygar>()->Reset();
+		}
 	}
 }

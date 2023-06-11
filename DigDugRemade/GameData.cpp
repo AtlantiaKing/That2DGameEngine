@@ -41,10 +41,28 @@ void digdug::GameData::IncrementRoundNumber()
     ++m_RoundNumber;
 }
 
+int digdug::GameData::GetHealth(int index)
+{
+    if (static_cast<int>(m_CurrentScores.size()) <= index) return -1;
+
+    return m_CurrentLives[index];
+}
+
+void digdug::GameData::SetHealth(int index, int health)
+{
+    if (static_cast<int>(m_CurrentLives.size()) <= index)
+    {
+        m_CurrentLives.resize(index + 1);
+    }
+
+    m_CurrentLives[index] = health;
+}
+
 void digdug::GameData::ResetGame()
 {
     m_RoundNumber = 1;
     m_CurrentScores.clear();
+    m_CurrentLives.clear();
 }
 
 bool digdug::GameData::TryNewHighScore(int score) const

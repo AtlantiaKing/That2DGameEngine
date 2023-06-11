@@ -3,6 +3,7 @@
 #include "GameObject.h"
 
 #include "HealthComponent.h"
+#include "Transform.h"
 
 #include "FygarRoamingState.h"
 #include "FygarPumpState.h"
@@ -11,6 +12,8 @@
 void digdug::Fygar::Init()
 {
 	GetOwner()->GetComponent<HealthComponent>()->OnHealthUpdate.AddListener(this);
+
+	m_Spawnpoint = GetTransform()->GetLocalPosition();
 }
 
 void digdug::Fygar::OnDestroy()
@@ -52,6 +55,12 @@ that::GameObject* digdug::Fygar::GetPlayer()
 void digdug::Fygar::RockAttack()
 {
 	ChangeState(std::make_unique<FygarRockDeathState>(GetOwner()));
+}
+
+void digdug::Fygar::Reset()
+{
+	GetTransform()->SetLocalPosition(m_Spawnpoint);
+	Start(m_pPlayers, m_IsPlayerControlled);
 }
 
 void digdug::Fygar::ChangeState(std::unique_ptr<digdug::EnemyState> pState)

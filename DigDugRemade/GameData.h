@@ -15,6 +15,9 @@ namespace digdug
 		int GetRoundNumber() const;
 		void IncrementRoundNumber();
 
+		int GetHealth(int index);
+		void SetHealth(int index, int health);
+
 		void ResetGame();
 		bool TryNewHighScore(int score) const;
 		void ApplyHighScore(int score, std::string user);
@@ -39,6 +42,7 @@ namespace digdug
 		std::multimap<int, std::string> m_HighScores{};
 
 		std::vector<int> m_CurrentScores{};
+		std::vector<int> m_CurrentLives{};
 
 		const int m_MainMenuScene{ 0 };
 		const int m_SinglePlayerScene{ 1 };

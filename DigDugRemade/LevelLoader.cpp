@@ -31,6 +31,7 @@
 #include "ResourceManager.h"
 #include "TextureManager.h"
 #include "Window.h"
+#include "GameData.h"
 
 // Commands
 #include "GridMoveCommand.h"
@@ -252,9 +253,11 @@ that::GameObject* digdug::LevelLoader::CreatePlayer(int index, DigDugAudio* pDig
 	pDigDug->SetPlayerIndex(index);
 	pDigDug->SetAudio(pDigDugAudio);
 
+	const int healthFromPrevRound{ GameData::GetInstance().GetHealth(index) };
 	constexpr int defaultHealth{ 4 };
+
 	HealthComponent* pPlayerHealth{ pPlayer->AddComponent<HealthComponent>() };
-	pPlayerHealth->SetMaxHealth(defaultHealth);
+	pPlayerHealth->SetMaxHealth(healthFromPrevRound < 0 ? defaultHealth : healthFromPrevRound);
 	pPlayerHealth->SetDestroyOnDeath(false);
 
 	pPlayer->AddComponent<ScoreComponent>();

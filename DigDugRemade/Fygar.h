@@ -8,6 +8,8 @@
 #include <vector>
 #include <memory>
 
+#include "glm/vec2.hpp"
+
 namespace digdug
 {
 	class HealthComponent;
@@ -34,6 +36,8 @@ namespace digdug
 		bool IsPlayerControlled() const { return m_IsPlayerControlled; }
 
 		void RockAttack();
+
+		void Reset();
 	private:
 		void ChangeState(std::unique_ptr<digdug::EnemyState> pState);
 
@@ -43,5 +47,7 @@ namespace digdug
 		bool m_IsPlayerControlled{};
 
 		std::unique_ptr<EnemyState> m_pState{};
+
+		glm::vec2 m_Spawnpoint{};
 	};
 }

@@ -33,6 +33,8 @@ void digdug::DigDug::OnDestroy()
 	GetOwner()->GetComponent<that::BoxCollider>()->OnHitEvent().RemoveListener(this);
 	GetOwner()->GetComponent<HealthComponent>()->OnHealthUpdate.RemoveListener(this);
 	that::InputManager::GetInstance().Clear();
+
+	GameData::GetInstance().SetHealth(m_PlayerIndex, GetOwner()->GetComponent<HealthComponent>()->GetHealth());
 }
 
 void digdug::DigDug::Update()

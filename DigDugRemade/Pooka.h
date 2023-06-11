@@ -8,6 +8,8 @@
 #include <vector>
 #include <memory>
 
+#include "glm/vec2.hpp"
+
 namespace that
 {
 	class GameObject;
@@ -37,6 +39,8 @@ namespace digdug
 		that::GameObject* GetPlayer();
 
 		void RockAttack();
+
+		void Reset();
 	private:
 		void ChangeState(std::unique_ptr<digdug::EnemyState> pState);
 
@@ -44,5 +48,7 @@ namespace digdug
 		int m_FollowingPlayerIdx{};
 			
 		std::unique_ptr<EnemyState> m_pState{};
+
+		glm::vec2 m_Spawnpoint{};
 	};
 }

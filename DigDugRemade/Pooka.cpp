@@ -3,6 +3,7 @@
 #include "GameObject.h"
 
 #include "HealthComponent.h"
+#include "Transform.h"
 
 #include "PookaRoamingState.h"
 #include "PookaPumpState.h"
@@ -10,7 +11,9 @@
 
 void digdug::Pooka::Init()
 {
-	GetOwner()->GetComponent<HealthComponent>()->OnHealthUpdate.AddListener(this);
+	GetOwner()->GetComponent<HealthComponent>()->OnHealthUpdate.AddListener(this); 
+
+	m_Spawnpoint = GetTransform()->GetLocalPosition();
 }
 
 void digdug::Pooka::OnDestroy()
@@ -52,6 +55,12 @@ that::GameObject* digdug::Pooka::GetPlayer()
 void digdug::Pooka::RockAttack()
 {
 	ChangeState(std::make_unique<PookaRockDeathState>(GetOwner()));
+}
+
+void digdug::Pooka::Reset()
+{
+	GetTransform()->SetLocalPosition(m_Spawnpoint);
+	Start(m_pPlayers);
 }
 
 void digdug::Pooka::ChangeState(std::unique_ptr<digdug::EnemyState> pState)

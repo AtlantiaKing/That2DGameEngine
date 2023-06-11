@@ -17,6 +17,7 @@
 
 #include "DigDugWalkingState.h"
 #include "DigDugNoLivesState.h"
+#include "GameState.h"
 
 digdug::DigDugDeathState::DigDugDeathState(that::GameObject* pPlayer)
 	: m_pPlayer{ pPlayer }
@@ -55,6 +56,9 @@ std::unique_ptr<digdug::DigDugState> digdug::DigDugDeathState::Update()
 
 			m_pPlayer->GetComponent<GridTransform>()->SetPosition(gridSpawnPos.x, gridSpawnPos.y);
 			m_pPlayer->GetTransform()->SetLocalPosition(m_pPlayer->GetComponent<DigDug>()->GetSpawnPoint());
+
+			pGrid->GetOwner()->GetComponent<GameState>()->RestartRound();
+
 			return std::make_unique<DigDugWalkingState>(m_pPlayer);
 		}
 	}

@@ -32,6 +32,8 @@ namespace digdug
 		virtual void OnDestroy() override;
 		virtual void Notify(const that::GameObject& pEnemy);
 
+		void RestartRound() const;
+
 	private:
 		void InitEnemies();
 		void InitPlayers();
