@@ -12,6 +12,8 @@
 #include "Timer.h"
 #include "TextureManager.h"
 
+#include "ColliderLayers.h"
+
 digdug::FygarPumpState::FygarPumpState(that::GameObject* pFygar)
 	: m_pFygarObj{ pFygar }
 {
@@ -44,14 +46,14 @@ void digdug::FygarPumpState::StateEnter()
 	const auto& pTexture{ that::TextureManager::GetInstance().LoadTexture("Fygar/Pumped.png") };
 	m_pFygarObj->GetComponent<that::SpriteRenderer>()->SetSprite(pTexture, 4, 1);
 
-	m_pFygarObj->GetComponent<that::BoxCollider>()->SetEnabled(false);
+	m_pFygarObj->GetComponent<that::BoxCollider>()->SetIgnoreGroup(DIGDUG_LAYER);
 }
 
 void digdug::FygarPumpState::StateEnd()
 {
 	m_pFygarObj->GetComponent<HealthComponent>()->OnHealthUpdate.RemoveListener(this);
 
-	m_pFygarObj->GetComponent<that::BoxCollider>()->SetEnabled(true);
+	m_pFygarObj->GetComponent<that::BoxCollider>()->SetIgnoreGroup(0);
 }
 
 void digdug::FygarPumpState::Notify(const HealthComponent& health)

@@ -12,6 +12,8 @@
 #include "Timer.h"
 #include "TextureManager.h"
 
+#include "ColliderLayers.h"
+
 digdug::PookaPumpState::PookaPumpState(that::GameObject* pPooka)
 	: m_pPookaObj{ pPooka }
 {
@@ -44,14 +46,14 @@ void digdug::PookaPumpState::StateEnter()
 	const auto& pTexture{ that::TextureManager::GetInstance().LoadTexture("Pooka/Pumped.png") };
 	m_pPookaObj->GetComponent<that::SpriteRenderer>()->SetSprite(pTexture, 4, 1);
 
-	m_pPookaObj->GetComponent<that::BoxCollider>()->SetEnabled(false);
+	m_pPookaObj->GetComponent<that::BoxCollider>()->SetIgnoreGroup(DIGDUG_LAYER);
 }
 
 void digdug::PookaPumpState::StateEnd()
 {
 	m_pPookaObj->GetComponent<HealthComponent>()->OnHealthUpdate.RemoveListener(this);
 
-	m_pPookaObj->GetComponent<that::BoxCollider>()->SetEnabled(true);
+	m_pPookaObj->GetComponent<that::BoxCollider>()->SetIgnoreGroup(0);
 }
 
 void digdug::PookaPumpState::Notify(const HealthComponent& health)
