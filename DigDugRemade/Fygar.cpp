@@ -30,7 +30,7 @@ void digdug::Fygar::Update()
 
 void digdug::Fygar::Notify(const HealthComponent&)
 {
-	if (dynamic_cast<FygarPumpState*>(m_pState.get()) == nullptr) ChangeState(std::make_unique<FygarPumpState>(GetOwner()));
+	if (dynamic_cast<FygarPumpState*>(m_pState.get()) == nullptr && dynamic_cast<FygarRockDeathState*>(m_pState.get()) == nullptr) ChangeState(std::make_unique<FygarPumpState>(GetOwner()));
 }
 
 void digdug::Fygar::Start(const std::vector<that::GameObject*>& pPlayers, bool isPlayerControlled)

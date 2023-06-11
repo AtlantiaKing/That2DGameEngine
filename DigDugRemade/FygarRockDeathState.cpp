@@ -21,6 +21,7 @@ std::unique_ptr<digdug::State> digdug::FygarRockDeathState::Update()
 	if (m_WaitTime > m_TimeTillRespawn)
 	{
 		m_pFygarObj->GetComponent<HealthComponent>()->Kill();
+		m_pFygarObj->Destroy();
 	}
 
 	return nullptr;
