@@ -18,5 +18,7 @@ namespace that
 		virtual void SetLooping(unsigned int id, bool shouldLoop) = 0;
 		virtual unsigned int GetIdFromName(const std::string& path) = 0;
 		virtual void Load(const std::string& path) = 0;
+		virtual void Mute() = 0;
+		virtual void Unmute() = 0;
 	};
 }

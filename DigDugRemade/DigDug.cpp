@@ -85,6 +85,16 @@ int digdug::DigDug::GetPlayerIndex() const
 	return m_PlayerIndex;
 }
 
+void digdug::DigDug::SetAudio(DigDugAudio* pAudio)
+{
+	m_pAudio = pAudio;
+}
+
+digdug::DigDugAudio* digdug::DigDug::GetAudio() const
+{
+	return m_pAudio;
+}
+
 void digdug::DigDug::ChangeState(std::unique_ptr<DigDugState> pState)
 {
 	if (!pState) return;

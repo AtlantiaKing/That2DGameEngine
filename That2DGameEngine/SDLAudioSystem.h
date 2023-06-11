@@ -30,6 +30,8 @@ namespace that
 		virtual void Stop(unsigned int id) override;
 		virtual void SetLooping(unsigned int id, bool shoudLoop) override;
 		virtual void Load(const std::string& path) override;
+		virtual void Mute() override;
+		virtual void Unmute() override;
 		// Get the ID from a loaded file
 		// This may block the current thread, use with caution
 		virtual unsigned int GetIdFromName(const std::string& path);
@@ -42,7 +44,9 @@ namespace that
 			PLAY_NAME,
 			PAUSE,
 			UNPAUSE,
-			STOP
+			STOP,
+			MUTE,
+			UNMUTE
 		};
 
 		struct SDLAudioEvent
@@ -53,12 +57,18 @@ namespace that
 			std::string filePath{};
 		};
 
+		struct PlayingChannel
+		{
+			int id{};
+			float volume{};
+		};
+
 		struct SDLSound
 		{
 			unsigned int id{};
 			Mix_Chunk* pData{};
 			std::string name{};
-			std::vector<int> playingChannels{};
+			std::vector<PlayingChannel> playingChannels{};
 			bool shouldLoop{};
 		};
 
@@ -73,6 +83,8 @@ namespace that
 		std::jthread m_AudioThread{};
 		std::mutex m_AudioMutex{};
 		std::condition_variable m_AudioCondition{};
+
+		bool m_IsMuted{};
 	};
 }
 

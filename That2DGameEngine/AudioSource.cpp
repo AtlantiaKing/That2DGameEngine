@@ -55,7 +55,7 @@ bool that::AudioSource::CheckSoundExist()
 		m_Id = audio.GetIdFromName(m_TargetSound);
 	}
 
-	return true;
+	return m_Id != UINT_MAX;
 }
 
 void that::AudioSource::Stop()
@@ -68,6 +68,13 @@ void that::AudioSource::Stop()
 
 void that::AudioSource::ChangePlayState(bool paused)
 {
+	if (m_Id == UINT_MAX)
+	{
+		if (paused) return;
+
+		if (!CheckSoundExist()) return;
+	}
+
 	if (!CheckSoundExist()) return;
 
 	if (paused)

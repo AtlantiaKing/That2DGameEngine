@@ -12,6 +12,8 @@ namespace that
 
 namespace digdug
 {
+	class DigDugAudio;
+
 	class LevelLoader final : public that::Component
 	{
 	public:
@@ -29,7 +31,7 @@ namespace digdug
 		virtual void OnFrameStart() override;
 
 	private:
-		that::GameObject* CreatePlayer(int index);
+		that::GameObject* CreatePlayer(int index, DigDugAudio* pDigDugAudio);
 
 		std::string m_Level{};
 		int m_NrPlayers{};

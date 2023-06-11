@@ -19,6 +19,8 @@ namespace that
 		virtual void SetLooping(unsigned int, bool) {};
 		virtual unsigned int GetIdFromName(const std::string&) { return UINT_MAX; }
 		virtual void OnSoundEnd(int) {};
+		virtual void Mute() {};
+		virtual void Unmute() {};
 	};
 
 	class ServiceLocator final

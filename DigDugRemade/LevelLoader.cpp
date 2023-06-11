@@ -24,6 +24,7 @@
 #include "Fygar.h"
 #include "FireBreath.h"
 #include "SpriteRenderer.h"
+#include "DigDugAudio.h"
 
 // Managers
 #include "InputManager.h"
@@ -43,6 +44,7 @@
 #include "ColliderLayers.h"
 #include "Rock.h"
 #include "DisableOnGroundHit.h"
+#include "AudioMuter.h"
 
 void digdug::LevelLoader::SetLevel(const std::string& filePath, int nrPlayers, bool playerFygar)
 {
@@ -59,6 +61,8 @@ void digdug::LevelLoader::Init()
 	const auto& levelSize{ pLevelData->GetSize() };
 
 	pGridComponent->SetSize(levelSize.x, levelSize.y);
+
+	GetOwner()->AddComponent<AudioMuter>();
 
 	const float cellSize{ pGridComponent->GetCellSize() };
 
@@ -101,11 +105,17 @@ void digdug::LevelLoader::OnFrameStart()
 	GridComponent* pGridComponent{ GetOwner()->GetComponent<GridComponent>() };
 	const float cellSize{ pGridComponent->GetCellSize() };
 
+	that::GameObject* pPlayerAudio{ GetOwner()->CreateGameObject("PlayerAudio") };	
+	that::AudioSource* pAudioSource{ pPlayerAudio->AddComponent<that::AudioSource>() };
+	pAudioSource->SetSound("walkmusic.wav");
+	pAudioSource->SetLooping(true);
+	DigDugAudio* pDigDugAudio{ pPlayerAudio->AddComponent<DigDugAudio>() };
+
 	std::vector<that::GameObject*> pPlayers{};
 
 	for (int i{}; i < m_NrPlayers; ++i)
 	{
-		that::GameObject* pPlayer{ CreatePlayer(i) };
+		that::GameObject* pPlayer{ CreatePlayer(i, pDigDugAudio) };
 		pGridComponent->BindPlayer(pPlayer->GetComponent<GridTransform>());
 		pPlayers.push_back(pPlayer);
 	}
@@ -225,7 +235,7 @@ void digdug::LevelLoader::OnFrameStart()
 	Destroy();
 }
 
-that::GameObject* digdug::LevelLoader::CreatePlayer(int index)
+that::GameObject* digdug::LevelLoader::CreatePlayer(int index, DigDugAudio* pDigDugAudio)
 {
 	const float cellSize{ GetOwner()->GetComponent<GridComponent>()->GetCellSize()};
 
@@ -238,10 +248,9 @@ that::GameObject* digdug::LevelLoader::CreatePlayer(int index)
 	that::BoxCollider* pCollider{ pPlayer->AddComponent<that::BoxCollider>() };
 	pCollider->SetSize(cellSize, cellSize);
 	pCollider->SetLayer(DIGDUG_LAYER);
-	pPlayer->AddComponent<DigDug>()->SetPlayerIndex(index);
-	that::AudioSource* pAudioSource{ pPlayer->AddComponent<that::AudioSource>() };
-	pAudioSource->SetSound("walkmusic.wav");
-	pAudioSource->SetLooping(true);
+	DigDug* pDigDug{ pPlayer->AddComponent<DigDug>() };
+	pDigDug->SetPlayerIndex(index);
+	pDigDug->SetAudio(pDigDugAudio);
 
 	constexpr int defaultHealth{ 4 };
 	HealthComponent* pPlayerHealth{ pPlayer->AddComponent<HealthComponent>() };

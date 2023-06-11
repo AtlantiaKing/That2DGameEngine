@@ -175,9 +175,11 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AudioMuter.cpp" />
     <ClCompile Include="BackToMainMenu.cpp" />
     <ClCompile Include="CoOpGameScene.cpp" />
     <ClCompile Include="DigDug.cpp" />
+    <ClCompile Include="DigDugAudio.cpp" />
     <ClCompile Include="DigDugDeathState.cpp" />
     <ClCompile Include="DigDugNoLivesState.cpp" />
     <ClCompile Include="DigDugPumpState.cpp" />
@@ -221,6 +223,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClCompile Include="MainMenuFadeIn.cpp" />
     <ClCompile Include="MainMenuScene.cpp" />
     <ClCompile Include="MoveCommand.cpp" />
+    <ClCompile Include="MuteCommand.cpp" />
     <ClCompile Include="Pooka.cpp" />
     <ClCompile Include="PookaDeathState.cpp" />
     <ClCompile Include="PookaGhostState.cpp" />
@@ -249,9 +252,11 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AudioMuter.h" />
     <ClInclude Include="BackToMainMenu.h" />
     <ClInclude Include="CoOpGameScene.h" />
     <ClInclude Include="DigDug.h" />
+    <ClInclude Include="DigDugAudio.h" />
     <ClInclude Include="DigDugDeathState.h" />
     <ClInclude Include="DigDugNoLivesState.h" />
     <ClInclude Include="DigDugPumpState.h" />
@@ -298,6 +303,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClInclude Include="MainMenuFadeIn.h" />
     <ClInclude Include="MainMenuScene.h" />
     <ClInclude Include="MoveCommand.h" />
+    <ClInclude Include="MuteCommand.h" />
     <ClInclude Include="Pooka.h" />
     <ClInclude Include="PookaDeathState.h" />
     <ClInclude Include="PookaGhostState.h" />

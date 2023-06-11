@@ -134,6 +134,30 @@ void that::SDLAudioSystem::Load(const std::string& path)
 	m_AudioCondition.notify_one();
 }
 
+void that::SDLAudioSystem::Mute()
+{
+	{
+		// Add a mute event to the queue
+		const std::lock_guard lock{ m_AudioMutex };
+		m_EventBuffer.Insert(SDLAudioEvent{ SDLAudioEventType::MUTE });
+	}
+
+	// Unblock the audio thread
+	m_AudioCondition.notify_one();
+}
+
+void that::SDLAudioSystem::Unmute()
+{
+	{
+		// Add a unmute event to the queue
+		const std::lock_guard lock{ m_AudioMutex };
+		m_EventBuffer.Insert(SDLAudioEvent{ SDLAudioEventType::UNMUTE });
+	}
+
+	// Unblock the audio thread
+	m_AudioCondition.notify_one();
+}
+
 unsigned int that::SDLAudioSystem::GetIdFromName(const std::string& path)
 {
 	// Block this thread until the event buffer is empty 
@@ -225,9 +249,9 @@ void that::SDLAudioSystem::AudioThread()
 				const SDLSound& sound{ m_pSounds[e.id] };
 
 				// Pause all the channels where this sound is being played
-				for (int channel : sound.playingChannels)
+				for (const auto& channel : sound.playingChannels)
 				{
-					Mix_Pause(channel);
+					Mix_Pause(channel.id);
 				}
 
 				break;
@@ -238,9 +262,9 @@ void that::SDLAudioSystem::AudioThread()
 				const SDLSound& sound{ m_pSounds[e.id] };
 
 				// Unpause all the channels where this sound is being played
-				for (int channel : sound.playingChannels)
+				for (const auto& channel : sound.playingChannels)
 				{
-					Mix_Resume(channel);
+					Mix_Resume(channel.id);
 				}
 
 				break;
@@ -251,9 +275,43 @@ void that::SDLAudioSystem::AudioThread()
 				const SDLSound& sound{ m_pSounds[e.id] };
 
 				// Stop all the channels where this sound is being played
-				for (int channel : sound.playingChannels)
+				for (const auto& channel : sound.playingChannels)
 				{
-					Mix_HaltChannel(channel);
+					Mix_HaltChannel(channel.id);
+				}
+
+				break;
+			}
+			case SDLAudioEventType::MUTE:
+			{
+				// Set the mute flag
+				m_IsMuted = true;
+
+				// Mute every sound
+				for (const SDLSound& sound : m_pSounds)
+				{
+					// Mute every channel of every sound
+					for (const PlayingChannel& channel : sound.playingChannels)
+					{
+						Mix_Volume(channel.id, 0);
+					}
+				}
+
+				break;
+			}
+			case SDLAudioEventType::UNMUTE:
+			{
+				// Set the mute flag
+				m_IsMuted = false;
+
+				// Mute every sound
+				for (const SDLSound& sound : m_pSounds)
+				{
+					// Mute every channel of every sound
+					for (const PlayingChannel& channel : sound.playingChannels)
+					{
+						Mix_Volume(channel.id, static_cast<int>(channel.volume * MIX_MAX_VOLUME));
+					}
 				}
 
 				break;
@@ -291,10 +349,10 @@ void that::SDLAudioSystem::PlaySound(SDLSound& sound, float volume)
 	if (channel == -1) return;
 
 	// Apply the volume to the channel where this sound is being played
-	Mix_Volume(channel, static_cast<int>(volume * MIX_MAX_VOLUME));
+	Mix_Volume(channel, m_IsMuted ? 0 : static_cast<int>(volume * MIX_MAX_VOLUME));
 
 	// Add the channel to the sound
-	sound.playingChannels.push_back(channel);
+	sound.playingChannels.push_back(PlayingChannel{ channel, volume });
 }
 
 void that::SDLAudioSystem::OnSoundEndRoot(int channel)
@@ -308,8 +366,8 @@ void that::SDLAudioSystem::OnSoundEnd(int channel)
 {
 	// Find the sound that is using the channel that has stopped playing
 	const auto soundIt{ std::find_if(begin(m_pSounds), end(m_pSounds),
-		[channel](const SDLSound& sound) { return std::find(begin(sound.playingChannels), end(sound.playingChannels), channel) != end(sound.playingChannels); }) };
+		[channel](const SDLSound& sound) { return std::find_if(begin(sound.playingChannels), end(sound.playingChannels), [channel](const PlayingChannel& playingChannel) { return playingChannel.id == channel; }) != end(sound.playingChannels); }) };
 
 	// Remove this channel from the container
-	soundIt->playingChannels.erase(std::remove(begin(soundIt->playingChannels), end(soundIt->playingChannels), channel));
+	soundIt->playingChannels.erase(std::remove_if(begin(soundIt->playingChannels), end(soundIt->playingChannels), [channel](const PlayingChannel& playingChannel) { return playingChannel.id == channel; }));
 }

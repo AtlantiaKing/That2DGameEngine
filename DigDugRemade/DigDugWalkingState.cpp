@@ -10,7 +10,7 @@
 #include "TextureManager.h"
 #include "SceneManager.h"
 #include "Transform.h"
-#include "AudioSource.h"
+#include "DigDugAudio.h"
 
 #include "DigDugPumpState.h"
 
@@ -38,13 +38,21 @@ std::unique_ptr<digdug::DigDugState> digdug::DigDugWalkingState::Update()
 {
 	const auto& curPosition{ m_pPlayer->GetTransform()->GetLocalPosition() };
 
+	if (abs(m_PrevPosition.x) < FLT_EPSILON && abs(m_PrevPosition.y) < FLT_EPSILON)
+	{
+		m_PrevPosition = curPosition;
+		return nullptr;
+	}
+
 	bool isWalking{ abs(curPosition.x - m_PrevPosition.x) > FLT_EPSILON ||
 					abs(curPosition.y - m_PrevPosition.y) > FLT_EPSILON };
 
 	if (m_IsWalking != isWalking)
 	{
 		m_pPlayer->GetComponent<that::SpriteRenderer>()->SetTimePerTile(isWalking ? m_SpriteTime : FLT_MAX);
-		m_pPlayer->GetComponent<that::AudioSource>()->ChangePlayState(!isWalking);
+
+		DigDug* pDigDug{ m_pPlayer->GetComponent<DigDug>() };
+		pDigDug->GetAudio()->SetWalking(pDigDug->GetPlayerIndex(), isWalking);
 	}
 
 	m_IsWalking = isWalking;
@@ -91,5 +99,6 @@ void digdug::DigDugWalkingState::StateEnd()
 		that::InputManager::GetInstance().Unbind(pCommand);
 	}
 
-	m_pPlayer->GetComponent<that::AudioSource>()->ChangePlayState(true);
+	DigDug* pDigDug{ m_pPlayer->GetComponent<DigDug>() };
+	pDigDug->GetAudio()->SetWalking(pDigDug->GetPlayerIndex(), false);
 }

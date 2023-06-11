@@ -12,6 +12,7 @@
 namespace digdug
 {
 	class HealthComponent;
+	class DigDugAudio;
 
 	class DigDug final : public that::Component, public that::Observer<that::CollisionData>, public that::Observer<HealthComponent>
 	{
@@ -39,6 +40,9 @@ namespace digdug
 		void SetPlayerIndex(int index);
 		int GetPlayerIndex() const;
 
+		void SetAudio(DigDugAudio* pAudio);
+		DigDugAudio* GetAudio() const;
+
 		const glm::vec2& GetSpawnPoint() { return m_SpawnPoint; }
 	private:
 		void ChangeState(std::unique_ptr<DigDugState> pState);
@@ -50,5 +54,7 @@ namespace digdug
 		std::unique_ptr<DigDugState> m_pState{};
 
 		int m_PlayerIndex{};
+
+		DigDugAudio* m_pAudio{};
 	};
 }

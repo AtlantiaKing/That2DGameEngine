@@ -32,9 +32,6 @@
     <Filter Include="Components\Game\Entities">
       <UniqueIdentifier>{9d2d88f8-2d8c-46e2-b500-cb23269b2561}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components\Game\Entities\Player">
-      <UniqueIdentifier>{c8bb2ee9-e3ba-41ac-95b6-4e113b20c97a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Components\Game\Entities\Enemy">
       <UniqueIdentifier>{d524665d-8576-4ccb-a777-e7923ddc025d}</UniqueIdentifier>
     </Filter>
@@ -89,6 +86,9 @@
     <Filter Include="Components\HighScoreTable">
       <UniqueIdentifier>{d08ac966-0943-478a-a523-e6288b3f2cfe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\Game\Audio">
+      <UniqueIdentifier>{c02159e3-0f80-4395-b431-fb40a331dd19}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -109,9 +109,6 @@
     </ClCompile>
     <ClCompile Include="LivesHUDComponent.cpp">
       <Filter>Components\Game\HUD</Filter>
-    </ClCompile>
-    <ClCompile Include="Pump.cpp">
-      <Filter>Components\Game\Entities\Player</Filter>
     </ClCompile>
     <ClCompile Include="ShootPumpCommand.cpp">
       <Filter>Commands\Input</Filter>
@@ -151,9 +148,6 @@
     </ClCompile>
     <ClCompile Include="Pooka.cpp">
       <Filter>Components\Game\Entities\Pooka</Filter>
-    </ClCompile>
-    <ClCompile Include="ScoreComponent.cpp">
-      <Filter>Components\Game\Entities\Player</Filter>
     </ClCompile>
     <ClCompile Include="LevelLoader.cpp">
       <Filter>Components\Game\World</Filter>
@@ -290,6 +284,21 @@
     <ClCompile Include="BackToMainMenu.cpp">
       <Filter>Components\HighScoreTable</Filter>
     </ClCompile>
+    <ClCompile Include="Pump.cpp">
+      <Filter>Components\Game\Entities\DigDug</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreComponent.cpp">
+      <Filter>Components\Game\Entities\DigDug</Filter>
+    </ClCompile>
+    <ClCompile Include="DigDugAudio.cpp">
+      <Filter>Components\Game\Entities\DigDug</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioMuter.cpp">
+      <Filter>Components\Game\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MuteCommand.cpp">
+      <Filter>Commands\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameScene.h">
@@ -312,9 +321,6 @@
     </ClInclude>
     <ClInclude Include="LivesHUDComponent.h">
       <Filter>Components\Game\HUD</Filter>
-    </ClInclude>
-    <ClInclude Include="Pump.h">
-      <Filter>Components\Game\Entities\Player</Filter>
     </ClInclude>
     <ClInclude Include="ShootPumpCommand.h">
       <Filter>Commands\Input</Filter>
@@ -351,9 +357,6 @@
     </ClInclude>
     <ClInclude Include="Pooka.h">
       <Filter>Components\Game\Entities\Pooka</Filter>
-    </ClInclude>
-    <ClInclude Include="ScoreComponent.h">
-      <Filter>Components\Game\Entities\Player</Filter>
     </ClInclude>
     <ClInclude Include="LevelLoader.h">
       <Filter>Components\Game\World</Filter>
@@ -501,6 +504,21 @@
     </ClInclude>
     <ClInclude Include="BackToMainMenu.h">
       <Filter>Components\HighScoreTable</Filter>
+    </ClInclude>
+    <ClInclude Include="Pump.h">
+      <Filter>Components\Game\Entities\DigDug</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreComponent.h">
+      <Filter>Components\Game\Entities\DigDug</Filter>
+    </ClInclude>
+    <ClInclude Include="DigDugAudio.h">
+      <Filter>Components\Game\Entities\DigDug</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioMuter.h">
+      <Filter>Components\Game\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MuteCommand.h">
+      <Filter>Commands\Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
