@@ -8,14 +8,12 @@
 #include "Timer.h"
 #include "InputManager.h"
 
-#include "SDL_keyboard.h"
-
 void digdug::MainMenuFadeIn::Init()
 {
 	// Bind the end face method to the enter button
 	that::InputManager::GetInstance().BindDigitalCommand
 	(
-		SDLK_RETURN,
+		' ',
 		that::InputManager::InputType::ONBUTTONDOWN,
 		std::make_unique<that::LambdaCommand>(
 			[this]()

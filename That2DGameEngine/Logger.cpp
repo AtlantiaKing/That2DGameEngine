@@ -30,3 +30,8 @@ void that::Logger::LogError(const std::string& message, const GameObject* pGameO
 	std::cout << "\033[0;31m" << message << "\n\033[0;39m";
 	throw LogException{};
 }
+
+void that::Logger::Clear()
+{
+	std::cout.flush();
+}

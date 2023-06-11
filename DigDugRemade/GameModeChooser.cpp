@@ -10,8 +10,6 @@
 #include "Logger.h"
 #include "GameData.h"
 
-#include "SDL_keyboard.h"
-
 void digdug::GameModeChooser::SetMarkerPositions(const glm::vec2& marker1, const glm::vec2& marker2, const glm::vec2& marker3)
 {
 	// If the markers were already set, clear the list
@@ -65,7 +63,7 @@ void digdug::GameModeChooser::BindInput()
 	// Bind the enter button to a scene load
 	that::InputManager::GetInstance().BindDigitalCommand
 	(
-		SDLK_RETURN,
+		' ',
 		that::InputManager::InputType::ONBUTTONDOWN, 
 		std::make_unique<that::LambdaCommand>(
 		[this]() 
@@ -103,7 +101,7 @@ void digdug::GameModeChooser::BindInput()
 	// Bind the arrow keys to marker changes
 	that::InputManager::GetInstance().BindDigitalCommand
 	(
-		SDLK_UP,
+		'w',
 		that::InputManager::InputType::ONBUTTONDOWN,
 		std::make_unique<that::LambdaCommand>(
 			[this]()
@@ -134,7 +132,7 @@ void digdug::GameModeChooser::BindInput()
 
 	that::InputManager::GetInstance().BindDigitalCommand
 	(
-		SDLK_DOWN,
+		's',
 		that::InputManager::InputType::ONBUTTONDOWN,
 		std::make_unique<that::LambdaCommand>(
 			[this]()

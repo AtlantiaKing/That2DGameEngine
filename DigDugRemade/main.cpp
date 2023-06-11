@@ -16,6 +16,7 @@
 #include "CoOpGameScene.h"
 #include "HighScoreScene.h"
 #include "HighScoreTableScene.h"
+#include "Logger.h"
 
 #include <vector>
 
@@ -30,6 +31,34 @@ void Setup()
 	that::SceneManager::GetInstance().AddScene(digdug::CoOpGameScene::Load);
 	that::SceneManager::GetInstance().AddScene(digdug::HighScoreScene::Load);
 	that::SceneManager::GetInstance().AddScene(digdug::HighScoreTable::Load);
+
+
+
+	// CONTROLS:
+	that::Logger::Log("");
+	that::Logger::Log("=== CONTROLS DIG DUG ===");
+	that::Logger::Log("");
+	that::Logger::Log("===       MENU       ===");
+	that::Logger::Log("Selection up/down/right/left : WASD or D-Pad");
+	that::Logger::Log("Accept selection : Space bar or south button (A on XBox)");
+	that::Logger::Log("");
+	that::Logger::Log("===      INGAME      ===");
+	that::Logger::Log("Mute : M");
+	that::Logger::Log("Skip level : Page up");
+	that::Logger::Log("");
+	that::Logger::Log("===   SINGLEPLAYER   ===");
+	that::Logger::Log("Move : WASD or left joystick");
+	that::Logger::Log("Shoot pump/pump to enemy : Space bar or south button (A on XBox)");
+	that::Logger::Log("");
+	that::Logger::Log("===   MULTIPLAYER   ===");
+	that::Logger::Log("=       Player1       =");
+	that::Logger::Log("Move : WASD or left joystick (if a second controller is connected)");
+	that::Logger::Log("Shoot pump/pump to enemy : Space bar or south button (A on XBox) (if a second controller is connected)");
+	that::Logger::Log("=       Player2       =");
+	that::Logger::Log("Move : Left joystick");
+	that::Logger::Log("Shoot pump/pump to enemy/Breathe fire : South button (A on XBox)");
+	that::Logger::Log("Become fygar ghost : Left shoulder");
+
 }
 
 int main(int, char* [])

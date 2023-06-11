@@ -12,15 +12,9 @@
 
 #include "GridTransform.h"
 
-#include "SDL_keyboard.h"
-
 digdug::FygarRoamingPlayer::FygarRoamingPlayer(that::GameObject* pFygar)
     : m_pFygarObj{ pFygar }
 {
-    //m_pMoveCommand = that::InputManager::GetInstance().BindDigital2DAxisCommand({ 'd','a','w','s' }, std::make_unique<GridMoveCommand>(m_pFygarObj->GetComponent<GridTransform>(), true));
-    //m_pFireCommand = that::InputManager::GetInstance().BindDigitalCommand(' ', that::InputManager::InputType::ONBUTTONDOWN, std::make_unique<that::LambdaCommand>([this]() { m_ActivateFire = true; }));
-    //m_pGhostCommand = that::InputManager::GetInstance().BindDigitalCommand(SDLK_LSHIFT, that::InputManager::InputType::ONBUTTONDOWN, std::make_unique<that::LambdaCommand>([this]() { m_Ghost = true; }));
-
     m_pMoveCommand = that::InputManager::GetInstance().BindAnalog2DAxisCommand(0, true, std::make_unique<GridMoveCommand>(m_pFygarObj->GetComponent<GridTransform>(), true));
     m_pFireCommand = that::InputManager::GetInstance().BindDigitalCommand(0, that::InputManager::GamepadButton::A, that::InputManager::InputType::ONBUTTONDOWN, std::make_unique<that::LambdaCommand>([this]() { m_ActivateFire = true; }));
     m_pGhostCommand = that::InputManager::GetInstance().BindDigitalCommand(0, that::InputManager::GamepadButton::LEFT_SHOULDER, that::InputManager::InputType::ONBUTTONDOWN, std::make_unique<that::LambdaCommand>([this]() { m_Ghost = true; }));
