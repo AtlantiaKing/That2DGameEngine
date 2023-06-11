@@ -25,10 +25,10 @@ namespace digdug
 		virtual void StateEnter();
 		virtual void StateEnd();
 	private:
-		bool m_PrevWalking{};
-		bool m_IsWalking{};
+		const float m_SpriteTime{ 0.1f };
 
-		const float m_SpriteSpeed{ 0.2f };
+		glm::vec2 m_PrevPosition{};
+		bool m_IsWalking{};
 
 		that::GameObject* m_pPlayer{};
 		GridTransform* m_pTransform{};

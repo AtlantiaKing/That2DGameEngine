@@ -9,6 +9,7 @@
 #include "InputManager.h"
 #include "TextureManager.h"
 #include "SceneManager.h"
+#include "Transform.h"
 
 #include "DigDugPumpState.h"
 
@@ -25,11 +26,8 @@ digdug::DigDugWalkingState::DigDugWalkingState(that::GameObject* pPlayer)
 {
 }
 
-std::unique_ptr<digdug::DigDugState> digdug::DigDugWalkingState::HandleInput(const glm::ivec2& movement, bool pumping, bool pumpHold)
+std::unique_ptr<digdug::DigDugState> digdug::DigDugWalkingState::HandleInput(const glm::ivec2&, bool pumping, bool pumpHold)
 {
-	if(movement.x || movement.y)
-		m_IsWalking = m_pTransform->Move(movement.x, movement.y);
-
 	if (pumping && !pumpHold) return std::make_unique<DigDugPumpState>(m_pPlayer);
 
 	return nullptr;
@@ -37,13 +35,19 @@ std::unique_ptr<digdug::DigDugState> digdug::DigDugWalkingState::HandleInput(con
 
 std::unique_ptr<digdug::DigDugState> digdug::DigDugWalkingState::Update()
 {
-	if (m_PrevWalking != m_IsWalking)
+	const auto& curPosition{ m_pPlayer->GetTransform()->GetLocalPosition() };
+
+	bool isWalking{ abs(curPosition.x - m_PrevPosition.x) > FLT_EPSILON ||
+					abs(curPosition.y - m_PrevPosition.y) > FLT_EPSILON };
+
+	if (m_IsWalking != isWalking)
 	{
-		m_pPlayer->GetComponent<that::SpriteRenderer>()->SetTimePerTile(m_IsWalking ? m_SpriteSpeed : FLT_MAX);
+		m_pPlayer->GetComponent<that::SpriteRenderer>()->SetTimePerTile(isWalking ? m_SpriteTime : FLT_MAX);
 	}
 
-	m_PrevWalking = m_IsWalking;
-	m_IsWalking = false;
+	m_IsWalking = isWalking;
+	m_PrevPosition = curPosition;
+
 	return nullptr;
 }
 
