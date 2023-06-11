@@ -29,10 +29,9 @@ namespace digdug
 		virtual void Init() override;
 		virtual void Update() override;
 		virtual void OnEnable() override;
+		virtual void OnDisable() override;
 		virtual void OnDestroy() override;
 		virtual void Notify(const that::CollisionData& collision);
-
-		that::Subject<FireBreath> OnDisable{};
 	private:
 		float m_PreAttackTime{};
 		float m_TimeUntilAttack{ 0.7f };

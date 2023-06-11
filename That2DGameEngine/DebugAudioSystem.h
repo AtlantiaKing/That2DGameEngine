@@ -31,6 +31,8 @@ namespace that
 		virtual void SetLooping(unsigned int id, bool shouldLoop);
 		virtual unsigned int GetIdFromName(const std::string& path);
 		virtual void Load(const std::string& path);
+		virtual void Mute();
+		virtual void Unmute();
 	private:
 		std::unique_ptr<T> m_pAudioSystem{};
 	};
@@ -133,6 +135,22 @@ namespace that
 		std::stringstream log{};
 		log << "AudioSystem is loading a sound with path " << path;
 		Logger::Log(log.str());
+	}
+
+	template<typename T>
+	inline void DebugAudioSystem<T>::Mute()
+	{
+		m_pAudioSystem->Mute();
+
+		Logger::Log("AudioSystem is being muted");
+	}
+
+	template<typename T>
+	inline void DebugAudioSystem<T>::Unmute()
+	{
+		m_pAudioSystem->Unmute();
+
+		Logger::Log("AudioSystem is being unmuted");
 	}
 }
 

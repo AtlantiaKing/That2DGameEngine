@@ -1,5 +1,7 @@
 #include "AudioSource.h"
 
+#include "GameObject.h"
+
 #include "ServiceLocator.h"
 #include "AudioSystem.h"
 #include "Logger.h"
@@ -31,13 +33,17 @@ void that::AudioSource::SetVolume(float volume)
 
 void that::AudioSource::Play()
 {
+	m_IsPlaying = true;
+
 	AudioSystem& audio{ ServiceLocator::GetAudio() };
 
 	if (!CheckSoundExist()) return;
 
 	audio.SetLooping(m_Id, m_ShouldLoop);
-	audio.Play(m_Id, m_Volume);
-	m_IsPlaying = true;
+	if (m_Enabled && GetOwner()->IsActive())
+	{
+		audio.Play(m_Id, m_Volume);
+	}
 }
 
 bool that::AudioSource::CheckSoundExist()
@@ -93,6 +99,32 @@ void that::AudioSource::ChangePlayState(bool paused)
 void that::AudioSource::SetLooping(bool shouldLoop)
 {
 	m_ShouldLoop = shouldLoop;
+}
+
+void that::AudioSource::OnEnable()
+{
+	if (m_IsPlaying) ChangePlayState(true);
+}
+
+void that::AudioSource::Update()
+{
+	if (m_IsPlaying && m_Id == UINT_MAX)
+	{
+		AudioSystem& audio{ ServiceLocator::GetAudio() };
+
+		if (!CheckSoundExist()) return;
+
+		audio.SetLooping(m_Id, m_ShouldLoop);
+		if (m_Enabled && GetOwner()->IsActive())
+		{
+			audio.Play(m_Id, m_Volume);
+		}
+	}
+}
+
+void that::AudioSource::OnDisable()
+{
+	if (m_IsPlaying) ChangePlayState(false);
 }
 
 void that::AudioSource::OnDestroy()

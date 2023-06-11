@@ -206,6 +206,9 @@ void digdug::LevelLoader::OnFrameStart()
 					pFire->AddComponent<FireBreath>();
 					pFire->AddComponent<that::BoxCollider>();
 					pFire->AddComponent<that::TextureMask>()->SetPercentage(true, 0.0f);
+					that::AudioSource* pFireSound{ pFire->AddComponent<that::AudioSource>() };
+					pFireSound->SetSound("Sounds/Fire.wav");
+					pFireSound->SetLooping(true);
 					pFire->SetActive(false);
 					that::GameObject* pCollisionDetector{ pFire->CreateGameObject("CollisionDetection") };
 					pCollisionDetector->AddComponent<DisableOnGroundHit>();

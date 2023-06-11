@@ -5,13 +5,13 @@
 #include "BoxCollider.h"
 #include "TextureMask.h"
 #include "HealthComponent.h"
+#include "AudioSource.h"
 
 #include "GameObject.h"
 
 #include "ColliderLayers.h"
 
 #include "Timer.h"
-
 void digdug::FireBreath::Init()
 {
 	m_pMask = GetOwner()->GetComponent<that::TextureMask>();
@@ -35,6 +35,8 @@ void digdug::FireBreath::Update()
 	if (m_PreAttackTime < m_TimeUntilAttack)
 	{
 		m_PreAttackTime += elapsedSec;
+
+		if (m_PreAttackTime > m_TimeUntilAttack) GetOwner()->GetComponent<that::AudioSource>()->Play();
 		return;
 	}
 	
@@ -44,8 +46,6 @@ void digdug::FireBreath::Update()
 	if (newMask > 1.0f)
 	{
 		GetOwner()->SetActive(false);
-
-		OnDisable.Notify(*this);
 	}
 }
 
@@ -53,6 +53,11 @@ void digdug::FireBreath::OnEnable()
 {
 	m_PreAttackTime = 0.0f;
 	m_pMask->SetPercentage(true, 0.0f);
+}
+
+void digdug::FireBreath::OnDisable()
+{
+	GetOwner()->GetComponent<that::AudioSource>()->Stop();
 }
 
 void digdug::FireBreath::OnDestroy()

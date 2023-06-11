@@ -26,6 +26,9 @@ namespace that
 		void ChangePlayState(bool paused);
 		void SetLooping(bool shouldLoop);
 
+		virtual void OnEnable() override;
+		virtual void Update() override;
+		virtual void OnDisable() override;
 		virtual void OnDestroy() override;
 	private:
 		bool CheckSoundExist();
