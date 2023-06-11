@@ -25,7 +25,6 @@ namespace digdug
 
 		virtual void Init() override;
 		virtual void Update() override;
-		virtual void Render() const override;
 
 	private:
 		that::TextureMask* m_pMask{};

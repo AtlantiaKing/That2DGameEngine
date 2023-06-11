@@ -90,7 +90,7 @@ void that::SpriteRenderer::Render() const
 	const float rotation = GetTransform()->GetWorldRotation();
 	const auto& scale{ GetTransform()->GetWorldScale() };
 
-	SDL_Rect dstRect
+	const SDL_Rect dstRect
 	{
 		static_cast<int>(pos.x - m_SrcRect.w * abs(scale.x) / 2),
 		static_cast<int>(pos.y - m_SrcRect.h * abs(scale.y) / 2),
@@ -102,8 +102,6 @@ void that::SpriteRenderer::Render() const
 		*m_pTexture, m_SrcRect,
 		dstRect,
 		rotation);
-
-	Renderer::GetInstance().DrawRect({ static_cast<int>(pos.x)-1, static_cast<int>(pos.y)-1, 3,3 }, SDL_Color{ 0,0,255,0 });
 }
 
 void that::SpriteRenderer::Reset()

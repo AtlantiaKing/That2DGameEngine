@@ -48,10 +48,3 @@ void digdug::DisableOnGroundHit::Update()
 
 	if (!m_pGrid->IsValidPixel(gridPosition)) GetOwner()->GetParent()->SetActive(false);
 }
-
-void digdug::DisableOnGroundHit::Render() const
-{
-	const auto& pos{ GetTransform()->GetWorldPosition() };
-
-	that::Renderer::GetInstance().DrawRect({ static_cast<int>(pos.x - 2), static_cast<int>(pos.y - 2), 5,5 }, { 0,0,255,255 });
-}
