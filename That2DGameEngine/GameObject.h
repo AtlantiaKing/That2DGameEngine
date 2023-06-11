@@ -33,8 +33,6 @@ namespace that
 		void Render() const;
 		void OnDestroy();
 		void OnGUI();
-		void OnEnable();
-		void OnDisable();
 
 		void SetParent(GameObject* pParent);
 		GameObject* GetParent() const { return m_pParent; };
@@ -71,6 +69,8 @@ namespace that
 		Scene* GetScene() const { return m_pScene; }
 
 	private:
+		void OnEnable();
+		void OnDisable();
 		bool Destroy(Component* pComponent);
 
 		std::string m_Name{};
@@ -90,6 +90,7 @@ namespace that
 
 		bool m_IsMarkedDead{};
 		bool m_Initialized{};
+		bool m_IsUpdating{};
 	};
 
 	template<class T>

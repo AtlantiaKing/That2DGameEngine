@@ -79,6 +79,12 @@ void that::GameObject::Update()
 	// Don't update if the gameobject is not active
 	if (!m_IsActive) return;
 
+	// Cache the active state
+	const bool wasActive{ m_IsActive };
+
+	// Set the update flag
+	m_IsUpdating = true; 
+
 	// Update every component
 	for (const auto& pComponent : m_pComponents)
 	{
@@ -90,12 +96,27 @@ void that::GameObject::Update()
 	{
 		pChild->Update();
 	}
+
+	// Set the update flag
+	m_IsUpdating = false;
+
+	// Call OnDisable if the gameobject has been disabled during the loop
+	if (wasActive != m_IsActive)
+	{
+		OnDisable();
+	}
 }
 
 void that::GameObject::LateUpdate()
 {
 	// Don't update if the gameobject is not active
 	if (!m_IsActive) return;
+
+	// Cache the active state
+	const bool wasActive{ m_IsActive };
+
+	// Set the update flag
+	m_IsUpdating = true;
 
 	// LateUpdate every component
 	for (const auto& pComponent : m_pComponents)
@@ -107,6 +128,21 @@ void that::GameObject::LateUpdate()
 	for (const auto& pChild : m_pChildren)
 	{
 		pChild->LateUpdate();
+	}
+
+	// Update every child
+	for (const auto& pChild : m_pChildren)
+	{
+		pChild->LateUpdate();
+	}
+
+	// Set the update flag
+	m_IsUpdating = false;
+
+	// Call OnDisable if the gameobject has been disabled during the loop
+	if (wasActive != m_IsActive)
+	{
+		OnDisable();
 	}
 }
 
@@ -184,6 +220,9 @@ void that::GameObject::OnDestroy()
 
 void that::GameObject::OnGUI()
 {
+	// Don't render if the gameobject is not active
+	if (!m_IsActive) return;
+
 	// Render GUI every component
 	for (const auto& pComponent : m_pComponents)
 	{
@@ -199,6 +238,9 @@ void that::GameObject::OnGUI()
 
 void that::GameObject::OnEnable()
 {
+	// Don't call OnDisable and OnEnable when inside the update loop
+	if (m_IsUpdating) return;
+
 	// OnEnable every component
 	for (const auto& pComponent : m_pComponents)
 	{
@@ -208,12 +250,15 @@ void that::GameObject::OnEnable()
 	// OnEnable every child
 	for (const auto& pChild : m_pChildren)
 	{
-		pChild->OnEnable();
+		if (pChild->IsActive()) pChild->OnEnable();
 	}
 }
 
 void that::GameObject::OnDisable()
 {
+	// Don't call OnDisable and OnEnable when inside the update loop
+	if (m_IsUpdating) return;
+
 	// OnDisable every component
 	for (const auto& pComponent : m_pComponents)
 	{
@@ -223,7 +268,7 @@ void that::GameObject::OnDisable()
 	// OnDisable every child
 	for (const auto& pChild : m_pChildren)
 	{
-		pChild->OnDisable();
+		if (pChild->IsActive()) pChild->OnDisable();
 	}
 }
 
