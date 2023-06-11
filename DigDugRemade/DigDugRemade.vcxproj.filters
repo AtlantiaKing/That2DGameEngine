@@ -92,6 +92,9 @@
     <Filter Include="States\GameStates">
       <UniqueIdentifier>{596fa394-cdef-4d1a-b4be-5421b036cabf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Events">
+      <UniqueIdentifier>{f35c6a3d-a794-4b8f-9dad-424eb59baa95}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -540,6 +543,9 @@
     </ClInclude>
     <ClInclude Include="StartRoundState.h">
       <Filter>States\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="Events.h">
+      <Filter>Events</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

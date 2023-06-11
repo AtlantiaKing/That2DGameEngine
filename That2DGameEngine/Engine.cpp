@@ -50,11 +50,13 @@ that::Engine::Engine(const std::string &dataPath)
 {
 	PrintSDLVersion();
 	
+	// Initialize SDL
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) 
 	{
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
 	}
 
+	// Create a default window
 	Window& window{ Window::GetInstance() };
 	const bool windowCreationSucces{ window.SetWindowSize(640, 480) };
 
@@ -63,10 +65,11 @@ that::Engine::Engine(const std::string &dataPath)
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
 	}
 
+	// Initialize singletons
 	ResourceManager::GetInstance().Init(dataPath);
-
 	Timer::GetInstance().Init();
 
+	// Initialize default audio system (SDL)
 	ServiceLocator::RegisterAudioSystem<SDLAudioSystem>();
 }
 

@@ -271,6 +271,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClInclude Include="EndRoundState.h" />
     <ClInclude Include="EnemyBehaviour.h" />
     <ClInclude Include="EnemyMovement.h" />
+    <ClInclude Include="Events.h" />
     <ClInclude Include="InGameState.h" />
     <ClInclude Include="StartRoundState.h" />
     <ClInclude Include="State.h" />

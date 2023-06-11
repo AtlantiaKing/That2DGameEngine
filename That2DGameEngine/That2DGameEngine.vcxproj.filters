@@ -33,12 +33,6 @@
     <Filter Include="Input">
       <UniqueIdentifier>{cbf7b33b-0c7f-467e-b3bf-ac914ed1ea1b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Input\Commands">
-      <UniqueIdentifier>{1b74cc05-dc42-4f51-a2df-cc88a8a90336}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scenes">
-      <UniqueIdentifier>{48d243f8-e4dc-4313-871d-4dd5dff9fdaa}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Events">
       <UniqueIdentifier>{e6ed8e06-33dc-45fb-9f07-01191cf49b53}</UniqueIdentifier>
     </Filter>
@@ -140,25 +134,10 @@
     <ClInclude Include="Controller.h">
       <Filter>Input</Filter>
     </ClInclude>
-    <ClInclude Include="DebugButtonCommand.h">
-      <Filter>Input\Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="DebugAxisCommand.h">
-      <Filter>Input\Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="MoveCommand.h">
-      <Filter>Input\Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="DemoScene.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="EventQueue.h">
       <Filter>Events</Filter>
     </ClInclude>
     <ClInclude Include="Event.h">
-      <Filter>Events</Filter>
-    </ClInclude>
-    <ClInclude Include="Events.h">
       <Filter>Events</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
@@ -211,9 +190,6 @@
     </ClInclude>
     <ClInclude Include="DebugAudioSystem.h">
       <Filter>Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="InstantAudioSource.h">
-      <Filter>Components\Audio</Filter>
     </ClInclude>
     <ClInclude Include="Window.h">
       <Filter>Seperate Objects</Filter>
@@ -304,21 +280,9 @@
     <ClCompile Include="Controller.cpp">
       <Filter>Input</Filter>
     </ClCompile>
-    <ClCompile Include="DebugButtonCommand.cpp">
-      <Filter>Input\Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="DebugAxisCommand.cpp">
-      <Filter>Input\Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="MoveCommand.cpp">
-      <Filter>Input\Commands</Filter>
-    </ClCompile>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="EventQueue.cpp">
       <Filter>Events</Filter>
-    </ClCompile>
-    <ClCompile Include="Timer.cpp">
-      <Filter>Seperate Objects</Filter>
     </ClCompile>
     <ClCompile Include="TextureMask.cpp">
       <Filter>Components\Rendering</Filter>
@@ -341,9 +305,6 @@
     <ClCompile Include="AudioSource.cpp">
       <Filter>Components\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="InstantAudioSource.cpp">
-      <Filter>Components\Audio</Filter>
-    </ClCompile>
     <ClCompile Include="Window.cpp">
       <Filter>Seperate Objects</Filter>
     </ClCompile>
@@ -355,6 +316,9 @@
     </ClCompile>
     <ClCompile Include="SpriteRenderer.cpp">
       <Filter>Components\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Engine Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

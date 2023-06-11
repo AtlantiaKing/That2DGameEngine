@@ -22,11 +22,16 @@ namespace that
 		void AddCollider(BoxCollider* pCollider);
 		void RemoveCollider(BoxCollider* pCollider);
 
+		void ActivateDebugRendering(bool showDebug);
+		bool IsShowingDebugRendering() const;
+
 		void Update();
 	private:
 		bool DoOverlap(BoxCollider* pCollider, BoxCollider* pOther) const;
 
 		std::vector<BoxCollider*> m_pColliders{};
+
+		bool m_ShowDebug{};
 	};
 }
 

@@ -16,6 +16,16 @@ void that::Physics::RemoveCollider(BoxCollider* pCollider)
 	m_pColliders.erase(std::remove(begin(m_pColliders), end(m_pColliders), pCollider), end(m_pColliders));
 }
 
+void that::Physics::ActivateDebugRendering(bool showDebug)
+{
+	m_ShowDebug = showDebug;
+}
+
+bool that::Physics::IsShowingDebugRendering() const
+{
+	return m_ShowDebug;
+}
+
 void that::Physics::Update()
 {
 	// Loop over all known colliders
@@ -61,7 +71,7 @@ bool that::Physics::DoOverlap(BoxCollider* pCollider, BoxCollider* pOther) const
 
 	constexpr float distanceEpsilon{ 2.0f };
 
-	// if rectangle has area 0, no overlap
+	// If one rectangle has area 0, no overlap
 	if (l1x == r1x || l1y == r1y || r2x == l2x || l2y == r2y)
 		return false;
 
