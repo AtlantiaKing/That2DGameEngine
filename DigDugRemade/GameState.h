@@ -8,6 +8,7 @@
 namespace that
 {
 	class GameObject;
+	class Command;
 }
 
 namespace digdug
@@ -25,6 +26,7 @@ namespace digdug
 		GameState& operator=(const GameState& other) = delete;
 		GameState& operator=(GameState&& other) = delete;
 
+		virtual void Init() override;
 		virtual void Update() override;
 		virtual void LateUpdate() override;
 		virtual void OnDestroy() override;
@@ -33,6 +35,7 @@ namespace digdug
 	private:
 		void InitEnemies();
 		void InitPlayers();
+		void GoToNextRound() const;
 
 		bool m_Init{};
 
@@ -43,6 +46,8 @@ namespace digdug
 		bool m_GameOver{};
 		float m_WaitTimer{};
 		const float m_TimeTillNextLevel{ 2.0f };
+
+		that::Command* m_pSkipLevelCommand{};
 
 		const int m_NrRounds{ 4 };
 	};

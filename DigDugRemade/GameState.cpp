@@ -7,9 +7,14 @@
 #include "GameData.h"
 
 #include "Timer.h"
-#include <SceneManager.h>
+#include "SceneManager.h"
 #include "GameData.h"
 #include "ScoreComponent.h"
+#include "InputManager.h"
+
+#include "LambdaCommand.h"
+
+#include "SDL_keyboard.h"
 
 void digdug::GameState::InitEnemies()
 {
@@ -37,6 +42,40 @@ void digdug::GameState::InitPlayers()
 	}
 }
 
+void digdug::GameState::GoToNextRound() const
+{
+	auto& sceneManager{ that::SceneManager::GetInstance() };
+	GameData& gameData{ GameData::GetInstance() };
+
+	const bool isSinglePlayerScene{ sceneManager.GetCurrentSceneIndex() == gameData.GetSinglePlayerScene() };
+
+	if (GameData::GetInstance().GetRoundNumber() == m_NrRounds)
+	{
+		if (isSinglePlayerScene)
+		{
+			sceneManager.LoadScene(gameData.GetHighScoreScene());
+		}
+		else
+		{
+			sceneManager.LoadScene(gameData.GetMainMenuScene());
+		}
+	}
+	else
+	{
+
+		sceneManager.LoadScene(sceneManager.GetCurrentSceneIndex());
+	}
+}
+
+void digdug::GameState::Init()
+{
+	m_pSkipLevelCommand = that::InputManager::GetInstance().BindDigitalCommand(SDLK_PAGEUP, that::InputManager::InputType::ONBUTTONDOWN,
+		std::make_unique<that::LambdaCommand>([this]() 
+			{
+				GoToNextRound();
+			}));
+}
+
 void digdug::GameState::Update()
 {
 	if (m_Victory || m_GameOver)
@@ -45,23 +84,13 @@ void digdug::GameState::Update()
 
 		if (m_WaitTimer > m_TimeTillNextLevel)
 		{
-			auto& sceneManager{ that::SceneManager::GetInstance() };
-			
 			if (m_Victory)
 			{
-				if (GameData::GetInstance().GetRoundNumber() == m_NrRounds)
-				{
-
-					sceneManager.LoadScene(GameData::GetInstance().GetHighScoreScene());
-				}
-				else
-				{
-
-					sceneManager.LoadScene(sceneManager.GetCurrentSceneIndex());
-				}
+				GoToNextRound();
 			}
 			else
 			{
+				auto& sceneManager{ that::SceneManager::GetInstance() };
 				GameData& gameData{ GameData::GetInstance() };
 
 				const bool isSinglePlayerScene{ sceneManager.GetCurrentSceneIndex() == gameData.GetSinglePlayerScene() };
@@ -100,6 +129,8 @@ void digdug::GameState::OnDestroy()
 		pHealth->OnDeath.RemoveListener(this);
 	}
 	GameData::GetInstance().IncrementRoundNumber();
+
+	that::InputManager::GetInstance().Unbind(m_pSkipLevelCommand);
 }
 
 void digdug::GameState::Notify(const that::GameObject& pEntity)
