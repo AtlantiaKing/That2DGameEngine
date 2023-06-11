@@ -34,7 +34,11 @@ void digdug::CoOpGameScene::Load(that::Scene& scene)
 
 	// Grid
 	that::GameObject* pGrid{ scene.CreateGameObject("Grid") };
-	pGrid->AddComponent<LevelLoader>()->SetLevel("Levels/Level1_2.png", nrPlayers, false);
+
+	std::stringstream levelFile{};
+	levelFile << "Levels/Level" << GameData::GetInstance().GetRoundNumber() << "_2.png";
+
+	pGrid->AddComponent<LevelLoader>()->SetLevel(levelFile.str(), 2, false);
 	pGrid->AddComponent<GameState>();
 
 	constexpr float referenceSize{ 240.0f };
