@@ -14,6 +14,8 @@
 #include "InputManager.h"
 #include "SceneManager.h"
 #include "GameData.h"
+#include "ServiceLocator.h"
+#include "AudioSystem.h"
 
 #include "ColliderLayers.h"
 
@@ -47,6 +49,7 @@ void digdug::DigDug::Notify(const that::CollisionData& collision)
 	if (collision.pOther->GetLayer() == ENEMY_LAYER)
 	{
 		GetOwner()->GetComponent<HealthComponent>()->Hit();
+		that::ServiceLocator::GetAudio().Play("Sounds/PlayerHit.wav", 1.0f);
 	}
 }
 

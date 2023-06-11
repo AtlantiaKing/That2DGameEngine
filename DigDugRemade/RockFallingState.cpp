@@ -11,6 +11,8 @@
 #include "Fygar.h"
 #include "DigDug.h"
 #include "Rock.h"
+#include "ServiceLocator.h"
+#include "AudioSystem.h"
 
 #include "TextureManager.h"
 
@@ -73,16 +75,19 @@ void digdug::RockFallingState::Notify(const that::CollisionData& collision)
 		if (collision.pOther->GetOwner()->GetTag() == "Pooka")
 		{
 			collision.pOther->GetOwner()->GetComponent<Pooka>()->RockAttack();
+			that::ServiceLocator::GetAudio().Play("Sounds/RockHit.wav", 1.0f);
 		}
 		else
 		{
 			collision.pOther->GetOwner()->GetComponent<Fygar>()->RockAttack();
+			that::ServiceLocator::GetAudio().Play("Sounds/RockHit.wav", 1.0f);
 		}
 		++m_EnemiesKilled;
 	}
 	else if (collision.pOther->GetLayer() == DIGDUG_LAYER)
 	{
 		collision.pOther->GetOwner()->GetComponent<DigDug>()->RockAttack();
+		that::ServiceLocator::GetAudio().Play("Sounds/RockHit.wav", 1.0f);
 	}
 }
 

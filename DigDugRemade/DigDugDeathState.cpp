@@ -14,6 +14,8 @@
 #include "TextureManager.h"
 #include "GameData.h"
 #include "SceneManager.h"
+#include "ServiceLocator.h"
+#include "AudioSystem.h"
 
 #include "DigDugWalkingState.h"
 #include "DigDugNoLivesState.h"
@@ -79,6 +81,8 @@ void digdug::DigDugDeathState::StateEnter()
 
 	m_pPlayer->GetTransform()->SetLocalRotation(0);
 	m_pPlayer->GetTransform()->SetLocalScale(1.0f);
+
+	if(m_pPlayer->GetComponent<HealthComponent>()->GetHealth() > 0) that::ServiceLocator::GetAudio().Play("Sounds/DeathAnimation.wav", 1.0f);
 }
 
 void digdug::DigDugDeathState::StateEnd()
