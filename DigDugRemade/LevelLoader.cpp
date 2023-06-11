@@ -276,6 +276,10 @@ that::GameObject* digdug::LevelLoader::CreatePlayer(int index, DigDugAudio* pDig
 	pPump->GetComponent<that::Transform>()->Translate((cellSize + pPumpTexture->GetSize().x) / 2.0f, 0.0f);
 	that::GameObject* pCollisionDetector{ pPump->CreateGameObject("CollisionDetection") };
 	pCollisionDetector->AddComponent<DisableOnGroundHit>();
+	that::AudioSource* pPumpSound{ pPump->AddComponent<that::AudioSource>() };
+	pPumpSound->SetSound("Sounds/PumpShoot.wav");
+	pPumpSound->SetLooping(true);
+	pPumpSound->Play();
 
 	return pPlayer;
 }
