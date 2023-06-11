@@ -23,13 +23,19 @@
 
 // Library includes
 #include <iostream>
+#include <sstream>
+
 #include "glm/vec2.hpp"
 
 void digdug::VersusGameScene::Load(that::Scene& scene)
 {
 	// Grid
 	that::GameObject* pGrid{ scene.CreateGameObject("Grid") };
-	pGrid->AddComponent<LevelLoader>()->SetLevel("Levels/Level1_1.png", 1, true);
+
+	std::stringstream levelFile{};
+	levelFile << "Levels/Level" << GameData::GetInstance().GetRoundNumber() << "_1.png";
+
+	pGrid->AddComponent<LevelLoader>()->SetLevel(levelFile.str(), 1, true);
 	pGrid->AddComponent<GameState>();
 
 	constexpr float referenceSize{ 240.0f };
