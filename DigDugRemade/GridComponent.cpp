@@ -109,7 +109,7 @@ bool digdug::GridComponent::IsOpenPosition(const glm::ivec2& position) const
 		return pTile->IsOpen();
 	}
 
-	return false;
+	return true;
 }
 
 digdug::WorldTile* digdug::GridComponent::GetTile(int x, int y) const
