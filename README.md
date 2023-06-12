@@ -121,7 +121,7 @@ There are two ways to play audio in That2DGameEngine.
 
 #### 1. AudioSystem
 A user can send events to the AudioSystem using methods such as `AudioSystem::Load`, `AudioSystem::Play`, `AudioSystem::Pause`, etc.
-The audio system of the engine is accessible in the ServiceLocator singleton and can be accessed like this: `that::ServiceLocator::GetInstance().GetAudio()`.
+The audio system of the engine is accessible in the ServiceLocator singleton and can be accessed like this: `that::ServiceLocator::GetAudio()`.
 
 #### 2. AudioSource component
 Most of the logic that can be done using the AudioSystem has been wrapped inside the AudioSource component. 
