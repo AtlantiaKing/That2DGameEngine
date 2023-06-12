@@ -31,7 +31,7 @@ This engine uses a few game design / programming patterns. They are listed below
 - Event queue
 - Service locator
 
-Beside these patterns, I have also used these techniques and idoms:
+Beside these patterns, I have also used these techniques and idioms:
 
 - Multithreading
 - pImpl
@@ -44,15 +44,15 @@ Scene management is handled by the SceneManager singleton.
 Adding scenes to the game can be done using the `SceneManager::AddScene` method which takes a function that has the initialization of the scene.
 At the start of the engine, the scene that has been added the first (index 0) will be automatically loaded.
 
-You can load another scene you can use the `SceneManager::LoadScene` method which takes an index.
+You can load another scene using the `SceneManager::LoadScene` method which takes an index.
 
 ### Scenegraph
 
 The base of any scenegraph is a **scene** object. This class can only store gameobjects.  You can add a gameobject to a scene using the `Scene::CreateGameObject` method.
 If the parent of a gameobject is set to `null` the gameobject will be parented to the scene.
 
-**Gameobjects** are classes that can have both children (other gameobjects) and components. Gameobjects by them selves have no logic and only act as containers for the components. 
-Each gameobject also has a tag which can be used to differentiate certain gameobjects from others.
+**Gameobjects** are classes that can have both children (other gameobjects) and components. Gameobjects by them selves have no logic and only act as containers for components and children objects. 
+Each gameobject also has a tag which can be used to differentiate certain gameobjects from others. Gameobjects can be added using the `GameObject::CreateGameObject` method and components can be added using the `GameObject::AddComponent` method which is templated.
 
 **Components** are classes that derive from `that::Component` and have multiple methods that can be overloaded such as `Init`, `Update`, `Render`, `OnGui`, `OnEnable`, `OnDisable`, etc.
 These components are the base of the engine since these are the classes that will provide functionality to gameobjects.
@@ -83,7 +83,7 @@ These can be retrieved from either the `ResourceManager` or the `TextureManager`
 
 The **ResourceManager** can be used to load fonts (only gets loaded once) and textures (gets loaded every time).
 The **TextureManager** can be used to load textures as well but these get cached (so they only get loaded once).
-Which method you use to load a texture is completely up to and the circumstances.
+Which method you use to load a texture is completely up to you and the circumstances.
 
 ### Input
 Every game needs some sort of input. This engine offers a whole range of possibilities inside the InputManager singleton.
@@ -132,14 +132,14 @@ The AudioSystem implemented in the engine using SDL_Mixer but this has no impact
 The user can implement their own AudioSystem and register it to the ServiceLocator using the `ServiceLocator::RegisterAudioSystem` method.
 
 ### Physics
-I have implemented 2D box physics in my game.
+I have implemented 2D box physics in the engine.
 These can be accessed using two components: `BoxCollider` and `Rigidbody`.
 
 The **BoxCollider** component offers overlap events. Each collider can be assigned one or more layers. These layers can be used for ignore layers or to distinguish certain box colliders from others.
 
 The **Rigidbody** component needs a BoxCollider component to work. It has gravity and also collision correction. 
 
-Debug rendering of box collider can be enabled using the Physics singleton using the `Physics::ActivateDebugRendering` method.
+Debug rendering of box colliders can be enabled using the Physics singleton using the `Physics::ActivateDebugRendering` method.
 
 ### ImGui
 
