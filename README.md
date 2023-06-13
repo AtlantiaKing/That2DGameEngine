@@ -63,6 +63,8 @@ Components that are in the engine:
 - Rigidbody
 - AudioSource
 
+If at any moment in development you'd like to see a **scenegraph** of your scenes, you can enable this in the SceneManager singleton by calling `that::SceneManager::GetInstance().DrawSceneHierarchy(true)`.
+
 ### Singletons
 The engine has a few singletons to offer to the user.
 
