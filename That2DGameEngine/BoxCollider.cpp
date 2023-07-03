@@ -94,15 +94,8 @@ glm::vec2 that::BoxCollider::GetSizeWorld() const
 	};
 }
 
-void that::BoxCollider::Hit(BoxCollider* pOther)
+void that::BoxCollider::Hit(const CollisionData& collision)
 {
-	// Create a collision data object
-	CollisionData collision
-	{
-		this,
-		pOther
-	};
-
 	// Notify all observers
 	m_OnHitEvent.Notify(collision);
 }

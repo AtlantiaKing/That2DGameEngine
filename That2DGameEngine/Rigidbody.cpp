@@ -47,12 +47,19 @@ void that::Rigidbody::Update()
 	Move(m_Velocity * elapsedSec);
 }
 
-void that::Rigidbody::Notify(const CollisionData&)
+void that::Rigidbody::Notify(const CollisionData& collision)
 {
 	if (!m_HasCollisionCorrection) return;
 
+	// Reset the velocity
+	m_Velocity.x = abs(collision.fixStep.x) > FLT_EPSILON ? 0.0f : m_Velocity.x;
+	m_Velocity.y = abs(collision.fixStep.y) > FLT_EPSILON ? 0.0f : m_Velocity.y;
+
 	// Revert the previous movement
-	m_Position -= m_PrevStep;
+	m_Position += collision.fixStep;
+
+	// Apply the position
+	GetTransform()->SetWorldPosition(m_Position);
 }
 
 void that::Rigidbody::SetPosition(const glm::vec2 position, bool world)
@@ -67,6 +74,9 @@ void that::Rigidbody::SetPosition(const glm::vec2 position, bool world)
 		if (pParent) m_Position = position + pParent->GetTransform()->GetWorldPosition();
 		else m_Position = position;
 	}
+
+	// Apply the position
+	GetTransform()->SetWorldPosition(m_Position);
 
 	// Cancel out any movement the rigidbody might have done previous update
 	m_PrevStep = {};

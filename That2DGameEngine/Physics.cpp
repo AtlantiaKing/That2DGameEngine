@@ -26,8 +26,15 @@ bool that::Physics::IsShowingDebugRendering() const
 	return m_ShowDebug;
 }
 
+void that::Physics::SetCollisionMargin(float margin)
+{
+	m_DistanceEpsilon = margin;
+}
+
 void that::Physics::Update()
 {
+	std::vector<std::pair<BoxCollider*, BoxCollider*>> collisions{};
+
 	// Loop over all known colliders
 	for (auto pChild : m_pColliders)
 	{
@@ -40,48 +47,104 @@ void that::Physics::Update()
 			// Don't try collision with itself
 			if (pChild == pOther) continue;
 
+			// Don't try collision if this collision already occured
+			const auto& collisionPairIt{ std::find_if(begin(collisions), end(collisions), 
+				[pChild,pOther](const auto& collisionPair) 
+				{ 
+					return collisionPair.first == pChild || collisionPair.second == pChild || collisionPair.first == pOther || collisionPair.second == pOther; 
+				}) };
+			if (collisionPairIt != end(collisions)) continue;
+
 			// Don't try collision if one collider 
 			//	is in the ignore group of the other box collider
 			if (pChild->GetIgnoreGroup() & pOther->GetLayer()) continue;
 			if (pOther->GetIgnoreGroup() & pChild->GetLayer()) continue;
 
 			// Try collision
-			if (DoOverlap(pChild, pOther)) pChild->Hit(pOther);
+			CollisionData collisionData{ pChild, pOther };
+			if (DoOverlap(collisionData))
+			{
+				// Handle a collision hit
+				pChild->Hit(collisionData);
+
+				// Invert all the collision data
+				collisionData.pCollider = pOther;
+				collisionData.pOther = pChild;
+				collisionData.fixStep = -collisionData.fixStep;
+
+				// Handle a collision hit in the other
+				pOther->Hit(collisionData);
+
+				// Cache this collision
+				collisions.emplace_back(std::make_pair(pChild, pOther));
+			}
 		}
 	}
 }
 
-bool that::Physics::DoOverlap(BoxCollider* pCollider, BoxCollider* pOther) const
+bool that::Physics::DoOverlap(CollisionData& collisionData) const
 {
+	BoxCollider* pCollider{ collisionData.pCollider };
+	BoxCollider* pOther{ collisionData.pOther };
+
 	const auto& colPos{ pCollider->GetCenterWorld() };
-	const auto& colSize{ pCollider->GetSizeWorld() };
+	const auto& colHalfSize{ pCollider->GetSizeWorld() / 2.0f };
 
 	const auto& otherPos{ pOther->GetCenterWorld() };
-	const auto& otherSize{ pOther->GetSizeWorld() };
+	const auto& otherHalfSize{ pOther->GetSizeWorld() / 2.0f };
 
-	const float l1x{ colPos.x - colSize.x / 2.0f };
-	const float l1y{ colPos.y + colSize.y / 2.0f };
-	const float r1x{ colPos.x + colSize.x / 2.0f };
-	const float r1y{ colPos.y - colSize.y / 2.0f };
+	const float l1x{ colPos.x - colHalfSize.x };
+	const float l1y{ colPos.y + colHalfSize.y };
+	const float r1x{ colPos.x + colHalfSize.x };
+	const float r1y{ colPos.y - colHalfSize.y };
 
-	const float l2x{ otherPos.x - otherSize.x / 2.0f };
-	const float l2y{ otherPos.y + otherSize.y / 2.0f };
-	const float r2x{ otherPos.x + otherSize.x / 2.0f };
-	const float r2y{ otherPos.y - otherSize.y / 2.0f };
-
-	constexpr float distanceEpsilon{ 2.0f };
+	const float l2x{ otherPos.x - otherHalfSize.x };
+	const float l2y{ otherPos.y + otherHalfSize.y };
+	const float r2x{ otherPos.x + otherHalfSize.x };
+	const float r2y{ otherPos.y - otherHalfSize.y };
 
 	// If one rectangle has area 0, no overlap
 	if (l1x == r1x || l1y == r1y || r2x == l2x || l2y == r2y)
 		return false;
 
-	// If one rectangle is on left side of other
-	if (l1x >= r2x - distanceEpsilon || l2x >= r1x - distanceEpsilon)
+	// If one rectangle is on left side of other, no overlap
+	if (l1x >= r2x - m_DistanceEpsilon || l2x >= r1x - m_DistanceEpsilon)
 		return false;
 
-	// If one rectangle is above other
-	if (r1y >= l2y - distanceEpsilon || r2y >= l1y - distanceEpsilon)
+	// If one rectangle is above other, no overlap
+	if (r1y >= l2y - m_DistanceEpsilon || r2y >= l1y - m_DistanceEpsilon)
 		return false;
+
+	// Calculate the distance between the two colliders
+	const glm::vec2 distance{ colPos - otherPos };
+
+	// Calculate the minimum and maximum distances along each axis
+	float xOverlap = colHalfSize.x + otherHalfSize.x - std::abs(distance.x);
+	float yOverlap = colHalfSize.y + otherHalfSize.y - std::abs(distance.y);
+
+	// Find the axis with the minimum overlap
+	if (xOverlap < yOverlap)
+	{
+		// The collision occurs on the x-axis
+
+		collisionData.contactPoint.x = (distance.x > 0) ? colPos.x - colHalfSize.x : colPos.x + colHalfSize.x;
+		collisionData.contactPoint.y = otherPos.y;
+
+		// The movement that needs to happen to solve this collision
+		collisionData.fixStep.x = (distance.x > 0 ? otherPos.x + otherHalfSize.x : otherPos.x - otherHalfSize.x) - collisionData.contactPoint.x;
+		collisionData.fixStep.y = 0.0f;
+	}
+	else
+	{
+		// The collision occurs on the y-axis
+
+		collisionData.contactPoint.x = otherPos.x;
+		collisionData.contactPoint.y = (distance.y > 0) ? colPos.y - colHalfSize.y : colPos.y + colHalfSize.y;
+
+		// The movement that needs to happen to solve this collision
+		collisionData.fixStep.x = 0.0f;
+		collisionData.fixStep.y = (distance.y > 0 ? otherPos.y + otherHalfSize.y : otherPos.y - otherHalfSize.y) - collisionData.contactPoint.y;
+	}
 
 	return true;
 }

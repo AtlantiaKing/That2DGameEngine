@@ -33,8 +33,11 @@ namespace that
 		void SetGravityEnabled(bool activated) { m_HasGravity = activated; }
 		void SetConstantGravity(bool hasConstantGravity) { m_HasConstantGravity = hasConstantGravity; }
 		void SetCollisionCorrection(bool hasCollisionCorrection) { m_HasCollisionCorrection = hasCollisionCorrection; }
+		void SetVelocity(const glm::vec2& velocity) { m_Velocity = velocity; }
 		void SetMass(float mass) { m_Mass = mass; }
 		void Reset();
+
+		const glm::vec2& GetVelocity() const { return m_Velocity; }
 	private:
 		bool m_HasGravity{ true };
 		bool m_HasConstantGravity{ false };

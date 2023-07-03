@@ -43,7 +43,7 @@ namespace that
 	private:
 		friend Physics;
 
-		void Hit(BoxCollider* pOther);
+		void Hit(const CollisionData& pOther);
 
 		glm::vec2 m_Center{};
 		glm::vec2 m_Size{ 1.0f, 1.0f };
