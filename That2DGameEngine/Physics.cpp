@@ -51,7 +51,7 @@ void that::Physics::Update()
 			const auto& collisionPairIt{ std::find_if(begin(collisions), end(collisions), 
 				[pChild,pOther](const auto& collisionPair) 
 				{ 
-					return collisionPair.first == pChild || collisionPair.second == pChild || collisionPair.first == pOther || collisionPair.second == pOther; 
+					return (collisionPair.first == pChild || collisionPair.second == pChild) && (collisionPair.first == pOther || collisionPair.second == pOther); 
 				}) };
 			if (collisionPairIt != end(collisions)) continue;
 
