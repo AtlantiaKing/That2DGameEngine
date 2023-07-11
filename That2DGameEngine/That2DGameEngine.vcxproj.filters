@@ -206,6 +206,9 @@
     <ClInclude Include="SpriteRenderer.h">
       <Filter>Components\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="CameraComponent.h">
+      <Filter>Components\Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">
@@ -319,6 +322,9 @@
     </ClCompile>
     <ClCompile Include="Timer.cpp">
       <Filter>Engine Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraComponent.cpp">
+      <Filter>Components\Rendering</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

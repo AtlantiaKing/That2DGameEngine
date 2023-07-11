@@ -14,6 +14,7 @@
 #include "LivesHUDComponent.h"
 #include "HighScoreHUDComponent.h"
 #include "GameState.h"
+#include "CameraComponent.h"
 
 // Engine includes
 #include "Window.h"
@@ -28,6 +29,13 @@
 
 void digdug::GameScene::Load(that::Scene& scene)
 {
+	const auto& windowSize{ that::Window::GetInstance().GetSize() };
+
+	// Camera
+	that::GameObject* pCamera{ scene.CreateGameObject("Camera") };
+	pCamera->AddComponent<that::CameraComponent>()->SetAsMainCamera();
+	pCamera->GetTransform()->SetWorldPosition(windowSize.x / 2.0f, windowSize.y / 2.0f);
+
 	// Grid
 	that::GameObject* pGrid{ scene.CreateGameObject("Grid") };
 
@@ -38,7 +46,6 @@ void digdug::GameScene::Load(that::Scene& scene)
 	pGrid->AddComponent<GameState>();
 
 	constexpr float referenceSize{ 240.0f };
-	const auto& windowSize{ that::Window::GetInstance().GetSize() };
 	const float scale{ windowSize.x / referenceSize };
 	that::GameObject* pHUD{ scene.CreateGameObject("HUD") };
 	pHUD->GetTransform()->SetWorldScale(scale * pGrid->GetTransform()->GetWorldScale().x);

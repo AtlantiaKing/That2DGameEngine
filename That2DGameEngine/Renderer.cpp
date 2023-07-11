@@ -1,7 +1,11 @@
 #include <stdexcept>
 #include "Renderer.h"
 #include "SceneManager.h"
+#include "Window.h"
 #include "Texture2D.h"
+
+#include "CameraComponent.h"
+#include "Transform.h"
 
 #include "imgui.h"
 #include <backends/imgui_impl_sdl2.h>
@@ -34,10 +38,12 @@ void that::Renderer::Init(SDL_Window* window)
 
 	m_window = window;
 	m_renderer = SDL_CreateRenderer(window, GetOpenGLDriverIndex(), SDL_RENDERER_ACCELERATED);
-	if (m_renderer == nullptr) 
+	if (m_renderer == nullptr)
 	{
 		throw std::runtime_error(std::string("SDL_CreateRenderer Error: ") + SDL_GetError());
 	}
+
+	m_RenderPosition = Window::GetInstance().GetSize() / 2;
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -47,6 +53,8 @@ void that::Renderer::Init(SDL_Window* window)
 
 void that::Renderer::Render()
 {
+	if (m_pCamera) m_RenderPosition = -m_pCamera->GetTransform()->GetWorldPosition() + static_cast<glm::vec2>(Window::GetInstance().GetSize() / 2);
+
 	const auto& color = GetBackgroundColor();
 	SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
 	SDL_RenderClear(m_renderer);
@@ -61,7 +69,7 @@ void that::Renderer::Render()
 
 	ImGui::Render();
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
-	
+
 	SDL_RenderPresent(m_renderer);
 }
 
@@ -78,31 +86,36 @@ void that::Renderer::Destroy()
 	}
 }
 
-void that::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y) const
+void that::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, bool useCamera) const
 {
 	SDL_Rect temp{};
-	RenderTexture(texture, temp, x, y);
+	constexpr glm::vec2 defaultPivot{ glm::vec2{ 0.5f, 0.5f } };
+	RenderTexture(texture, temp, x, y, useCamera);
 }
 
-void that::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float scaleX, const float scaleY, float rotation) const
+void that::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float scaleX, const float scaleY, float rotation, bool useCamera) const
 {
 	SDL_Rect temp{};
-	RenderTexture(texture, temp, x, y, scaleX, scaleY, rotation);
+	constexpr glm::vec2 defaultPivot{ glm::vec2{ 0.5f, 0.5f } };
+	RenderTexture(texture, temp, x, y, scaleX, scaleY, rotation, defaultPivot, useCamera);
 }
 
-void that::Renderer::RenderTexture(const Texture2D& texture, const SDL_Rect& srcRect, float x, float y) const
+void that::Renderer::RenderTexture(const Texture2D& texture, const SDL_Rect& srcRect, float x, float y, bool useCamera) const
 {
-	SDL_Rect dst{};
-	dst.x = static_cast<int>(x);
-	dst.y = static_cast<int>(y);
-	SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &dst.w, &dst.h);
-
-	const bool hasSrcRect{ srcRect.w > FLT_EPSILON || srcRect.y > FLT_EPSILON };
-	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), hasSrcRect ? &srcRect : nullptr, &dst);
+	constexpr float defaultScale{ 1.0f };
+	constexpr float defaultRotation{ 0.0f };
+	constexpr glm::vec2 defaultPivot{ glm::vec2{ 0.5f, 0.5f } };
+	RenderTexture(texture, srcRect, x, y, defaultScale, defaultScale, defaultRotation, defaultPivot, useCamera);
 }
 
-void that::Renderer::RenderTexture(const Texture2D& texture, const SDL_Rect& srcRect, float x, float y, float scaleX, float scaleY, float rotation, const glm::vec2& pivot) const
+void that::Renderer::RenderTexture(const Texture2D& texture, const SDL_Rect& srcRect, float x, float y, float scaleX, float scaleY, float rotation, const glm::vec2& pivot, bool useCamera) const
 {
+	if (useCamera)
+	{
+		x += m_RenderPosition.x;
+		y += m_RenderPosition.y;
+	}
+
 	int textureWidth{};
 	int textureHeight{};
 	SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &textureWidth, &textureHeight);
@@ -134,8 +147,14 @@ void that::Renderer::RenderTexture(const Texture2D& texture, const SDL_Rect& src
 	SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), hasSrcRect ? &srcRect : nullptr, &dst, rotation, &rotationCenter, static_cast<SDL_RendererFlip>(flipState));
 }
 
-void that::Renderer::RenderTexture(const Texture2D& texture, const SDL_Rect& srcRect, SDL_Rect dstRect, float rotation) const
+void that::Renderer::RenderTexture(const Texture2D& texture, const SDL_Rect& srcRect, SDL_Rect dstRect, float rotation, bool useCamera) const
 {
+	if (useCamera)
+	{
+		dstRect.x += static_cast<int>(m_RenderPosition.x);
+		dstRect.y += static_cast<int>(m_RenderPosition.y);
+	}
+
 	const SDL_Point rotationCenter{ abs(dstRect.w) / 2, abs(dstRect.h) / 2 };
 
 	const int flipState{ (dstRect.w < 0.0f ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE) | (dstRect.h < 0.0f ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE) };
@@ -148,10 +167,21 @@ void that::Renderer::RenderTexture(const Texture2D& texture, const SDL_Rect& src
 	SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), hasSrcRect ? &srcRect : nullptr, &dstRect, rotation, &rotationCenter, static_cast<SDL_RendererFlip>(flipState));
 }
 
-void that::Renderer::DrawRect(const SDL_Rect& rect, const SDL_Color& color)
+void that::Renderer::DrawRect(SDL_Rect rect, const SDL_Color& color, bool useCamera)
 {
+	if (useCamera)
+	{
+		rect.x = static_cast<int>(rect.x + m_RenderPosition.x);
+		rect.y = static_cast<int>(rect.y + m_RenderPosition.y);
+	}
+
 	SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
 	SDL_RenderDrawRect(m_renderer, &rect);
 }
 
 inline SDL_Renderer* that::Renderer::GetSDLRenderer() const { return m_renderer; }
+
+void that::Renderer::SetCamera(that::CameraComponent* pCamera)
+{
+	m_pCamera = pCamera;
+}

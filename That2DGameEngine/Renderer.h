@@ -6,6 +6,7 @@
 namespace that
 {
 	class Texture2D;
+	class CameraComponent;
 	/**
 	 * Simple RAII wrapper for the SDL renderer
 	 */
@@ -19,19 +20,24 @@ namespace that
 		void Render();
 		void Destroy();
 
-		void RenderTexture(const Texture2D& texture, float x, float y) const;
-		void RenderTexture(const Texture2D& texture, float x, float y, float scaleX, float scaleY, float rotation) const;
-		void RenderTexture(const Texture2D& texture, const SDL_Rect& srcRect, float x, float y) const;
-		void RenderTexture(const Texture2D& texture, const SDL_Rect& srcRect, float x, float y, float scaleX, float scaleY, float rotation, const glm::vec2& pivot = { 0.5f, 0.5f }) const;
-		void RenderTexture(const Texture2D& texture, const SDL_Rect& srcRect, SDL_Rect dstRect, float rotation) const;
+		void RenderTexture(const Texture2D& texture, float x, float y, bool useCamera = true) const;
+		void RenderTexture(const Texture2D& texture, float x, float y, float scaleX, float scaleY, float rotation, bool useCamera = true) const;
+		void RenderTexture(const Texture2D& texture, const SDL_Rect& srcRect, float x, float y, bool useCamera = true) const;
+		void RenderTexture(const Texture2D& texture, const SDL_Rect& srcRect, float x, float y, float scaleX, float scaleY, float rotation, const glm::vec2& pivot = { 0.5f, 0.5f }, bool useCamera = true) const;
+		void RenderTexture(const Texture2D& texture, const SDL_Rect& srcRect, SDL_Rect dstRect, float rotation, bool useCamera = true) const;
 
-		void DrawRect(const SDL_Rect& rect, const SDL_Color& color);
-
+		void DrawRect(SDL_Rect rect, const SDL_Color& color, bool useCamera = false);
 
 		SDL_Renderer* GetSDLRenderer() const;
 
 		const SDL_Color& GetBackgroundColor() const { return m_clearColor; }
 		void SetBackgroundColor(const SDL_Color& color) { m_clearColor = color; }
+
+		void SetCamera(CameraComponent* pCamera);
+
+	private:
+		CameraComponent* m_pCamera{};
+
+		glm::vec2 m_RenderPosition{};
 	};
 }
-
