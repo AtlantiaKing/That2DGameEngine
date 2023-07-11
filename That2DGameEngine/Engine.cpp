@@ -114,10 +114,10 @@ void that::Engine::Run(const std::function<void()>& setup)
 		sceneManager.Update();
 		events.NotifyListeners();
 
-		sceneManager.LateUpdate();
+		physics.Update();
 		events.NotifyListeners();
 
-		physics.Update();
+		sceneManager.LateUpdate();
 		events.NotifyListeners();
 
 		sceneManager.UpdateCleanup();

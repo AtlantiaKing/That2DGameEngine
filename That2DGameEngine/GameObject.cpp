@@ -141,12 +141,6 @@ void that::GameObject::LateUpdate()
 		pChild->LateUpdate();
 	}
 
-	// Update every child
-	for (const auto& pChild : m_pChildren)
-	{
-		pChild->LateUpdate();
-	}
-
 	// Set the update flag
 	m_IsUpdating = false;
 

@@ -17,7 +17,7 @@ void that::Rigidbody::Init()
 	if (m_pCollider == nullptr) Logger::LogError("GameObject has Rigidbody but no BoxCollider", GetOwner());
 
 	// Listen to any collision events
-	m_pCollider->OnHitEvent().AddListener(this);
+	m_pCollider->OnCollision.AddListener(this);
 
 	// Retrieve the start position
 	m_Position = GetTransform()->GetWorldPosition();

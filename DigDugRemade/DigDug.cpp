@@ -25,14 +25,14 @@ void digdug::DigDug::Init()
 
 	ChangeState(std::make_unique<DigDugWalkingState>(GetOwner()));
 
-	GetOwner()->GetComponent<that::BoxCollider>()->OnHitEvent().AddListener(this);
+	GetOwner()->GetComponent<that::BoxCollider>()->OnCollision.AddListener(this);
 
 	GetOwner()->GetComponent<HealthComponent>()->OnHealthUpdate.AddListener(this);
 }
 
 void digdug::DigDug::OnDestroy()
 {
-	GetOwner()->GetComponent<that::BoxCollider>()->OnHitEvent().RemoveListener(this);
+	GetOwner()->GetComponent<that::BoxCollider>()->OnCollision.RemoveListener(this);
 	GetOwner()->GetComponent<HealthComponent>()->OnHealthUpdate.RemoveListener(this);
 	that::InputManager::GetInstance().Clear();
 

@@ -19,7 +19,7 @@
 void digdug::Pump::Init()
 {
 	m_pCollider = GetOwner()->GetComponent<that::BoxCollider>();
-	m_pCollider->OnHitEvent().AddListener(this);
+	m_pCollider->OnCollision.AddListener(this);
 
 	// Disable the renderer
 	m_pTexture = GetOwner()->GetComponent<that::TextureComponent>();
@@ -64,7 +64,7 @@ void digdug::Pump::Update()
 
 void digdug::Pump::OnDestroy()
 {
-	GetOwner()->GetComponent<that::BoxCollider>()->OnHitEvent().RemoveListener(this);
+	GetOwner()->GetComponent<that::BoxCollider>()->OnCollision.RemoveListener(this);
 }
 
 that::GameObject* digdug::Pump::GetTarget() const

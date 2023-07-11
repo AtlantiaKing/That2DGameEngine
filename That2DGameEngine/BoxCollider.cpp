@@ -27,6 +27,30 @@ void that::BoxCollider::OnDestroy()
 	Physics::GetInstance().RemoveCollider(this);
 }
 
+void that::BoxCollider::LateUpdate()
+{
+	std::vector<BoxCollider*> pExitColliders{};
+
+	// Call OnCollisionExit if necessary
+	for (BoxCollider* pOther : m_Collisions)
+	{
+		if (m_CollisionsFrame.contains(pOther)) continue;
+
+		OnCollisionExit.Notify(CollisionData{ this, pOther });
+
+		pExitColliders.push_back(pOther);
+	}
+
+	// Remove all the colliders that have exited this frame
+	for (BoxCollider* pOther : pExitColliders)
+	{
+		m_Collisions.erase(pOther);
+	}
+
+	// Clear the collision list of this frame
+	m_CollisionsFrame.clear();
+}
+
 void that::BoxCollider::Render() const
 {
 	if (!Physics::GetInstance().IsShowingDebugRendering()) return;
@@ -96,6 +120,18 @@ glm::vec2 that::BoxCollider::GetSizeWorld() const
 
 void that::BoxCollider::Hit(const CollisionData& collision)
 {
-	// Notify all observers
-	m_OnHitEvent.Notify(collision);
+	// Add the other collider to the container of this frame
+	m_CollisionsFrame.insert(collision.pOther);
+
+	// If this collision didn't occur previous frame, trigger OnCollisionEnter
+	if (!m_Collisions.contains(collision.pOther))
+	{
+		m_Collisions.insert(collision.pOther);
+
+		// Notify all observers of OnCollisionEnter
+		OnCollisionEnter.Notify(collision);
+	}
+
+	// Notify all observers of OnCollision
+	OnCollision.Notify(collision);
 }

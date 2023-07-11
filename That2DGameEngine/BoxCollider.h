@@ -8,6 +8,8 @@
 
 #include "glm/vec2.hpp"
 
+#include <set>
+
 namespace that
 {
 	class BoxCollider final : public Component
@@ -23,6 +25,7 @@ namespace that
 
 		virtual void Init() override;
 		virtual void OnDestroy() override;
+		virtual void LateUpdate() override;
 		virtual void Render() const override;
 
 		void SetCenter(const glm::vec2& center);
@@ -39,7 +42,10 @@ namespace that
 		void SetIgnoreGroup(unsigned int ignoreGroup) { m_IgnoreGroup = ignoreGroup; }
 		unsigned int GetIgnoreGroup() const { return m_IgnoreGroup; }
 
-		Subject<CollisionData>& OnHitEvent() { return m_OnHitEvent; }
+		Subject<CollisionData> OnCollisionEnter{};
+		Subject<CollisionData> OnCollision{};
+		Subject<CollisionData> OnCollisionExit{};
+
 	private:
 		friend Physics;
 
@@ -52,6 +58,7 @@ namespace that
 		unsigned int m_Layer{};
 		unsigned int m_IgnoreGroup{};
 
-		Subject<CollisionData> m_OnHitEvent{};
+		std::set<BoxCollider*> m_CollisionsFrame{};
+		std::set<BoxCollider*> m_Collisions{};
 	};
 }

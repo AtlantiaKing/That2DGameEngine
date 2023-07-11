@@ -19,7 +19,7 @@ void digdug::FireBreath::Init()
 	m_pTexture = GetOwner()->GetComponent<that::TextureComponent>();
 
 	m_pCollider = GetOwner()->GetComponent<that::BoxCollider>();
-	m_pCollider->OnHitEvent().AddListener(this);
+	m_pCollider->OnCollision.AddListener(this);
 }
 
 void digdug::FireBreath::Update()
@@ -62,7 +62,7 @@ void digdug::FireBreath::OnDisable()
 
 void digdug::FireBreath::OnDestroy()
 {
-	m_pCollider->OnHitEvent().RemoveListener(this);
+	m_pCollider->OnCollision.RemoveListener(this);
 }
 
 void digdug::FireBreath::Notify(const that::CollisionData& collision)

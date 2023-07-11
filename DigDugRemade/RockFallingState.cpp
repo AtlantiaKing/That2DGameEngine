@@ -53,7 +53,7 @@ void digdug::RockFallingState::StateEnter()
 	m_pGrid = m_pRock->GetParent()->GetComponent<GridComponent>();
 	m_pGrid->EnableTile(m_pRock->GetTransform()->GetLocalPosition() / m_pGrid->GetCellSize());
 
-	m_pRock->GetComponent<that::BoxCollider>()->OnHitEvent().AddListener(this);
+	m_pRock->GetComponent<that::BoxCollider>()->OnCollision.AddListener(this);
 }
 
 void digdug::RockFallingState::StateEnd()
@@ -62,7 +62,7 @@ void digdug::RockFallingState::StateEnd()
 	pRb->SetGravityEnabled(false);
 	pRb->Reset();
 
-	m_pRock->GetComponent<that::BoxCollider>()->OnHitEvent().RemoveListener(this);
+	m_pRock->GetComponent<that::BoxCollider>()->OnCollision.RemoveListener(this);
 
 	if(m_EnemiesKilled > 0)
 		m_pRock->GetComponent<Rock>()->GetLastPlayer()->GetComponent<ScoreComponent>()->AddScore(CalculateScore(), m_pRock->GetTransform()->GetWorldPosition());
