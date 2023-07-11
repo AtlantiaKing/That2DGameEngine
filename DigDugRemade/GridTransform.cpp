@@ -3,7 +3,7 @@
 
 #include "GameObject.h"
 #include "Transform.h"
-#include "TextureRenderer.h"
+#include "TextureComponent.h"
 
 #include "Timer.h"
 
@@ -37,7 +37,7 @@ void digdug::GridTransform::OnDisable()
 
 void digdug::GridTransform::SnapToGrid()
 {
-	if(!m_pTexture) m_pTexture = GetOwner()->GetComponent<that::TextureRenderer>();
+	if(!m_pTexture) m_pTexture = GetOwner()->GetComponent<that::TextureComponent>();
 	if(!m_pGrid) m_pGrid = GetOwner()->GetParent()->GetComponent<GridComponent>();
 
 	const float cellSize{ m_pGrid->GetCellSize() };

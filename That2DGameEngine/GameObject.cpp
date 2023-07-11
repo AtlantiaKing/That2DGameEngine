@@ -1,6 +1,5 @@
 #include "GameObject.h"
 #include "Transform.h"
-#include "TextureRenderer.h"
 #include "Scene.h"
 #include "Logger.h"
 

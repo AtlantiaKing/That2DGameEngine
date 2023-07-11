@@ -5,7 +5,7 @@
 namespace that
 {
 	class TextureMask;
-	class TextureRenderer;
+	class TextureComponent;
 }
 
 namespace digdug
@@ -28,7 +28,7 @@ namespace digdug
 
 	private:
 		that::TextureMask* m_pMask{};
-		that::TextureRenderer* m_pTexture{};
+		that::TextureComponent* m_pTexture{};
 		GridComponent* m_pGrid{};
 	};
 }

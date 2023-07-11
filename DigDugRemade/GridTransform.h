@@ -8,7 +8,7 @@
 
 namespace that
 {
-	class TextureRenderer;
+	class TextureComponent;
 }
 
 namespace digdug
@@ -56,6 +56,6 @@ namespace digdug
 		const int m_IsInTileEpsilon{ 6 };
 
 		GridComponent* m_pGrid{};
-		that::TextureRenderer* m_pTexture{};
+		that::TextureComponent* m_pTexture{};
 	};
 }

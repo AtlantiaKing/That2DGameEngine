@@ -1,7 +1,7 @@
 #include "FireBreath.h"
 
 #include "Transform.h"
-#include "TextureRenderer.h"
+#include "TextureComponent.h"
 #include "BoxCollider.h"
 #include "TextureMask.h"
 #include "HealthComponent.h"
@@ -16,7 +16,7 @@ void digdug::FireBreath::Init()
 {
 	m_pMask = GetOwner()->GetComponent<that::TextureMask>();
 
-	m_pTexture = GetOwner()->GetComponent<that::TextureRenderer>();
+	m_pTexture = GetOwner()->GetComponent<that::TextureComponent>();
 
 	m_pCollider = GetOwner()->GetComponent<that::BoxCollider>();
 	m_pCollider->OnHitEvent().AddListener(this);

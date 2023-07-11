@@ -4,7 +4,7 @@
 #include "Timer.h"
 
 #include "EnemyMovement.h"
-#include "TextureRenderer.h"
+#include "TextureComponent.h"
 #include "BoxCollider.h"
 #include "Transform.h"
 
@@ -15,7 +15,7 @@ void digdug::EnemyBehaviour::Init()
 
 	m_pMovement = GetOwner()->GetComponent<EnemyMovement>();
 
-	m_pTexture = GetOwner()->GetComponent<that::TextureRenderer>();
+	m_pTexture = GetOwner()->GetComponent<that::TextureComponent>();
 }
 
 void digdug::EnemyBehaviour::Update()

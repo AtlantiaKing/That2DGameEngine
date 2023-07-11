@@ -9,7 +9,7 @@
 #include "LevelLoader.h"
 #include "GridComponent.h"
 #include "TextComponent.h"
-#include "TextureRenderer.h"
+#include "UIComponent.h"
 #include "ScoreHUDComponent.h"
 #include "LivesHUDComponent.h"
 #include "HighScoreHUDComponent.h"
@@ -53,7 +53,7 @@ void digdug::GameScene::Load(that::Scene& scene)
 		that::GameObject* pHighScoreHeader{ pHUD->CreateGameObject("HighScoreHeader") };
 		const auto& pTexture{ that::TextureManager::GetInstance().LoadTexture("HUD/HighScore.png") };
 		const auto& pTextureSize{ pTexture->GetSize() };
-		const auto& pRenderer{ pHighScoreHeader->AddComponent<that::TextureRenderer>() };
+		const auto& pRenderer{ pHighScoreHeader->AddComponent<that::UIComponent>() };
 		pRenderer->SetTexture(pTexture);
 		pRenderer->SetPivot({ 1.0f, 0.5f });
 		pHighScoreHeader->GetTransform()->SetWorldPosition(static_cast<float>(windowSize.x), 0.0f);
@@ -61,7 +61,7 @@ void digdug::GameScene::Load(that::Scene& scene)
 
 
 		that::GameObject* pScore{ pHUD->CreateGameObject("HighScore") };
-		pScore->AddComponent<that::TextureRenderer>()->SetPivot({ 1.0f, 0.5f });
+		pScore->AddComponent<that::UIComponent>()->SetPivot({ 1.0f, 0.5f });
 		that::TextComponent* pScoreText{ pScore->AddComponent<that::TextComponent>() };
 		pScoreText->SetFont(that::ResourceManager::GetInstance().LoadFont("Fonts/Arcade.ttf", 8));
 		pScoreText->SetText("0");
@@ -73,7 +73,7 @@ void digdug::GameScene::Load(that::Scene& scene)
 		that::GameObject* pScoreHeader{ pHUD->CreateGameObject("ScoreHeader") };
 		const auto& pHeaderTexture{ that::TextureManager::GetInstance().LoadTexture("HUD/Score.png") };
 		const auto& pTextureSize{ pHeaderTexture->GetSize() };
-		const auto& pHeaderRenderer{ pScoreHeader->AddComponent<that::TextureRenderer>() };
+		const auto& pHeaderRenderer{ pScoreHeader->AddComponent<that::UIComponent>() };
 		pHeaderRenderer->SetTexture(pHeaderTexture);
 		pHeaderRenderer->SetPivot({ 1.0f, 0.5f });
 		pScoreHeader->GetTransform()->SetWorldPosition(static_cast<float>(windowSize.x), 0.0f);
@@ -81,7 +81,7 @@ void digdug::GameScene::Load(that::Scene& scene)
 
 
 		that::GameObject* pScore{ pHUD->CreateGameObject("Score") };
-		pScore->AddComponent<that::TextureRenderer>()->SetPivot({ 1.0f, 0.5f });
+		pScore->AddComponent<that::UIComponent>()->SetPivot({ 1.0f, 0.5f });
 		that::TextComponent* pScoreText{ pScore->AddComponent<that::TextComponent>() };
 		pScoreText->SetFont(that::ResourceManager::GetInstance().LoadFont("Fonts/Arcade.ttf", 8));
 		pScoreText->SetText("0");
@@ -98,7 +98,7 @@ void digdug::GameScene::Load(that::Scene& scene)
 		that::GameObject* pRoundHeader{ pHUD->CreateGameObject("RoundHeader") };
 		const auto& pTexture{ that::TextureManager::GetInstance().LoadTexture("HUD/Round.png") };
 		const auto& pTextureSize{ pTexture->GetSize() };
-		const auto& pRenderer{ pRoundHeader->AddComponent<that::TextureRenderer>() };
+		const auto& pRenderer{ pRoundHeader->AddComponent<that::UIComponent>() };
 		pRenderer->SetTexture(pTexture);
 		pRenderer->SetPivot({ 1.0f, 0.5f });
 		pRoundHeader->GetTransform()->SetWorldPosition(static_cast<float>(windowSize.x), 0.0f);
@@ -106,7 +106,7 @@ void digdug::GameScene::Load(that::Scene& scene)
 
 
 		that::GameObject* pRound{ pHUD->CreateGameObject("RoundNumber") };
-		pRound->AddComponent<that::TextureRenderer>()->SetPivot({ 1.0f, 0.5f });
+		pRound->AddComponent<that::UIComponent>()->SetPivot({ 1.0f, 0.5f });
 		that::TextComponent* pScoreText{ pRound->AddComponent<that::TextComponent>() };
 		pScoreText->SetFont(that::ResourceManager::GetInstance().LoadFont("Fonts/Arcade.ttf", 8));
 		pScoreText->SetText(std::to_string(GameData::GetInstance().GetRoundNumber()));

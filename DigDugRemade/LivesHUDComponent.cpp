@@ -2,7 +2,7 @@
 
 #include "GameObject.h"
 
-#include "TextureRenderer.h"
+#include "UIComponent.h"
 #include "Transform.h"
 
 #include "TextureManager.h"
@@ -69,7 +69,7 @@ void digdug::LivesHUDComponent::Display(that::GameObject* pPlayer)
 	for (int i{}; i < m_pHealth->GetMaxHealth() - 1; ++i)
 	{
 		that::GameObject* pLife{ GetOwner()->CreateGameObject("Life") };
-		that::TextureRenderer* pRenderer{ pLife->AddComponent<that::TextureRenderer>() };
+		that::UIComponent* pRenderer{ pLife->AddComponent<that::UIComponent>() };
 		pRenderer->SetTexture(pTexture);
 		pRenderer->SetPivot({ 0.0f, 0.5f });
 		pLife->GetTransform()->SetLocalPosition(static_cast<float>(textureWidth * i), 0.0f);

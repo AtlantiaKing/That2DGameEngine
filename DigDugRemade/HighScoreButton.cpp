@@ -2,13 +2,13 @@
 
 #include "GameObject.h"
 
-#include "TextureRenderer.h"
+#include "UIComponent.h"
 
 #include "Timer.h"
 
 void digdug::HighScoreButton::Init()
 {
-	m_pRenderer = GetOwner()->GetComponent<that::TextureRenderer>();
+	m_pRenderer = GetOwner()->GetComponent<that::UIComponent>();
 }
 
 void digdug::HighScoreButton::Update()

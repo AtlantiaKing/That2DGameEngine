@@ -2,7 +2,7 @@
 
 #include "GameObject.h"
 
-#include "TextureRenderer.h"
+#include "RenderComponent.h"
 #include "TextComponent.h"
 
 #include "Timer.h"
@@ -10,7 +10,7 @@
 
 void digdug::HighScoreLetter::Init()
 {
-	m_pRenderer = GetOwner()->GetComponent<that::TextureRenderer>();
+	m_pRenderer = GetOwner()->GetComponent<that::RenderComponent>();
 }
 
 void digdug::HighScoreLetter::Update()

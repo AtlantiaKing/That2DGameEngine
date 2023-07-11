@@ -6,7 +6,7 @@
 #include "WorldTile.h"
 #include "GameState.h"
 #include "Transform.h"
-#include "TextureRenderer.h"
+#include "UIComponent.h"
 
 #include "Timer.h"
 #include "TextureManager.h"
@@ -67,7 +67,7 @@ void digdug::EndRoundState::StateEnter()
 		const auto& screenSize{ that::Window::GetInstance().GetSize() };
 		m_pGameOver = m_pGame->GetOwner()->GetScene()->CreateGameObject("GameOverHUD");
 		const auto& pTexture{ that::TextureManager::GetInstance().LoadTexture(m_Victory ? "HUD/VictoryEndGame.png" : "HUD/GameOver.png") };
-		m_pGameOver->AddComponent<that::TextureRenderer>()->SetTexture(pTexture);
+		m_pGameOver->AddComponent<that::UIComponent>()->SetTexture(pTexture);
 		m_pGameOver->GetTransform()->SetWorldScale(static_cast<float>(screenSize.y) / pTexture->GetSize().x);
 		m_pGameOver->GetTransform()->SetLocalPosition(screenSize.x / 2.0f, screenSize.y / 2.0f);
 	}

@@ -2,7 +2,7 @@
 
 #include "GameObject.h"
 
-#include "TextureRenderer.h"
+#include "TextureComponent.h"
 #include "TextureMask.h"
 #include "Transform.h"
 #include "GridTransform.h"
@@ -23,24 +23,24 @@ void digdug::WorldTile::Init()
 	that::GameObject* pBottomMask{ pOwner->CreateGameObject("BottomMask") };
 	that::GameObject* pTopMask{ pOwner->CreateGameObject("BottomMask") };
 
-	auto pLeftTexture{ pLeftMask->AddComponent<that::TextureRenderer>() };
+	auto pLeftTexture{ pLeftMask->AddComponent<that::TextureComponent>() };
 	pLeftTexture->SetTexture(that::TextureManager::GetInstance().LoadTexture("DiggedAreaLeft.png"));
 	m_pLeftMask = pLeftMask->AddComponent<that::TextureMask>();
 	m_pLeftMask->SetPercentage(true, 0.0f);
 
-	auto pRightTexture{ pRightMask->AddComponent<that::TextureRenderer>() };
+	auto pRightTexture{ pRightMask->AddComponent<that::TextureComponent>() };
 	pRightTexture->SetTexture(that::TextureManager::GetInstance().LoadTexture("DiggedAreaRight.png"));
 	pRightMask->GetTransform()->Rotate(180.0f);
 	m_pRightMask = pRightMask->AddComponent<that::TextureMask>();
 	m_pRightMask->SetPercentage(true, 0.0f);
 
-	auto pBottomTexture{ pBottomMask->AddComponent<that::TextureRenderer>() };
+	auto pBottomTexture{ pBottomMask->AddComponent<that::TextureComponent>() };
 	pBottomTexture->SetTexture(that::TextureManager::GetInstance().LoadTexture("DiggedAreaLeft.png"));
 	pBottomMask->GetTransform()->Rotate(-90.0f);
 	m_pBottomMask = pBottomMask->AddComponent<that::TextureMask>();
 	m_pBottomMask->SetPercentage(true, 0.0f);
 
-	auto pTopTexture{ pTopMask->AddComponent<that::TextureRenderer>() };
+	auto pTopTexture{ pTopMask->AddComponent<that::TextureComponent>() };
 	pTopTexture->SetTexture(that::TextureManager::GetInstance().LoadTexture("DiggedAreaRight.png"));
 	pTopMask->GetTransform()->Rotate(90.0f);
 	m_pTopMask = pTopMask->AddComponent<that::TextureMask>();
@@ -70,7 +70,7 @@ void digdug::WorldTile::UpdatePlayer(const glm::ivec2& /*playerCell*/, const glm
 	const int cellSize{ static_cast<int>(m_pGrid->GetCellSize()) };
 
 	const auto& tilePos{ GetTransform()->GetLocalPosition() };
-	const auto& textureSize{ GetOwner()->GetComponent<that::TextureRenderer>()->GetTextureSize() };
+	const auto& textureSize{ GetOwner()->GetComponent<that::TextureComponent>()->GetTextureSize() };
 
 	constexpr float epsilon{ 0.01f };
 	if (playerPosition.x + playerSize < tilePos.x + epsilon || playerPosition.x + epsilon > tilePos.x + textureSize.x) return;
@@ -153,7 +153,7 @@ void digdug::WorldTile::SetMasks(float left, float right, float bottom, float to
 bool digdug::WorldTile::IsValidPosition(const glm::vec2& position, const glm::ivec2& direction, float size) const
 {
 	const auto& tilePos{ GetTransform()->GetLocalPosition() };
-	const auto& textureSize{ GetOwner()->GetComponent<that::TextureRenderer>()->GetTextureSize() };
+	const auto& textureSize{ GetOwner()->GetComponent<that::TextureComponent>()->GetTextureSize() };
 
 	if (position.x + size / 2.0f <= tilePos.x - textureSize.x / 2.0f || position.x - size / 2.0f >= tilePos.x + textureSize.x / 2.0f) 
 		return true;
@@ -183,7 +183,7 @@ bool digdug::WorldTile::IsValidPosition(const glm::vec2& position, const glm::iv
 bool digdug::WorldTile::IsValidPixel(const glm::vec2& position) const
 {
 	const auto& tilePos{ GetTransform()->GetLocalPosition() };
-	const auto& textureSize{ GetOwner()->GetComponent<that::TextureRenderer>()->GetTextureSize() };
+	const auto& textureSize{ GetOwner()->GetComponent<that::TextureComponent>()->GetTextureSize() };
 
 	if (position.x <= tilePos.x - textureSize.x / 2.0f || position.x >= tilePos.x + textureSize.x / 2.0f)
 		return true;

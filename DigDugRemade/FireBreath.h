@@ -9,7 +9,7 @@
 namespace that
 {
 	class TextureMask;
-	class TextureRenderer;
+	class TextureComponent;
 	class BoxCollider;
 }
 
@@ -39,7 +39,7 @@ namespace digdug
 		float m_UnmaskSpeed{ 2.0f };
 
 		that::TextureMask* m_pMask{};
-		that::TextureRenderer* m_pTexture{};
+		that::TextureComponent* m_pTexture{};
 		that::BoxCollider* m_pCollider{};
 	};
 }

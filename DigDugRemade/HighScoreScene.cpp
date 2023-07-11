@@ -6,7 +6,7 @@
 #include "GameObject.h"
 
 #include "Transform.h"
-#include "TextureRenderer.h"
+#include "UIComponent.h"
 #include "TextComponent.h"
 #include "HighScoreLetter.h"
 #include "HighScoreButton.h"
@@ -25,7 +25,7 @@ void digdug::HighScoreScene::Load(that::Scene& scene)
 	// BACKGROUND
 	that::GameObject* pBackground{ scene.CreateGameObject("Background") };
 	const auto& pBackgroundTexture{ that::TextureManager::GetInstance().LoadTexture("HighScoreScreen/Background.png") };
-	const auto pBackgroundRenderer{ pBackground->AddComponent<that::TextureRenderer>() };
+	const auto pBackgroundRenderer{ pBackground->AddComponent<that::UIComponent>() };
 	pBackgroundRenderer->SetTexture(pBackgroundTexture);
 
 	const float uiScale{ static_cast<float>(screenSize.y) / pBackgroundTexture->GetSize().y };
@@ -37,7 +37,7 @@ void digdug::HighScoreScene::Load(that::Scene& scene)
 
 	// SCORE
 	that::GameObject* pScore{ pBackground->CreateGameObject("Score") };
-	pScore->AddComponent<that::TextureRenderer>();
+	pScore->AddComponent<that::UIComponent>();
 	that::TextComponent* pScoreText{ pScore->AddComponent<that::TextComponent>() };
 	pScoreText->SetFont(pFont);
 	pScoreText->SetText(std::to_string(GameData::GetInstance().GetCurrentScores(0)));
@@ -51,7 +51,7 @@ void digdug::HighScoreScene::Load(that::Scene& scene)
 	pScore->AddComponent<HighScoreSaver>()->SetLetters(pLetters);
 
 	that::GameObject* pButtonObj{ pBackground->CreateGameObject("ReadyButton") };
-	pButtonObj->AddComponent<that::TextureRenderer>()->SetTexture(that::TextureManager::GetInstance().LoadTexture("HighScoreScreen/Ready.png"));
+	pButtonObj->AddComponent<that::UIComponent>()->SetTexture(that::TextureManager::GetInstance().LoadTexture("HighScoreScreen/Ready.png"));
 	HighScoreButton* pButton{ pButtonObj->AddComponent<HighScoreButton>() };
 	pButton->SetEnabled(false);
 	pButtonObj->GetTransform()->SetLocalPosition(50.0f, 35.0f);
@@ -70,7 +70,7 @@ digdug::HighScoreLetter* digdug::HighScoreScene::CreateLetterEditor(that::GameOb
 	const float letterXPos{ -distanceBetweenLetters + distanceBetweenLetters * index };
 
 	that::GameObject* pLetter{ pParent->CreateGameObject("Letter") };
-	pLetter->AddComponent<that::TextureRenderer>();
+	pLetter->AddComponent<that::UIComponent>();
 	that::TextComponent* pLetterText{ pLetter->AddComponent<that::TextComponent>() };
 	pLetterText->SetFont(pFont);
 	pLetterText->SetText("A");
@@ -80,11 +80,11 @@ digdug::HighScoreLetter* digdug::HighScoreScene::CreateLetterEditor(that::GameOb
 	pLetterScript->SetIndex(index);
 
 	that::GameObject* pMarkerUp{ pParent->CreateGameObject("MarkerUp") };
-	pMarkerUp->AddComponent<that::TextureRenderer>()->SetTexture(that::TextureManager::GetInstance().LoadTexture("HighScoreScreen/MarkerUp.png"));
+	pMarkerUp->AddComponent<that::UIComponent>()->SetTexture(that::TextureManager::GetInstance().LoadTexture("HighScoreScreen/MarkerUp.png"));
 	pMarkerUp->GetTransform()->SetLocalPosition(letterXPos, letterYPos - distanceBetweenLetterAndMarker);
 
 	that::GameObject* pMarkerDown{ pParent->CreateGameObject("MarkerDown") };
-	pMarkerDown->AddComponent<that::TextureRenderer>()->SetTexture(that::TextureManager::GetInstance().LoadTexture("HighScoreScreen/MarkerDown.png"));
+	pMarkerDown->AddComponent<that::UIComponent>()->SetTexture(that::TextureManager::GetInstance().LoadTexture("HighScoreScreen/MarkerDown.png"));
 	pMarkerDown->GetTransform()->SetLocalPosition(letterXPos, letterYPos + distanceBetweenLetterAndMarker);
 
 	return pLetterScript;

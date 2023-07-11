@@ -4,7 +4,7 @@
 
 namespace that
 {
-	class TextureRenderer;
+	class RenderComponent;
 }
 
 namespace digdug
@@ -37,6 +37,6 @@ namespace digdug
 		char m_Letter{ 'A' };
 		int m_Index{};
 
-		that::TextureRenderer* m_pRenderer{};
+		that::RenderComponent* m_pRenderer{};
 	};
 }

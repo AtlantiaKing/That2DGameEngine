@@ -2,7 +2,7 @@
 
 #include "GameObject.h"
 
-#include "TextureRenderer.h"
+#include "RenderComponent.h"
 #include "Transform.h"
 
 #include "Renderer.h"
@@ -15,8 +15,8 @@ void that::BoxCollider::Init()
 	// Don't overwrite settings by the user
 	if (m_DefaultSize)
 	{
-		// Set the size of the collider to the size of the texture if there is a TextureRenderer
-		TextureRenderer* pTexture{ GetOwner()->GetComponent<TextureRenderer>() };
+		// Set the size of the collider to the size of the texture if there is a RenderComponent
+		RenderComponent* pTexture{ GetOwner()->GetComponent<RenderComponent>() };
 		if (pTexture) m_Size = pTexture->GetScaledTextureSize();
 	}
 }

@@ -7,7 +7,7 @@
 
 namespace that
 {
-	class TextureRenderer;
+	class TextureComponent;
 	class TextureMask;
 	class BoxCollider;
 }
@@ -42,7 +42,7 @@ namespace digdug
 	private:
 
 		HealthComponent* m_pPumpTo{};
-		that::TextureRenderer* m_pTexture{};
+		that::TextureComponent* m_pTexture{};
 		that::TextureMask* m_pMask{};
 		that::BoxCollider* m_pCollider{};
 

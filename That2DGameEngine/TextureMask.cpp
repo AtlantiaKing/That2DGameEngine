@@ -1,6 +1,6 @@
 #include "TextureMask.h"
 
-#include "TextureRenderer.h"
+#include "RenderComponent.h"
 #include "GameObject.h"
 #include "Logger.h"
 #include "Timer.h"
@@ -18,8 +18,8 @@ glm::vec2 that::TextureMask::GetMask() const
 
 void that::TextureMask::Init()
 {
-    m_pTexture = GetOwner()->GetComponent<TextureRenderer>();
-    if (m_pTexture == nullptr) Logger::LogError("GameObject has TextureMask but no TextureRenderer");
+    m_pTexture = GetOwner()->GetComponent<RenderComponent>();
+    if (m_pTexture == nullptr) Logger::LogError("GameObject has TextureMask but no RenderComponent");
 }
 
 void that::TextureMask::Update()

@@ -3,7 +3,7 @@
 #include "GameObject.h"
 
 #include "TextureMask.h"
-#include "TextureRenderer.h"
+#include "TextureComponent.h"
 #include "Transform.h"
 #include "GridComponent.h"
 
@@ -18,7 +18,7 @@ void digdug::DisableOnGroundHit::Init()
 	that::GameObject* pParent{ GetOwner()->GetParent() };
 
 	m_pMask = pParent->GetComponent<that::TextureMask>();
-	m_pTexture = pParent->GetComponent<that::TextureRenderer>();
+	m_pTexture = pParent->GetComponent<that::TextureComponent>();
 
 	// Parent = pump/breath, next parent is player/enemy, next parent is the grid
 	m_pGrid = pParent->GetParent()->GetParent()->GetComponent<GridComponent>();

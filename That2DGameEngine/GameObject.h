@@ -8,7 +8,6 @@
 
 namespace that
 {
-	class TextureRenderer;
 	class Transform;
 	class Scene;
 

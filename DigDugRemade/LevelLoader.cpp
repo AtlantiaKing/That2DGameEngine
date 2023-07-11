@@ -8,7 +8,7 @@
 #include "Transform.h"
 #include "GridComponent.h"
 #include "GridTransform.h"
-#include "TextureRenderer.h"
+#include "TextureComponent.h"
 #include "GridCollider.h"
 #include "DigDug.h"
 #include "LivesHUDComponent.h"
@@ -84,7 +84,7 @@ void digdug::LevelLoader::Init()
 			tileFilePath << "Tiles/WorldTile" << (y - 1) / 3 << ".png";
 
 			const auto& pWorldTileTexture{ that::TextureManager::GetInstance().LoadTexture(tileFilePath.str()) };
-			pTile->AddComponent<that::TextureRenderer>()->SetTexture(pWorldTileTexture);
+			pTile->AddComponent<that::TextureComponent>()->SetTexture(pWorldTileTexture);
 
 			pGridComponent->SetTile(x, y, pTile->AddComponent<WorldTile>());
 		}
@@ -200,7 +200,7 @@ void digdug::LevelLoader::OnFrameStart()
 					pEnemy->SetTag("Fygar");
 
 					that::GameObject* pFire{ pEnemy->CreateGameObject("FireBreath") };
-					that::TextureRenderer* pFireRenderer{ pFire->AddComponent<that::TextureRenderer>() };
+					that::TextureComponent* pFireRenderer{ pFire->AddComponent<that::TextureComponent>() };
 					pFireRenderer->SetTexture(that::TextureManager::GetInstance().LoadTexture("Fygar/FireBreath.png"));
 					pFire->GetTransform()->SetLocalPosition((cellSize + pFireRenderer->GetTextureSize().x) / 2.0f, 0.0f);
 					pFire->AddComponent<FireBreath>();
@@ -266,7 +266,7 @@ that::GameObject* digdug::LevelLoader::CreatePlayer(int index, DigDugAudio* pDig
 
 	// Pump
 	that::GameObject* pPump{ pPlayer->CreateGameObject("Pump") };
-	auto pPumpRenderer{ pPump->AddComponent<that::TextureRenderer>() };
+	auto pPumpRenderer{ pPump->AddComponent<that::TextureComponent>() };
 	const auto& pPumpTexture{ that::TextureManager::GetInstance().LoadTexture("Pump.png") };
 	pPumpRenderer->SetTexture(pPumpTexture);
 	pPump->AddComponent<that::BoxCollider>();

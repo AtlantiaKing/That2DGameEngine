@@ -92,7 +92,7 @@
     <ClInclude Include="Transform.h">
       <Filter>Components\General</Filter>
     </ClInclude>
-    <ClInclude Include="TextureRenderer.h">
+    <ClInclude Include="TextureComponent.h">
       <Filter>Components\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="TextComponent.h">
@@ -209,6 +209,15 @@
     <ClInclude Include="CameraComponent.h">
       <Filter>Components\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="UIComponent.h">
+      <Filter>Components\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureRenderer.h">
+      <Filter>Seperate Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderComponent.h">
+      <Filter>Components\Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">
@@ -244,7 +253,7 @@
     <ClCompile Include="Transform.cpp">
       <Filter>Components\General</Filter>
     </ClCompile>
-    <ClCompile Include="TextureRenderer.cpp">
+    <ClCompile Include="TextureComponent.cpp">
       <Filter>Components\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="TextComponent.cpp">
@@ -324,6 +333,15 @@
       <Filter>Engine Files</Filter>
     </ClCompile>
     <ClCompile Include="CameraComponent.cpp">
+      <Filter>Components\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="UIComponent.cpp">
+      <Filter>Components\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureRenderer.cpp">
+      <Filter>Seperate Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderComponent.cpp">
       <Filter>Components\Rendering</Filter>
     </ClCompile>
   </ItemGroup>

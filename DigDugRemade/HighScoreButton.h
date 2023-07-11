@@ -4,7 +4,7 @@
 
 namespace that
 {
-	class TextureRenderer;
+	class UIComponent;
 }
 
 namespace digdug
@@ -29,6 +29,6 @@ namespace digdug
 		float m_BlinkTime{};
 		const float m_TimeBetweenBlinks{ 0.1f };
 
-		that::TextureRenderer* m_pRenderer{};
+		that::UIComponent* m_pRenderer{};
 	};
 }

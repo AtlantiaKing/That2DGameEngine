@@ -5,7 +5,7 @@
 
 namespace that
 {
-	class TextureRenderer;
+	class RenderComponent;
 
 	class TextureMask final : public Component
 	{
@@ -24,7 +24,7 @@ namespace that
 		virtual void Init() override;
 		virtual void Update() override;
 	private:
-		TextureRenderer* m_pTexture{};
+		RenderComponent* m_pTexture{};
 
 		float m_XMask{ 1.0f };
 		float m_YMask{ 1.0f };

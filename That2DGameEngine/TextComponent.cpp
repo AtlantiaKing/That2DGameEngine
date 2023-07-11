@@ -2,7 +2,7 @@
 #include "GameObject.h"
 #include "Font.h"
 #include "Renderer.h"
-#include "TextureRenderer.h"
+#include "RenderComponent.h"
 #include "Logger.h"
 
 #include <stdexcept>
@@ -88,14 +88,14 @@ bool that::TextComponent::ReloadTexture()
 
 	// If no texture renderer is assigned, try getting a texture renderer from the parent
 	// If no texture renderer is found on the parent, do nothing
-	//		Log a warning that no TextureRenderer is assigned to this TextComponent
-	if (!m_pTextureRenderer)
+	//		Log a warning that no RenderComponent is assigned to this TextComponent
+	if (!m_pRenderComponent)
 	{
-		m_pTextureRenderer = GetOwner()->GetComponent<TextureRenderer>();
+		m_pRenderComponent = GetOwner()->GetComponent<RenderComponent>();
 
-		if (!m_pTextureRenderer)
+		if (!m_pRenderComponent)
 		{
-			Logger::LogWarning( "The owner of this TextComponent component has no TextureRenderer", GetOwner());
+			Logger::LogWarning( "The owner of this TextComponent component has no RenderComponent", GetOwner());
 			return false;
 		}
 	};
@@ -114,7 +114,7 @@ bool that::TextComponent::ReloadTexture()
 	SDL_FreeSurface(surf);
 
 	// Set the new texture to the texture renderer
-	m_pTextureRenderer->SetTexture(std::make_shared<Texture2D>(texture));
+	m_pRenderComponent->SetTexture(std::make_shared<Texture2D>(texture));
 
 	// Return ReloadTexture succeeded
 	return true;

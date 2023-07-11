@@ -1,7 +1,7 @@
 #include "Pump.h"
 
 #include "EnemyMovement.h"
-#include "TextureRenderer.h"
+#include "TextureComponent.h"
 #include "TextureMask.h"
 #include "GridTransform.h"
 #include "ScoreComponent.h"
@@ -22,7 +22,7 @@ void digdug::Pump::Init()
 	m_pCollider->OnHitEvent().AddListener(this);
 
 	// Disable the renderer
-	m_pTexture = GetOwner()->GetComponent<that::TextureRenderer>();
+	m_pTexture = GetOwner()->GetComponent<that::TextureComponent>();
 	m_pTexture->SetEnabled(false);
 
 	m_pMask = GetOwner()->GetComponent<that::TextureMask>();
@@ -92,7 +92,7 @@ void digdug::Pump::Notify(const that::CollisionData& data)
 
 void digdug::Pump::OnEnable()
 {
-	GetOwner()->GetComponent<that::TextureRenderer>()->SetEnabled(true);
+	GetOwner()->GetComponent<that::TextureComponent>()->SetEnabled(true);
 
 	m_AccuAliveTime = m_AliveTime;
 
@@ -103,7 +103,7 @@ void digdug::Pump::OnEnable()
 void digdug::Pump::OnDisable()
 {
 	// Disable the renderer
-	GetOwner()->GetComponent<that::TextureRenderer>()->SetEnabled(false);
+	GetOwner()->GetComponent<that::TextureComponent>()->SetEnabled(false);
 }
 
 void digdug::Pump::PumpToEnemy()

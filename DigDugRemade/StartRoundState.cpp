@@ -3,7 +3,7 @@
 #include "GameObject.h"
 #include "Scene.h"
 
-#include "TextureRenderer.h"
+#include "UIComponent.h"
 #include "Transform.h"
 #include "GameState.h"
 
@@ -35,7 +35,7 @@ void digdug::StartRoundState::StateEnter()
 	const auto& screenSize{ that::Window::GetInstance().GetSize() };
 	m_pReadyObject = m_pState->GetOwner()->GetScene()->CreateGameObject("ReadyHUD");
 	const auto& pTexture{ that::TextureManager::GetInstance().LoadTexture("HUD/StartGame.png") };
-	m_pReadyObject->AddComponent<that::TextureRenderer>()->SetTexture(pTexture);
+	m_pReadyObject->AddComponent<that::UIComponent>()->SetTexture(pTexture);
 	m_pReadyObject->GetTransform()->SetWorldScale(static_cast<float>(screenSize.y) / pTexture->GetSize().x);
 	m_pReadyObject->GetTransform()->SetLocalPosition(screenSize.x / 2.0f, screenSize.y / 2.0f);
 }

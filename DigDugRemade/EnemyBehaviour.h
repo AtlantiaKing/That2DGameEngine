@@ -7,7 +7,7 @@
 
 namespace that
 {
-	class TextureRenderer;
+	class TextureComponent;
 }
 
 namespace digdug
@@ -32,7 +32,7 @@ namespace digdug
 	private:
 		EnemyMovement* m_pMovement{};
 		HealthComponent* m_pHealth{};
-		that::TextureRenderer* m_pTexture{};
+		that::TextureComponent* m_pTexture{};
 
 		const float m_TimeBetweenHeals{ 2.0f };
 		float m_AccuHealTime{};

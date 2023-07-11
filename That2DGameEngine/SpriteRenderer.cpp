@@ -82,7 +82,7 @@ void that::SpriteRenderer::RecalculateSrcRect()
 
 void that::SpriteRenderer::Render() const
 {
-	// If no texture has been assigned to this TextureRenderer, do nothing
+	// If no texture has been assigned to this SpriteRenderer, do nothing
 	if (!m_pTexture) return;
 
 	// Render the current texture at the position defined by the transform

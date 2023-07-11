@@ -2,7 +2,7 @@
 
 #include "GameObject.h"
 
-#include "TextureRenderer.h"
+#include "UIComponent.h"
 #include "Transform.h"
 #include "TextComponent.h"
 #include "BackToMainMenu.h"
@@ -21,7 +21,7 @@ void digdug::HighScoreTable::Load(that::Scene& scene)
 	// BACKGROUND
 	that::GameObject* pBackground{ scene.CreateGameObject("Background") };
 	const auto& pBackgroundTexture{ that::TextureManager::GetInstance().LoadTexture("HighScoreTable/Background.png") };
-	const auto pBackgroundRenderer{ pBackground->AddComponent<that::TextureRenderer>() };
+	const auto pBackgroundRenderer{ pBackground->AddComponent<that::UIComponent>() };
 	pBackgroundRenderer->SetTexture(pBackgroundTexture);
 
 	const float uiScale{ static_cast<float>(windowSize.y) / pBackgroundTexture->GetSize().y };
@@ -65,15 +65,15 @@ void digdug::HighScoreTable::Load(that::Scene& scene)
 		}
 
 		that::GameObject* pPlacement{ CreateText(scene, "Placement", placementText.str()) };
-		pPlacement->GetComponent<that::TextureRenderer>()->SetPivot(1.0f, 0.5f);
+		pPlacement->GetComponent<that::UIComponent>()->SetPivot(1.0f, 0.5f);
 		pPlacement->GetTransform()->SetWorldPosition(windowSize.x / 2.0f - spaceBetweenTexts + offset, curHighScorePos);
 
 		that::GameObject* pScore{ CreateText(scene, "Score", std::to_string(highScorePair.first)) };
-		pScore->GetComponent<that::TextureRenderer>()->SetPivot(1.0f, 0.5f);
+		pScore->GetComponent<that::UIComponent>()->SetPivot(1.0f, 0.5f);
 		pScore->GetTransform()->SetWorldPosition(windowSize.x / 2.0f + offset, curHighScorePos);
 
 		that::GameObject* pUser{ CreateText(scene, "Name", highScorePair.second) };
-		pUser->GetComponent<that::TextureRenderer>()->SetPivot(1.0f, 0.5f);
+		pUser->GetComponent<that::UIComponent>()->SetPivot(1.0f, 0.5f);
 		pUser->GetTransform()->SetWorldPosition(windowSize.x / 2.0f + spaceBetweenTexts + offset, curHighScorePos);
 
 		curHighScorePos += spaceBetweenHighScores;
@@ -86,7 +86,7 @@ that::GameObject* digdug::HighScoreTable::CreateText(that::Scene& scene, const s
 	const auto& pFont{ that::ResourceManager::GetInstance().LoadFont("Fonts/Arcade.ttf", 16) };
 
 	that::GameObject* pTextObj{ scene.CreateGameObject(objectName) };
-	pTextObj->AddComponent<that::TextureRenderer>();
+	pTextObj->AddComponent<that::UIComponent>();
 	that::TextComponent* pTextComponent{ pTextObj->AddComponent<that::TextComponent>() };
 	pTextComponent->SetFont(pFont);
 	pTextComponent->SetText(text);

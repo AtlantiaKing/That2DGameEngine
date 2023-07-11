@@ -6,7 +6,7 @@
 
 namespace that
 {
-	class TextureRenderer;
+	class RenderComponent;
 	class Font;
 
 	class TextComponent final : public Component
@@ -39,7 +39,7 @@ namespace that
 
 		bool m_HasChanged{};
 
-		TextureRenderer* m_pTextureRenderer{};
+		RenderComponent* m_pRenderComponent{};
 	};
 }
 

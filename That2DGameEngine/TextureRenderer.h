@@ -1,20 +1,21 @@
 #pragma once
 
-#include "Component.h"
 #include "Texture2D.h"
 
 #include "glm/vec2.hpp"
 #include "SDL_rect.h"
 
+#include <memory>
+
 namespace that
 {
 	class Transform;
 
-	class TextureRenderer final : public Component
+	class TextureRenderer final
 	{
 	public:
 		TextureRenderer() = default;
-		virtual ~TextureRenderer() = default;
+		~TextureRenderer() = default;
 
 		TextureRenderer(const TextureRenderer& other) = delete;
 		TextureRenderer(TextureRenderer&& other) = delete;
@@ -26,11 +27,11 @@ namespace that
 		void SetPivot(float x, float y);
 
 		glm::ivec2 GetTextureSize() const { return m_pTexture->GetSize(); }
-		glm::vec2 GetScaledTextureSize() const;
+		glm::vec2 GetScaledTextureSize(Transform* pTransform) const;
 		SDL_Rect& GetSource() { return m_SrcRect; }
+		const SDL_Rect& GetConstantSource() const { return m_SrcRect; }
 		const glm::vec2& GetPivot() const { return m_Pivot; }
-
-		virtual void Render() const override;
+		Texture2D* GetTexture() const { return m_pTexture.get(); }
 	private:
 		std::shared_ptr<Texture2D> m_pTexture{};
 		SDL_Rect m_SrcRect{};
