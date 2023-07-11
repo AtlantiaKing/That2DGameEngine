@@ -34,6 +34,7 @@ namespace that
 		void SetBackgroundColor(const SDL_Color& color) { m_clearColor = color; }
 
 		void SetCamera(CameraComponent* pCamera);
+		CameraComponent* GetCamera() const { return m_pCamera; }
 
 	private:
 		CameraComponent* m_pCamera{};

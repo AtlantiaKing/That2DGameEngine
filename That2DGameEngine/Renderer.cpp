@@ -53,7 +53,9 @@ void that::Renderer::Init(SDL_Window* window)
 
 void that::Renderer::Render()
 {
-	if (m_pCamera) m_RenderPosition = -m_pCamera->GetTransform()->GetWorldPosition() + static_cast<glm::vec2>(Window::GetInstance().GetSize() / 2);
+	// Calculate the current render position depending on the camera position
+	m_RenderPosition = static_cast<glm::vec2>(Window::GetInstance().GetSize() / 2);
+	if (m_pCamera) m_RenderPosition -= m_pCamera->GetTransform()->GetWorldPosition();
 
 	const auto& color = GetBackgroundColor();
 	SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);

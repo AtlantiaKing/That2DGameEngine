@@ -15,6 +15,8 @@ namespace that
 		CameraComponent& operator=(const CameraComponent& other) = delete;
 		CameraComponent& operator=(CameraComponent&& other) = delete;
 
+		virtual void OnDestroy() override;
+
 		void SetAsMainCamera();
 	private:
 	};
