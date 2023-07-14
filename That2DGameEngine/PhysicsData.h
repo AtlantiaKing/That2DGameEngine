@@ -16,7 +16,7 @@ namespace that
 
 	struct PhysicsMaterial
 	{
-		enum class FrictionMixer
+		enum class PropertyMixer
 		{
 			Average,
 			Multiply,
@@ -25,6 +25,8 @@ namespace that
 		};
 
 		float friction{};
-		FrictionMixer frictionMixer{};
+		float elasticity{};
+		PropertyMixer frictionMixer{};
+		PropertyMixer elasticityMixer{};
 	};
 }

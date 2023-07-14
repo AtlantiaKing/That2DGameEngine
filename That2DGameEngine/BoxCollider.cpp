@@ -8,7 +8,7 @@
 #include "Physics.h"
 #include "Renderer.h"
 
-that::PhysicsMaterial that::BoxCollider::m_DefaultMaterial{ 0.4f, PhysicsMaterial::FrictionMixer::Average };
+that::PhysicsMaterial that::BoxCollider::m_DefaultMaterial{ 0.4f, 0.0f, PhysicsMaterial::PropertyMixer::Average, PhysicsMaterial::PropertyMixer::Average };
 
 that::BoxCollider::BoxCollider()
 {

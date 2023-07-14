@@ -42,6 +42,7 @@ namespace that
 		void SetIgnoreGroup(unsigned int ignoreGroup) { m_IgnoreGroup = ignoreGroup; }
 		unsigned int GetIgnoreGroup() const { return m_IgnoreGroup; }
 
+		void SetMaterial(const PhysicsMaterial& material) { m_Material = material; }
 		const PhysicsMaterial& GetMaterial() const { return m_Material; }
 
 		Subject<CollisionData> OnCollisionEnter{};
