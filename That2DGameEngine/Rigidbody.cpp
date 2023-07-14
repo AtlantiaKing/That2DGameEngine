@@ -101,3 +101,22 @@ void that::Rigidbody::Reset()
 	m_Velocity = {};
 	m_PrevStep = {};
 }
+
+void that::Rigidbody::AddForce(const glm::vec2& force, ForceMode mode)
+{
+	switch (mode)
+	{
+	case ForceMode::Force:
+	{
+		// Calculate the velocity using F = m * a = m * v / t => v = (F * t) / m
+		m_Velocity += force * that::Timer::GetInstance().GetElapsed() / m_Mass;
+		break;
+	}
+	case ForceMode::Impulse:
+	{
+		// Calculate the velocity using F = m * v => v = F / m
+		m_Velocity += force / m_Mass;
+		break;
+	}
+	}
+}

@@ -14,6 +14,12 @@ namespace that
 	class Rigidbody final : public Component, Observer<CollisionData>
 	{
 	public:
+		enum class ForceMode
+		{
+			Force,
+			Impulse
+		};
+
 		Rigidbody() = default;
 		virtual ~Rigidbody() = default;
 
@@ -36,6 +42,7 @@ namespace that
 		void SetVelocity(const glm::vec2& velocity) { m_Velocity = velocity; }
 		void SetMass(float mass) { m_Mass = mass; }
 		void Reset();
+		void AddForce(const glm::vec2& force, ForceMode mode);
 
 		const glm::vec2& GetVelocity() const { return m_Velocity; }
 	private:
