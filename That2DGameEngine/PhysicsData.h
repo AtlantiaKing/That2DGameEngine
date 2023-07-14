@@ -13,4 +13,18 @@ namespace that
 		glm::vec2 contactPoint{};
 		glm::vec2 fixStep{};
 	};
+
+	struct PhysicsMaterial
+	{
+		enum class FrictionMixer
+		{
+			Average,
+			Multiply,
+			Minimum,
+			Maximum
+		};
+
+		float friction{};
+		FrictionMixer frictionMixer{};
+	};
 }

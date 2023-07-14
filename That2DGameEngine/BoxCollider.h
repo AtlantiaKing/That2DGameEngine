@@ -15,7 +15,7 @@ namespace that
 	class BoxCollider final : public Component
 	{
 	public:
-		BoxCollider() = default;
+		BoxCollider();
 		virtual ~BoxCollider() = default;
 
 		BoxCollider(const BoxCollider& other) = delete;
@@ -42,6 +42,8 @@ namespace that
 		void SetIgnoreGroup(unsigned int ignoreGroup) { m_IgnoreGroup = ignoreGroup; }
 		unsigned int GetIgnoreGroup() const { return m_IgnoreGroup; }
 
+		const PhysicsMaterial& GetMaterial() const { return m_Material; }
+
 		Subject<CollisionData> OnCollisionEnter{};
 		Subject<CollisionData> OnCollision{};
 		Subject<CollisionData> OnCollisionExit{};
@@ -57,6 +59,9 @@ namespace that
 
 		unsigned int m_Layer{};
 		unsigned int m_IgnoreGroup{};
+
+		PhysicsMaterial m_Material{};
+		static PhysicsMaterial m_DefaultMaterial;
 
 		std::set<BoxCollider*> m_CollisionsFrame{};
 		std::set<BoxCollider*> m_Collisions{};

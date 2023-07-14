@@ -2,6 +2,8 @@
 
 #include "Singleton.h"
 
+#include "PhysicsData.h"
+
 #include <vector>
 
 #include <glm/vec2.hpp>

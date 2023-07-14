@@ -46,6 +46,8 @@ namespace that
 
 		const glm::vec2& GetVelocity() const { return m_Velocity; }
 	private:
+		void ApplyFriction(const CollisionData& collision);
+
 		bool m_HasGravity{ true };
 		bool m_HasConstantGravity{ false };
 		bool m_HasCollisionCorrection{ true };

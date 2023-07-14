@@ -5,7 +5,15 @@
 #include "RenderComponent.h"
 #include "Transform.h"
 
+#include "Physics.h"
 #include "Renderer.h"
+
+that::PhysicsMaterial that::BoxCollider::m_DefaultMaterial{ 0.4f, PhysicsMaterial::FrictionMixer::Average };
+
+that::BoxCollider::BoxCollider()
+{
+	m_Material = m_DefaultMaterial;
+}
 
 void that::BoxCollider::Init()
 {
