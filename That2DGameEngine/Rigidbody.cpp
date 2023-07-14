@@ -7,7 +7,6 @@
 
 #include "BoxCollider.h"
 #include "Transform.h"
-#include <iostream>
 
 void that::Rigidbody::Init()
 {
