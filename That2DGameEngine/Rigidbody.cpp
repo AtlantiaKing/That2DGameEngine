@@ -38,9 +38,9 @@ void that::Rigidbody::Update()
 	if (m_HasGravity)
 	{
 		if (m_HasConstantGravity)
-			m_Velocity.y = m_Gravity * m_Mass;
+			m_Velocity.y = m_Gravity;
 		else 
-			m_Velocity.y += m_Gravity * m_Mass * elapsedSec;
+			m_Velocity.y += m_Gravity * elapsedSec;
 	}
 
 	// Apply the velocity
