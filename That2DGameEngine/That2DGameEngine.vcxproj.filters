@@ -54,6 +54,9 @@
     <Filter Include="Components\Audio">
       <UniqueIdentifier>{c9d08ce9-0b32-4be4-87af-838c43ad9d3a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Reflection">
+      <UniqueIdentifier>{c6b01b07-f1f9-47b5-8030-2db18a225d60}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Font.h">
@@ -218,6 +221,21 @@
     <ClInclude Include="RenderComponent.h">
       <Filter>Components\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="Reflection.h">
+      <Filter>Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="Type.h">
+      <Filter>Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeRegister.h">
+      <Filter>Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneSerialization.h">
+      <Filter>Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentDeleter.h">
+      <Filter>Seperate Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">
@@ -343,6 +361,12 @@
     </ClCompile>
     <ClCompile Include="RenderComponent.cpp">
       <Filter>Components\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentDeleter.cpp">
+      <Filter>Seperate Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneSerialization.cpp">
+      <Filter>Reflection</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

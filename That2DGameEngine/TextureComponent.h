@@ -9,6 +9,8 @@ namespace that
 
 	class TextureComponent final : public RenderComponent
 	{
+		SERIALIZABLE(that, TextureComponent)
+
 	public:
 		TextureComponent() = default;
 		virtual ~TextureComponent() = default;

@@ -4,10 +4,11 @@
 #include <vector>
 #include <memory>
 #include <functional>
-#include "Scene.h"
 
 namespace that
 {
+	class Scene;
+
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:

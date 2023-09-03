@@ -1,16 +1,20 @@
 #include "GameObject.h"
+#include "Component.h"
 #include "Transform.h"
 #include "Scene.h"
 #include "Logger.h"
+#include "ComponentDeleter.h"
 
 that::GameObject::GameObject(Scene* pScene, const std::string& name)
 	: m_pScene{ pScene }
 	, m_Name{ name }
+	, m_pChildrenToAdd{}
+	, m_pChildren{}
+	, m_pComponentsToAdd{}
+	, m_pComponents{}
 {
 	m_pTransform = AddComponent<Transform>();
 }
-
-that::GameObject::~GameObject() = default;
 
 that::GameObject* that::GameObject::CreateGameObject(const std::string& name)
 {
@@ -51,7 +55,7 @@ void that::GameObject::OnFrameStart()
 	// Add any new components that have been added last frame
 	if (!m_pComponentsToAdd.empty())
 	{
-		std::vector<std::unique_ptr<Component>> pNewComponents{ std::move(m_pComponentsToAdd) };
+		std::vector<std::unique_ptr<Component, ComponentDeleter>> pNewComponents{ std::move(m_pComponentsToAdd) };
 
 		for (auto& pComponent : pNewComponents)
 		{
@@ -430,4 +434,9 @@ bool that::GameObject::Destroy(Component* pComponent)
 	pComponent->Destroy();
 
 	return true;
+}
+
+that::GameObject::~GameObject()
+{
+
 }

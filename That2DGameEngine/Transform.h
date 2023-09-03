@@ -7,6 +7,9 @@ namespace that
 {
 	class Transform final : public Component
 	{
+		SERIALIZABLE(that, Transform);
+		ENABLE_SERIALIZE_VAR(Transform)
+
 	public:
 		Transform() = default;
 		virtual ~Transform() = default;
@@ -52,7 +55,13 @@ namespace that
 		glm::vec2 m_LocalScale{ 1.0f };
 		glm::vec2 m_WorldScale{ 1.0f };
 
-		bool m_HasChanged{};
+		bool m_HasChanged{ true };
 	};
+
+	SERIALIZE_VAR_START(Transform)
+		SERIALIZABLE_VAR(Transform, m_LocalPosition)
+		SERIALIZABLE_VAR(Transform, m_LocalRotation)
+		SERIALIZABLE_VAR(Transform, m_LocalScale)
+	SERIALIZE_VAR_END
 }
 

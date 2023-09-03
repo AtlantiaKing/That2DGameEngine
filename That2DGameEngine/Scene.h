@@ -26,6 +26,8 @@ namespace that
 		Scene& operator=(const Scene& other) = delete;
 		Scene& operator=(Scene&& other) = delete;
 
+		std::vector<GameObject*> GetObjects();
+
 	private: 
 		void RenderScenegraph();
 		void RenderScenegraphGameObject(GameObject* pGameObject);

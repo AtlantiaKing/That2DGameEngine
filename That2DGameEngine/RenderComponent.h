@@ -10,6 +10,9 @@ namespace that
 
 	class RenderComponent : public Component
 	{
+		SERIALIZABLE(that, RenderComponent)
+		ENABLE_SERIALIZE_VAR(RenderComponent)
+
 	public:
 		RenderComponent() = default;
 		virtual ~RenderComponent() = default;
@@ -35,4 +38,8 @@ namespace that
 	private:
 		TextureRenderer m_Texture{};
 	};
+
+	SERIALIZE_VAR_START(RenderComponent)
+		SERIALIZABLE_VAR(RenderComponent, m_Texture)
+	SERIALIZE_VAR_END
 }

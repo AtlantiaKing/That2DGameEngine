@@ -6,6 +6,8 @@ namespace that
 {
 	class UIComponent final : public RenderComponent
 	{
+		SERIALIZABLE(that, UIComponent)
+
 	public:
 		UIComponent() = default;
 		virtual ~UIComponent() = default;

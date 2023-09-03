@@ -13,6 +13,9 @@ namespace that
 
 	class Rigidbody final : public Component, Observer<CollisionData>
 	{
+		SERIALIZABLE(that, Rigidbody)
+		ENABLE_SERIALIZE_VAR(Rigidbody)
+
 	public:
 		enum class ForceMode
 		{
@@ -62,4 +65,12 @@ namespace that
 
 		BoxCollider* m_pCollider{};
 	};
+
+	SERIALIZE_VAR_START(Rigidbody)
+		SERIALIZABLE_VAR(Rigidbody, m_HasGravity)
+		SERIALIZABLE_VAR(Rigidbody, m_HasConstantGravity)
+		SERIALIZABLE_VAR(Rigidbody, m_HasCollisionCorrection)
+		SERIALIZABLE_VAR(Rigidbody, m_Gravity)
+		SERIALIZABLE_VAR(Rigidbody, m_Mass)
+	SERIALIZE_VAR_END
 }

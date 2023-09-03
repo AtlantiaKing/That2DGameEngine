@@ -8,6 +8,9 @@ namespace that
 {
 	class AudioSource final : public Component
 	{
+		SERIALIZABLE(that, AudioSource);
+		ENABLE_SERIALIZE_VAR(AudioSource)
+
 	public:
 		AudioSource() = default;
 		virtual ~AudioSource() = default;
@@ -39,5 +42,12 @@ namespace that
 		bool m_IsPlaying{};
 		bool m_ShouldLoop{};
 	};
+
+	SERIALIZE_VAR_START(AudioSource)
+		SERIALIZABLE_VAR(AudioSource, m_Id)
+		SERIALIZABLE_VAR(AudioSource, m_Volume)
+		SERIALIZABLE_VAR(AudioSource, m_IsPlaying)
+		SERIALIZABLE_VAR(AudioSource, m_ShouldLoop)
+	SERIALIZE_VAR_END
 }
 

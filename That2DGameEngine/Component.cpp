@@ -25,7 +25,7 @@ that::Transform* that::Component::GetTransform() const
 	return m_pOwner->GetTransform();
 }
 
-void that::Component::SetOwner(GameObject* pParent) 
+void that::Component::SetOwner(GameObject* pParent)
 {
 	m_pOwner = pParent;
 }

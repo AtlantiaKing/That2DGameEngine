@@ -1,5 +1,6 @@
 #include "Scene.h"
 #include "GameObject.h"
+#include "Component.h"
 #include "imgui.h"
 #include <sstream>
 #include <algorithm>
@@ -144,6 +145,25 @@ void that::Scene::OnGUI(bool renderHierarchy)
 	{
 		object->OnGUI();
 	}
+}
+
+std::vector<GameObject*> that::Scene::GetObjects()
+{
+	// Create a new list of gameobjects
+	std::vector<GameObject*> pGameObjects{};
+	pGameObjects.reserve(m_pObjects.size() + m_pObjectsToAdd.size());
+
+	// Add all the raw pointers to the objects and the objects to be added
+	for (const auto& pChild : m_pObjects)
+	{
+		pGameObjects.emplace_back(pChild.get());
+	}
+	for (const auto& pChild : m_pObjectsToAdd)
+	{
+		pGameObjects.emplace_back(pChild.get());
+	}
+
+	return pGameObjects;
 }
 
 void that::Scene::RenderScenegraph()

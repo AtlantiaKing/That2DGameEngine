@@ -11,6 +11,9 @@ namespace that
 
 	class TextComponent final : public Component
 	{
+		SERIALIZABLE(that, TextComponent)
+		ENABLE_SERIALIZE_VAR(TextComponent)
+
 	public:
 		TextComponent() = default;
 		virtual ~TextComponent() = default;
@@ -37,9 +40,15 @@ namespace that
 		SDL_Color m_Color{ 255,255,255 };
 		std::shared_ptr<Font> m_pFont{};
 
-		bool m_HasChanged{};
+		bool m_HasChanged{ true };
 
 		RenderComponent* m_pRenderComponent{};
 	};
+
+	SERIALIZE_VAR_START(TextComponent)
+		SERIALIZABLE_VAR(TextComponent, m_Text)
+		SERIALIZABLE_VAR(TextComponent, m_Color)
+		SERIALIZABLE_VAR(TextComponent, m_pFont)
+	SERIALIZE_VAR_END
 }
 

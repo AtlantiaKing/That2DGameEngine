@@ -1,13 +1,17 @@
 #pragma once
 
-#include "Component.h"
+//#include "Component.h"
 #include "Logger.h"
 
 #include <vector>
 #include <memory>
+#include <memory>
+
+#include "ComponentDeleter.h"
 
 namespace that
 {
+	class Component;
 	class Transform;
 	class Scene;
 
@@ -15,7 +19,7 @@ namespace that
 	{
 	public:
 		GameObject(Scene* pScene, const std::string& name);
-		virtual ~GameObject();
+		~GameObject();
 
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
@@ -79,8 +83,8 @@ namespace that
 		std::vector<std::unique_ptr<GameObject>> m_pChildrenToAdd{};
 		std::vector<std::unique_ptr<GameObject>> m_pChildren{};
 
-		std::vector<std::unique_ptr<Component>> m_pComponentsToAdd{};
-		std::vector<std::unique_ptr<Component>> m_pComponents{};
+		std::vector<std::unique_ptr<Component, ComponentDeleter>> m_pComponentsToAdd{};
+		std::vector<std::unique_ptr<Component, ComponentDeleter>> m_pComponents{};
 		Transform* m_pTransform{};
 
 		Scene* m_pScene{};
@@ -146,7 +150,7 @@ namespace that
 		}
 
 		// Create a new component
-		auto pComponent{ std::make_unique<T>() };
+		std::unique_ptr<T, ComponentDeleter> pComponent{ new T{}, ComponentDeleter{} };
 
 		// Set the current gameObject as its parent
 		pComponent->SetOwner(this);

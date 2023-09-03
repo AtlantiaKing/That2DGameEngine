@@ -12,6 +12,9 @@ namespace that
 
 	class SpriteRenderer final : public Component
 	{
+		SERIALIZABLE(that, SpriteRenderer)
+		ENABLE_SERIALIZE_VAR(SpriteRenderer)
+
 	public:
 		SpriteRenderer() = default;
 		virtual ~SpriteRenderer() = default;
@@ -46,5 +49,11 @@ namespace that
 		int m_NrTiles{};
 		int m_NrTilesX{};
 	};
+
+	SERIALIZE_VAR_START(SpriteRenderer)
+		SERIALIZABLE_VAR(SpriteRenderer, m_pTexture)
+		SERIALIZABLE_VAR(SpriteRenderer, m_CurTime)
+		SERIALIZABLE_VAR(SpriteRenderer, m_TimeBetweenTiles)
+	SERIALIZE_VAR_END
 }
 

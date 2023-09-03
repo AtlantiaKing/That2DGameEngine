@@ -2,6 +2,20 @@
 
 #include <memory>
 
+#include "Reflection.h"
+#include "TypeRegister.h"
+
+#define HASH_FUNCTION(NAME) public:\
+virtual size_t GetHash() const override { return reflection::Reflection::GetType<NAME>().hash; } 
+
+#define SERIALIZABLE(NAMESPACE, NAME) REGISTER_CLASS(NAMESPACE##::##NAME, NAME)\
+HASH_FUNCTION(NAME)\
+
+#define ENABLE_SERIALIZE_VAR(TYPE) friend struct TYPE##Variables;
+#define SERIALIZE_VAR_START(TYPE) struct TYPE##Variables final {
+#define SERIALIZABLE_VAR(TYPE, VARIABLE) REGISTER_VARIABLE(TYPE##::##VARIABLE, VARIABLE, TYPE, offsetof(TYPE, VARIABLE))
+#define SERIALIZE_VAR_END };
+
 namespace that
 {
 	class GameObject;
@@ -37,6 +51,8 @@ namespace that
 		GameObject* GetOwner() const { return m_pOwner; };
 		bool IsEnabled() const { return m_Enabled; }
 		bool IsMarkedAsDead() const { return m_IsMarkedDead; };
+
+		virtual size_t GetHash() const { throw std::runtime_error{ "Cannot get hash from a base component" }; }
 
 	protected:
 		bool m_Enabled{ true };

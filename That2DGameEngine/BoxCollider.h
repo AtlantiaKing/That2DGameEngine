@@ -14,6 +14,9 @@ namespace that
 {
 	class BoxCollider final : public Component
 	{
+		SERIALIZABLE(that, BoxCollider)
+		ENABLE_SERIALIZE_VAR(BoxCollider)
+
 	public:
 		BoxCollider();
 		virtual ~BoxCollider() = default;
@@ -67,4 +70,12 @@ namespace that
 		std::set<BoxCollider*> m_CollisionsFrame{};
 		std::set<BoxCollider*> m_Collisions{};
 	};
+
+	SERIALIZE_VAR_START(BoxCollider)
+		SERIALIZABLE_VAR(BoxCollider, m_Center)
+		SERIALIZABLE_VAR(BoxCollider, m_Size)
+		SERIALIZABLE_VAR(BoxCollider, m_Layer)
+		SERIALIZABLE_VAR(BoxCollider, m_IgnoreGroup)
+		SERIALIZABLE_VAR(BoxCollider, m_Material)
+	SERIALIZE_VAR_END
 }

@@ -9,6 +9,9 @@ namespace that
 
 	class TextureMask final : public Component
 	{
+		SERIALIZABLE(that, TextureMask)
+		ENABLE_SERIALIZE_VAR(TextureMask)
+
 	public:
 		TextureMask() = default;
 		virtual ~TextureMask() = default;
@@ -29,5 +32,10 @@ namespace that
 		float m_XMask{ 1.0f };
 		float m_YMask{ 1.0f };
 	};
+
+	SERIALIZE_VAR_START(TextureMask)
+		SERIALIZABLE_VAR(TextureMask, m_XMask)
+		SERIALIZABLE_VAR(TextureMask, m_YMask)
+	SERIALIZE_VAR_END
 }
 
