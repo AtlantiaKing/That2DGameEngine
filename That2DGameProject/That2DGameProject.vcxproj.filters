@@ -32,6 +32,12 @@
     <ClCompile Include="FileScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Editor.cpp">
+      <Filter>Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="StandaloneWindow.cpp">
+      <Filter>Misc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ColliderLayers.h">
@@ -42,6 +48,12 @@
     </ClInclude>
     <ClInclude Include="FileScene.h">
       <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="StandaloneWindow.h">
+      <Filter>Misc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

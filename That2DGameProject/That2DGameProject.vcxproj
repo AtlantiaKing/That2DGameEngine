@@ -175,8 +175,10 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Editor.cpp" />
     <ClCompile Include="FileScene.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="StandaloneWindow.cpp" />
     <ClCompile Include="TestScene.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -186,7 +188,9 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ColliderLayers.h" />
+    <ClInclude Include="Editor.h" />
     <ClInclude Include="FileScene.h" />
+    <ClInclude Include="StandaloneWindow.h" />
     <ClInclude Include="TestScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

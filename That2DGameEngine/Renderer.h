@@ -12,7 +12,7 @@ namespace that
 	 */
 	class Renderer final : public Singleton<Renderer>
 	{
-		SDL_Renderer* m_renderer{};
+		SDL_Renderer* m_pRenderer{};
 		SDL_Window* m_window{};
 		SDL_Color m_clearColor{};
 	public:

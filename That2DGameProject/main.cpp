@@ -5,7 +5,14 @@
 #endif
 #endif
 
+#define EDITOR
+
+#ifdef EDITOR
+#include "Editor.h"
+#else
 #include "Engine.h"
+#endif
+
 #include "SceneManager.h"
 #include "Window.h"
 
@@ -26,8 +33,13 @@ void Setup()
 
 int main(int, char* [])
 {
-	that::Engine engine("../Data/");
+	constexpr const char* dataPath{ "../Data/" };
+#ifdef EDITOR
+	that::Editor editor{ dataPath };
+#else
+	that::Engine engine{ dataPath };
 	engine.Run(Setup);
+#endif
 
 	return 0;
 }
