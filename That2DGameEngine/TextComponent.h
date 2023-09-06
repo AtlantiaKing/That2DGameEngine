@@ -11,7 +11,7 @@ namespace that
 
 	class TextComponent final : public Component
 	{
-		SERIALIZABLE(that, TextComponent)
+		COMPONENT(TextComponent)
 		ENABLE_SERIALIZE_VAR(TextComponent)
 
 	public:

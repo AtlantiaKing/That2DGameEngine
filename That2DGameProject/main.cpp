@@ -10,25 +10,25 @@
 #ifdef EDITOR
 #include "Editor.h"
 #else
-#include "Engine.h"
+//#include "Engine.h"
 #endif
 
-#include "SceneManager.h"
-#include "Window.h"
+//#include "SceneManager.h"
+//#include "Window.h"
+//
+//#include "TestScene.h"
+//#include "FileScene.h"
+//#include "Logger.h"
 
-#include "TestScene.h"
-#include "FileScene.h"
-#include "Logger.h"
-
-#include <vector>
+//#include <vector>
 
 void Setup()
 {
-	that::Window::GetInstance().SetTitle("Programming 4 assignment");
-	that::Window::GetInstance().SetWindowSize(610, 520);
+	//that::Window::GetInstance().SetTitle("Programming 4 assignment");
+	//that::Window::GetInstance().SetWindowSize(610, 520);
 
-	that::SceneManager::GetInstance().AddScene(digdug::TestScene::Load);
-	that::SceneManager::GetInstance().AddScene(digdug::FileScene::Load);
+	//that::SceneManager::GetInstance().AddScene(digdug::TestScene::Load);
+	//that::SceneManager::GetInstance().AddScene(digdug::FileScene::Load);
 }
 
 int main(int, char* [])

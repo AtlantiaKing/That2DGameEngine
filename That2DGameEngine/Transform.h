@@ -7,7 +7,7 @@ namespace that
 {
 	class Transform final : public Component
 	{
-		SERIALIZABLE(that, Transform);
+		COMPONENT(Transform)
 		ENABLE_SERIALIZE_VAR(Transform)
 
 	public:

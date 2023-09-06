@@ -1,12 +1,21 @@
 #include "Editor.h"
 
-#include "Engine.h"
+#include "HierarchyWindow.h"
+#include "ResourceManager.h"
+
+#include <iostream>
+#include <filesystem>
+#include <fstream>
 #include <stdexcept>
+
+#include "EngineComponents.h"
 
 that::Editor* that::Editor::m_pInstance{};
 
-that::Editor::Editor(const std::string&)
+that::Editor::Editor(const std::string& dataPath)
 {
+	that::ResourceManager::GetInstance().Init(dataPath);
+
 	// Initialize SDL
 	if (SDL_Init(SDL_INIT_VIDEO) != 0)
 	{
@@ -15,9 +24,9 @@ that::Editor::Editor(const std::string&)
 
 	m_pInstance = this;
 
-	m_Windows.emplace_back(StandaloneWindow{ "Hierarchy", { 400, 400 } });
-	m_Windows.emplace_back(StandaloneWindow{ "Project Management", { 400, 400 } });
-	m_Windows.emplace_back(StandaloneWindow{ "Inspector", { 400, 400 } });
+	auto hierarchy{ StandaloneWindow{ "Hierarchy", { 400, 400 } } };
+	hierarchy.AddComponent<HierarchyWindow>();
+	m_Windows.emplace_back(std::move(hierarchy));
 
 	while (m_Windows.size() > 0)
 	{

@@ -9,7 +9,7 @@ namespace that
 
 	class TextureMask final : public Component
 	{
-		SERIALIZABLE(that, TextureMask)
+		COMPONENT(TextureMask)
 		ENABLE_SERIALIZE_VAR(TextureMask)
 
 	public:

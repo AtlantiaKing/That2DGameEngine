@@ -3,6 +3,7 @@
 #include "Type.h"
 #include <vector>
 #include <fstream>
+#include <iostream>
 
 namespace that::reflection
 {
@@ -10,13 +11,18 @@ namespace that::reflection
 	{
 	public:
 		template<typename T>
-		static void RegisterClass()
+		inline static void RegisterClass()
 		{
 			m_Types.push_back(SerializableComponent::Create<T>());
 		}
 
+		inline static void RegisterClass(const SerializableComponent& sc)
+		{
+			m_Types.push_back(sc);
+		}
+
 		template<typename VarType, typename ClassType>
-		static void RegisterVariable(const char* varName, size_t offset)
+		inline static void RegisterVariable(const char* varName, size_t offset)
 		{
 			SerializableComponent& comp{ GetType<ClassType>() };
 			comp.variables.push_back(SerializableVariable::Create<VarType>(varName, offset));

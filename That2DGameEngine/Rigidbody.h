@@ -13,7 +13,7 @@ namespace that
 
 	class Rigidbody final : public Component, Observer<CollisionData>
 	{
-		SERIALIZABLE(that, Rigidbody)
+		COMPONENT(Rigidbody)
 		ENABLE_SERIALIZE_VAR(Rigidbody)
 
 	public:

@@ -38,6 +38,12 @@
     <ClCompile Include="StandaloneWindow.cpp">
       <Filter>Misc</Filter>
     </ClCompile>
+    <ClCompile Include="WindowComponent.cpp">
+      <Filter>Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="HierarchyWindow.cpp">
+      <Filter>Misc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ColliderLayers.h">
@@ -53,6 +59,12 @@
       <Filter>Misc</Filter>
     </ClInclude>
     <ClInclude Include="StandaloneWindow.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowComponent.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="HierarchyWindow.h">
       <Filter>Misc</Filter>
     </ClInclude>
   </ItemGroup>

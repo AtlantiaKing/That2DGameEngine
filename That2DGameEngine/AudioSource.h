@@ -8,7 +8,7 @@ namespace that
 {
 	class AudioSource final : public Component
 	{
-		SERIALIZABLE(that, AudioSource);
+		COMPONENT(AudioSource);
 		ENABLE_SERIALIZE_VAR(AudioSource)
 
 	public:

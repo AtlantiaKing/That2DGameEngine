@@ -2,7 +2,7 @@
 
 #include <stdexcept>
 
-SDL_Color that::StandaloneWindow::m_Background{ 255, 255, 255, 255 };
+SDL_Color that::StandaloneWindow::m_Background{ 40, 40, 40, 255 };
 
 that::StandaloneWindow::StandaloneWindow(const std::string& name, const glm::ivec2& size)
 {
@@ -42,6 +42,8 @@ that::StandaloneWindow::StandaloneWindow(StandaloneWindow&& other) noexcept
 	m_pRenderer = other.m_pRenderer;
 	other.m_pWindow = nullptr;
 	other.m_pRenderer = nullptr;
+
+	m_pComponents = std::move(other.m_pComponents);
 }
 
 that::StandaloneWindow& that::StandaloneWindow::operator=(StandaloneWindow&& other) noexcept
@@ -50,6 +52,8 @@ that::StandaloneWindow& that::StandaloneWindow::operator=(StandaloneWindow&& oth
 	m_pRenderer = other.m_pRenderer;
 	other.m_pWindow = nullptr;
 	other.m_pRenderer = nullptr;
+
+	m_pComponents = std::move(other.m_pComponents);
 
 	return *this;
 }
@@ -69,6 +73,11 @@ void that::StandaloneWindow::Render() const
 	const auto& color = m_Background;
 	SDL_SetRenderDrawColor(m_pRenderer, color.r, color.g, color.b, color.a);
 	SDL_RenderClear(m_pRenderer);
+
+	for (const auto& pComponent : m_pComponents)
+	{
+		pComponent->Render(m_pRenderer);
+	}
 
 	SDL_RenderPresent(m_pRenderer);
 }

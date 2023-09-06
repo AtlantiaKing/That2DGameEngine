@@ -1,10 +1,14 @@
 #pragma once
 
+#include "WindowComponent.h"
+
 #include <SDL.h>
 
 #include "glm/vec2.hpp"
 
 #include <string>
+#include <vector>
+#include <memory>
 
 namespace that
 {
@@ -22,6 +26,14 @@ namespace that
 		bool IsValid() const;
 		bool IsId(Uint32 id) const;
 
+		template<typename T>
+		void AddComponent()
+		{
+			static_assert(std::is_base_of<WindowComponent, T>());
+
+			m_pComponents.emplace_back(std::make_unique<T>());
+		}
+
 		void Render() const;
 	private:
 		static int GetOpenGLDriverIndex();
@@ -30,5 +42,7 @@ namespace that
 
 		SDL_Window* m_pWindow{};
 		SDL_Renderer* m_pRenderer{};
+
+		std::vector<std::unique_ptr<WindowComponent>> m_pComponents{};
 	};
 }

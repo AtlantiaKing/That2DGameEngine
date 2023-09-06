@@ -236,6 +236,9 @@
     <ClInclude Include="ComponentDeleter.h">
       <Filter>Seperate Objects</Filter>
     </ClInclude>
+    <ClInclude Include="EngineComponents.h">
+      <Filter>Reflection</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">

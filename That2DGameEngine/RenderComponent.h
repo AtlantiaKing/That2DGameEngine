@@ -10,7 +10,7 @@ namespace that
 
 	class RenderComponent : public Component
 	{
-		SERIALIZABLE(that, RenderComponent)
+		COMPONENT(RenderComponent)
 		ENABLE_SERIALIZE_VAR(RenderComponent)
 
 	public:

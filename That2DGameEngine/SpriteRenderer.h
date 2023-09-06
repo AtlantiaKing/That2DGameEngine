@@ -12,7 +12,7 @@ namespace that
 
 	class SpriteRenderer final : public Component
 	{
-		SERIALIZABLE(that, SpriteRenderer)
+		COMPONENT(SpriteRenderer)
 		ENABLE_SERIALIZE_VAR(SpriteRenderer)
 
 	public:

@@ -6,7 +6,7 @@ namespace that
 {
 	class CameraComponent final : public Component
 	{
-		SERIALIZABLE(that, CameraComponent)
+		COMPONENT(CameraComponent)
 
 	public:
 		CameraComponent() = default;

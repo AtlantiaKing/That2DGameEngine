@@ -14,7 +14,7 @@ namespace that
 {
 	class BoxCollider final : public Component
 	{
-		SERIALIZABLE(that, BoxCollider)
+		COMPONENT(BoxCollider)
 		ENABLE_SERIALIZE_VAR(BoxCollider)
 
 	public:

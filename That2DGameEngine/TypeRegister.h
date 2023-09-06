@@ -1,8 +1,7 @@
 #pragma once
 
 #include "Reflection.h"
-
-#define REGISTER_CLASS(NAME, VARNAME) inline static that::reflection::TypeRegister<NAME> g_Registrated##VARNAME{};
+#include "Type.h"
 
 #define REGISTER_VARIABLE(VARIABLE, VARIABLENAME, TYPE, OFFSET) inline static that::reflection::VarRegister<decltype(VARIABLE), TYPE> g_Registrated##TYPE##VARIABLENAME{ #VARIABLENAME, OFFSET };
 
@@ -14,7 +13,23 @@ namespace that::reflection
 	public:
 		TypeRegister()
 		{
-			Reflection::RegisterClass<T>();
+			SerializableComponent t{};
+			t.name = typeid(T).name();
+			t.hash = SerializableComponent::GetHash<T>();
+			t.size = sizeof(T);
+			t.prefab = [](that::GameObject* pGameObject) -> that::Component*
+			{
+				if constexpr (std::is_same<Transform, T>())
+				{
+					return reinterpret_cast<that::Component*>(pGameObject->GetTransform());
+				}
+				else
+				{
+					return reinterpret_cast<that::Component*>(pGameObject->AddComponent<T>());
+				}
+			};
+
+			Reflection::RegisterClass(t);
 		}
 	};
 

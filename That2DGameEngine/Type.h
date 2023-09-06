@@ -25,6 +25,8 @@ namespace that::reflection
 			return var;
 		}
 
+		constexpr SerializableVariable() = default;
+
 		std::string name{};
 		size_t size{};
 		size_t offset{};
@@ -39,15 +41,15 @@ namespace that::reflection
 			t.name = typeid(T).name();
 			t.hash = GetHash<T>();
 			t.size = sizeof(T);
-			t.prefab = [](that::GameObject* pGameObject) 
+			t.prefab = [](that::GameObject* pGameObject) -> that::Component*
 			{ 
 				if constexpr (std::is_same<Transform, T>())
 				{
-					return pGameObject->GetTransform();
+					return reinterpret_cast<that::Component*>(pGameObject->GetTransform());
 				}
 				else
 				{
-					return pGameObject->AddComponent<T>();
+					return reinterpret_cast<that::Component*>(pGameObject->AddComponent<T>());
 				}
 			};
 			return t;
@@ -61,10 +63,12 @@ namespace that::reflection
 
 		that::Component* Clone(that::GameObject* pGameobject) const { return prefab(pGameobject); }
 
+		constexpr SerializableComponent() = default;
+
 		std::string name{};
 		size_t hash{};
 		size_t size{};
-		std::function<that::Component*(that::GameObject*)> prefab{};
+		that::Component* (*prefab)(that::GameObject*) {};
 		std::vector<SerializableVariable> variables{};
 	};
 }

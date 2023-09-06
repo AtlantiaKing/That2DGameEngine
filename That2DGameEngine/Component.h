@@ -8,8 +8,10 @@
 #define HASH_FUNCTION(NAME) public:\
 virtual size_t GetHash() const override { return reflection::Reflection::GetType<NAME>().hash; } 
 
-#define SERIALIZABLE(NAMESPACE, NAME) REGISTER_CLASS(NAMESPACE##::##NAME, NAME)\
+#define COMPONENT(NAME) public:\
 HASH_FUNCTION(NAME)\
+private:\
+inline static that::reflection::TypeRegister<NAME> g_Registration{};
 
 #define ENABLE_SERIALIZE_VAR(TYPE) friend struct TYPE##Variables;
 #define SERIALIZE_VAR_START(TYPE) struct TYPE##Variables final {
