@@ -1,6 +1,6 @@
 #include "Editor.h"
 
-#include "HierarchyWindow.h"
+#include "InspectorWindow.h"
 #include "SceneWindow.h"
 
 #include <iostream>
@@ -11,16 +11,20 @@
 #include "ResourceManager.h"
 #include "SceneManager.h"
 #include "Scene.h"
+#include "Renderer.h"
 
 #include "EngineComponents.h"
 
 #include "FileScene.h"
 #include "TestScene.h"
+#include "HierarchyWindow.h"
 
 that::Editor* that::Editor::m_pInstance{};
 
 that::Editor::Editor(const std::string& dataPath)
 {
+	m_pInstance = this;
+
 	that::ResourceManager::GetInstance().Init(dataPath);
 
 	// Initialize SDL
@@ -31,28 +35,20 @@ that::Editor::Editor(const std::string& dataPath)
 
 	auto& sceneManager{ SceneManager::GetInstance() };
 
-	//sceneManager.AddScene([](that::Scene&) {});
 	sceneManager.AddScene(digdug::FileScene::Load);
 	sceneManager.LoadScene(0);
-	sceneManager.OnFrameStart();
-	//sceneManager.Update();
-	//sceneManager.LateUpdate();
-	//sceneManager.Destroy();
 
-	Scene* pScene{ sceneManager.GetCurrentScene() };
+	StandaloneWindow inspectorWindow{ "Inspector", { 400, 400 } };
+	auto pInspector{ inspectorWindow.AddComponent<InspectorWindow>() };
+	m_Windows.emplace_back(std::move(inspectorWindow));
 
-	m_pInstance = this;
-
-	auto hierarchy{ StandaloneWindow{ "Hierarchy", { 400, 400 } } };
-	hierarchy.AddComponent<HierarchyWindow>();
+	StandaloneWindow hierarchy{ "Hierarchy", { 400, 400 } };
+	hierarchy.AddComponent<HierarchyWindow>()->SetInspector(pInspector);
 	m_Windows.emplace_back(std::move(hierarchy));
 
-	auto sceneView{ StandaloneWindow{ "Scene", { 600, 400 } } };
+	StandaloneWindow sceneView{ "Scene", { 600, 400 } };
 	sceneView.AddComponent<SceneWindow>();
 	m_Windows.emplace_back(std::move(sceneView));
-
-	that::GameObject* pObject{ pScene->CreateGameObject("Super Cool GameObject") };
-	m_Windows[0].GetComponent<HierarchyWindow>()->SetGameObject(pObject);
 
 	while (m_Windows.size() > 0)
 	{
@@ -81,6 +77,9 @@ that::Editor::Editor(const std::string& dataPath)
 
 that::Editor::~Editor()
 {
+	Renderer::GetInstance().Destroy();
+
+	SDL_Quit();
 }
 
 void that::Editor::UpdateVisuals()
@@ -100,7 +99,7 @@ void that::Editor::UpdateVisualsInternal()
 
 void that::Editor::QuitWindow(Uint32 windowId)
 {
-	m_Windows.erase(std::remove_if(begin(m_Windows), end(m_Windows), 
+	m_Windows.erase(std::find_if(begin(m_Windows), end(m_Windows), 
 		[windowId](const auto& window) 
 		{ 
 			return window.IsId(windowId); 

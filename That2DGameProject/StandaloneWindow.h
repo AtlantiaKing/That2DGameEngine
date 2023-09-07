@@ -27,11 +27,16 @@ namespace that
 		bool IsId(Uint32 id) const;
 
 		template<typename T>
-		void AddComponent()
+		T* AddComponent()
 		{
 			static_assert(std::is_base_of<WindowComponent, T>());
 
-			m_pComponents.emplace_back(std::make_unique<T>());
+			std::unique_ptr<T> pComponent{ std::make_unique<T>() };
+			T* pRawComponent{ pComponent.get() };
+
+			m_pComponents.emplace_back(std::move(pComponent));
+
+			return pRawComponent;
 		}
 
 		template<typename T>

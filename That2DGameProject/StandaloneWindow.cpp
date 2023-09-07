@@ -48,6 +48,12 @@ that::StandaloneWindow::StandaloneWindow(StandaloneWindow&& other) noexcept
 
 that::StandaloneWindow& that::StandaloneWindow::operator=(StandaloneWindow&& other) noexcept
 {
+	if (m_pWindow && m_pWindow != other.m_pWindow)
+	{
+		// Destroy and reset the window that is being overridden
+		SDL_DestroyWindow(m_pWindow);
+	}
+	
 	m_pWindow = other.m_pWindow;
 	m_pRenderer = other.m_pRenderer;
 	other.m_pWindow = nullptr;

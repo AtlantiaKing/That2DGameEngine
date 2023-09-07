@@ -6,44 +6,29 @@
 #include <memory>
 #include <functional>
 
-struct Button
-{
-	int x{}, y{}, width{}, height{};
-	std::function<void()> onClick{};
-
-	void TryClick(const glm::ivec2& point) const
-	{
-		if (point.x < x || point.x > x + width) return;
-		if (point.y < y || point.y > y + height) return;
-		onClick();
-	}
-};
+#include "EditorGUI.h"
 
 namespace that
 {
+	class InspectorWindow;
 	class GameObject;
-	class Font;
 
 	class HierarchyWindow final : public WindowComponent
 	{
 	public:
-		HierarchyWindow();
+		HierarchyWindow() = default;
 		virtual ~HierarchyWindow() = default;
+
+		void SetInspector(InspectorWindow* pInspector);
 
 		virtual void Render(SDL_Renderer* pWindow) override;
 		virtual void OnClick(const glm::ivec2& point) override;
 
-		void SetGameObject(GameObject* pGameObject);
-
 	private:
-		void RenderText(SDL_Renderer* pRenderer, const std::string& text, int& curY) const;
-		void RenderButton(SDL_Renderer* pRenderer, const std::string& text, int& curY, Button& button);
+		void RenderObject(SDL_Renderer* pWindow, GameObject* pGameObject, int& curY, const std::string& curSpacing);
 
-		std::shared_ptr<that::Font> m_pFont{};
-		GameObject* m_pWatchingObject{};
+		std::vector<Button> m_Buttons{};
 
-		bool m_IsShowingComponents{ false };
-		Button m_ComponentButton{};
-		std::vector<Button> m_AddComponents{};
+		InspectorWindow* m_pInspector{};
 	};
 }
