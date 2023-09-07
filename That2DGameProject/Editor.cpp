@@ -28,6 +28,9 @@ that::Editor::Editor(const std::string& dataPath)
 	hierarchy.AddComponent<HierarchyWindow>();
 	m_Windows.emplace_back(std::move(hierarchy));
 
+	std::unique_ptr<GameObject> m_pObject{ std::make_unique<GameObject>(nullptr, "Super Cool GameObject") };
+	m_Windows[0].GetComponent<HierarchyWindow>()->SetGameObject(m_pObject.get());
+
 	while (m_Windows.size() > 0)
 	{
 		SDL_Event e;
@@ -36,6 +39,13 @@ that::Editor::Editor(const std::string& dataPath)
 			if (e.type == SDL_WINDOWEVENT)
 			{
 				if(e.window.event == SDL_WINDOWEVENT_CLOSE) QuitWindow(e.window.windowID);
+			}
+			else if (e.type == SDL_MOUSEBUTTONDOWN)
+			{
+				if (e.button.button == SDL_BUTTON_LEFT) 
+				{
+					ClickWindow(e.button.windowID, { e.button.x, e.button.y });
+				}
 			}
 
 			UpdateVisuals();
@@ -70,5 +80,10 @@ void that::Editor::QuitWindow(Uint32 windowId)
 			return window.IsId(windowId); 
 		}
 	));
+}
+
+void that::Editor::ClickWindow(Uint32 windowId, const glm::ivec2& point)
+{
+	std::find_if(begin(m_Windows), end(m_Windows), [windowId](const auto& window) { return window.IsId(windowId); })->Click(point);
 }
 

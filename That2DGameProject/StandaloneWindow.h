@@ -34,7 +34,23 @@ namespace that
 			m_pComponents.emplace_back(std::make_unique<T>());
 		}
 
+		template<typename T>
+		T* GetComponent()
+		{
+			static_assert(std::is_base_of<WindowComponent, T>());
+
+			for (const auto& pComponent : m_pComponents)
+			{
+				T* derivedComponent{ dynamic_cast<T*>(pComponent.get()) };
+
+				if (derivedComponent) return derivedComponent;
+			}
+
+			return nullptr;
+		}
+
 		void Render() const;
+		void Click(const glm::ivec2& point) const;
 	private:
 		static int GetOpenGLDriverIndex();
 

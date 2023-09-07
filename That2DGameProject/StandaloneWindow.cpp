@@ -82,6 +82,14 @@ void that::StandaloneWindow::Render() const
 	SDL_RenderPresent(m_pRenderer);
 }
 
+void that::StandaloneWindow::Click(const glm::ivec2& point) const
+{
+	for (const auto& pComponent : m_pComponents)
+	{
+		pComponent->OnClick(point);
+	}
+}
+
 int that::StandaloneWindow::GetOpenGLDriverIndex()
 {
 	auto openglIndex = -1;
