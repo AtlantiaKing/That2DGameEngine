@@ -51,6 +51,27 @@ void that::Renderer::Init(SDL_Window* window)
 	ImGui_ImplOpenGL2_Init();
 }
 
+void that::Renderer::Init(SDL_Window* window, SDL_Renderer* renderer)
+{
+	if (!window) return;
+	if (!renderer) return;
+
+	if (m_window)
+	{
+		Destroy();
+	}
+
+	m_window = window;
+	m_pRenderer = renderer;
+
+	m_RenderPosition = Window::GetInstance().GetSize() / 2;
+
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGui_ImplSDL2_InitForOpenGL(window, SDL_GL_GetCurrentContext());
+	ImGui_ImplOpenGL2_Init();
+}
+
 void that::Renderer::Render()
 {
 	// Calculate the current render position depending on the camera position

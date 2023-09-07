@@ -58,7 +58,7 @@ namespace that
 		void Hit(const CollisionData& pOther);
 
 		glm::vec2 m_Center{};
-		glm::vec2 m_Size{ 1.0f, 1.0f };
+		glm::vec2 m_Size{ 100.0f, 100.0f };
 		bool m_DefaultSize{ true };
 
 		unsigned int m_Layer{};

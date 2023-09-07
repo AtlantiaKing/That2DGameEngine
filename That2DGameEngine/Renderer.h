@@ -17,6 +17,7 @@ namespace that
 		SDL_Color m_clearColor{};
 	public:
 		void Init(SDL_Window* window);
+		void Init(SDL_Window* window, SDL_Renderer* renderer);
 		void Render();
 		void Destroy();
 

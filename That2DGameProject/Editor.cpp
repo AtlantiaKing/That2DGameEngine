@@ -1,14 +1,21 @@
 #include "Editor.h"
 
 #include "HierarchyWindow.h"
-#include "ResourceManager.h"
+#include "SceneWindow.h"
 
 #include <iostream>
 #include <filesystem>
 #include <fstream>
 #include <stdexcept>
 
+#include "ResourceManager.h"
+#include "SceneManager.h"
+#include "Scene.h"
+
 #include "EngineComponents.h"
+
+#include "FileScene.h"
+#include "TestScene.h"
 
 that::Editor* that::Editor::m_pInstance{};
 
@@ -22,14 +29,30 @@ that::Editor::Editor(const std::string& dataPath)
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
 	}
 
+	auto& sceneManager{ SceneManager::GetInstance() };
+
+	//sceneManager.AddScene([](that::Scene&) {});
+	sceneManager.AddScene(digdug::FileScene::Load);
+	sceneManager.LoadScene(0);
+	sceneManager.OnFrameStart();
+	//sceneManager.Update();
+	//sceneManager.LateUpdate();
+	//sceneManager.Destroy();
+
+	Scene* pScene{ sceneManager.GetCurrentScene() };
+
 	m_pInstance = this;
 
 	auto hierarchy{ StandaloneWindow{ "Hierarchy", { 400, 400 } } };
 	hierarchy.AddComponent<HierarchyWindow>();
 	m_Windows.emplace_back(std::move(hierarchy));
 
-	std::unique_ptr<GameObject> m_pObject{ std::make_unique<GameObject>(nullptr, "Super Cool GameObject") };
-	m_Windows[0].GetComponent<HierarchyWindow>()->SetGameObject(m_pObject.get());
+	auto sceneView{ StandaloneWindow{ "Scene", { 600, 400 } } };
+	sceneView.AddComponent<SceneWindow>();
+	m_Windows.emplace_back(std::move(sceneView));
+
+	that::GameObject* pObject{ pScene->CreateGameObject("Super Cool GameObject") };
+	m_Windows[0].GetComponent<HierarchyWindow>()->SetGameObject(pObject);
 
 	while (m_Windows.size() > 0)
 	{
@@ -48,6 +71,9 @@ that::Editor::Editor(const std::string& dataPath)
 				}
 			}
 
+			sceneManager.OnFrameStart();
+			sceneManager.Update();
+			sceneManager.LateUpdate();
 			UpdateVisuals();
 		}
 	}

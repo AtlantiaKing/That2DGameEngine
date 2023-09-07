@@ -24,6 +24,7 @@ namespace that
 		void Destroy();
 
 		int GetCurrentSceneIndex() const { return m_CurrentScene; }
+		Scene* GetCurrentScene() const { return m_pScene.get(); }
 		
 		void DrawSceneHierarchy(bool drawDebug);
 

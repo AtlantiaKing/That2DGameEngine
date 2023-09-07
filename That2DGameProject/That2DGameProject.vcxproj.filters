@@ -44,6 +44,9 @@
     <ClCompile Include="HierarchyWindow.cpp">
       <Filter>Misc</Filter>
     </ClCompile>
+    <ClCompile Include="SceneWindow.cpp">
+      <Filter>Misc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ColliderLayers.h">
@@ -65,6 +68,9 @@
       <Filter>Misc</Filter>
     </ClInclude>
     <ClInclude Include="HierarchyWindow.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneWindow.h">
       <Filter>Misc</Filter>
     </ClInclude>
   </ItemGroup>
