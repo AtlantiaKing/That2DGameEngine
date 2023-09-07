@@ -53,6 +53,9 @@
     <ClCompile Include="EditorGUI.cpp">
       <Filter>Misc</Filter>
     </ClCompile>
+    <ClCompile Include="WindowPosition.cpp">
+      <Filter>Misc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ColliderLayers.h">
@@ -83,6 +86,9 @@
       <Filter>Misc</Filter>
     </ClInclude>
     <ClInclude Include="EditorGUI.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowPosition.h">
       <Filter>Misc</Filter>
     </ClInclude>
   </ItemGroup>

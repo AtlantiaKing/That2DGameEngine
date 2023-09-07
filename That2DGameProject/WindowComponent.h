@@ -17,7 +17,7 @@ namespace that
 		WindowComponent& operator=(const WindowComponent& other) = delete;
 		WindowComponent& operator=(WindowComponent&& other) = delete;
 
-		virtual void Render(SDL_Renderer* pWindow) = 0;
-		virtual void OnClick(const glm::ivec2&) {};
+		virtual void Render(SDL_Renderer*) {}
+		virtual void OnClick(const glm::ivec2&) {}
 	};
 }

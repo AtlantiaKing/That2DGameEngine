@@ -185,6 +185,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClCompile Include="StandaloneWindow.cpp" />
     <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="WindowComponent.cpp" />
+    <ClCompile Include="WindowPosition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\That2DGameEngine\That2DGameEngine.vcxproj">
@@ -202,6 +203,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClInclude Include="StandaloneWindow.h" />
     <ClInclude Include="TestScene.h" />
     <ClInclude Include="WindowComponent.h" />
+    <ClInclude Include="WindowPosition.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

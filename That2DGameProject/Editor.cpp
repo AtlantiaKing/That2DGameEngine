@@ -2,6 +2,8 @@
 
 #include "InspectorWindow.h"
 #include "SceneWindow.h"
+#include "HierarchyWindow.h"
+#include "WindowPosition.h"
 
 #include <iostream>
 #include <filesystem>
@@ -17,7 +19,6 @@
 
 #include "FileScene.h"
 #include "TestScene.h"
-#include "HierarchyWindow.h"
 
 that::Editor* that::Editor::m_pInstance{};
 
@@ -40,11 +41,17 @@ that::Editor::Editor(const std::string& dataPath)
 
 	StandaloneWindow inspectorWindow{ "Inspector", { 400, 400 } };
 	auto pInspector{ inspectorWindow.AddComponent<InspectorWindow>() };
+	auto pInspectorPosition{ inspectorWindow.AddComponent<WindowPosition>() };
+	pInspectorPosition->SetWindow(inspectorWindow);
+	pInspectorPosition->Move(-500, 0);
 	m_Windows.emplace_back(std::move(inspectorWindow));
 
-	StandaloneWindow hierarchy{ "Hierarchy", { 400, 400 } };
-	hierarchy.AddComponent<HierarchyWindow>()->SetInspector(pInspector);
-	m_Windows.emplace_back(std::move(hierarchy));
+	StandaloneWindow hierarchyWindow{ "Hierarchy", { 400, 400 } };
+	hierarchyWindow.AddComponent<HierarchyWindow>()->SetInspector(pInspector);
+	auto pHierarchyPosition{ hierarchyWindow.AddComponent<WindowPosition>() };
+	pHierarchyPosition->SetWindow(hierarchyWindow);
+	pHierarchyPosition->Move(500, 0);
+	m_Windows.emplace_back(std::move(hierarchyWindow));
 
 	StandaloneWindow sceneView{ "Scene", { 600, 400 } };
 	sceneView.AddComponent<SceneWindow>();
