@@ -14,55 +14,58 @@ that::EditorGUI::EditorGUI()
 
 void that::EditorGUI::RenderText(SDL_Renderer* pRenderer, const std::string& text, int& curY) const
 {
-	// Create a texture using the current font, text and color
-	const auto surf = TTF_RenderText_Blended(m_pFont->GetFont(), text.c_str(), SDL_Color{ 255,255,255,255 });
-	if (surf == nullptr)
-	{
-		throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
-	}
-	const auto texture = SDL_CreateTextureFromSurface(pRenderer, surf);
-	if (texture == nullptr)
-	{
-		throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
-	}
-	SDL_FreeSurface(surf);
+	// Create a SDL surface using the current font, text and color
+	SDL_Surface* pSurface = TTF_RenderText_Blended(m_pFont->GetFont(), text.c_str(), SDL_Color{ 255,255,255,255 });
+	if (!pSurface) throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
 
+	// Create a texture from the created surface
+	SDL_Texture* pTexture = SDL_CreateTextureFromSurface(pRenderer, pSurface);
+	if (!pTexture) throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
+
+	// Release the surface
+	SDL_FreeSurface(pSurface);
+
+	// Calculate the bounds of the destination rect
 	SDL_Rect dst{};
-	SDL_QueryTexture(texture, nullptr, nullptr, &dst.w, &dst.h);
+	SDL_QueryTexture(pTexture, nullptr, nullptr, &dst.w, &dst.h);
 	dst.y = curY;
 	curY += dst.h;
 
-	SDL_RenderCopy(pRenderer, texture, nullptr, &dst);
+	// Render the text to the window
+	SDL_RenderCopy(pRenderer, pTexture, nullptr, &dst);
 
-	SDL_DestroyTexture(texture);
+	// Release the texture
+	SDL_DestroyTexture(pTexture);
 }
 
-void that::EditorGUI::RenderButton(SDL_Renderer* pRenderer, const std::string& text, int& curY, Button& button)
+void that::EditorGUI::RenderButton(SDL_Renderer* pRenderer, const std::string& text, int& curY, Button& button) const
 {
-	// Create a texture using the current font, text and color
-	const auto surf = TTF_RenderText_Blended(m_pFont->GetFont(), text.c_str(), SDL_Color{ 255,255,255,255 });
-	if (surf == nullptr)
-	{
-		throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
-	}
-	const auto texture = SDL_CreateTextureFromSurface(pRenderer, surf);
-	if (texture == nullptr)
-	{
-		throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
-	}
-	SDL_FreeSurface(surf);
+	// Create a SDL surface using the current font, text and color
+	SDL_Surface* pSurface = TTF_RenderText_Blended(m_pFont->GetFont(), text.c_str(), SDL_Color{ 255,255,255,255 });
+	if (!pSurface) throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
 
+	// Create a texture from the created surface
+	SDL_Texture* pTexture = SDL_CreateTextureFromSurface(pRenderer, pSurface);
+	if (!pTexture) throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
+
+	// Release the surface
+	SDL_FreeSurface(pSurface);
+
+	// Calculate the bounds of the destination rect
 	SDL_Rect dst{};
-	SDL_QueryTexture(texture, nullptr, nullptr, &dst.w, &dst.h);
+	SDL_QueryTexture(pTexture, nullptr, nullptr, &dst.w, &dst.h);
 	dst.y = curY;
 	curY += dst.h;
 
+	// Store the destination rect info in the button
 	button.x = dst.x;
 	button.y = dst.y;
 	button.width = dst.w;
 	button.height = dst.h;
 
-	SDL_RenderCopy(pRenderer, texture, nullptr, &dst);
+	// Render the text to the window
+	SDL_RenderCopy(pRenderer, pTexture, nullptr, &dst);
 
-	SDL_DestroyTexture(texture);
+	// Release the texture
+	SDL_DestroyTexture(pTexture);
 }

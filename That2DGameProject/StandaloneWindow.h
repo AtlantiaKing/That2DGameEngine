@@ -40,7 +40,7 @@ namespace that
 		}
 
 		template<typename T>
-		T* GetComponent()
+		T* GetComponent() const
 		{
 			static_assert(std::is_base_of<WindowComponent, T>());
 

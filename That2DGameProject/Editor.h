@@ -20,10 +20,10 @@ namespace that
 
 		std::vector<StandaloneWindow> m_Windows{};
 
-		void UpdateVisualsInternal();
+		void UpdateVisualsInternal() const;
 		void QuitWindow(Uint32 windowId);
-		void ClickWindow(Uint32 windowId, const glm::ivec2& point);
-		void AltClickWindow(Uint32 windowId, const glm::ivec2& point);
+		void ClickWindow(Uint32 windowId, const glm::ivec2& point) const;
+		void AltClickWindow(Uint32 windowId, const glm::ivec2& point) const;
 	};
 }
 

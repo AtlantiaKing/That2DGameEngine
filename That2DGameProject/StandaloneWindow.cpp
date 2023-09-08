@@ -19,6 +19,7 @@ that::StandaloneWindow::StandaloneWindow(const std::string& name, const glm::ive
 	// If the window creation failed, return fail result
 	if (!m_pWindow) throw std::runtime_error("Failed to create a standalone window");
 
+	// Create a renderer from the new window
 	m_pRenderer = SDL_CreateRenderer(m_pWindow, GetOpenGLDriverIndex(), SDL_RENDERER_ACCELERATED);
 	if (!m_pRenderer)
 	{
@@ -76,20 +77,24 @@ bool that::StandaloneWindow::IsId(Uint32 id) const
 
 void that::StandaloneWindow::Render() const
 {
+	// Background color
 	const auto& color = m_Background;
 	SDL_SetRenderDrawColor(m_pRenderer, color.r, color.g, color.b, color.a);
 	SDL_RenderClear(m_pRenderer);
 
+	// Draw each component
 	for (const auto& pComponent : m_pComponents)
 	{
 		pComponent->Render(m_pRenderer);
 	}
 
+	// Swap the render buffers
 	SDL_RenderPresent(m_pRenderer);
 }
 
 void that::StandaloneWindow::Click(const glm::ivec2& point) const
 {
+	// Delegate a click to its components
 	for (const auto& pComponent : m_pComponents)
 	{
 		pComponent->OnClick(point);
@@ -98,6 +103,7 @@ void that::StandaloneWindow::Click(const glm::ivec2& point) const
 
 void that::StandaloneWindow::AltClick(const glm::ivec2& point) const
 {
+	// Delegate an alt click to its components
 	for (const auto& pComponent : m_pComponents)
 	{
 		pComponent->OnAltClick(point);

@@ -24,8 +24,10 @@ that::Editor* that::Editor::m_pInstance{};
 
 that::Editor::Editor(const std::string& dataPath)
 {
+	// Save the current instance privately
 	m_pInstance = this;
 
+	// Initialize the resource manager
 	that::ResourceManager::GetInstance().Init(dataPath);
 
 	// Initialize SDL
@@ -34,11 +36,13 @@ that::Editor::Editor(const std::string& dataPath)
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
 	}
 
+	// Start the first scene
 	auto& sceneManager{ SceneManager::GetInstance() };
-
 	sceneManager.AddScene(digdug::FileScene::Load);
 	sceneManager.LoadScene(0);
 
+	// WINDOWS
+	// Create inspector window and move it to the left
 	StandaloneWindow inspectorWindow{ "Inspector", { 400, 400 } };
 	auto pInspector{ inspectorWindow.AddComponent<InspectorWindow>() };
 	auto pInspectorPosition{ inspectorWindow.AddComponent<WindowPosition>() };
@@ -46,6 +50,7 @@ that::Editor::Editor(const std::string& dataPath)
 	pInspectorPosition->Move(-500, 0);
 	m_Windows.emplace_back(std::move(inspectorWindow));
 
+	// Create hierarchy window and move it to the right
 	StandaloneWindow hierarchyWindow{ "Hierarchy", { 400, 400 } };
 	hierarchyWindow.AddComponent<HierarchyWindow>()->SetInspector(pInspector);
 	auto pHierarchyPosition{ hierarchyWindow.AddComponent<WindowPosition>() };
@@ -53,15 +58,19 @@ that::Editor::Editor(const std::string& dataPath)
 	pHierarchyPosition->Move(500, 0);
 	m_Windows.emplace_back(std::move(hierarchyWindow));
 
+	// Create scene view window and keep it in the center
 	StandaloneWindow sceneView{ "Scene", { 600, 400 } };
 	sceneView.AddComponent<SceneWindow>();
 	m_Windows.emplace_back(std::move(sceneView));
 
+	// As long as there are windows available
 	while (m_Windows.size() > 0)
 	{
+		// As long as there are SDL events in the queue
 		SDL_Event e;
 		while (SDL_PollEvent(&e))
 		{
+			// Delegate SDL events to their respective window
 			if (e.type == SDL_WINDOWEVENT)
 			{
 				if(e.window.event == SDL_WINDOWEVENT_CLOSE) QuitWindow(e.window.windowID);
@@ -77,7 +86,8 @@ that::Editor::Editor(const std::string& dataPath)
 					AltClickWindow(e.button.windowID, { e.button.x, e.button.y });
 				}
 			}
-
+			
+			// Update and render the scene when a SDL event gets triggered
 			sceneManager.OnFrameStart();
 			sceneManager.Update();
 			sceneManager.LateUpdate();
@@ -100,7 +110,7 @@ void that::Editor::UpdateVisuals()
 	m_pInstance->UpdateVisualsInternal();
 }
 
-void that::Editor::UpdateVisualsInternal()
+void that::Editor::UpdateVisualsInternal() const
 {
 	for (const auto& window : m_Windows)
 	{
@@ -118,12 +128,12 @@ void that::Editor::QuitWindow(Uint32 windowId)
 	));
 }
 
-void that::Editor::ClickWindow(Uint32 windowId, const glm::ivec2& point)
+void that::Editor::ClickWindow(Uint32 windowId, const glm::ivec2& point) const
 {
 	std::find_if(begin(m_Windows), end(m_Windows), [windowId](const auto& window) { return window.IsId(windowId); })->Click(point);
 }
 
-void that::Editor::AltClickWindow(Uint32 windowId, const glm::ivec2& point)
+void that::Editor::AltClickWindow(Uint32 windowId, const glm::ivec2& point) const
 {
 	std::find_if(begin(m_Windows), end(m_Windows), [windowId](const auto& window) { return window.IsId(windowId); })->AltClick(point);
 }

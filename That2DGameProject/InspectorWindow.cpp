@@ -26,12 +26,15 @@ void that::InspectorWindow::Render(SDL_Renderer* pRenderer)
 
 	EditorGUI& gui{ EditorGUI::GetInstance() };
 
+	// Get all components on the current gameobject
 	const auto& goTypes{ m_pWatchingObject->GetComponents() };
 
+	// Render the name of the gameobject
 	int curStartY{};
 	gui.RenderText(pRenderer, m_pWatchingObject->GetName(), curStartY);
 	curStartY += 8;
 
+	// Render each component and its variables
 	for (const auto& type : goTypes)
 	{
 		const auto& typeinfo{ reflection::Reflection::GetType(type->GetHash()) };
@@ -46,11 +49,16 @@ void that::InspectorWindow::Render(SDL_Renderer* pRenderer)
 		}
 		curStartY += 3;
 	}
+
+	// Render a "Add Component" button
 	curStartY += 5;
 	gui.RenderButton(pRenderer, "Add Component", curStartY, m_ComponentButton);
 	curStartY += 5;
 
+	// Clear the list of buttons of AddComponent
 	m_AddComponents.clear();
+
+	// If the add component button has been pressed, render all the types known to the engine as buttons
 	if (m_IsShowingComponents)
 	{
 		const auto& allTypes{ reflection::Reflection::GetTypes() };
@@ -75,6 +83,7 @@ void that::InspectorWindow::OnClick(const glm::ivec2& point)
 {
 	m_IsShowingComponents = false;
 
+	// Delegate the click to all the buttons
 	m_ComponentButton.TryClick(point);
 	for (const auto& button : m_AddComponents)
 	{

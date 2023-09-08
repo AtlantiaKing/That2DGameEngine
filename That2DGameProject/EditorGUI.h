@@ -31,7 +31,7 @@ namespace that
 	{
 	public:
 		void RenderText(SDL_Renderer* pRenderer, const std::string& text, int& curY) const;
-		void RenderButton(SDL_Renderer* pRenderer, const std::string& text, int& curY, Button& button);
+		void RenderButton(SDL_Renderer* pRenderer, const std::string& text, int& curY, Button& button) const;
 
 	private:
 		EditorGUI();
