@@ -19,6 +19,12 @@ namespace that
 		void Render() const;
 		void OnGUI(bool renderHierarchy);
 
+		/// <summary>
+		/// Delete a gameobject and its children without waiting for end of frame and without calling OnDestroy.
+		/// Should only be used by editor tools.
+		/// </summary>
+		void DestroyInstant(GameObject* pGameObject);
+
 		Scene() = default;
 		~Scene();
 		Scene(const Scene& other) = delete;

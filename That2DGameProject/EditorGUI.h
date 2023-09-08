@@ -18,12 +18,25 @@ namespace that
 	{
 		int x{}, y{}, width{}, height{};
 		std::function<void()> onClick{};
+		std::function<void()> onAltClick{};
 
-		void TryClick(const glm::ivec2& point) const
+		bool TryClick(const glm::ivec2& point) const
 		{
-			if (point.x < x || point.x > x + width) return;
-			if (point.y < y || point.y > y + height) return;
+			if (!DidClick(point)) return false;
 			onClick();
+			return true;
+		}
+		bool TryAltClick(const glm::ivec2& point) const
+		{
+			if (!DidClick(point)) return false;
+			onAltClick();
+			return true;
+		}
+		bool DidClick(const glm::ivec2& point) const
+		{
+			if (point.x < x || point.x > x + width) return false;
+			if (point.y < y || point.y > y + height) return false;
+			return true;
 		}
 	};
 
@@ -32,6 +45,7 @@ namespace that
 	public:
 		void RenderText(SDL_Renderer* pRenderer, const std::string& text, int& curY) const;
 		void RenderButton(SDL_Renderer* pRenderer, const std::string& text, int& curY, Button& button) const;
+		void RenderButton(SDL_Renderer* pRenderer, const std::string& text, int& curY, int x, Button& button) const;
 
 	private:
 		EditorGUI();

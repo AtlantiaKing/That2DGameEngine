@@ -147,6 +147,16 @@ void that::Scene::OnGUI(bool renderHierarchy)
 	}
 }
 
+void that::Scene::DestroyInstant(GameObject* pGameObject)
+{
+	const auto it{ std::find_if(begin(m_pObjects), end(m_pObjects),
+					[=](const auto& pObject) { return pObject.get() == pGameObject; }) };
+
+	if(it == end(m_pObjects)) return;
+
+	m_pObjects.erase(it);
+}
+
 std::vector<GameObject*> that::Scene::GetObjects()
 {
 	// Create a new list of gameobjects

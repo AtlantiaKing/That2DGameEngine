@@ -30,15 +30,61 @@ void that::HierarchyWindow::Render(SDL_Renderer* pWindow)
 		// Add spacing between the gameobjects
 		curStartY += 5;
 	}
+
+	m_ControlButtons.clear();
+	if (m_ShowControlMenu)
+	{
+		curStartY = m_MenuPosition.y;
+
+		Button deleteButton{};
+		EditorGUI::GetInstance().RenderButton(pWindow, "Delete", curStartY, m_MenuPosition.x, deleteButton);
+		deleteButton.onClick = [=]()
+		{
+			m_pControllingGameObject->GetScene()->DestroyInstant(m_pControllingGameObject);
+		};
+		m_ControlButtons.emplace_back(deleteButton);
+	}
+	else if (m_ShowNewMenu)
+	{
+		curStartY = m_MenuPosition.y;
+
+		Button createButton{};
+		EditorGUI::GetInstance().RenderButton(pWindow, "Create new GameObject", curStartY, m_MenuPosition.x, createButton);
+		createButton.onClick = [=]()
+		{
+			GameObject* pNewObject{ SceneManager::GetInstance().GetCurrentScene()->CreateGameObject("GameObject") };
+			m_pInspector->SetGameObject(pNewObject);
+		};
+		m_ControlButtons.emplace_back(createButton);
+	}
+
+	m_ShowControlMenu = false;
+	m_ShowNewMenu = false;
 }
 
 void that::HierarchyWindow::OnClick(const glm::ivec2& point)
 {
 	// Delegate the click to all the buttons
+	for (const auto& button : m_ControlButtons)
+	{
+		if (button.TryClick(point)) return;
+	}
 	for (const auto& button : m_Buttons)
 	{
-		button.TryClick(point);
+		if (button.TryClick(point)) return;
 	}
+}
+
+void that::HierarchyWindow::OnAltClick(const glm::ivec2& point)
+{
+	m_MenuPosition = point;
+	// Delegate the click to all the buttons
+	for (const auto& button : m_Buttons)
+	{
+		if (button.TryAltClick(point)) return;
+	}
+
+	m_ShowNewMenu = true;
 }
 
 void that::HierarchyWindow::RenderObject(SDL_Renderer* pWindow, GameObject* pGameObject, int& curY, const std::string& curSpacing)
@@ -49,6 +95,11 @@ void that::HierarchyWindow::RenderObject(SDL_Renderer* pWindow, GameObject* pGam
 	typeButton.onClick = [=]()
 	{
 		m_pInspector->SetGameObject(pGameObject);
+	};
+	typeButton.onAltClick = [=]()
+	{
+		m_ShowControlMenu = true;
+		m_pControllingGameObject = pGameObject;
 	};
 	m_Buttons.emplace_back(typeButton);
 

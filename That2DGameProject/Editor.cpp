@@ -19,6 +19,7 @@
 
 #include "FileScene.h"
 #include "TestScene.h"
+#include <SceneSerialization.h>
 
 that::Editor* that::Editor::m_pInstance{};
 
@@ -70,14 +71,18 @@ that::Editor::Editor(const std::string& dataPath)
 		SDL_Event e;
 		while (SDL_PollEvent(&e))
 		{
+			bool nextEvent{};
 			// Delegate SDL events to their respective window
-			if (e.type == SDL_WINDOWEVENT)
+			switch (e.type)
 			{
-				if(e.window.event == SDL_WINDOWEVENT_CLOSE) QuitWindow(e.window.windowID);
+			case SDL_WINDOWEVENT:
+			{
+				if (e.window.event == SDL_WINDOWEVENT_CLOSE) QuitWindow(e.window.windowID);
+				break;
 			}
-			else if (e.type == SDL_MOUSEBUTTONDOWN)
+			case SDL_MOUSEBUTTONDOWN:
 			{
-				if (e.button.button == SDL_BUTTON_LEFT) 
+				if (e.button.button == SDL_BUTTON_LEFT)
 				{
 					ClickWindow(e.button.windowID, { e.button.x, e.button.y });
 				}
@@ -85,7 +90,12 @@ that::Editor::Editor(const std::string& dataPath)
 				{
 					AltClickWindow(e.button.windowID, { e.button.x, e.button.y });
 				}
+				break;
 			}
+			default:
+				nextEvent = true;
+			}
+			if (nextEvent) continue;
 			
 			// Update and render the scene when a SDL event gets triggered
 			sceneManager.OnFrameStart();
@@ -94,6 +104,8 @@ that::Editor::Editor(const std::string& dataPath)
 			UpdateVisuals();
 		}
 	}
+
+	reflection::SceneSerialization::SerializeScene(sceneManager.GetCurrentScene());
 }
 
 that::Editor::~Editor()

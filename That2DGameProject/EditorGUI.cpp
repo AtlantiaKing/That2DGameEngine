@@ -40,6 +40,11 @@ void that::EditorGUI::RenderText(SDL_Renderer* pRenderer, const std::string& tex
 
 void that::EditorGUI::RenderButton(SDL_Renderer* pRenderer, const std::string& text, int& curY, Button& button) const
 {
+	RenderButton(pRenderer, text, curY, 0, button);
+}
+
+void that::EditorGUI::RenderButton(SDL_Renderer* pRenderer, const std::string& text, int& curY, int x, Button& button) const
+{
 	// Create a SDL surface using the current font, text and color
 	SDL_Surface* pSurface = TTF_RenderText_Blended(m_pFont->GetFont(), text.c_str(), SDL_Color{ 255,255,255,255 });
 	if (!pSurface) throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
@@ -55,6 +60,7 @@ void that::EditorGUI::RenderButton(SDL_Renderer* pRenderer, const std::string& t
 	SDL_Rect dst{};
 	SDL_QueryTexture(pTexture, nullptr, nullptr, &dst.w, &dst.h);
 	dst.y = curY;
+	dst.x = x;
 	curY += dst.h;
 
 	// Store the destination rect info in the button

@@ -23,12 +23,19 @@ namespace that
 
 		virtual void Render(SDL_Renderer* pWindow) override;
 		virtual void OnClick(const glm::ivec2& point) override;
+		virtual void OnAltClick(const glm::ivec2& point) override;
 
 	private:
 		void RenderObject(SDL_Renderer* pWindow, GameObject* pGameObject, int& curY, const std::string& curSpacing);
 
 		std::vector<Button> m_Buttons{};
+		std::vector<Button> m_ControlButtons{};
 
 		InspectorWindow* m_pInspector{};
+
+		bool m_ShowControlMenu{};
+		bool m_ShowNewMenu{};
+		glm::ivec2 m_MenuPosition{};
+		GameObject* m_pControllingGameObject{};
 	};
 }
