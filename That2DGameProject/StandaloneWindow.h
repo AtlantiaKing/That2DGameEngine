@@ -56,6 +56,7 @@ namespace that
 
 		void Render() const;
 		void Click(const glm::ivec2& point) const;
+		void AltClick(const glm::ivec2& point) const;
 
 		SDL_Window* GetSDLWindow() const { return m_pWindow; }
 

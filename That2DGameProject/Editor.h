@@ -23,6 +23,7 @@ namespace that
 		void UpdateVisualsInternal();
 		void QuitWindow(Uint32 windowId);
 		void ClickWindow(Uint32 windowId, const glm::ivec2& point);
+		void AltClickWindow(Uint32 windowId, const glm::ivec2& point);
 	};
 }
 

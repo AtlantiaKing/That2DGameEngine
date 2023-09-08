@@ -19,5 +19,6 @@ namespace that
 
 		virtual void Render(SDL_Renderer*) {}
 		virtual void OnClick(const glm::ivec2&) {}
+		virtual void OnAltClick(const glm::ivec2&) {}
 	};
 }

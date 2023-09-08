@@ -72,6 +72,10 @@ that::Editor::Editor(const std::string& dataPath)
 				{
 					ClickWindow(e.button.windowID, { e.button.x, e.button.y });
 				}
+				else if (e.button.button == SDL_BUTTON_RIGHT)
+				{
+					AltClickWindow(e.button.windowID, { e.button.x, e.button.y });
+				}
 			}
 
 			sceneManager.OnFrameStart();
@@ -117,5 +121,10 @@ void that::Editor::QuitWindow(Uint32 windowId)
 void that::Editor::ClickWindow(Uint32 windowId, const glm::ivec2& point)
 {
 	std::find_if(begin(m_Windows), end(m_Windows), [windowId](const auto& window) { return window.IsId(windowId); })->Click(point);
+}
+
+void that::Editor::AltClickWindow(Uint32 windowId, const glm::ivec2& point)
+{
+	std::find_if(begin(m_Windows), end(m_Windows), [windowId](const auto& window) { return window.IsId(windowId); })->AltClick(point);
 }
 

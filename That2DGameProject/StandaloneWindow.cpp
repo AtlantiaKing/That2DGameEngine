@@ -96,6 +96,14 @@ void that::StandaloneWindow::Click(const glm::ivec2& point) const
 	}
 }
 
+void that::StandaloneWindow::AltClick(const glm::ivec2& point) const
+{
+	for (const auto& pComponent : m_pComponents)
+	{
+		pComponent->OnAltClick(point);
+	}
+}
+
 int that::StandaloneWindow::GetOpenGLDriverIndex()
 {
 	auto openglIndex = -1;
