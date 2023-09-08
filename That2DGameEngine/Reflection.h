@@ -24,7 +24,10 @@ namespace that::reflection
 		template<typename VarType, typename ClassType>
 		inline static void RegisterVariable(const char* varName, size_t offset)
 		{
+			// Get the component to which this variable belongs
 			SerializableComponent& comp{ GetType<ClassType>() };
+
+			// Add a serialized variable to this component
 			comp.variables.push_back(SerializableVariable::Create<VarType>(varName, offset));
 		}
 

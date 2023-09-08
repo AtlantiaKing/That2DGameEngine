@@ -13,11 +13,11 @@ namespace that::reflection
 	public:
 		TypeRegister()
 		{
-			SerializableComponent t{};
-			t.name = typeid(T).name();
-			t.hash = SerializableComponent::GetHash<T>();
-			t.size = sizeof(T);
-			t.prefab = [](that::GameObject* pGameObject) -> that::Component*
+			SerializableComponent sc{};
+			sc.name = typeid(T).name();
+			sc.hash = SerializableComponent::GetHash<T>();
+			sc.size = sizeof(T);
+			sc.prefab = [](that::GameObject* pGameObject) -> that::Component*
 			{
 				if constexpr (std::is_same<Transform, T>())
 				{
@@ -29,7 +29,7 @@ namespace that::reflection
 				}
 			};
 
-			Reflection::RegisterClass(t);
+			Reflection::RegisterClass(sc);
 		}
 	};
 
