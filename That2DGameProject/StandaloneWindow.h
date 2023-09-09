@@ -55,8 +55,8 @@ namespace that
 		}
 
 		void Render() const;
-		void Click(const glm::ivec2& point) const;
-		void AltClick(const glm::ivec2& point) const;
+		void MouseButton(int mouseButton, bool released, const glm::ivec2& point) const;
+		void MouseMovement(const glm::ivec2& displacement) const;
 
 		SDL_Window* GetSDLWindow() const { return m_pWindow; }
 

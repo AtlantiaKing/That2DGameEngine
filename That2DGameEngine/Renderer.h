@@ -29,6 +29,9 @@ namespace that
 
 		void DrawRect(SDL_Rect rect, const SDL_Color& color, bool useCamera = false);
 
+		void SetDefaultRenderOffset(const glm::vec2& position);
+		const glm::vec2& GetRenderOffset() const { return m_RenderPosition; }
+
 		SDL_Renderer* GetSDLRenderer() const;
 
 		const SDL_Color& GetBackgroundColor() const { return m_clearColor; }
@@ -40,6 +43,7 @@ namespace that
 	private:
 		CameraComponent* m_pCamera{};
 
+		glm::vec2 m_DefaultPosition{};
 		glm::vec2 m_RenderPosition{};
 	};
 }

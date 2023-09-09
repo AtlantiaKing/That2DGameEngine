@@ -2,10 +2,13 @@
 
 #include "ResourceManager.h"
 #include "Font.h"
+#include "Texture2D.h"
 
+#include <SDL_image.h>
 #include <SDL_ttf.h>
 
 #include <stdexcept>
+#include <iostream>
 
 that::EditorGUI::EditorGUI()
 {
@@ -74,4 +77,32 @@ void that::EditorGUI::RenderButton(SDL_Renderer* pRenderer, const std::string& t
 
 	// Release the texture
 	SDL_DestroyTexture(pTexture);
+}
+
+void that::EditorGUI::RenderImage(SDL_Renderer* pRenderer, const std::string& path, int x, int y, float pivotX, float pivotY) const
+{
+	Button temp{};
+	RenderImage(pRenderer, path, x, y, pivotX, pivotY, temp);
+}
+
+void that::EditorGUI::RenderImage(SDL_Renderer* pRenderer, const std::string& path, int x, int y, float pivotX, float pivotY, Button& button) const
+{
+	// Create a texture from the created surface
+	auto pTexture = that::ResourceManager::GetInstance().LoadTexture(path);
+	if (!pTexture) throw std::runtime_error(std::string("Create texture from file failed: ") + SDL_GetError());
+
+	// Calculate the bounds of the destination rect
+	SDL_Rect dst{};
+	SDL_QueryTexture(pTexture->GetSDLTexture(), nullptr, nullptr, &dst.w, &dst.h);
+	dst.x = x - static_cast<int>(pivotX * dst.w);
+	dst.y = y - static_cast<int>(pivotY * dst.h);
+
+	// Store the destination rect info in the button
+	button.x = dst.x;
+	button.y = dst.y;
+	button.width = dst.w;
+	button.height = dst.h;
+
+	// Render the text to the window
+	SDL_RenderCopy(pRenderer, pTexture->GetSDLTexture(), nullptr, &dst);
 }

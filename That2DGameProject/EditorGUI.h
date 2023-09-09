@@ -46,6 +46,8 @@ namespace that
 		void RenderText(SDL_Renderer* pRenderer, const std::string& text, int& curY) const;
 		void RenderButton(SDL_Renderer* pRenderer, const std::string& text, int& curY, Button& button) const;
 		void RenderButton(SDL_Renderer* pRenderer, const std::string& text, int& curY, int x, Button& button) const;
+		void RenderImage(SDL_Renderer* pRenderer, const std::string& path, int x, int y, float pivotX, float pivotY) const;
+		void RenderImage(SDL_Renderer* pRenderer, const std::string& path, int x, int y, float pivotX, float pivotY, Button& button) const;
 
 	private:
 		EditorGUI();

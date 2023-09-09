@@ -19,13 +19,9 @@ namespace that
 		virtual ~InspectorWindow() = default;
 
 		virtual void Render(SDL_Renderer* pWindow) override;
-		virtual void OnClick(const glm::ivec2& point) override;
-
-		void SetGameObject(GameObject* pGameObject);
+		virtual void OnMouseButton(int mouseButton, bool released, const glm::ivec2& point) override;
 
 	private:
-		GameObject* m_pWatchingObject{};
-
 		bool m_IsShowingComponents{ false };
 		Button m_ComponentButton{};
 		std::vector<Button> m_AddComponents{};

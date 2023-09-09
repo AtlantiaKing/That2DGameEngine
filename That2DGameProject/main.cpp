@@ -34,8 +34,10 @@ void Setup()
 int main(int, char* [])
 {
 	constexpr const char* dataPath{ "../Data/" };
+
 #ifdef EDITOR
-	that::Editor editor{ dataPath };
+	that::Editor& editor{ that::Editor::GetInstance() };
+	editor.Init(dataPath);
 #else
 	that::Engine engine{ dataPath };
 	engine.Run(Setup);

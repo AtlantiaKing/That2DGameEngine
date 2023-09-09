@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Singleton.h>
+
 #include <memory>
 #include <string>
 #include <vector>
@@ -8,22 +10,31 @@
 
 namespace that
 {
-	class Editor final
+	class GameObject;
+
+	class Editor final : public Singleton<Editor>
 	{
 	public:
-		Editor(const std::string& dataPath);
-		~Editor();
+		void Init(const std::string& dataPath);
+		void UpdateVisuals();
 
-		static void UpdateVisuals();
+		GameObject* GetSelectedObject() const { return m_pSelectedObject; }
+		void SetSelectedObject(GameObject* pGameObject) { m_pSelectedObject = pGameObject; }
 	private:
-		static Editor* m_pInstance;
+		Editor() = default;
+		~Editor();
 
 		std::vector<StandaloneWindow> m_Windows{};
 
-		void UpdateVisualsInternal() const;
+		GameObject* m_pSelectedObject{};
+
 		void QuitWindow(Uint32 windowId);
-		void ClickWindow(Uint32 windowId, const glm::ivec2& point) const;
-		void AltClickWindow(Uint32 windowId, const glm::ivec2& point) const;
+		void MouseButtonWindow(Uint32 windowId, int mouseButton, bool released, const glm::ivec2& point) const;
+		void MouseMovementWindow(Uint32 windowId, const glm::ivec2& displacement) const;
+
+		glm::ivec2 m_PrevMousePos{};
+
+		friend Singleton<Editor>;
 	};
 }
 

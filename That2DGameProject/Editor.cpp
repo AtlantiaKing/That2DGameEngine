@@ -21,13 +21,8 @@
 #include "TestScene.h"
 #include <SceneSerialization.h>
 
-that::Editor* that::Editor::m_pInstance{};
-
-that::Editor::Editor(const std::string& dataPath)
+void that::Editor::Init(const std::string& dataPath)
 {
-	// Save the current instance privately
-	m_pInstance = this;
-
 	// Initialize the resource manager
 	that::ResourceManager::GetInstance().Init(dataPath);
 
@@ -72,6 +67,7 @@ that::Editor::Editor(const std::string& dataPath)
 		while (SDL_PollEvent(&e))
 		{
 			bool nextEvent{};
+
 			// Delegate SDL events to their respective window
 			switch (e.type)
 			{
@@ -84,12 +80,39 @@ that::Editor::Editor(const std::string& dataPath)
 			{
 				if (e.button.button == SDL_BUTTON_LEFT)
 				{
-					ClickWindow(e.button.windowID, { e.button.x, e.button.y });
+					MouseButtonWindow(e.button.windowID, 0, false, { e.button.x, e.button.y });
 				}
 				else if (e.button.button == SDL_BUTTON_RIGHT)
 				{
-					AltClickWindow(e.button.windowID, { e.button.x, e.button.y });
+					MouseButtonWindow(e.button.windowID, 1, false, { e.button.x, e.button.y });
 				}
+				break;
+			}
+			case SDL_MOUSEBUTTONUP:
+			{
+				m_PrevMousePos = {};
+				if (e.button.button == SDL_BUTTON_LEFT)
+				{
+					MouseButtonWindow(e.button.windowID, 0, true, { e.button.x, e.button.y });
+				}
+				else if (e.button.button == SDL_BUTTON_RIGHT)
+				{
+					MouseButtonWindow(e.button.windowID, 1, true, { e.button.x, e.button.y });
+				}
+				break;
+			}
+			case SDL_MOUSEMOTION:
+			{
+				glm::ivec2 position{ e.motion.x, e.motion.y };
+				glm::ivec2 displacement{};
+				if (!(m_PrevMousePos.x == 0 && m_PrevMousePos.y == 0))
+				{
+					displacement.x = position.x - m_PrevMousePos.x;
+					displacement.y = position.y - m_PrevMousePos.y;
+				}
+
+				MouseMovementWindow(e.motion.windowID, displacement);
+				m_PrevMousePos = position;
 				break;
 			}
 			default:
@@ -117,13 +140,6 @@ that::Editor::~Editor()
 
 void that::Editor::UpdateVisuals()
 {
-	if (!m_pInstance) return;
-
-	m_pInstance->UpdateVisualsInternal();
-}
-
-void that::Editor::UpdateVisualsInternal() const
-{
 	for (const auto& window : m_Windows)
 	{
 		window.Render();
@@ -140,13 +156,13 @@ void that::Editor::QuitWindow(Uint32 windowId)
 	));
 }
 
-void that::Editor::ClickWindow(Uint32 windowId, const glm::ivec2& point) const
+void that::Editor::MouseButtonWindow(Uint32 windowId, int mouseButton, bool released, const glm::ivec2& point) const
 {
-	std::find_if(begin(m_Windows), end(m_Windows), [windowId](const auto& window) { return window.IsId(windowId); })->Click(point);
+	std::find_if(begin(m_Windows), end(m_Windows), [windowId](const auto& window) { return window.IsId(windowId); })->MouseButton(mouseButton, released, point);
 }
 
-void that::Editor::AltClickWindow(Uint32 windowId, const glm::ivec2& point) const
+void that::Editor::MouseMovementWindow(Uint32 windowId, const glm::ivec2& displacement) const
 {
-	std::find_if(begin(m_Windows), end(m_Windows), [windowId](const auto& window) { return window.IsId(windowId); })->AltClick(point);
+	std::find_if(begin(m_Windows), end(m_Windows), [windowId](const auto& window) { return window.IsId(windowId); })->MouseMovement(displacement);
 }
 

@@ -6,6 +6,8 @@
 
 #include "InspectorWindow.h"
 
+#include "Editor.h"
+
 void that::HierarchyWindow::SetInspector(InspectorWindow* pInspector)
 {
 	m_pInspector = pInspector;
@@ -49,7 +51,7 @@ void that::HierarchyWindow::Render(SDL_Renderer* pWindow)
 			{
 				m_pControllingGameObject->GetParent()->DestroyInstant(m_pControllingGameObject);
 			}
-			m_pInspector->SetGameObject(nullptr);
+			Editor::GetInstance().SetSelectedObject(nullptr);
 		};
 		m_ControlButtons.emplace_back(button);
 
@@ -58,7 +60,7 @@ void that::HierarchyWindow::Render(SDL_Renderer* pWindow)
 		button.onClick = [=]()
 		{
 			GameObject* pNewObject{ m_pControllingGameObject->CreateGameObject("Child GameObject") };
-			m_pInspector->SetGameObject(pNewObject);
+			Editor::GetInstance().SetSelectedObject(pNewObject);
 		};
 		m_ControlButtons.emplace_back(button);
 	}
@@ -71,38 +73,42 @@ void that::HierarchyWindow::Render(SDL_Renderer* pWindow)
 		createButton.onClick = [=]()
 		{
 			GameObject* pNewObject{ SceneManager::GetInstance().GetCurrentScene()->CreateGameObject("GameObject") };
-			m_pInspector->SetGameObject(pNewObject);
+			Editor::GetInstance().SetSelectedObject(pNewObject);
 		};
 		m_ControlButtons.emplace_back(createButton);
 	}
+}
+
+void that::HierarchyWindow::OnMouseButton(int mouseButton, bool released, const glm::ivec2& point)
+{
+	if (released) return;
 
 	m_ShowControlMenu = false;
 	m_ShowNewMenu = false;
-}
 
-void that::HierarchyWindow::OnClick(const glm::ivec2& point)
-{
-	// Delegate the click to all the buttons
-	for (const auto& button : m_ControlButtons)
+	if (mouseButton == 0)
 	{
-		if (button.TryClick(point)) return;
+		// Delegate the click to all the buttons
+		for (const auto& button : m_ControlButtons)
+		{
+			if (button.TryClick(point)) return;
+		}
+		for (const auto& button : m_Buttons)
+		{
+			if (button.TryClick(point)) return;
+		}
 	}
-	for (const auto& button : m_Buttons)
+	else if (mouseButton == 1)
 	{
-		if (button.TryClick(point)) return;
-	}
-}
+		m_MenuPosition = point;
+		// Delegate the click to all the buttons
+		for (const auto& button : m_Buttons)
+		{
+			if (button.TryAltClick(point)) return;
+		}
 
-void that::HierarchyWindow::OnAltClick(const glm::ivec2& point)
-{
-	m_MenuPosition = point;
-	// Delegate the click to all the buttons
-	for (const auto& button : m_Buttons)
-	{
-		if (button.TryAltClick(point)) return;
+		m_ShowNewMenu = true;
 	}
-
-	m_ShowNewMenu = true;
 }
 
 void that::HierarchyWindow::RenderObject(SDL_Renderer* pWindow, GameObject* pGameObject, int& curY, const std::string& curSpacing)
@@ -112,7 +118,7 @@ void that::HierarchyWindow::RenderObject(SDL_Renderer* pWindow, GameObject* pGam
 	EditorGUI::GetInstance().RenderButton(pWindow, curSpacing + pGameObject->GetName(), curY, typeButton);
 	typeButton.onClick = [=]()
 	{
-		m_pInspector->SetGameObject(pGameObject);
+		Editor::GetInstance().SetSelectedObject(pGameObject);
 	};
 	typeButton.onAltClick = [=]()
 	{

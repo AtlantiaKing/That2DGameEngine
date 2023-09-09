@@ -92,21 +92,21 @@ void that::StandaloneWindow::Render() const
 	SDL_RenderPresent(m_pRenderer);
 }
 
-void that::StandaloneWindow::Click(const glm::ivec2& point) const
+void that::StandaloneWindow::MouseButton(int mouseButton, bool released, const glm::ivec2& point) const
 {
-	// Delegate a click to its components
+	// Delegate a mouse click to its components
 	for (const auto& pComponent : m_pComponents)
 	{
-		pComponent->OnClick(point);
+		pComponent->OnMouseButton(mouseButton, released, point);
 	}
 }
 
-void that::StandaloneWindow::AltClick(const glm::ivec2& point) const
+void that::StandaloneWindow::MouseMovement(const glm::ivec2& displacement) const
 {
-	// Delegate an alt click to its components
+	// Delegate mouse movement to its components
 	for (const auto& pComponent : m_pComponents)
 	{
-		pComponent->OnAltClick(point);
+		pComponent->OnMouseMovement(displacement);
 	}
 }
 
