@@ -35,6 +35,16 @@ that::GameObject* that::GameObject::CreateGameObject(const std::string& name)
 	return pGameObjectPtr;
 }
 
+void that::GameObject::DestroyInstant(GameObject* pGameObject)
+{
+	const auto it{ std::find_if(begin(m_pChildren), end(m_pChildren),
+					[=](const auto& pObject) { return pObject.get() == pGameObject; }) };
+
+	if (it == end(m_pChildren)) return;
+
+	m_pChildren.erase(it);
+}
+
 void that::GameObject::Init()
 {
 	// Set the initialized flag

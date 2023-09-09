@@ -28,6 +28,12 @@ namespace that
 
 		GameObject* CreateGameObject(const std::string& name);
 
+		/// <summary>
+		/// Delete a gameobject and its children without waiting for end of frame and without calling OnDestroy.
+		/// Should only be used by editor tools.
+		/// </summary>
+		void DestroyInstant(GameObject* pGameObject);
+
 		void Init();
 		void OnFrameStart();
 		void Update();

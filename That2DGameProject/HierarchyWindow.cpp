@@ -36,13 +36,31 @@ void that::HierarchyWindow::Render(SDL_Renderer* pWindow)
 	{
 		curStartY = m_MenuPosition.y;
 
-		Button deleteButton{};
-		EditorGUI::GetInstance().RenderButton(pWindow, "Delete", curStartY, m_MenuPosition.x, deleteButton);
-		deleteButton.onClick = [=]()
+		Button button{};
+
+		EditorGUI::GetInstance().RenderButton(pWindow, "Delete", curStartY, m_MenuPosition.x, button);
+		button.onClick = [=]()
 		{
-			m_pControllingGameObject->GetScene()->DestroyInstant(m_pControllingGameObject);
+			if (m_pControllingGameObject->GetParent() == nullptr)
+			{
+				m_pControllingGameObject->GetScene()->DestroyInstant(m_pControllingGameObject);
+			}
+			else
+			{
+				m_pControllingGameObject->GetParent()->DestroyInstant(m_pControllingGameObject);
+			}
+			m_pInspector->SetGameObject(nullptr);
 		};
-		m_ControlButtons.emplace_back(deleteButton);
+		m_ControlButtons.emplace_back(button);
+
+
+		EditorGUI::GetInstance().RenderButton(pWindow, "Create child GameObject", curStartY, m_MenuPosition.x, button);
+		button.onClick = [=]()
+		{
+			GameObject* pNewObject{ m_pControllingGameObject->CreateGameObject("Child GameObject") };
+			m_pInspector->SetGameObject(pNewObject);
+		};
+		m_ControlButtons.emplace_back(button);
 	}
 	else if (m_ShowNewMenu)
 	{
