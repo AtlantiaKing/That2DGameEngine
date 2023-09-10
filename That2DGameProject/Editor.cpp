@@ -50,7 +50,7 @@ void that::Editor::Init(const std::string& dataPath)
 
 	// Create inspector window and move it to the left
 	StandaloneWindow inspectorWindow{ "Inspector", { 400, 400 } };
-	auto pInspector{ inspectorWindow.AddComponent<InspectorWindow>() };
+	inspectorWindow.AddComponent<InspectorWindow>();
 	auto pInspectorPosition{ inspectorWindow.AddComponent<WindowPosition>() };
 	pInspectorPosition->SetWindow(inspectorWindow);
 	pInspectorPosition->Move(-500, 0);
@@ -58,7 +58,7 @@ void that::Editor::Init(const std::string& dataPath)
 
 	// Create hierarchy window and move it to the right
 	StandaloneWindow hierarchyWindow{ "Hierarchy", { 400, 400 } };
-	hierarchyWindow.AddComponent<HierarchyWindow>()->SetInspector(pInspector);
+	hierarchyWindow.AddComponent<HierarchyWindow>();
 	auto pHierarchyPosition{ hierarchyWindow.AddComponent<WindowPosition>() };
 	pHierarchyPosition->SetWindow(hierarchyWindow);
 	pHierarchyPosition->Move(500, 0);
@@ -92,10 +92,14 @@ void that::Editor::Init(const std::string& dataPath)
 			{
 				if (e.button.button == SDL_BUTTON_LEFT)
 				{
+					EditorGUI::GetInstance().SetIsClicking(e.button.windowID);
+
 					MouseButtonWindow(e.button.windowID, 0, false, { e.button.x, e.button.y });
 				}
 				else if (e.button.button == SDL_BUTTON_RIGHT)
 				{
+					EditorGUI::GetInstance().SetIsAltClicking(e.button.windowID);
+
 					MouseButtonWindow(e.button.windowID, 1, false, { e.button.x, e.button.y });
 				}
 				break;
@@ -116,6 +120,8 @@ void that::Editor::Init(const std::string& dataPath)
 			case SDL_MOUSEMOTION:
 			{
 				glm::ivec2 position{ e.motion.x, e.motion.y };
+				EditorGUI::GetInstance().SetCursor(position);
+
 				glm::ivec2 displacement{};
 				if (!(m_PrevMousePos.x == 0 && m_PrevMousePos.y == 0))
 				{
@@ -131,7 +137,14 @@ void that::Editor::Init(const std::string& dataPath)
 				nextEvent = true;
 			}
 			if (nextEvent) continue;
-			
+
+			// Update and render the scene when a SDL event gets triggered
+			sceneManager.OnFrameStart();
+			UpdateVisuals();
+
+			EditorGUI::GetInstance().SetIsClicking(UINT_MAX);
+			EditorGUI::GetInstance().SetIsAltClicking(UINT_MAX);
+
 			// Update and render the scene when a SDL event gets triggered
 			sceneManager.OnFrameStart();
 			UpdateVisuals();

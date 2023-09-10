@@ -14,6 +14,8 @@ namespace that
 		explicit Font(const std::string& fullPath, unsigned int size);
 		~Font();
 
+		unsigned int GetSize() { return m_Size; }
+
 		Font(const Font &) = delete;
 		Font(Font &&) = delete;
 		Font & operator= (const Font &) = delete;

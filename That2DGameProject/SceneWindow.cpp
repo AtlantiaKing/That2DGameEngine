@@ -24,20 +24,22 @@ void that::SceneWindow::Render(SDL_Renderer* pWindow)
 	if (!pSelectedObj) return;
 
 	EditorGUI& gui{ EditorGUI::GetInstance() };
+	gui.Begin(pWindow);
+
 	const glm::vec2& position{ pSelectedObj->GetTransform()->GetWorldPosition() + Renderer::GetInstance().GetRenderOffset() };
 
 	Button xAxis{};
-	gui.RenderImage(pWindow, "Editor/XAxis.png", static_cast<int>(position.x), static_cast<int>(position.y), 0.0f, 0.5f, xAxis);
+	gui.RenderImage("Editor/XAxis.png", static_cast<int>(position.x), static_cast<int>(position.y), 0.0f, 0.5f, xAxis);
 	xAxis.onClick = [&]() { m_MoveX = true; };
 	m_Buttons.push_back(xAxis);
 
 	Button yAxis{};
-	gui.RenderImage(pWindow, "Editor/YAxis.png", static_cast<int>(position.x), static_cast<int>(position.y), 0.5f, 1.0f, yAxis);
+	gui.RenderImage("Editor/YAxis.png", static_cast<int>(position.x), static_cast<int>(position.y), 0.5f, 1.0f, yAxis);
 	yAxis.onClick = [&]() { m_MoveY = true; };
 	m_Buttons.push_back(yAxis);
 
-	gui.RenderImage(pWindow, "Editor/BothAxis.png", static_cast<int>(position.x), static_cast<int>(position.y), 0.0f, 1.0f);
-	gui.RenderImage(pWindow, "Editor/SelectedObject.png", static_cast<int>(position.x), static_cast<int>(position.y), 0.5f, 0.5f);
+	gui.RenderImage("Editor/BothAxis.png", static_cast<int>(position.x), static_cast<int>(position.y), 0.0f, 1.0f);
+	gui.RenderImage("Editor/SelectedObject.png", static_cast<int>(position.x), static_cast<int>(position.y), 0.5f, 0.5f);
 }
 
 void that::SceneWindow::OnMouseButton(int mouseButton, bool released, const glm::ivec2& point)

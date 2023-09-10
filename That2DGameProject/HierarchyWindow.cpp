@@ -8,40 +8,30 @@
 
 #include "Editor.h"
 
-void that::HierarchyWindow::SetInspector(InspectorWindow* pInspector)
-{
-	m_pInspector = pInspector;
-}
-
 void that::HierarchyWindow::Render(SDL_Renderer* pWindow)
 {
-	// Reset all the buttons saved from previous render
-	m_Buttons.clear();
-
 	// Get all the objects in the scene
 	const auto& pObjects{ SceneManager::GetInstance().GetCurrentScene()->GetObjects() };
 
-	int curStartY{};
 	const std::string defaultSpacing{ "" };
+
+	EditorGUI& gui{ EditorGUI::GetInstance() };
+	gui.Begin(pWindow);
 
 	// Render each gameobject
 	for (const auto& pObject : pObjects)
 	{
-		RenderObject(pWindow, pObject, curStartY, defaultSpacing);
+		RenderObject(pObject, defaultSpacing);
 
 		// Add spacing between the gameobjects
-		curStartY += 5;
+		gui.Space(5);
 	}
 
-	m_ControlButtons.clear();
 	if (m_ShowControlMenu)
 	{
-		curStartY = m_MenuPosition.y;
+		gui.Move(m_MenuPosition.y);
 
-		Button button{};
-
-		EditorGUI::GetInstance().RenderButton(pWindow, "Delete", curStartY, m_MenuPosition.x, button);
-		button.onClick = [=]()
+		if (gui.RenderButton("Delete", m_MenuPosition.x))
 		{
 			if (m_pControllingGameObject->GetParent() == nullptr)
 			{
@@ -52,80 +42,59 @@ void that::HierarchyWindow::Render(SDL_Renderer* pWindow)
 				m_pControllingGameObject->GetParent()->DestroyInstant(m_pControllingGameObject);
 			}
 			Editor::GetInstance().SetSelectedObject(nullptr);
-		};
-		m_ControlButtons.emplace_back(button);
+
+			m_ShowControlMenu = false;
+		}
 
 
-		EditorGUI::GetInstance().RenderButton(pWindow, "Create child GameObject", curStartY, m_MenuPosition.x, button);
-		button.onClick = [=]()
+		if (gui.RenderButton("Create child GameObject", m_MenuPosition.x))
 		{
 			GameObject* pNewObject{ m_pControllingGameObject->CreateGameObject("Child GameObject") };
 			Editor::GetInstance().SetSelectedObject(pNewObject);
-		};
-		m_ControlButtons.emplace_back(button);
+
+			m_ShowControlMenu = false;
+		}
 	}
 	else if (m_ShowNewMenu)
 	{
-		curStartY = m_MenuPosition.y;
+		gui.Move(m_MenuPosition.y);
 
-		Button createButton{};
-		EditorGUI::GetInstance().RenderButton(pWindow, "Create new GameObject", curStartY, m_MenuPosition.x, createButton);
-		createButton.onClick = [=]()
+		if (gui.RenderButton("Create new GameObject", m_MenuPosition.x))
 		{
 			GameObject* pNewObject{ SceneManager::GetInstance().GetCurrentScene()->CreateGameObject("GameObject") };
 			Editor::GetInstance().SetSelectedObject(pNewObject);
-		};
-		m_ControlButtons.emplace_back(createButton);
-	}
-}
 
-void that::HierarchyWindow::OnMouseButton(int mouseButton, bool released, const glm::ivec2& point)
-{
-	if (released) return;
-
-	m_ShowControlMenu = false;
-	m_ShowNewMenu = false;
-
-	if (mouseButton == 0)
-	{
-		// Delegate the click to all the buttons
-		for (const auto& button : m_ControlButtons)
-		{
-			if (button.TryClick(point)) return;
-		}
-		for (const auto& button : m_Buttons)
-		{
-			if (button.TryClick(point)) return;
+			m_ShowNewMenu = false;
 		}
 	}
-	else if (mouseButton == 1)
-	{
-		m_MenuPosition = point;
-		// Delegate the click to all the buttons
-		for (const auto& button : m_Buttons)
-		{
-			if (button.TryAltClick(point)) return;
-		}
 
+	if (gui.HasClickedWindow())
+	{
+		m_ShowControlMenu = false;
+		m_ShowNewMenu = false;
+	}
+	if (gui.HasAltClickedWindow())
+	{
 		m_ShowNewMenu = true;
+		m_MenuPosition = gui.GetCurserPosition();
 	}
 }
 
-void that::HierarchyWindow::RenderObject(SDL_Renderer* pWindow, GameObject* pGameObject, int& curY, const std::string& curSpacing)
+void that::HierarchyWindow::RenderObject(GameObject* pGameObject, const std::string& curSpacing)
 {
 	// Create a new button and render it
 	Button typeButton{};
-	EditorGUI::GetInstance().RenderButton(pWindow, curSpacing + pGameObject->GetName(), curY, typeButton);
-	typeButton.onClick = [=]()
+	int button{ EditorGUI::GetInstance().RenderMultiButton(curSpacing + pGameObject->GetName()) };
+	if (button == 0)
 	{
 		Editor::GetInstance().SetSelectedObject(pGameObject);
-	};
-	typeButton.onAltClick = [=]()
+	}
+	else if (button == 1)
 	{
 		m_ShowControlMenu = true;
+		m_MenuPosition = EditorGUI::GetInstance().GetCurserPosition();
 		m_pControllingGameObject = pGameObject;
-	};
-	m_Buttons.emplace_back(typeButton);
+	}
 
 	// Get all the children of this gameobject
 	const auto& pChildren{ pGameObject->GetChildren() };
@@ -134,15 +103,14 @@ void that::HierarchyWindow::RenderObject(SDL_Renderer* pWindow, GameObject* pGam
 	if (pChildren.empty()) return;
 
 	// Add a small space between a gameobject and its children
-	curY += 2;
+	EditorGUI::GetInstance().Space(2);
 
 	// Render each child
 	const std::string childSpacing{ curSpacing + "   " };
 	for (const auto& pObject : pChildren)
 	{
-		RenderObject(pWindow, pObject, curY, childSpacing);
+		RenderObject(pObject,  childSpacing);
 
-		curY += 5;
+		EditorGUI::GetInstance().Space(5);
 	}
-
 }

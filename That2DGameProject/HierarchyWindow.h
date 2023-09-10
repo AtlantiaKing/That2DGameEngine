@@ -19,16 +19,10 @@ namespace that
 		HierarchyWindow() = default;
 		virtual ~HierarchyWindow() = default;
 
-		void SetInspector(InspectorWindow* pInspector);
-
 		virtual void Render(SDL_Renderer* pWindow) override;
-		virtual void OnMouseButton(int mouseButton, bool released, const glm::ivec2& point) override;
 
 	private:
-		void RenderObject(SDL_Renderer* pWindow, GameObject* pGameObject, int& curY, const std::string& curSpacing);
-
-		std::vector<Button> m_Buttons{};
-		std::vector<Button> m_ControlButtons{};
+		void RenderObject(GameObject* pGameObject, const std::string& curSpacing);
 
 		InspectorWindow* m_pInspector{};
 

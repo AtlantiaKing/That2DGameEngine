@@ -12,9 +12,11 @@ void that::EditorToolsWindow::Render(SDL_Renderer* pWindow)
 	m_Buttons.clear();
 
 	EditorGUI& gui{ EditorGUI::GetInstance() };
+	gui.Begin(pWindow);
+
 	Button button{};
 
-	gui.RenderImage(pWindow, "Editor/Inspector.png", 0, 0, 0.0f, 0.0f, button);
+	gui.RenderImage("Editor/Inspector.png", 0, 0, 0.0f, 0.0f, button);
 	button.onClick = []()
 	{
 		Editor& editor{ Editor::GetInstance() };
@@ -29,7 +31,7 @@ void that::EditorToolsWindow::Render(SDL_Renderer* pWindow)
 	};
 	m_Buttons.emplace_back(button);
 
-	gui.RenderImage(pWindow, "Editor/SceneView.png", 50, 0, 0.0f, 0.0f, button);
+	gui.RenderImage("Editor/SceneView.png", 50, 0, 0.0f, 0.0f, button);
 	button.onClick = []()
 	{
 		Editor& editor{ Editor::GetInstance() };
@@ -41,7 +43,7 @@ void that::EditorToolsWindow::Render(SDL_Renderer* pWindow)
 	};
 	m_Buttons.emplace_back(button);
 
-	gui.RenderImage(pWindow, "Editor/Hierarchy.png", 100, 0, 0.0f, 0.0f, button);
+	gui.RenderImage("Editor/Hierarchy.png", 100, 0, 0.0f, 0.0f, button);
 	button.onClick = []()
 	{
 		Editor& editor{ Editor::GetInstance() };
