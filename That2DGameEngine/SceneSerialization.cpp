@@ -74,7 +74,7 @@ void that::reflection::SceneSerialization::DeserializeGameObject(that::Scene* pS
 		file.read(reinterpret_cast<char*>(&hash), sizeof(size_t));
 
 		// Make sure the hash is not 0 (0 = wrong read)
-		if (hash == 0) break;
+		if (hash == 0) throw std::runtime_error("Scene file corrupted.");
 
 		// If no gameobject has been created yet, create a new gameobject as a child or in the scene
 		if (pCurObj == nullptr)
