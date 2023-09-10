@@ -15,7 +15,7 @@ namespace that::reflection
 		{
 			SerializableComponent sc{};
 			sc.name = typeid(T).name();
-			sc.hash = SerializableComponent::GetHash<T>();
+			sc.hash = GetHash<T>();
 			sc.size = sizeof(T);
 			sc.prefab = [](that::GameObject* pGameObject) -> that::Component*
 			{

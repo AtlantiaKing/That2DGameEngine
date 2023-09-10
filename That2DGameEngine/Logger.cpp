@@ -3,6 +3,8 @@
 #include <sstream>
 #include <iostream>
 
+bool that::Logger::m_ErrorShouldThrow{ true };
+
 void that::Logger::Log(const std::string& message, const GameObject* pGameObject)
 {
 	std::stringstream stream{};
@@ -28,10 +30,15 @@ void that::Logger::LogError(const std::string& message, const GameObject* pGameO
 	stream << message;
 
 	std::cout << "\033[0;31m" << message << "\n\033[0;39m";
-	throw LogException{};
+	if(m_ErrorShouldThrow) throw LogException{};
 }
 
 void that::Logger::Clear()
 {
 	std::cout.flush();
+}
+
+void that::Logger::ErrorShouldThrow(bool shouldErrorThrow)
+{
+	m_ErrorShouldThrow = shouldErrorThrow;
 }

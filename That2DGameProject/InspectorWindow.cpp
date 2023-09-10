@@ -37,6 +37,8 @@ void that::InspectorWindow::Render(SDL_Renderer* pRenderer)
 	gui.RenderText(pRenderer, pWatchingObject->GetName(), curStartY);
 	curStartY += 8;
 
+	const auto& types{ reflection::Reflection::GetBasicTypes() };
+
 	// Render each component and its variables
 	for (const auto& type : goTypes)
 	{
@@ -44,13 +46,32 @@ void that::InspectorWindow::Render(SDL_Renderer* pRenderer)
 
 		gui.RenderText(pRenderer, typeinfo.name, curStartY);
 		curStartY += 1;
-
 		for (const auto& member : typeinfo.variables)
 		{
 			gui.RenderText(pRenderer, "   " + member.name, curStartY);
-			curStartY += 1;
+
+			const auto& typeIt{ std::find_if(begin(types), end(types), [&](const auto& type) { return type.hash == member.hash; }) };
+			if (typeIt != end(types))
+			{
+				if (typeIt->underlyingTypes.empty())
+				{
+					gui.RenderText(pRenderer, "   " + typeIt->dataToString(type + member.offset), curStartY);
+				}
+				else
+				{
+					int underlyingOffset{};
+					for (const auto& underlying : typeIt->underlyingTypes)
+					{
+						gui.RenderText(pRenderer, "   " + underlying.first + ": " + underlying.second.dataToString(reinterpret_cast<char*>(type) + member.offset + underlyingOffset), curStartY);
+						underlyingOffset += underlying.second.size;
+						curStartY += 1;
+					}
+				}
+			}
+
+			curStartY += 3;
 		}
-		curStartY += 3;
+		curStartY += 5;
 	}
 
 	// Render a "Add Component" button

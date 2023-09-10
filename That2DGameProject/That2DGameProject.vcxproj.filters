@@ -59,6 +59,9 @@
     <ClCompile Include="EditorToolsWindow.cpp">
       <Filter>Misc</Filter>
     </ClCompile>
+    <ClCompile Include="EngineTypesReflection.cpp">
+      <Filter>Misc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ColliderLayers.h">
@@ -95,6 +98,9 @@
       <Filter>Misc</Filter>
     </ClInclude>
     <ClInclude Include="EditorToolsWindow.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineTypesReflection.h">
       <Filter>Misc</Filter>
     </ClInclude>
   </ItemGroup>

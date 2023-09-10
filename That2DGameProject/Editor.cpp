@@ -68,6 +68,8 @@ void that::Editor::Init(const std::string& dataPath)
 	StandaloneWindow sceneView{ "Scene", { 600, 400 } };
 	sceneView.AddComponent<SceneWindow>();
 	m_Windows.emplace_back(std::move(sceneView));
+	
+	Logger::ErrorShouldThrow(false);
 
 	// As long as there are windows available
 	while (m_Windows.size() > 0)
@@ -132,8 +134,6 @@ void that::Editor::Init(const std::string& dataPath)
 			
 			// Update and render the scene when a SDL event gets triggered
 			sceneManager.OnFrameStart();
-			sceneManager.Update();
-			sceneManager.LateUpdate();
 			UpdateVisuals();
 		}
 	}

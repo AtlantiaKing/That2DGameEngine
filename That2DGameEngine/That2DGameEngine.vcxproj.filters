@@ -371,5 +371,8 @@
     <ClCompile Include="SceneSerialization.cpp">
       <Filter>Reflection</Filter>
     </ClCompile>
+    <ClCompile Include="Reflection.cpp">
+      <Filter>Reflection</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

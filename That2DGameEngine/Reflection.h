@@ -21,6 +21,24 @@ namespace that::reflection
 			m_Types.push_back(sc);
 		}
 
+		template<typename T>
+		inline static void RegisterBasicType()
+		{
+			m_BasicTypes.push_back(SerializedType::Create<T>());
+		}
+
+		template<typename T, typename AsT>
+		inline static void RegisterBasicTypeAs()
+		{
+			m_BasicTypes.push_back(SerializedType::CreateAs<T, AsT>());
+		}
+
+		template<typename T, typename... Args>
+		inline static void RegisterBasicTypeWithUnderlying(const std::vector<std::string>& names)
+		{
+			m_BasicTypes.push_back(SerializedType::CreateWithUnderlying<T, Args...>(m_BasicTypes, names));
+		}
+
 		template<typename VarType, typename ClassType>
 		inline static void RegisterVariable(const char* varName, size_t offset)
 		{
@@ -36,10 +54,15 @@ namespace that::reflection
 			return m_Types;
 		}
 
+		inline static const std::vector<SerializedType>& GetBasicTypes()
+		{
+			return m_BasicTypes;
+		}
+
 		template<typename T>
 		inline static SerializableComponent& GetType()
 		{
-			return *std::find_if(begin(m_Types), end(m_Types), [](const SerializableComponent& type) { return SerializableComponent::GetHash<T>() == type.hash; });
+			return *std::find_if(begin(m_Types), end(m_Types), [](const SerializableComponent& type) { return GetHash<T>() == type.hash; });
 		}
 
 		inline static SerializableComponent& GetType(size_t hash)
@@ -49,5 +72,18 @@ namespace that::reflection
 
 	private:
 		inline static std::vector<SerializableComponent> m_Types{};
+		inline static std::vector<SerializedType> m_BasicTypes{};
+
+		static void RegisterBasicTypes();
+
+		struct InitBasicTypes final
+		{
+		public:
+			InitBasicTypes()
+			{
+				Reflection::RegisterBasicTypes();
+			}
+		};
+		inline static InitBasicTypes m_BasicTypesInitializer{};
 	};
 }

@@ -14,7 +14,11 @@ void that::Rigidbody::Init()
 	m_pCollider = GetOwner()->GetComponent<BoxCollider>();
 
 	// Log an error if no collider is found
-	if (m_pCollider == nullptr) Logger::LogError("GameObject has Rigidbody but no BoxCollider", GetOwner());
+	if (m_pCollider == nullptr)
+	{
+		Logger::LogError("GameObject has Rigidbody but no BoxCollider", GetOwner());
+		return;
+	}
 
 	// Listen to any collision events
 	m_pCollider->OnCollision.AddListener(this);
