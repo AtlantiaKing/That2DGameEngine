@@ -20,10 +20,29 @@ namespace that
 
 		GameObject* GetSelectedObject() const { return m_pSelectedObject; }
 		void SetSelectedObject(GameObject* pGameObject) { m_pSelectedObject = pGameObject; }
+		
+		template<typename T>
+		bool HasWindowWithComponent() const
+		{
+			const auto it{ std::find_if(begin(m_Windows), end(m_Windows),
+										[](const auto& window)
+										{
+											return window.GetComponent<T>() != nullptr;
+										}
+						) };
+
+			return it != end(m_Windows);
+		}
+		
+		StandaloneWindow* CreateWindow(const std::string& title, const glm::ivec2& size);
+
 	private:
 		Editor() = default;
 		~Editor();
 
+		void Shutdown();
+
+		Uint32 m_ToolsWindow{};
 		std::vector<StandaloneWindow> m_Windows{};
 
 		GameObject* m_pSelectedObject{};

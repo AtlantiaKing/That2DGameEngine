@@ -19,8 +19,13 @@ void that::ResourceManager::Init(const std::string& dataPath)
 
 std::shared_ptr<that::Texture2D> that::ResourceManager::LoadTexture(const std::string& file) const
 {
+	return LoadTexture(file, Renderer::GetInstance().GetSDLRenderer());
+}
+
+std::shared_ptr<that::Texture2D> that::ResourceManager::LoadTexture(const std::string& file, SDL_Renderer* pRenderer) const
+{
 	const auto fullPath = m_dataPath + file;
-	auto texture = IMG_LoadTexture(Renderer::GetInstance().GetSDLRenderer(), fullPath.c_str());
+	auto texture = IMG_LoadTexture(pRenderer, fullPath.c_str());
 	if (texture == nullptr)
 	{
 		throw std::runtime_error(std::string("Failed to load texture: ") + SDL_GetError());

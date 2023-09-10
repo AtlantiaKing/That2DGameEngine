@@ -4,6 +4,7 @@
 #include "SceneWindow.h"
 #include "HierarchyWindow.h"
 #include "WindowPosition.h"
+#include "EditorToolsWindow.h"
 
 #include <iostream>
 #include <filesystem>
@@ -38,6 +39,15 @@ void that::Editor::Init(const std::string& dataPath)
 	sceneManager.LoadScene(0);
 
 	// WINDOWS
+	// Create scene view window and move it to the top
+	StandaloneWindow editorTools{ "Editor Tools", { 300, 50 } };
+	editorTools.AddComponent<EditorToolsWindow>();
+	auto pToolsPosition{ editorTools.AddComponent<WindowPosition>() };
+	pToolsPosition->SetWindow(editorTools);
+	pToolsPosition->Move(0, -275);
+	m_ToolsWindow = SDL_GetWindowID(editorTools.GetSDLWindow());
+	m_Windows.emplace_back(std::move(editorTools));
+
 	// Create inspector window and move it to the left
 	StandaloneWindow inspectorWindow{ "Inspector", { 400, 400 } };
 	auto pInspector{ inspectorWindow.AddComponent<InspectorWindow>() };
@@ -131,6 +141,18 @@ void that::Editor::Init(const std::string& dataPath)
 	reflection::SceneSerialization::SerializeScene(sceneManager.GetCurrentScene());
 }
 
+void that::Editor::Shutdown()
+{
+	m_Windows.clear();
+}
+
+that::StandaloneWindow* that::Editor::CreateWindow(const std::string& title, const glm::ivec2& size)
+{
+	StandaloneWindow window{ title, size };
+	m_Windows.emplace_back(std::move(window));
+	return &m_Windows[m_Windows.size() - 1];
+}
+
 that::Editor::~Editor()
 {
 	Renderer::GetInstance().Destroy();
@@ -148,6 +170,12 @@ void that::Editor::UpdateVisuals()
 
 void that::Editor::QuitWindow(Uint32 windowId)
 {
+	if (m_ToolsWindow == windowId)
+	{
+		Shutdown();
+		return;
+	}
+
 	m_Windows.erase(std::find_if(begin(m_Windows), end(m_Windows), 
 		[windowId](const auto& window) 
 		{ 

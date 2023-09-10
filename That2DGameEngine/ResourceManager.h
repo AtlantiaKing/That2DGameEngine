@@ -5,6 +5,8 @@
 
 #include "Singleton.h"
 
+struct SDL_Renderer;
+
 namespace that
 {
 	class Texture2D;
@@ -15,6 +17,7 @@ namespace that
 	public:
 		void Init(const std::string& data);
 		std::shared_ptr<Texture2D> LoadTexture(const std::string& file) const;
+		std::shared_ptr<Texture2D> LoadTexture(const std::string& file, SDL_Renderer* pRenderer) const;
 		std::shared_ptr<Font> LoadFont(const std::string& file, unsigned int size);
 		std::shared_ptr<Surface2D> LoadSurface(const std::string& file) const;
 	private:

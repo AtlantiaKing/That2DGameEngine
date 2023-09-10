@@ -177,6 +177,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
   <ItemGroup>
     <ClCompile Include="Editor.cpp" />
     <ClCompile Include="EditorGUI.cpp" />
+    <ClCompile Include="EditorToolsWindow.cpp" />
     <ClCompile Include="FileScene.cpp" />
     <ClCompile Include="HierarchyWindow.cpp" />
     <ClCompile Include="InspectorWindow.cpp" />
@@ -196,6 +197,7 @@ xcopy "$(SolutionDir)3rdParty\SDL_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPa
     <ClInclude Include="ColliderLayers.h" />
     <ClInclude Include="Editor.h" />
     <ClInclude Include="EditorGUI.h" />
+    <ClInclude Include="EditorToolsWindow.h" />
     <ClInclude Include="FileScene.h" />
     <ClInclude Include="HierarchyWindow.h" />
     <ClInclude Include="InspectorWindow.h" />

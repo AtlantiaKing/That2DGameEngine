@@ -88,7 +88,7 @@ void that::EditorGUI::RenderImage(SDL_Renderer* pRenderer, const std::string& pa
 void that::EditorGUI::RenderImage(SDL_Renderer* pRenderer, const std::string& path, int x, int y, float pivotX, float pivotY, Button& button) const
 {
 	// Create a texture from the created surface
-	auto pTexture = that::ResourceManager::GetInstance().LoadTexture(path);
+	auto pTexture = that::ResourceManager::GetInstance().LoadTexture(path, pRenderer);
 	if (!pTexture) throw std::runtime_error(std::string("Create texture from file failed: ") + SDL_GetError());
 
 	// Calculate the bounds of the destination rect
