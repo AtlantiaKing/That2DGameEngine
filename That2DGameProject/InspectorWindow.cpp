@@ -55,7 +55,7 @@ void that::InspectorWindow::Render(SDL_Renderer* pRenderer)
 				}
 				else
 				{
-					int underlyingOffset{};
+					size_t underlyingOffset{};
 					for (const auto& underlying : typeIt->underlyingTypes)
 					{
 						gui.RenderText("   " + underlying.first + ": " + underlying.second.dataToString(reinterpret_cast<char*>(type) + member.offset + underlyingOffset));
